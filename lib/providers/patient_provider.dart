@@ -6,7 +6,7 @@ import 'package:sample_tracking_system_flutter/utils/sqlite_db.dart';
 class PatientProvider with ChangeNotifier {
   final dbHelper = DBHelper.instance;
 
-  late Patient _patient;
+  final Patient _patient = Patient();
   final List<Patient> _patients = [];
 
   Patient get patient => _patient;

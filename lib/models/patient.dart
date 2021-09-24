@@ -1,17 +1,17 @@
 class Patient {
-  String patientId;
-  String firstname;
-  String lastname;
-  String gender;
-  DateTime dob;
-  String client;
-  String clientPatientId;
-  String cohortNumber;
-  DateTime dateCreated;
-  DateTime dateModified;
+  String? patientId;
+  String? firstname;
+  String? lastname;
+  String? gender;
+  DateTime? dob;
+  String? client;
+  String? clientPatientId;
+  String? cohortNumber;
+  DateTime? dateCreated;
+  DateTime? dateModified;
 
   Patient(
-      this.patientId,
+      {this.patientId,
       this.firstname,
       this.lastname,
       this.gender,
@@ -20,7 +20,7 @@ class Patient {
       this.clientPatientId,
       this.cohortNumber,
       this.dateCreated,
-      this.dateModified);
+      this.dateModified});
 
   Map<String, dynamic> toMap() {
     return {

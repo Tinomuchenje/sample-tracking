@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
+import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/views/dialogs/add_sample.dart';
-import 'package:sample_tracking_system_flutter/views/dialogs/search_bar.dart';
 import 'package:sample_tracking_system_flutter/views/dialogs/view_sample.dart';
 
 class SamplesTab extends StatefulWidget {
@@ -15,10 +16,8 @@ class SamplesTab extends StatefulWidget {
 class _SamplesTabState extends State<SamplesTab> {
   List<Sample> items = [];
 
-  Future<void> initSamples() async {
-    // items = await SampleCrud().getSamples();
-    print("Samples");
-    print(items);
+  void initSamples() {
+    items = Provider.of<SamplesProvider>(context, listen: false).samples;
   }
 
   @override
@@ -38,7 +37,7 @@ class _SamplesTabState extends State<SamplesTab> {
             );
           },
         ),
-        title: Text('Samples'),
+        title: const Text('Samples'),
         actions: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
@@ -46,10 +45,10 @@ class _SamplesTabState extends State<SamplesTab> {
                 onPressed: () {
                   // showSearch(context: context, delegate: SearchBar());
                 },
-                icon: Icon(Icons.search)), //Icon(Icons.search),
+                icon: const Icon(Icons.search)), //Icon(Icons.search),
           ),
           PopupMenuButton(
-            icon: Icon(Icons.sort),
+            icon: const Icon(Icons.sort),
             itemBuilder: (BuildContext context) => <PopupMenuEntry>[
               const PopupMenuItem(
                 child: ListTile(
@@ -87,33 +86,31 @@ class _SamplesTabState extends State<SamplesTab> {
         ],
         backgroundColor: Colors.blue,
       ),
-      body: Container(
-        child: ListView.builder(
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => ViewSampleDialog(),
-                    fullscreenDialog: true,
-                  ),
-                );
-              },
-              title: Text('items[index].sample_id;'),
-              subtitle: Text('Sample narration'),
-              leading: Icon(
-                Icons.label,
-                color: Colors.blue,
-              ),
-              trailing: Icon(
-                Icons.sync,
-                color: Colors.green,
-              ),
-            );
-          },
-        ),
+      body: ListView.builder(
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => ViewSampleDialog(),
+                  fullscreenDialog: true,
+                ),
+              );
+            },
+            title: const Text('items[index].sample_id'),
+            subtitle: const Text('Sample narration'),
+            leading: const Icon(
+              Icons.label,
+              color: Colors.blue,
+            ),
+            trailing: const Icon(
+              Icons.sync,
+              color: Colors.green,
+            ),
+          );
+        },
       ),
     );
   }

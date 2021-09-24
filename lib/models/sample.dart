@@ -1,4 +1,3 @@
-
 class Sample {
   String? sample_request_id;
   String? client_sample_id;
