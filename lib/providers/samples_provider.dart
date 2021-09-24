@@ -6,8 +6,8 @@ import 'package:sample_tracking_system_flutter/utils/sqlite_db.dart';
 class SamplesProvider with ChangeNotifier {
   final dbHelper = DBHelper.instance;
 
-  Sample _sample = Sample();
-  List<Sample> _samples = [];
+  final Sample _sample = Sample();
+  final List<Sample> _samples = [];
 
   Sample get sample => _sample;
 
@@ -17,6 +17,8 @@ class SamplesProvider with ChangeNotifier {
 
   Future<void> add(Sample? sample) async {
     if (sample == null) return;
+    _samples.add(sample);
+
     addToLocalDatabase(sample);
 
     notifyListeners();
@@ -31,4 +33,7 @@ class SamplesProvider with ChangeNotifier {
   }
 
   getAll() {}
+  void removeAll() {
+    _samples.clear();
+  }
 }

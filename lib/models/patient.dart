@@ -1,4 +1,4 @@
-final String tablePatient = "patient";
+
 class PatientFields {
   static final List<String> values = [
     patient_id,
