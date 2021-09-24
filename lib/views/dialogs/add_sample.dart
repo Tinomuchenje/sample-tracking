@@ -86,6 +86,10 @@ class _AddSampleDialogState extends State<AddSampleDialog> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
+
+                          _sample.modified_at =
+                              _sample.created_at = DateTime.now();
+
                           Provider.of<SamplesProvider>(context, listen: false)
                               .add(_sample);
 
