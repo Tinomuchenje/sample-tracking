@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/utils/sqlite_db.dart';
-import 'package:sample_tracking_system_flutter/views/pages/LoginPage.dart';
+import 'package:sample_tracking_system_flutter/views/pages/login_page.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/patient_provider.dart';
