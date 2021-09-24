@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
 
 class AddSampleDialog extends StatefulWidget {
@@ -16,11 +18,6 @@ class _AddSampleDialogState extends State<AddSampleDialog> {
   String sampleType = 'sample';
   late Sample _sample;
   final _formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void didChangeDependencies() {
@@ -40,7 +37,7 @@ class _AddSampleDialogState extends State<AddSampleDialog> {
           child: ListView(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.all(defaultPadding),
                 child: Column(
                   children: <Widget>[
                     CustomTextFormField(
@@ -79,10 +76,8 @@ class _AddSampleDialogState extends State<AddSampleDialog> {
                         if (value != null) _sample.shipment_id = value;
                       },
                     ),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(Size(382, 50)),
-                      ),
+                    CustomElevatedButton(
+                      labelText: "Save Sample",
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
@@ -93,15 +88,9 @@ class _AddSampleDialogState extends State<AddSampleDialog> {
                           Provider.of<SamplesProvider>(context, listen: false)
                               .add(_sample);
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Sample saved"),
-                              backgroundColor: Colors.green,
-                            ),
-                          );
+                          showNotification(context);
                         }
                       },
-                      child: const Text("save sample"),
                     ),
                   ],
                 ),
@@ -109,5 +98,15 @@ class _AddSampleDialogState extends State<AddSampleDialog> {
             ],
           ),
         ));
+  }
+
+  void showNotification(BuildContext context) {
+    // we should extract this into common area for forms
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Sample saved"),
+        backgroundColor: Colors.green,
+      ),
+    );
   }
 }

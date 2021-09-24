@@ -27,10 +27,8 @@ class _SamplesTabState extends State<SamplesTab> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.add),
+          icon: const Icon(Icons.add),
           onPressed: () {
-            print("Pressed add button");
-            // showDialog<void>(context: context, builder: (context)=>dialog);
             Navigator.push(
               context,
               MaterialPageRoute<void>(
