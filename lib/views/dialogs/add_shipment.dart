@@ -15,6 +15,21 @@ class AddorUpdateShipmentDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Shipment _shipment = shipmentData ?? Shipment();
+
+    String getDateModified() {
+      if (shipmentData != null) {
+        return shipmentData!.dateModified.toString();
+      }
+      return DateTime.now().toString();
+    }
+
+    String getDateCreated() {
+      if (shipmentData != null) {
+        return shipmentData!.dateCreated.toString();
+      }
+      return DateTime.now().toString();
+    }
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
@@ -47,14 +62,16 @@ class AddorUpdateShipmentDialog extends StatelessWidget {
                     ),
                     CustomTextFormField(
                       labelText: "Date Created",
-                      initialValue: _shipment.dateCreated,
+                      enabled: false,
+                      initialValue: getDateCreated(),
                       onSaved: (value) {
-                        if (value != null) _shipment.dateCreated = value;
+                        _shipment.dateCreated = value;
                       },
                     ),
                     CustomTextFormField(
                       labelText: "Date Modified",
-                      initialValue: _shipment.dateModified,
+                      enabled: false,
+                      initialValue: getDateModified(),
                       onSaved: (value) {
                         if (value != null) _shipment.dateModified = value;
                       },
@@ -67,7 +84,7 @@ class AddorUpdateShipmentDialog extends StatelessWidget {
 
                           shipmentData == null
                               ? addNewShipment(context, _shipment)
-                              : addNewShipment(context, _shipment);
+                              : updateShipment(context, _shipment);
 
                           showNotification(context);
                           Navigator.of(context).pop();
