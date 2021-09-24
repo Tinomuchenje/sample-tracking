@@ -46,37 +46,37 @@ class _AddSampleDialogState extends State<AddSampleDialog> {
                     CustomTextFormField(
                       labelText: "Patient ID",
                       onSaved: (value) {
-                        if (value != null) _sample?.patient_id = value;
+                        if (value != null) _sample.patient_id = value;
                       },
                     ),
                     CustomTextFormField(
                       labelText: "Lab ID",
                       onSaved: (value) {
-                        if (value != null) _sample?.lab_id = value;
+                        if (value != null) _sample.lab_id = value;
                       },
                     ),
                     CustomTextFormField(
                       labelText: "Location",
                       onSaved: (value) {
-                        if (value != null) _sample?.location = value;
+                        if (value != null) _sample.location = value;
                       },
                     ),
                     CustomTextFormField(
                       labelText: "Sample Id",
                       onSaved: (value) {
-                        if (value != null) _sample?.sample_id = value;
+                        if (value != null) _sample.sample_id = value;
                       },
                     ),
                     CustomTextFormField(
                       labelText: "Test Id",
                       onSaved: (value) {
-                        if (value != null) _sample?.test_id = value;
+                        if (value != null) _sample.test_id = value;
                       },
                     ),
                     CustomTextFormField(
                       labelText: "Shipment Id",
                       onSaved: (value) {
-                        if (value != null) _sample?.shipment_id = value;
+                        if (value != null) _sample.shipment_id = value;
                       },
                     ),
                     ElevatedButton(
