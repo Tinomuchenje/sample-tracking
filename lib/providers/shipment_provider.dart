@@ -32,7 +32,10 @@ class ShipmentProvider with ChangeNotifier {
     return id;
   }
 
+  void updateShipment(Shipment? shipment) {}
+
   getAll() {}
+
   void removeAll() {
     _shipments.clear();
   }

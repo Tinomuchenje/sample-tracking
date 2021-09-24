@@ -1,25 +1,24 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
-import 'package:sample_tracking_system_flutter/models/sample.dart';
-import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
+import 'package:sample_tracking_system_flutter/models/shipment.dart';
+import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
 
-class AddorUpdateSampleDialog extends StatelessWidget {
-  Sample? sampleData;
-  AddorUpdateSampleDialog({Key? key, this.sampleData}) : super(key: key);
+class AddorUpdateShipmentDialog extends StatelessWidget {
+  Shipment? shipmentData;
+  AddorUpdateShipmentDialog({Key? key, this.shipmentData}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final Sample _sample = sampleData ?? Sample();
+    final Shipment _shipment = shipmentData ?? Shipment();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          title: const Text('Add Sample'),
+          title: const Text('Add Shipment'),
         ),
         body: Form(
           key: _formKey,
@@ -30,45 +29,34 @@ class AddorUpdateSampleDialog extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     CustomTextFormField(
-                      labelText: "Patient ID",
-                      initialValue: _sample.patient_id,
+                      labelText: "Shipment ID",
+                      initialValue: _shipment.Id,
                       onSaved: (value) {
-                        if (value != null) _sample.patient_id = value;
+                        if (value != null) _shipment.Id = value;
                       },
                     ),
                     CustomTextFormField(
-                      labelText: "Lab ID",
-                      initialValue: _sample.lab_id,
+                      labelText: "Client Id",
+                      initialValue: _shipment.clientId,
                       onSaved: (value) {
-                        if (value != null) _sample.lab_id = value;
+                        if (value != null) _shipment.clientId = value;
                       },
                     ),
                     CustomTextFormField(
-                      labelText: "Location",
-                      initialValue: _sample.location,
+                      labelText: "Samples",
+                    ),
+                    CustomTextFormField(
+                      labelText: "Date Created",
+                      initialValue: _shipment.dateCreated,
                       onSaved: (value) {
-                        if (value != null) _sample.location = value;
+                        if (value != null) _shipment.dateCreated = value;
                       },
                     ),
                     CustomTextFormField(
-                      labelText: "Sample Id",
-                      initialValue: _sample.sample_id,
+                      labelText: "Date Modified",
+                      initialValue: _shipment.dateModified,
                       onSaved: (value) {
-                        if (value != null) _sample.sample_id = value;
-                      },
-                    ),
-                    CustomTextFormField(
-                      labelText: "Test Id",
-                      initialValue: _sample.test_id,
-                      onSaved: (value) {
-                        if (value != null) _sample.test_id = value;
-                      },
-                    ),
-                    CustomTextFormField(
-                      labelText: "Shipment Id",
-                      initialValue: _sample.shipment_id,
-                      onSaved: (value) {
-                        if (value != null) _sample.shipment_id = value;
+                        if (value != null) _shipment.dateModified = value;
                       },
                     ),
                     CustomElevatedButton(
@@ -77,9 +65,9 @@ class AddorUpdateSampleDialog extends StatelessWidget {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
 
-                          sampleData == null
-                              ? addNewSample(_sample, context)
-                              : updateSample(_sample, context);
+                          shipmentData == null
+                              ? addNewShipment(context, _shipment)
+                              : addNewShipment(context, _shipment);
 
                           showNotification(context);
                           Navigator.of(context).pop();
@@ -94,14 +82,14 @@ class AddorUpdateSampleDialog extends StatelessWidget {
         ));
   }
 
-  void addNewSample(Sample _sample, BuildContext context) {
-    _sample.modified_at = _sample.created_at = DateTime.now();
-
-    Provider.of<SamplesProvider>(context, listen: false).addSample(_sample);
+  void addNewShipment(BuildContext context, Shipment _shipment) {
+    Provider.of<ShipmentProvider>(context, listen: false)
+        .addShipment(_shipment);
   }
 
-  void updateSample(Sample _sample, BuildContext context) {
-    Provider.of<SamplesProvider>(context, listen: false).addSample(_sample);
+  void updateShipment(BuildContext context, Shipment _shipment) {
+    Provider.of<ShipmentProvider>(context, listen: false)
+        .updateShipment(_shipment);
   }
 
   void showNotification(BuildContext context) {

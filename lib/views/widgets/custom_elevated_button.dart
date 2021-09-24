@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sample_tracking_system_flutter/consts/constants.dart';
 
 class CustomElevatedButton extends StatefulWidget {
   final String labelText;
@@ -13,7 +14,13 @@ class CustomElevatedButton extends StatefulWidget {
 class _CustomElevatedButtonState extends State<CustomElevatedButton> {
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-        onPressed: widget.onPressed, child: Text(widget.labelText));
+    return Padding(
+      padding: const EdgeInsets.all(defaultPadding),
+      child: ElevatedButton(
+          style: ButtonStyle(
+              minimumSize: MaterialStateProperty.all(Size(300, 45))),
+          onPressed: widget.onPressed,
+          child: Text(widget.labelText)),
+    );
   }
 }

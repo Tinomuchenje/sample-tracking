@@ -1,15 +1,15 @@
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 
 class Shipment {
-  String? shipmentId;
+  String? Id;
   String? clientId;
   List<Sample>? samples;
   String? status;
-  DateTime? dateCreated;
-  DateTime? dateModified;
+  String? dateCreated;
+  String? dateModified;
 
   Shipment(
-      {this.shipmentId,
+      {this.Id,
       this.clientId,
       this.samples,
       this.status,
@@ -18,7 +18,7 @@ class Shipment {
 
   Map<String, dynamic> toMap() {
     return {
-      'shipment_id': shipmentId,
+      'shipment_id': Id,
       'client_id': clientId,
       'samples': samples,
       'status': status,
@@ -29,6 +29,6 @@ class Shipment {
 
   @override
   String toString() {
-    return 'Shipment{shipment_id: $shipmentId, client_id: $clientId, samples: $samples, status: $status, created_at: $dateCreated, modified_at: $dateModified}';
+    return 'Shipment{shipment_id: $Id, client_id: $clientId, samples: $samples, status: $status, created_at: $dateCreated, modified_at: $dateModified}';
   }
 }

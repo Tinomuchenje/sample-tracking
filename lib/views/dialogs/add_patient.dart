@@ -6,25 +6,15 @@ import 'package:sample_tracking_system_flutter/providers/patient_provider.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
 
-class AddPatient extends StatefulWidget {
-  const AddPatient({Key? key}) : super(key: key);
+class AddorUpdatePatientDialog extends StatelessWidget {
+  Patient? patientData;
+  AddorUpdatePatientDialog({Key? key, this.patientData}) : super(key: key);
 
-  @override
-  _AddPatientState createState() => _AddPatientState();
-}
-
-class _AddPatientState extends State<AddPatient> {
-  late Patient _patient;
   final _formKey = GlobalKey<FormState>();
 
   @override
-  void didChangeDependencies() {
-    _patient = Provider.of<PatientProvider>(context, listen: false).patient;
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final Patient _patient = patientData ?? Patient();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
@@ -55,10 +45,13 @@ class _AddPatientState extends State<AddPatient> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              Provider.of<PatientProvider>(context,
-                                      listen: false)
-                                  .add(_patient);
+
+                              patientData == null
+                                  ? addNewSample(context, _patient)
+                                  : updateSample(context, _patient);
+
                               showNotification(context);
+                              Navigator.of(context).pop();
                             }
                           }),
                     ],
@@ -66,6 +59,14 @@ class _AddPatientState extends State<AddPatient> {
                 )
               ],
             )));
+  }
+
+  void addNewSample(BuildContext context, Patient _patient) {
+    Provider.of<PatientProvider>(context, listen: false).add(_patient);
+  }
+
+  void updateSample(BuildContext context, Patient _patient) {
+    Provider.of<PatientProvider>(context, listen: false).update(_patient);
   }
 
   void showNotification(BuildContext context) {

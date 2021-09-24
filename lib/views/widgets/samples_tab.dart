@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/views/dialogs/add_sample.dart';
-import 'package:sample_tracking_system_flutter/views/dialogs/view_sample.dart';
 
 class SamplesTab extends StatefulWidget {
   const SamplesTab({Key? key}) : super(key: key);
@@ -32,7 +31,7 @@ class _SamplesTabState extends State<SamplesTab> {
         title: const Text('Samples'),
         actions: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: IconButton(
                 onPressed: () {
                   // showSearch(context: context, delegate: SearchBar());
