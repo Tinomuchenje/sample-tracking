@@ -16,13 +16,14 @@ class SamplesTab extends StatefulWidget {
 class _SamplesTabState extends State<SamplesTab> {
   List<Sample> items = [];
 
-  void initSamples() {
-    items = Provider.of<SamplesProvider>(context, listen: false).samples;
+  @override
+  void didChangeDependencies() {
+    items = Provider.of<SamplesProvider>(context, listen: true).samples;
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    initSamples();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -99,7 +100,7 @@ class _SamplesTabState extends State<SamplesTab> {
                 ),
               );
             },
-            title: const Text('items[index].sample_id'),
+            title: Text(items[index].sample_id.toString()),
             subtitle: const Text('Sample narration'),
             leading: const Icon(
               Icons.label,

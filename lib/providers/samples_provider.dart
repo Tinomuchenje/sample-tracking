@@ -15,7 +15,7 @@ class SamplesProvider with ChangeNotifier {
     return [..._samples];
   }
 
-  Future<void> add(Sample? sample) async {
+  void add(Sample? sample) {
     if (sample == null) return;
     _samples.add(sample);
 
