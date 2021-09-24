@@ -4,9 +4,12 @@ class CustomTextFormField extends StatefulWidget {
   final String hintText;
   final String labelText;
   final Function(String?)? onSaved;
-
+  final String? initialValue;
   CustomTextFormField(
-      {this.hintText = "", required this.labelText, this.onSaved});
+      {this.hintText = "",
+      required this.labelText,
+      this.onSaved,
+      this.initialValue});
 
   @override
   _CustomTextFormFieldState createState() => _CustomTextFormFieldState();
@@ -23,6 +26,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             hintText: widget.hintText,
             labelText: widget.labelText,
           ),
+          initialValue: widget.initialValue,
           onSaved: widget.onSaved,
           validator: (value) {
             if (value!.isEmpty) {

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/views/dialogs/add_sample.dart';
 import 'package:sample_tracking_system_flutter/views/dialogs/view_sample.dart';
@@ -24,7 +23,7 @@ class _SamplesTabState extends State<SamplesTab> {
             Navigator.push(
               context,
               MaterialPageRoute<void>(
-                builder: (BuildContext context) => AddSampleDialog(),
+                builder: (BuildContext context) => AddorUpdateSampleDialog(),
                 fullscreenDialog: true,
               ),
             );
@@ -95,7 +94,8 @@ class _SamplesTabState extends State<SamplesTab> {
             Navigator.push(
               context,
               MaterialPageRoute<void>(
-                builder: (BuildContext context) => ViewSampleDialog(),
+                builder: (BuildContext context) =>
+                    AddorUpdateSampleDialog(sampleData: samples[index]),
                 fullscreenDialog: true,
               ),
             );
