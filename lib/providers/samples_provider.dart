@@ -15,7 +15,7 @@ class SamplesProvider with ChangeNotifier {
     return [..._samples];
   }
 
-  void add(Sample? sample) {
+  void addSample(Sample? sample) {
     if (sample == null) return;
     _samples.add(sample);
 

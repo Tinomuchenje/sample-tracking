@@ -16,14 +16,8 @@ class AddSampleDialog extends StatefulWidget {
 
 class _AddSampleDialogState extends State<AddSampleDialog> {
   String sampleType = 'sample';
-  late Sample _sample;
+  final Sample _sample = Sample();
   final _formKey = GlobalKey<FormState>();
-
-  @override
-  void didChangeDependencies() {
-    _sample = Provider.of<SamplesProvider>(context, listen: false).sample;
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,71 +27,71 @@ class _AddSampleDialogState extends State<AddSampleDialog> {
           title: const Text('Add Sample..'),
         ),
         body: Form(
-          key: _formKey,
-          child: ListView(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(defaultPadding),
-                child: Column(
-                  children: <Widget>[
-                    CustomTextFormField(
-                      labelText: "Patient ID",
-                      onSaved: (value) {
-                        if (value != null) _sample.patient_id = value;
-                      },
-                    ),
-                    CustomTextFormField(
-                      labelText: "Lab ID",
-                      onSaved: (value) {
-                        if (value != null) _sample.lab_id = value;
-                      },
-                    ),
-                    CustomTextFormField(
-                      labelText: "Location",
-                      onSaved: (value) {
-                        if (value != null) _sample.location = value;
-                      },
-                    ),
-                    CustomTextFormField(
-                      labelText: "Sample Id",
-                      onSaved: (value) {
-                        if (value != null) _sample.sample_id = value;
-                      },
-                    ),
-                    CustomTextFormField(
-                      labelText: "Test Id",
-                      onSaved: (value) {
-                        if (value != null) _sample.test_id = value;
-                      },
-                    ),
-                    CustomTextFormField(
-                      labelText: "Shipment Id",
-                      onSaved: (value) {
-                        if (value != null) _sample.shipment_id = value;
-                      },
-                    ),
-                    CustomElevatedButton(
-                      labelText: "Save Sample",
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-
-                          _sample.modified_at =
-                              _sample.created_at = DateTime.now();
-
-                          Provider.of<SamplesProvider>(context, listen: false)
-                              .add(_sample);
-
-                          showNotification(context);
-                        }
-                      },
-                    ),
-                  ],
+      key: _formKey,
+      child: ListView(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(defaultPadding),
+            child: Column(
+              children: <Widget>[
+                CustomTextFormField(
+                  labelText: "Patient ID",
+                  onSaved: (value) {
+                    if (value != null) _sample.patient_id = value;
+                  },
                 ),
-              )
-            ],
-          ),
-        ));
+                CustomTextFormField(
+                  labelText: "Lab ID",
+                  onSaved: (value) {
+                    if (value != null) _sample.lab_id = value;
+                  },
+                ),
+                CustomTextFormField(
+                  labelText: "Location",
+                  onSaved: (value) {
+                    if (value != null) _sample.location = value;
+                  },
+                ),
+                CustomTextFormField(
+                  labelText: "Sample Id",
+                  onSaved: (value) {
+                    if (value != null) _sample.sample_id = value;
+                  },
+                ),
+                CustomTextFormField(
+                  labelText: "Test Id",
+                  onSaved: (value) {
+                    if (value != null) _sample.test_id = value;
+                  },
+                ),
+                CustomTextFormField(
+                  labelText: "Shipment Id",
+                  onSaved: (value) {
+                    if (value != null) _sample.shipment_id = value;
+                  },
+                ),
+                CustomElevatedButton(
+                  labelText: "Save Sample",
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+
+                      _sample.modified_at = _sample.created_at = DateTime.now();
+
+                      Provider.of<SamplesProvider>(context, listen: false)
+                          .addSample(_sample);
+
+                      showNotification(context);
+                      Navigator.of(context);
+                    }
+                  },
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    ));
   }
 
   void showNotification(BuildContext context) {

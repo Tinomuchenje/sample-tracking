@@ -14,14 +14,6 @@ class SamplesTab extends StatefulWidget {
 }
 
 class _SamplesTabState extends State<SamplesTab> {
-  List<Sample> items = [];
-
-  @override
-  void didChangeDependencies() {
-    items = Provider.of<SamplesProvider>(context, listen: true).samples;
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,32 +79,39 @@ class _SamplesTabState extends State<SamplesTab> {
         ],
         backgroundColor: Colors.blue,
       ),
-      body: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => ViewSampleDialog(),
-                  fullscreenDialog: true,
-                ),
-              );
-            },
-            title: Text(items[index].sample_id.toString()),
-            subtitle: const Text('Sample narration'),
-            leading: const Icon(
-              Icons.label,
-              color: Colors.blue,
-            ),
-            trailing: const Icon(
-              Icons.sync,
-              color: Colors.green,
-            ),
-          );
-        },
-      ),
+      body:
+          Consumer<SamplesProvider>(builder: (context, samplesProvider, child) {
+        return _samplesList(samplesProvider.samples);
+      }),
+    );
+  }
+
+  ListView _samplesList(samples) {
+    return ListView.builder(
+      itemCount: samples.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => ViewSampleDialog(),
+                fullscreenDialog: true,
+              ),
+            );
+          },
+          title: Text(samples[index].sample_id.toString()),
+          subtitle: const Text('Sample narration'),
+          leading: const Icon(
+            Icons.label,
+            color: Colors.blue,
+          ),
+          trailing: const Icon(
+            Icons.sync,
+            color: Colors.green,
+          ),
+        );
+      },
     );
   }
 }

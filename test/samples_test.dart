@@ -9,8 +9,10 @@ void main() {
       final sampleProvider = SamplesProvider();
       var sample =
           Sample(sample_id: "1", sample_request_id: "1", patient_id: "1");
+
       // Act
       sampleProvider.add(sample);
+
       // Assert
       assert(sampleProvider.samples[0].sample_id == sample.sample_id);
     });
