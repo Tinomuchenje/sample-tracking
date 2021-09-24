@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:sample_tracking_system_flutter/consts/table_names.dart';
 import 'package:sample_tracking_system_flutter/models/laboritory.dart';
-import 'package:sample_tracking_system_flutter/models/shipment.dart';
-import 'package:sample_tracking_system_flutter/providers/laboratory_fields.dart';
+import 'package:sample_tracking_system_flutter/utils/db_models/laboratory_fields.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'db_models/patient_fields.dart';
 import 'db_models/sample_fields.dart';
+import 'db_models/shipment_fields.dart';
 
 class DBHelper {
   final String textType = "TEXT";
@@ -46,14 +46,15 @@ class DBHelper {
         '''
   CREATE table $tableLaboritory 
    ( 
-    ${LaboritoryFields.laboratory_id} $textType $primaryKey,
+    ${LaboritoryFields.laboratoryId} $textType $primaryKey,
     ${LaboritoryFields.name} $textType,
     ${LaboritoryFields.type} $textType,
     ${LaboritoryFields.code} $textType,
-    ${LaboritoryFields.created_by} $textType,
-    ${LaboritoryFields.created_date} $dateType,
-    ${LaboritoryFields.last_modified_by} $textType,
-    ${LaboritoryFields.last_modified_date} $dateType
+    ${LaboritoryFields.createdby} $textType,
+    ${LaboritoryFields.dateCreated} $dateType,
+    ${LaboritoryFields.lastModifiedBy} $textType,
+    ${LaboritoryFields.lastDateModified} $dateType,
+    $internetStatus INT NOT NULL
     )
   ''');
   }
@@ -62,12 +63,13 @@ class DBHelper {
     return db.execute(
         '''
    CREATE table $tableShipment (
-    ${ShipmentFileds.shipment_id} $textType,
-    ${ShipmentFileds.client_id} $textType,
+    ${ShipmentFileds.shipmentId} $textType,
+    ${ShipmentFileds.clientId} $textType,
     ${ShipmentFileds.samples} $textType,
     ${ShipmentFileds.status} $arrayType,
-    ${ShipmentFileds.created_at} $dateType,
-    ${ShipmentFileds.modified_at} $dateType
+    ${ShipmentFileds.dateCreated} $dateType,
+    ${ShipmentFileds.dateModified} $dateType,
+    $internetStatus INT NOT NULL
    )
   ''');
   }
@@ -85,7 +87,8 @@ class DBHelper {
       ${PatientFields.client_patient_id} $textType,
       ${PatientFields.cohort_number} $textType,
       ${PatientFields.created_at} $dateType,
-      ${PatientFields.modified_at} $dateType
+      ${PatientFields.modified_at} $dateType,
+      $internetStatus INT NOT NULL
       )
     ''');
   }
