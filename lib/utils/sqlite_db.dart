@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:sample_tracking_system_flutter/consts/table_names.dart';
 import 'package:sample_tracking_system_flutter/models/laboritory.dart';
-import 'package:sample_tracking_system_flutter/models/patient.dart';
-import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
+import 'package:sample_tracking_system_flutter/providers/laboratory_fields.dart';
 import 'package:sqflite/sqflite.dart';
+
+import 'db_models/patient_fields.dart';
+import 'db_models/sample_fields.dart';
 
 class DBHelper {
   final String textType = "TEXT";
