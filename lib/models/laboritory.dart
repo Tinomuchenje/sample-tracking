@@ -78,30 +78,30 @@ class Laboritory {
   }
 }
 
-class LaboritoryCrud extends DBHelper {
-  Future<void> insertLab(Laboritory laboritory) async {
-    final database = await db;
-    await database.insert(tableLaboritory, laboritory.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
-  }
+// class LaboritoryCrud extends DBHelper {
+//   Future<void> insertLab(Laboritory laboritory) async {
+//     final database = await db;
+//     await database.insert(tableLaboritory, laboritory.toMap(),
+//         conflictAlgorithm: ConflictAlgorithm.replace);
+//   }
 
-  Future<List<Laboritory>> getLabs() async {
-    final database = await db;
-    // Query the table for all The Labs.
-    final List<Map<String, dynamic>> maps =
-        await database.query(tableLaboritory);
+//   Future<List<Laboritory>> getLabs() async {
+//     final database = await db;
+//     // Query the table for all The Labs.
+//     final List<Map<String, dynamic>> maps =
+//         await database.query(tableLaboritory);
 
-    return List.generate(maps.length, (i) {
-      return Laboritory(
-        maps[i]['laboratory_id'],
-        maps[i]['name'],
-        maps[i]['type'],
-        maps[i]['code'],
-        maps[i]['created_by'],
-        maps[i]['created_date'],
-        maps[i]['last_modified_by'],
-        maps[i]['last_modified_date'],
-      );
-    });
-  }
-}
+//     return List.generate(maps.length, (i) {
+//       return Laboritory(
+//         maps[i]['laboratory_id'],
+//         maps[i]['name'],
+//         maps[i]['type'],
+//         maps[i]['code'],
+//         maps[i]['created_by'],
+//         maps[i]['created_date'],
+//         maps[i]['last_modified_by'],
+//         maps[i]['last_modified_date'],
+//       );
+//     });
+//   }
+// }

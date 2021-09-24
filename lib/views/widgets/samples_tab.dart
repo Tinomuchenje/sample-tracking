@@ -16,7 +16,7 @@ class _SamplesTabState extends State<SamplesTab> {
   List<Sample> items = [];
 
   Future<void> initSamples() async {
-    items = await SampleCrud().getSamples();
+    // items = await SampleCrud().getSamples();
     print("Samples");
     print(items);
   }
@@ -103,7 +103,7 @@ class _SamplesTabState extends State<SamplesTab> {
                   ),
                 );
               },
-              title: Text(items[index].sample_id),
+              title: Text('items[index].sample_id;'),
               subtitle: Text('Sample narration'),
               leading: Icon(
                 Icons.label,

@@ -1,8 +1,3 @@
-import 'package:sample_tracking_system_flutter/utils/sqlite_db.dart';
-import 'package:sqflite/sqflite.dart';
-
-const String tableSample = "sample";
-
 class SampleTableFields {
   static final List<String> values = [
     sample_request_id,
@@ -45,27 +40,27 @@ class SampleTableFields {
 }
 
 class Sample {
-  final String sample_request_id;
-  final String client_sample_id;
-  final String patient_id;
-  final String lab_id;
-  final String client_id;
-  final String sample_id;
-  final String test_id;
-  final DateTime date_collected;
-  final String status;
-  final bool synced;
-  final DateTime synced_at;
-  final String lab_reference_id;
-  final String location;
-  final String result;
-  final String shipment_id;
-  final String client_contact;
-  final DateTime created_at;
-  final DateTime modified_at;
+  String? sample_request_id;
+  String? client_sample_id;
+  String? patient_id;
+  String? lab_id;
+  String? client_id;
+  String? sample_id;
+  String? test_id;
+  DateTime? date_collected;
+  String? status;
+  bool? synced;
+  DateTime? synced_at;
+  String? lab_reference_id;
+  String? location;
+  String? result;
+  String? shipment_id;
+  String? client_contact;
+  DateTime? created_at;
+  DateTime? modified_at;
 
   Sample(
-      this.sample_request_id,
+      {this.sample_request_id,
       this.client_sample_id,
       this.patient_id,
       this.lab_id,
@@ -82,7 +77,7 @@ class Sample {
       this.created_at,
       this.modified_at,
       this.synced_at,
-      this.location);
+      this.location});
 
   Map<String, dynamic> toMap() {
     return {
@@ -113,43 +108,43 @@ class Sample {
   }
 }
 
-class SampleCrud extends DBHelper {
-  SampleCrud() {
-    getSamples();
-  }
+// class SampleCrud extends DBHelper {
+//   SampleCrud() {
+//     getSamples();
+//   }
 
-  Future<void> insertSample(Sample sample) async {
-    final database = await db;
-    await database.insert(tableSample, sample.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
-  }
+//   Future<void> insertSample(Sample sample) async {
+//     final database = await db;
+//     await database.insert(tableSample, sample.toMap(),
+//         conflictAlgorithm: ConflictAlgorithm.replace);
+//   }
 
-  Future<List<Sample>> getSamples() async {
-    final database = await db;
-    // Query the table for all The Labs.
-    final List<Map<String, dynamic>> maps = await database.query(tableSample);
+//   Future<List<Sample>> getSamples() async {
+//     final database = await db;
+//     // Query the table for all The Labs.
+//     final List<Map<String, dynamic>> maps = await database.query(tableSample);
 
-    return List.generate(maps.length, (i) {
-      return Sample(
-        maps[i]['sample_request_id'],
-        maps[i]['client_sample_id'],
-        maps[i]['patient_id'],
-        maps[i]['lab_id'],
-        maps[i]['client_id'],
-        maps[i]['sample_id'],
-        maps[i]['test_id'],
-        DateTime.parse(maps[i]['date_collected']),
-        maps[i]['status'],
-        maps[i]['synced'] == 1 ? true : false,
-        maps[i]['lab_reference_id'],
-        maps[i]['result'],
-        maps[i]['shipment_id'],
-        maps[i]['client_contact'],
-        DateTime.parse(maps[i]['created_at']),
-        DateTime.parse(maps[i]['modified_at']),
-        DateTime.parse(maps[i]['synced_at']),
-        maps[i]['location'],
-      );
-    });
-  }
-}
+//     return List.generate(maps.length, (i) {
+//       return Sample(
+//         maps[i]['sample_request_id'],
+//         maps[i]['client_sample_id'],
+//         maps[i]['patient_id'],
+//         maps[i]['lab_id'],
+//         maps[i]['client_id'],
+//         maps[i]['sample_id'],
+//         maps[i]['test_id'],
+//         DateTime.parse(maps[i]['date_collected']),
+//         maps[i]['status'],
+//         maps[i]['synced'] == 1 ? true : false,
+//         maps[i]['lab_reference_id'],
+//         maps[i]['result'],
+//         maps[i]['shipment_id'],
+//         maps[i]['client_contact'],
+//         DateTime.parse(maps[i]['created_at']),
+//         DateTime.parse(maps[i]['modified_at']),
+//         DateTime.parse(maps[i]['synced_at']),
+//         maps[i]['location'],
+//       );
+//     });
+//   }
+// }
