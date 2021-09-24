@@ -11,7 +11,7 @@ void main() {
           Sample(sample_id: "1", sample_request_id: "1", patient_id: "1");
 
       // Act
-      sampleProvider.add(sample);
+      sampleProvider.addSample(sample);
 
       // Assert
       assert(sampleProvider.samples[0].sample_id == sample.sample_id);
@@ -27,8 +27,8 @@ void main() {
           Sample(sample_id: "1", sample_request_id: "1", patient_id: "1");
 
       // Act
-      sampleProvider.add(sampleOne);
-      sampleProvider.add(sampleTwo);
+      sampleProvider.addSample(sampleOne);
+      sampleProvider.addSample(sampleTwo);
 
       // Assert
       assert(sampleProvider.samples.length == 2);
@@ -45,8 +45,8 @@ void main() {
           Sample(sample_id: "2", sample_request_id: "2", patient_id: "2");
 
       // Act
-      sampleProvider.add(sampleOne);
-      sampleProvider.add(sampleTwo);
+      sampleProvider.addSample(sampleOne);
+      sampleProvider.addSample(sampleTwo);
 
       // Assert
       assert(sampleProvider.samples[0].sample_id !=
