@@ -101,7 +101,7 @@ class AddorUpdateSampleDialog extends StatelessWidget {
   }
 
   void updateSample(Sample _sample, BuildContext context) {
-    Provider.of<SamplesProvider>(context, listen: false).addSample(_sample);
+    Provider.of<SamplesProvider>(context, listen: false).updateSample(_sample);
   }
 
   void showNotification(BuildContext context) {

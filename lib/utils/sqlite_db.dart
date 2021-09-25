@@ -42,8 +42,7 @@ class DBHelper {
   }
 
   Future<void> createLaboratoryTable(Database db) {
-    return db.execute(
-        '''
+    return db.execute('''
   CREATE table $tableLaboritory 
    ( 
     ${LaboritoryFields.laboratoryId} $textType $primaryKey,
@@ -60,10 +59,9 @@ class DBHelper {
   }
 
   Future<void> createShipmentTable(Database db) {
-    return db.execute(
-        '''
+    return db.execute('''
    CREATE table $tableShipment (
-    ${ShipmentFileds.shipmentId} $textType,
+    ${ShipmentFileds.shipmentId} $textType $primaryKey,
     ${ShipmentFileds.clientId} $textType,
     ${ShipmentFileds.samples} $textType,
     ${ShipmentFileds.status} $arrayType,
@@ -75,10 +73,9 @@ class DBHelper {
   }
 
   Future<void> createPatientTable(Database db) {
-    return db.execute(
-        '''
+    return db.execute('''
     CREATE table $tablePatient(
-      ${PatientFields.patient_id} $textType,
+      ${PatientFields.patient_id} $textType $primaryKey,
       ${PatientFields.firstname} $textType,
       ${PatientFields.lastname} $textType,
       ${PatientFields.gender} $textType,
@@ -94,10 +91,9 @@ class DBHelper {
   }
 
   Future<void> createSampleTable(Database db) {
-    return db.execute(
-        '''
+    return db.execute('''
       CREATE table $tableSample (
-       ${SampleTableFields.sample_request_id} $textType,
+       ${SampleTableFields.sample_request_id} $textType $primaryKey,
        ${SampleTableFields.client_sample_id} $textType,
        ${SampleTableFields.patient_id} $textType,
        ${SampleTableFields.lab_id} $textType,
@@ -125,9 +121,16 @@ class DBHelper {
     return await db.insert(table, row);
   }
 
+  Future<int> update(dynamic id, String primaryKeyName, String table,
+      Map<String, dynamic> row) async {
+    Database db = await instance.db;
+    return await db
+        .update(table, row, where: '$primaryKeyName = ?', whereArgs: [id]);
+  }
+
   Future<List<Map<String, dynamic>>> queryAllRecords(table) async {
     Database db = await instance.db;
-    return await db.rawQuery('SELECT * FROM $table');
+    return await db.query('$table');
   }
 
   void _onUpgrade(Database db, int old_version, int version) async {
