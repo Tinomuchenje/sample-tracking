@@ -7,6 +7,7 @@ import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/models/client.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
+import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
@@ -25,16 +26,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   final _formKey = GlobalKey<FormState>();
   Client? _value;
   List<Client> clients = [];
-
-  static List<Sample> _samples = [
-    Sample(sample_id: "Malaria01", patient_id: "Tino"),
-    Sample(sample_id: "Malaria02", patient_id: "Tatenda")
-  ];
-
-  final _items = _samples
-      .map((sample) =>
-          MultiSelectItem<Sample>(sample, sample.sample_id ?? "Something"))
-      .toList();
+  List _selectedSamples = [];
 
   Future<void> readJson() async {
     if (clients.isNotEmpty) return;
@@ -63,13 +55,13 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                 padding: const EdgeInsets.all(defaultPadding),
                 child: Column(
                   children: <Widget>[
-                    // CustomTextFormField(
-                    //   labelText: "Shipment ID",
-                    //   initialValue: _shipment.Id,
-                    //   onSaved: (value) {
-                    //     if (value != null) _shipment.Id = value;
-                    //   },
-                    // ),
+                    CustomTextFormField(
+                      labelText: "Shipment ID",
+                      initialValue: _shipment.Id,
+                      onSaved: (value) {
+                        if (value != null) _shipment.Id = value;
+                      },
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(defaultPadding),
                       child: FutureBuilder(
@@ -79,7 +71,10 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                         },
                       ),
                     ),
-                    samplesList(),
+                    Consumer<SamplesProvider>(
+                        builder: (context, sampleProvider, child) {
+                      return samplesList(sampleProvider.samples, _shipment);
+                    }),
                     CustomTextFormField(
                       labelText: "Date Created",
                       enabled: false,
@@ -97,7 +92,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                       },
                     ),
                     CustomElevatedButton(
-                      labelText: "Save Sample",
+                      labelText: "Save",
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
@@ -119,12 +114,17 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
         ));
   }
 
-  samplesList() {
+  samplesList(List<Sample>? samples, Shipment _shipment) {
+    if (samples!.isEmpty) return const Text("No samples available");
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: MultiSelectDialogField(
-        items: _items,
-        buttonIcon: const Icon(Icons.keyboard_arrow_down, size: 30),
+        items: samples
+            .map((sample) => MultiSelectItem<Sample?>(
+                sample, sample.patient_id ?? "Something"))
+            .toList(),
+        buttonIcon: const Icon(Icons.add, size: 30),
         height: MediaQuery.of(context).size.height / 2.5,
         searchable: true,
         title: const Text("Samples"),
@@ -132,12 +132,12 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
         buttonText: const Text(
           "Add samples",
           style: TextStyle(
-            // color: Colors.blue[800],
             fontSize: 16,
           ),
         ),
         onConfirm: (results) {
-          //_selectedAnimals = results;
+          _selectedSamples = results;
+          _shipment.samples = [..._selectedSamples];
         },
       ),
     );
