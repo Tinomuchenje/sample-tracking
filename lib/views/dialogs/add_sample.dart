@@ -11,7 +11,6 @@ class AddorUpdateSampleDialog extends StatelessWidget {
   Sample? sampleData;
   AddorUpdateSampleDialog({Key? key, this.sampleData}) : super(key: key);
 
-  String sampleType = 'sample';
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -20,7 +19,7 @@ class AddorUpdateSampleDialog extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          title: const Text('Add Sample..'),
+          title: const Text('Add Sample'),
         ),
         body: Form(
           key: _formKey,
@@ -78,14 +77,12 @@ class AddorUpdateSampleDialog extends StatelessWidget {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
 
-                          _sample.modified_at =
-                              _sample.created_at = DateTime.now();
-
-                          Provider.of<SamplesProvider>(context, listen: false)
-                              .addSample(_sample);
+                          sampleData == null
+                              ? addNewSample(_sample, context)
+                              : updateSample(_sample, context);
 
                           showNotification(context);
-                          Navigator.of(context);
+                          Navigator.of(context).pop();
                         }
                       },
                     ),
@@ -95,6 +92,16 @@ class AddorUpdateSampleDialog extends StatelessWidget {
             ],
           ),
         ));
+  }
+
+  void addNewSample(Sample _sample, BuildContext context) {
+    _sample.modified_at = _sample.created_at = DateTime.now();
+
+    Provider.of<SamplesProvider>(context, listen: false).addSample(_sample);
+  }
+
+  void updateSample(Sample _sample, BuildContext context) {
+    Provider.of<SamplesProvider>(context, listen: false).addSample(_sample);
   }
 
   void showNotification(BuildContext context) {

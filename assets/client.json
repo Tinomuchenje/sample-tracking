@@ -1,0 +1,44 @@
+[
+    {
+        "client_uid": "00251bd8-0fea-411b-b79c-549b330684bb",
+        "client_id": "ZW040247",
+        "name": "Mashongwe Clinic",
+        "phone": "NULL",
+        "district_id": "bbc47528-e855-46a2-8e56-504bfc38c5f2",
+        "district_name": "Hurungwe",
+        "province_id": "850570fb-1d86-4fe8-a4a6-9cd44a4dab1b",
+        "province_name": "Mashonaland West",
+        "created_by": "admin",
+        "created_date": "NULL",
+        "last_modified_by": "admin",
+        "last_modified_date": "NULL"
+    },
+    {
+        "client_uid": "0054e78d-8eeb-4e84-9806-aa26607a803d",
+        "client_id": "ZW070746",
+        "name": "Makusha Clinic",
+        "district_id": "f9b0e38a-b67d-46ad-8e18-1e79385a2205",
+        "district_name": "Shurugwi..",
+        "province_id": "39ce0e37-9e7b-4bc1-882d-64846ba6821c",
+        "province_name": "Midlands",
+        "created_by": "admin",
+        "created_date": "NULL",
+        "last_modified_by": "admin",
+        "last_modified_date": "NULL"
+    },
+    {
+        "client_uid": "0067c212-fa1c-41c1-bd27-c2ed7ba2d0eb",
+        "client_id": "ZW040140",
+        "name": "GLENLUCE",
+        "phone": "NULL",
+        "email_address": "NULL",
+        "district_id": "NULL",
+        "district_name": "Chegutu",
+        "province_id": "NULL",
+        "province_name": "Mashonaland West",
+        "created_by": "system",
+        "created_date": "2021-07-30 17:02:13.904105",
+        "last_modified_by": "system",
+        "last_modified_date": "2021-07-30 17:02:13.904105"
+    }
+]

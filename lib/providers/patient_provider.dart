@@ -28,6 +28,7 @@ class PatientProvider with ChangeNotifier {
     return id;
   }
 
+  void update(Patient? patient) {}
   void removeAll() {
     _patients.clear();
   }

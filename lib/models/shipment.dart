@@ -1,48 +1,34 @@
-import 'dart:ffi';
-
-const String tableShipment = "shipment";
-
-class ShipmentFileds {
-  static final List<String> values = [
-    shipment_id,
-    client_id,
-    samples,
-    status,
-    created_at,
-    modified_at
-  ];
-  static final String shipment_id = "shipment_id";
-  static final String client_id = "client_id";
-  static final String samples = "samples";
-  static final String status = "status";
-  static final String created_at = "created_at";
-  static final String modified_at = "modified_at";
-}
+import 'package:sample_tracking_system_flutter/models/sample.dart';
 
 class Shipment {
-  final String shipment_id;
-  final String client_id;
-  final Array samples;
-  final String status;
-  final DateTime created_at;
-  final DateTime modified_at;
+  String? Id;
+  String? clientId;
+  List<Sample>? samples;
+  String? status;
+  String? dateCreated;
+  String? dateModified;
 
-  Shipment(this.shipment_id, this.client_id, this.samples, this.status,
-      this.created_at, this.modified_at);
+  Shipment(
+      {this.Id,
+      this.clientId,
+      this.samples,
+      this.status,
+      this.dateCreated,
+      this.dateModified});
 
   Map<String, dynamic> toMap() {
     return {
-      'shipment_id': shipment_id,
-      'client_id': client_id,
+      'shipment_id': Id,
+      'client_id': clientId,
       'samples': samples,
       'status': status,
-      'created_at': created_at.toString(),
-      'modified_at': modified_at.toString(),
+      'created_at': dateCreated.toString(),
+      'modified_at': dateModified.toString(),
     };
   }
 
   @override
   String toString() {
-    return 'Shipment{shipment_id: $shipment_id, client_id: $client_id, samples: $samples, status: $status, created_at: $created_at, modified_at: $modified_at}';
+    return 'Shipment{shipment_id: $Id, client_id: $clientId, samples: $samples, status: $status, created_at: $dateCreated, modified_at: $dateModified}';
   }
 }
