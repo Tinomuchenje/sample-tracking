@@ -57,12 +57,12 @@ class _HomePageState extends State<HomePage> {
               selected: _selectedDestination == 2,
               onTap: () => {},
             ),
-            Divider(
+            const Divider(
               height: 1,
               thickness: 1,
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
+            const Padding(
+              padding: EdgeInsets.all(16.0),
               child: Text(
                 'Label',
               ),

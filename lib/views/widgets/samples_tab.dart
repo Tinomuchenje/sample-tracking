@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sample_tracking_system_flutter/models/sample.dart';
+import 'package:provider/provider.dart';
+import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/views/dialogs/add_sample.dart';
-import 'package:sample_tracking_system_flutter/views/dialogs/search_bar.dart';
 import 'package:sample_tracking_system_flutter/views/dialogs/view_sample.dart';
 
 class SamplesTab extends StatefulWidget {
@@ -13,34 +13,23 @@ class SamplesTab extends StatefulWidget {
 }
 
 class _SamplesTabState extends State<SamplesTab> {
-  List<Sample> items = [];
-
-  Future<void> initSamples() async {
-    items = await SampleCrud().getSamples();
-    print("Samples");
-    print(items);
-  }
-
   @override
   Widget build(BuildContext context) {
-    initSamples();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.add),
+          icon: const Icon(Icons.add),
           onPressed: () {
-            print("Pressed add button");
-            // showDialog<void>(context: context, builder: (context)=>dialog);
             Navigator.push(
               context,
               MaterialPageRoute<void>(
-                builder: (BuildContext context) => AddSampleDialog(),
+                builder: (BuildContext context) => AddorUpdateSampleDialog(),
                 fullscreenDialog: true,
               ),
             );
           },
         ),
-        title: Text('Samples'),
+        title: const Text('Samples'),
         actions: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
@@ -48,10 +37,10 @@ class _SamplesTabState extends State<SamplesTab> {
                 onPressed: () {
                   // showSearch(context: context, delegate: SearchBar());
                 },
-                icon: Icon(Icons.search)), //Icon(Icons.search),
+                icon: const Icon(Icons.search)), //Icon(Icons.search),
           ),
           PopupMenuButton(
-            icon: Icon(Icons.sort),
+            icon: const Icon(Icons.sort),
             itemBuilder: (BuildContext context) => <PopupMenuEntry>[
               const PopupMenuItem(
                 child: ListTile(
@@ -89,34 +78,40 @@ class _SamplesTabState extends State<SamplesTab> {
         ],
         backgroundColor: Colors.blue,
       ),
-      body: Container(
-        child: ListView.builder(
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => ViewSampleDialog(),
-                    fullscreenDialog: true,
-                  ),
-                );
-              },
-              title: Text(items[index].sample_id),
-              subtitle: Text('Sample narration'),
-              leading: Icon(
-                Icons.label,
-                color: Colors.blue,
-              ),
-              trailing: Icon(
-                Icons.sync,
-                color: Colors.green,
+      body:
+          Consumer<SamplesProvider>(builder: (context, samplesProvider, child) {
+        return _samplesList(samplesProvider.samples);
+      }),
+    );
+  }
+
+  ListView _samplesList(samples) {
+    return ListView.builder(
+      itemCount: samples.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) =>
+                    AddorUpdateSampleDialog(sampleData: samples[index]),
+                fullscreenDialog: true,
               ),
             );
           },
-        ),
-      ),
+          title: Text(samples[index].sample_id.toString()),
+          subtitle: const Text('Sample narration'),
+          leading: const Icon(
+            Icons.label,
+            color: Colors.blue,
+          ),
+          trailing: const Icon(
+            Icons.sync,
+            color: Colors.green,
+          ),
+        );
+      },
     );
   }
 }

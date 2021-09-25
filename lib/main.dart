@@ -1,10 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/utils/sqlite_db.dart';
-import 'package:sample_tracking_system_flutter/views/pages/LoginPage.dart';
+import 'package:sample_tracking_system_flutter/views/pages/login_page.dart';
+import 'package:provider/provider.dart';
+
+import 'providers/patient_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => PatientProvider()),
+        ChangeNotifierProvider(create: (context) => SamplesProvider())
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateTime? _lastQuitTime = null;
-    DBHelper().initDb();
+    final dbHelper = DBHelper.instance;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sample Tracking App',
@@ -25,7 +37,7 @@ class MyApp extends StatelessWidget {
             print('Press again Back Button exit');
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('Press again Back Button exit'),
+                content: const Text('Press again Back Button exit'),
               ),
             );
             _lastQuitTime = DateTime.now();
@@ -36,7 +48,7 @@ class MyApp extends StatelessWidget {
             return true;
           }
         },
-        child: LoginPage(),
+        child: const LoginPage(),
       ),
     );
   }

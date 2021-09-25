@@ -1,158 +1,93 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
+import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
 
-class AddSampleDialog extends StatefulWidget {
-  const AddSampleDialog({Key? key}) : super(key: key);
+class AddorUpdateSampleDialog extends StatelessWidget {
+  Sample? sampleData;
+  AddorUpdateSampleDialog({Key? key, this.sampleData}) : super(key: key);
 
-  @override
-  _AddSampleDialogState createState() => _AddSampleDialogState();
-}
-
-class _AddSampleDialogState extends State<AddSampleDialog> {
   String sampleType = 'sample';
-
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    final Sample _sample = sampleData ?? Sample();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          title: Text('Add Sample'),
-          // actions: [IconButton(onPressed: () {}, icon: Icon(Icons.save))],
+          title: const Text('Add Sample..'),
         ),
         body: Form(
           key: _formKey,
           child: ListView(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(defaultPadding),
                 child: Column(
                   children: <Widget>[
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Patient ID",
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Can not be empty";
-                        }
-                        return null;
+                    CustomTextFormField(
+                      labelText: "Patient ID",
+                      initialValue: _sample.patient_id,
+                      onSaved: (value) {
+                        if (value != null) _sample.patient_id = value;
                       },
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Lab ID",
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Can not be empty";
-                        }
-                        return null;
+                    CustomTextFormField(
+                      labelText: "Lab ID",
+                      initialValue: _sample.lab_id,
+                      onSaved: (value) {
+                        if (value != null) _sample.lab_id = value;
                       },
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Location",
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Can not be empty";
-                        }
-                        return null;
+                    CustomTextFormField(
+                      labelText: "Location",
+                      initialValue: _sample.location,
+                      onSaved: (value) {
+                        if (value != null) _sample.location = value;
                       },
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Sample ID",
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Can not be empty";
-                        }
-                        return null;
+                    CustomTextFormField(
+                      labelText: "Sample Id",
+                      initialValue: _sample.sample_id,
+                      onSaved: (value) {
+                        if (value != null) _sample.sample_id = value;
                       },
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Test ID",
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Can not be empty";
-                        }
-                        return null;
+                    CustomTextFormField(
+                      labelText: "Test Id",
+                      initialValue: _sample.test_id,
+                      onSaved: (value) {
+                        if (value != null) _sample.test_id = value;
                       },
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Shipment ID",
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Can not be empty";
-                        }
-                        return null;
+                    CustomTextFormField(
+                      labelText: "Shipment Id",
+                      initialValue: _sample.shipment_id,
+                      onSaved: (value) {
+                        if (value != null) _sample.shipment_id = value;
                       },
                     ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(Size(382, 50)),
-                      ),
+                    CustomElevatedButton(
+                      labelText: "Save Sample",
                       onPressed: () {
-                        SampleCrud().insertSample(Sample(
-                          "sample_request_id",
-                          "client_sample_id",
-                          "patient_id",
-                          "lab_id",
-                          "client_id",
-                          "123",
-                          "test_id",
-                          DateTime.now(),
-                          ",created",
-                          false,
-                          "lab_reference_id",
-                          "result",
-                          "shipment_id",
-                          "client_contact",
-                          DateTime.now(),
-                          DateTime.now(),
-                          DateTime.now(),
-                          "location",
-                        ));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("Sample saved"),
-                            backgroundColor: Colors.green,
-                          ),
-                        );
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+
+                          _sample.modified_at =
+                              _sample.created_at = DateTime.now();
+
+                          Provider.of<SamplesProvider>(context, listen: false)
+                              .addSample(_sample);
+
+                          showNotification(context);
+                          Navigator.of(context);
+                        }
                       },
-                      child: Text("save sample"),
                     ),
                   ],
                 ),
@@ -161,89 +96,14 @@ class _AddSampleDialogState extends State<AddSampleDialog> {
           ),
         ));
   }
-}
 
-//
-// Container(
-// padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-// child: ListView(
-// children: <Widget>[
-// SizedBox(
-// height: 20,
-// ),
-// TextFormField(
-// cursorColor: Theme.of(context).cursorColor,
-// initialValue: 'P12345',
-// readOnly: true,
-// decoration: InputDecoration(
-// labelText: 'Sample ID',
-// helperText: '',
-// border: OutlineInputBorder(),
-// filled: true,
-// ),
-// ),
-// TextFormField(
-// cursorColor: Theme
-//     .of(context)
-// .cursorColor,
-// initialValue: '',
-// decoration: InputDecoration(
-// labelText: 'Patient',
-// helperText: '',
-// border: OutlineInputBorder(),
-// ),
-// ),
-// DropdownButtonFormField(
-// value: sampleType,
-// items: [
-// DropdownMenuItem(
-// value: "sample",
-// child: Text("Sample"),
-// ),
-// DropdownMenuItem(
-// value: "sample2",
-// child: Text("Sample 2"),
-// )
-// ],
-// decoration: InputDecoration(
-// labelText: "Select a sample type",
-// border: OutlineInputBorder(),
-// ),
-// onChanged: (value){
-// setState(() {
-// sampleType = value.toString();
-// });
-// },
-// ),
-// SizedBox(
-// height: 20,
-// ),
-// TextFormField(
-// cursorColor: Theme
-//     .of(context)
-// .cursorColor,
-// initialValue: '',
-// maxLines: 3,
-// decoration: InputDecoration(
-// labelText: 'Remarks',
-// helperText: '',
-// border: OutlineInputBorder(),
-// ),
-// ),
-// ElevatedButton(
-// onPressed: () =>
-// {
-//
-// SampleCrud().insertSample(new Sample("sample_request_id", "client_sample_id", "patient_id", "lab_id", "client_id", "sample_id", "test_id", DateTime.now(), "status", true, "lab_reference_id", "result", "shipment_id", "client_contact", DateTime.now(), DateTime.now(), DateTime.now())),
-// ScaffoldMessenger.of(context).showSnackBar(
-// SnackBar(
-// content: Text("Sample saved"),
-// backgroundColor: Colors.green,
-// ),
-// )
-// },
-// child: Text("Save"),
-// )
-// ],
-// ),
-// )
+  void showNotification(BuildContext context) {
+    // we should extract this into common area for forms
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Sample saved"),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
+}
