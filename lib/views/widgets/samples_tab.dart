@@ -13,8 +13,6 @@ class SamplesTab extends StatefulWidget {
 }
 
 class _SamplesTabState extends State<SamplesTab> {
-  late Future _myFuture;
-
   @override
   void didChangeDependencies() {
     getSamples();
@@ -22,7 +20,7 @@ class _SamplesTabState extends State<SamplesTab> {
   }
 
   void getSamples() {
-    _myFuture = Provider.of<SamplesProvider>(context, listen: false)
+    Provider.of<SamplesProvider>(context, listen: false)
         .allSamplesFromdatabase();
   }
 
@@ -92,23 +90,15 @@ class _SamplesTabState extends State<SamplesTab> {
           backgroundColor: Colors.blue,
         ),
         body: Consumer<SamplesProvider>(
-          builder: (context, samplesProvider, child) => FutureBuilder(
-              future: _myFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return const Text("Loading .....");
-                }
-                if (snapshot.data != null) {
-                  List<Sample> samples = snapshot.data as List<Sample>;
-                  return _samplesList(samples);
-                }
-                return const Text("No samples");
-              }),
+          builder: (context, samplesProvider, child) =>
+              _samplesList(samplesProvider.samples),
         ));
   }
 
-  ListView _samplesList(samples) {
+  ListView _samplesList(List<Sample> samples) {
     return ListView.builder(
+      shrinkWrap: true,
+      reverse: true,
       itemCount: samples.length,
       itemBuilder: (context, index) {
         return ListTile(

@@ -18,6 +18,7 @@ class SamplesProvider with ChangeNotifier {
 
   void addSample(Sample? sample) {
     if (sample == null) return;
+    _samples.add(sample);
 
     addToLocalDatabase(sample);
 
@@ -68,7 +69,7 @@ class SamplesProvider with ChangeNotifier {
     });
 
     print(result);
-
+    removeAll();
     _samples.addAll(result);
     notifyListeners();
     return result;
