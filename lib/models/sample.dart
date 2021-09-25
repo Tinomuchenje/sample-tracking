@@ -6,17 +6,17 @@ class Sample {
   String? client_id;
   String? sample_id;
   String? test_id;
-  DateTime? date_collected;
+  String? date_collected;
   String? status;
   bool? synced;
-  DateTime? synced_at;
+  String? date_synced;
   String? lab_reference_id;
   String? location;
   String? result;
   String? shipment_id;
   String? client_contact;
-  DateTime? created_at;
-  DateTime? modified_at;
+  String? created_at;
+  String? modified_at;
 
   Sample(
       {this.sample_request_id,
@@ -35,7 +35,7 @@ class Sample {
       this.client_contact,
       this.created_at,
       this.modified_at,
-      this.synced_at,
+      this.date_synced,
       this.location});
 
   Map<String, dynamic> toMap() {
@@ -50,7 +50,7 @@ class Sample {
       'date_collected': date_collected.toString(),
       'status': status,
       'synced': synced,
-      'synced_at': synced_at.toString(),
+      'synced_at': date_synced.toString(),
       'lab_reference_id': lab_reference_id,
       'location': location,
       'result': result,
@@ -63,7 +63,7 @@ class Sample {
 
   @override
   String toString() {
-    return 'Sample{sample_request_id: $sample_request_id, client_sample_id: $client_sample_id, patient_id: $patient_id, lab_id: $lab_id, client_id: $client_id, sample_id: $sample_id, test_id: $test_id, date_collected: $date_collected, status: $status, synced: $synced, synced_at: $synced_at, lab_reference_id: $lab_reference_id, location: $location, result: $result, shipment_id: $shipment_id, client_contact: $client_contact, created_at: $created_at, modified_at: $modified_at}';
+    return 'Sample{sample_request_id: $sample_request_id, client_sample_id: $client_sample_id, patient_id: $patient_id, lab_id: $lab_id, client_id: $client_id, sample_id: $sample_id, test_id: $test_id, date_collected: $date_collected, status: $status, synced: $synced, synced_at: $date_synced, lab_reference_id: $lab_reference_id, location: $location, result: $result, shipment_id: $shipment_id, client_contact: $client_contact, created_at: $created_at, modified_at: $modified_at}';
   }
 }
 

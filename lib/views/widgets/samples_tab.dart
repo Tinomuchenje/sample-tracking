@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/views/dialogs/add_sample.dart';
 
@@ -12,76 +13,98 @@ class SamplesTab extends StatefulWidget {
 }
 
 class _SamplesTabState extends State<SamplesTab> {
+  late Future _myFuture;
+
+  @override
+  void didChangeDependencies() {
+    getSamples();
+    super.didChangeDependencies();
+  }
+
+  void getSamples() {
+    _myFuture = Provider.of<SamplesProvider>(context, listen: false)
+        .allSamplesFromdatabase();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.add),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute<void>(
-                builder: (BuildContext context) => AddorUpdateSampleDialog(),
-                fullscreenDialog: true,
-              ),
-            );
-          },
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => AddorUpdateSampleDialog(),
+                  fullscreenDialog: true,
+                ),
+              );
+            },
+          ),
+          title: const Text('Samples'),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: IconButton(
+                  onPressed: () {
+                    // showSearch(context: context, delegate: SearchBar());
+                  },
+                  icon: const Icon(Icons.search)), //Icon(Icons.search),
+            ),
+            PopupMenuButton(
+              icon: const Icon(Icons.sort),
+              itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                const PopupMenuItem(
+                  child: ListTile(
+                    leading: Icon(Icons.sort_by_alpha),
+                    title: Text('a-Z'),
+                  ),
+                ),
+                const PopupMenuDivider(),
+                const PopupMenuItem(
+                  child: ListTile(
+                    leading: Icon(Icons.sort),
+                    title: Text('pending'),
+                  ),
+                ),
+                const PopupMenuItem(
+                  child: ListTile(
+                    leading: Icon(Icons.sort),
+                    title: Text('due collection'),
+                  ),
+                ),
+                const PopupMenuItem(
+                  child: ListTile(
+                    leading: Icon(Icons.sort),
+                    title: Text('accepted'),
+                  ),
+                ),
+                const PopupMenuItem(
+                  child: ListTile(
+                    leading: Icon(Icons.sort),
+                    title: Text('rejected'),
+                  ),
+                ),
+              ],
+            ),
+          ],
+          backgroundColor: Colors.blue,
         ),
-        title: const Text('Samples'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: IconButton(
-                onPressed: () {
-                  // showSearch(context: context, delegate: SearchBar());
-                },
-                icon: const Icon(Icons.search)), //Icon(Icons.search),
-          ),
-          PopupMenuButton(
-            icon: const Icon(Icons.sort),
-            itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-              const PopupMenuItem(
-                child: ListTile(
-                  leading: Icon(Icons.sort_by_alpha),
-                  title: Text('a-Z'),
-                ),
-              ),
-              const PopupMenuDivider(),
-              const PopupMenuItem(
-                child: ListTile(
-                  leading: Icon(Icons.sort),
-                  title: Text('pending'),
-                ),
-              ),
-              const PopupMenuItem(
-                child: ListTile(
-                  leading: Icon(Icons.sort),
-                  title: Text('due collection'),
-                ),
-              ),
-              const PopupMenuItem(
-                child: ListTile(
-                  leading: Icon(Icons.sort),
-                  title: Text('accepted'),
-                ),
-              ),
-              const PopupMenuItem(
-                child: ListTile(
-                  leading: Icon(Icons.sort),
-                  title: Text('rejected'),
-                ),
-              ),
-            ],
-          ),
-        ],
-        backgroundColor: Colors.blue,
-      ),
-      body:
-          Consumer<SamplesProvider>(builder: (context, samplesProvider, child) {
-        return _samplesList(samplesProvider.samples);
-      }),
-    );
+        body: Consumer<SamplesProvider>(
+          builder: (context, samplesProvider, child) => FutureBuilder(
+              future: _myFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const Text("Loading .....");
+                }
+                if (snapshot.data != null) {
+                  List<Sample> samples = snapshot.data as List<Sample>;
+                  return _samplesList(samples);
+                }
+                return const Text("No samples");
+              }),
+        ));
   }
 
   ListView _samplesList(samples) {
