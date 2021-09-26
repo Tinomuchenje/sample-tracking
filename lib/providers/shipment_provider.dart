@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/consts/table_names.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
-import 'package:sample_tracking_system_flutter/utils/db_models/sample_fields.dart';
 import 'package:sample_tracking_system_flutter/utils/db_models/shipment_fields.dart';
 import 'package:sample_tracking_system_flutter/utils/sqlite_db.dart';
 

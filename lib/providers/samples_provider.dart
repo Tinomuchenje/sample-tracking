@@ -29,7 +29,7 @@ class SamplesProvider with ChangeNotifier {
     var row = sample.toMap();
     row["internetStatus"] = 0; //Flag for no internet
 
-    final id = await dbHelper.update(sample.sample_request_id,
+    final id = await dbHelper.update(sample.sampleRequestId,
         SampleTableFields.sample_request_id, tableSample, row);
 
     notifyListeners();
@@ -48,24 +48,24 @@ class SamplesProvider with ChangeNotifier {
 
     var result = List.generate(samplesMap.length, (index) {
       return Sample(
-          sample_request_id: samplesMap[index]['sample_request_id'],
-          client_sample_id: samplesMap[index]['client_sample_id'],
-          patient_id: samplesMap[index]['patient_id'],
-          lab_id: samplesMap[index]['lab_id'],
-          client_id: samplesMap[index]['client_id'],
-          sample_id: samplesMap[index]['sample_id'],
-          test_id: samplesMap[index]['test_id'],
-          date_collected: samplesMap[index]['date_collected'],
+          sampleRequestId: samplesMap[index]['sample_request_id'],
+          clientSampleId: samplesMap[index]['client_sample_id'],
+          patientId: samplesMap[index]['patient_id'],
+          labId: samplesMap[index]['lab_id'],
+          clientId: samplesMap[index]['client_id'],
+          sampleId: samplesMap[index]['sample_id'],
+          testId: samplesMap[index]['test_id'],
+          dateCollected: samplesMap[index]['date_collected'],
           status: samplesMap[index]['status'],
           synced: samplesMap[index]['synced'] == 1 ? true : false,
-          date_synced: samplesMap[index]['synced_at'],
-          lab_reference_id: samplesMap[index]['lab_reference_id'],
+          dateSynced: samplesMap[index]['synced_at'],
+          labReferenceId: samplesMap[index]['lab_reference_id'],
           location: samplesMap[index]['location'],
           result: samplesMap[index]['result'],
-          shipment_id: samplesMap[index]['shipment_id'],
-          client_contact: samplesMap[index]['client_contact'],
-          created_at: samplesMap[index]['created_at'],
-          modified_at: samplesMap[index]['modified_at']);
+          shipmentId: samplesMap[index]['shipment_id'],
+          clientContact: samplesMap[index]['client_contact'],
+          dateCreated: samplesMap[index]['created_at'],
+          dateModified: samplesMap[index]['modified_at']);
     });
 
     removeAll();

@@ -122,7 +122,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
       child: MultiSelectDialogField(
         items: samples
             .map((sample) => MultiSelectItem<Sample?>(
-                sample, sample.patient_id ?? "Something"))
+                sample, sample.patientId ?? "Something"))
             .toList(),
         buttonIcon: const Icon(Icons.add, size: 30),
         height: MediaQuery.of(context).size.height / 2.5,

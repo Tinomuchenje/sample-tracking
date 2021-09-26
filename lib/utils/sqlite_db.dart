@@ -75,16 +75,16 @@ class DBHelper {
   Future<void> createPatientTable(Database db) {
     return db.execute('''
     CREATE table $tablePatient(
-      ${PatientFields.patient_id} $textType $primaryKey,
+      ${PatientFields.patientId} $textType $primaryKey,
       ${PatientFields.firstname} $textType,
       ${PatientFields.lastname} $textType,
       ${PatientFields.gender} $textType,
       ${PatientFields.dob} $dateType,
       ${PatientFields.client} $textType,
-      ${PatientFields.client_patient_id} $textType,
-      ${PatientFields.cohort_number} $textType,
-      ${PatientFields.created_at} $dateType,
-      ${PatientFields.modified_at} $dateType,
+      ${PatientFields.clientPatientId} $textType,
+      ${PatientFields.cohortNumber} $textType,
+      ${PatientFields.dateCreated} $dateType,
+      ${PatientFields.dateModified} $dateType,
       $internetStatus INT NOT NULL
       )
     ''');
@@ -133,7 +133,7 @@ class DBHelper {
     return await db.query('$table');
   }
 
-  void _onUpgrade(Database db, int old_version, int version) async {
+  void _onUpgrade(Database db, int oldVersion, int version) async {
     print("Database  upgrading: ");
   }
 }

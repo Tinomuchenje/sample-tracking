@@ -38,30 +38,30 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                   children: <Widget>[
                     CustomTextFormField(
                       labelText: "Sample Request ID",
-                      initialValue: _sample.sample_request_id,
+                      initialValue: _sample.sampleRequestId,
                       onSaved: (value) {
-                        if (value != null) _sample.sample_request_id = value;
+                        if (value != null) _sample.sampleRequestId = value;
                       },
                     ),
                     CustomTextFormField(
                       labelText: "Client Sample ID",
-                      initialValue: _sample.client_sample_id,
+                      initialValue: _sample.clientSampleId,
                       onSaved: (value) {
-                        if (value != null) _sample.client_sample_id = value;
+                        if (value != null) _sample.clientSampleId = value;
                       },
                     ),
                     CustomTextFormField(
                       labelText: "Patient ID",
-                      initialValue: _sample.patient_id,
+                      initialValue: _sample.patientId,
                       onSaved: (value) {
-                        if (value != null) _sample.patient_id = value;
+                        if (value != null) _sample.patientId = value;
                       },
                     ),
                     CustomTextFormField(
                       labelText: "Lab ID",
-                      initialValue: _sample.lab_id,
+                      initialValue: _sample.labId,
                       onSaved: (value) {
-                        if (value != null) _sample.lab_id = value;
+                        if (value != null) _sample.labId = value;
                       },
                     ),
                     CustomTextFormField(
@@ -73,23 +73,23 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                     ),
                     CustomTextFormField(
                       labelText: "Sample Id",
-                      initialValue: _sample.sample_id,
+                      initialValue: _sample.sampleId,
                       onSaved: (value) {
-                        if (value != null) _sample.sample_id = value;
+                        if (value != null) _sample.sampleId = value;
                       },
                     ),
                     CustomTextFormField(
                       labelText: "Test Id",
-                      initialValue: _sample.test_id,
+                      initialValue: _sample.testId,
                       onSaved: (value) {
-                        if (value != null) _sample.test_id = value;
+                        if (value != null) _sample.testId = value;
                       },
                     ),
                     CustomTextFormField(
                       labelText: "Date Collected",
                       initialValue: DateTime.now().toString(),
                       onSaved: (value) {
-                        if (value != null) _sample.date_collected = value;
+                        if (value != null) _sample.dateCollected = value;
                       },
                     ),
                     CustomTextFormField(
@@ -112,18 +112,18 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                     ),
                     CustomTextFormField(
                       labelText: "Date Synced",
-                      initialValue: _sample.date_synced,
+                      initialValue: _sample.dateSynced,
                       onSaved: (value) {
                         if (value != null) {
-                          _sample.date_synced = DateTime.now().toString();
+                          _sample.dateSynced = DateTime.now().toString();
                         }
                       },
                     ),
                     CustomTextFormField(
                       labelText: "Lab Reference Id",
-                      initialValue: _sample.lab_reference_id,
+                      initialValue: _sample.labReferenceId,
                       onSaved: (value) {
-                        if (value != null) _sample.lab_reference_id = value;
+                        if (value != null) _sample.labReferenceId = value;
                       },
                     ),
                     CustomTextFormField(
@@ -135,16 +135,16 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                     ),
                     CustomTextFormField(
                       labelText: "Shipment Id",
-                      initialValue: _sample.shipment_id,
+                      initialValue: _sample.shipmentId,
                       onSaved: (value) {
-                        if (value != null) _sample.shipment_id = value;
+                        if (value != null) _sample.shipmentId = value;
                       },
                     ),
                     CustomTextFormField(
                       labelText: "Client Contact",
-                      initialValue: _sample.client_contact,
+                      initialValue: _sample.clientContact,
                       onSaved: (value) {
-                        if (value != null) _sample.client_contact = value;
+                        if (value != null) _sample.clientContact = value;
                       },
                     ),
                     CustomElevatedButton(
@@ -171,7 +171,7 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
   }
 
   void addNewSample(Sample _sample, BuildContext context) {
-    _sample.modified_at = _sample.created_at = DateTime.now().toString();
+    _sample.dateModified = _sample.dateCreated = DateTime.now().toString();
 
     Provider.of<SamplesProvider>(context, listen: false).addSample(_sample);
   }

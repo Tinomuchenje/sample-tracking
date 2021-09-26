@@ -112,7 +112,7 @@ class _SamplesTabState extends State<SamplesTab> {
               ),
             );
           },
-          title: Text(samples[index].sample_id.toString()),
+          title: Text(samples[index].sampleId.toString()),
           subtitle: const Text('Sample narration'),
           leading: const Icon(
             Icons.label,

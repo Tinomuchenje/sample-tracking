@@ -8,23 +8,23 @@ void main() {
       // Arrange
       final sampleProvider = SamplesProvider();
       var sample =
-          Sample(sample_id: "1", sample_request_id: "1", patient_id: "1");
+          Sample(sampleId: "1", sampleRequestId: "1", patientId: "1");
 
       // Act
       sampleProvider.addSample(sample);
 
       // Assert
-      assert(sampleProvider.samples[0].sample_id == sample.sample_id);
+      assert(sampleProvider.samples[0].sampleId == sample.sampleId);
     });
 
     test("Add sample Create records Length match samples", () {
       // Arrange
       final sampleProvider = SamplesProvider();
       Sample sampleOne =
-          Sample(sample_id: "1", sample_request_id: "1", patient_id: "1");
+          Sample(sampleId: "1", sampleRequestId: "1", patientId: "1");
 
       Sample sampleTwo =
-          Sample(sample_id: "1", sample_request_id: "1", patient_id: "1");
+          Sample(sampleId: "1", sampleRequestId: "1", patientId: "1");
 
       // Act
       sampleProvider.addSample(sampleOne);
@@ -39,18 +39,18 @@ void main() {
       // Arrange
       final sampleProvider = SamplesProvider();
       Sample sampleOne =
-          Sample(sample_id: "1", sample_request_id: "1", patient_id: "1");
+          Sample(sampleId: "1", sampleRequestId: "1", patientId: "1");
 
       Sample sampleTwo =
-          Sample(sample_id: "2", sample_request_id: "2", patient_id: "2");
+          Sample(sampleId: "2", sampleRequestId: "2", patientId: "2");
 
       // Act
       sampleProvider.addSample(sampleOne);
       sampleProvider.addSample(sampleTwo);
 
       // Assert
-      assert(sampleProvider.samples[0].sample_id !=
-          sampleProvider.samples[1].sample_id);
+      assert(sampleProvider.samples[0].sampleId !=
+          sampleProvider.samples[1].sampleId);
     });
   });
 }
