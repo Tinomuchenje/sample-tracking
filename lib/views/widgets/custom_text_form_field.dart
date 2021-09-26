@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sample_tracking_system_flutter/consts/constants.dart';
 
 class CustomTextFormField extends StatefulWidget {
   final String hintText;
@@ -22,7 +23,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(defaultPadding / 2),
         child: TextFormField(
           decoration: InputDecoration(
             border: OutlineInputBorder(),
