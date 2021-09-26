@@ -57,9 +57,9 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                   children: <Widget>[
                     CustomTextFormField(
                       labelText: "Shipment ID",
-                      initialValue: _shipment.Id,
+                      initialValue: _shipment.id,
                       onSaved: (value) {
-                        if (value != null) _shipment.Id = value;
+                        if (value != null) _shipment.id = value;
                       },
                     ),
                     Padding(

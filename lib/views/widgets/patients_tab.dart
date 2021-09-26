@@ -14,6 +14,17 @@ class PatientsTab extends StatefulWidget {
 
 class _PatientsTabState extends State<PatientsTab> {
   @override
+  void didChangeDependencies() {
+    getSamples();
+    super.didChangeDependencies();
+  }
+
+  void getSamples() {
+    Provider.of<PatientProvider>(context, listen: false)
+        .allPatientsFromdatabase();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -57,7 +68,7 @@ class _PatientsTabState extends State<PatientsTab> {
           },
           title: Text(
               patients[index].firstname! + ' ' + patients[index].lastname!),
-          subtitle: const Text('Patient detals'),
+          subtitle: const Text('Patient details'),
           leading: const Icon(
             Icons.person,
             color: Colors.blue,

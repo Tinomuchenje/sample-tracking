@@ -65,7 +65,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
               ),
             );
           },
-          title: Text(shipment[index].Id.toString()),
+          title: Text(shipment[index].id.toString()),
           subtitle: const Text('Shipping description'),
           leading: const Icon(
             Icons.file_present,

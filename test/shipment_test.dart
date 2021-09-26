@@ -6,14 +6,14 @@ void main() {
   group("Samples", () {
     final shipmentProvider = ShipmentProvider();
     var shipmentOne = Shipment(
-        Id: "1",
+        id: "1",
         clientId: "1",
         status: "Received",
         dateCreated: DateTime.now().toString(),
         dateModified: DateTime.now().toString());
 
     var shipmentTwo = Shipment(
-        Id: "2",
+        id: "2",
         clientId: "2",
         status: "Rejected",
         dateCreated: DateTime.now().toString(),
@@ -26,7 +26,7 @@ void main() {
       shipmentProvider.addShipment(shipmentOne);
 
       // Asssert
-      assert(shipmentProvider.shipments[0].Id == shipmentOne.Id);
+      assert(shipmentProvider.shipments[0].id == shipmentOne.id);
     });
 
     test("Add shipment Create shipments Length match samples", () {
@@ -50,7 +50,7 @@ void main() {
 
       // Assert
       assert(
-          shipmentProvider.shipments[0].Id != shipmentProvider.shipments[1].Id);
+          shipmentProvider.shipments[0].id != shipmentProvider.shipments[1].id);
     });
   });
 }

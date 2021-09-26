@@ -37,7 +37,7 @@ class ShipmentProvider with ChangeNotifier {
 
     var result = List.generate(maps.length, (index) {
       return Shipment(
-          Id: maps[index]['shipment_id'],
+          id: maps[index]['shipment_id'],
           clientId: maps[index]['client_id'],
           samples: maps[index]['samples'],
           status: maps[index]['status'],

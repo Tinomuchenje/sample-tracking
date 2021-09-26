@@ -28,6 +28,29 @@ class PatientProvider with ChangeNotifier {
     return id;
   }
 
+  Future<void> allPatientsFromdatabase() async {
+    final maps = await dbHelper.queryAllRecords(tablePatient);
+
+    var result = List.generate(maps.length, (index) {
+      return Patient(
+        patientId: maps[index]['patient_id'],
+        firstname: maps[index]['firstname'],
+        lastname: maps[index]['lastname'],
+        gender: maps[index]['gender'],
+        dob: maps[index]['dob'],
+        client: maps[index]['client'],
+        clientPatientId: maps[index]['client_patient_id'],
+        cohortNumber: maps[index]['cohort_number'],
+        dateCreated: maps[index]['created_at'],
+        dateModified: maps[index]['modified_at'],
+      );
+    });
+
+    removeAll();
+    _patients.addAll(result);
+    notifyListeners();
+  }
+
   void update(Patient? patient) {}
   void removeAll() {
     _patients.clear();

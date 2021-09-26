@@ -85,6 +85,7 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                       CustomTextFormField(
                         labelText: "Date created",
                         enabled: false,
+                        initialValue: getDateCreated(),
                         onSaved: (value) {
                           if (value != null) {
                             _patient.dateCreated = DateTime.now().toString();
@@ -93,6 +94,7 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                       ),
                       CustomTextFormField(
                         enabled: false,
+                        initialValue: getDateModified(),
                         labelText: "Date Modified",
                         onSaved: (value) {
                           if (value != null) {
@@ -119,6 +121,20 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                 )
               ],
             )));
+  }
+
+  String getDateModified() {
+    if (widget.patientData != null) {
+      return widget.patientData!.dateModified.toString();
+    }
+    return DateTime.now().toString();
+  }
+
+  String getDateCreated() {
+    if (widget.patientData != null) {
+      return widget.patientData!.dateCreated.toString();
+    }
+    return DateTime.now().toString();
   }
 
   void addNewSample(BuildContext context, Patient _patient) {
