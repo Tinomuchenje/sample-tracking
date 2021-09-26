@@ -29,7 +29,7 @@ class SamplesProvider with ChangeNotifier {
     var row = sample.toMap();
     row["internetStatus"] = 0; //Flag for no internet
 
-    final id = await dbHelper.update(sample.sample_id,
+    final id = await dbHelper.update(sample.sample_request_id,
         SampleTableFields.sample_request_id, tableSample, row);
 
     notifyListeners();
