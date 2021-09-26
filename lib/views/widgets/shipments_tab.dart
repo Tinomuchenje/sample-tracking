@@ -52,6 +52,8 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
 
   ListView _shipmentsList(List<Shipment> shipment) {
     return ListView.builder(
+      shrinkWrap: true,
+      reverse: true,
       itemCount: shipment.length,
       itemBuilder: (context, index) {
         return ListTile(

@@ -10,14 +10,14 @@ void main() {
         clientId: "1",
         status: "Received",
         dateCreated: DateTime.now().toString(),
-        dateModified: DateTime.now().toString());
+        dateModified: DateTime.now().toString(), samples: []);
 
     var shipmentTwo = Shipment(
         id: "2",
         clientId: "2",
         status: "Rejected",
         dateCreated: DateTime.now().toString(),
-        dateModified: DateTime.now().toString());
+        dateModified: DateTime.now().toString(), samples: []);
 
     test("Add new shipment", () {
       // Arrange

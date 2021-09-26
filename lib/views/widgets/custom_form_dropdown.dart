@@ -5,10 +5,16 @@ class CustomFormDropdown extends StatefulWidget {
   Widget hint;
   Object? value;
   List<DropdownMenuItem<Object>> items;
-//Function(Object?) onSaved;
+  Function(Object?) onChanged;
+  Function(Object?) onSaved;
 
   CustomFormDropdown(
-      {Key? key, required this.items, required this.hint, required this.value})
+      {Key? key,
+      required this.items,
+      required this.hint,
+      required this.value,
+      required this.onChanged,
+      required this.onSaved})
       : super(key: key);
 
   @override
@@ -24,7 +30,8 @@ class _CustomFormDropdownState extends State<CustomFormDropdown> {
         value: widget.value,
         hint: widget.hint,
         items: widget.items,
-        //onSaved: widget.onSaved,
+        onChanged: widget.onChanged,
+        onSaved: widget.onSaved,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
         ),

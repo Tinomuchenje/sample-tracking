@@ -7,13 +7,15 @@ class CustomTextFormField extends StatefulWidget {
   final Function(String?)? onSaved;
   final String? initialValue;
   final bool? enabled;
+  TextEditingController? controller;
 
   CustomTextFormField(
       {this.hintText = "",
       required this.labelText,
       this.onSaved,
       this.initialValue,
-      this.enabled});
+      this.enabled,
+      this.controller});
 
   @override
   _CustomTextFormFieldState createState() => _CustomTextFormFieldState();
@@ -30,6 +32,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             hintText: widget.hintText,
             labelText: widget.labelText,
           ),
+          controller: widget.controller,
           enabled: widget.enabled,
           initialValue: widget.initialValue,
           onSaved: widget.onSaved,

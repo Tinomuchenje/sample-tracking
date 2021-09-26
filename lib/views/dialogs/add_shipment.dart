@@ -10,6 +10,7 @@ import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
@@ -50,7 +51,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   @override
   Widget build(BuildContext context) {
     bool isNewForm = widget.shipmentData == null;
-    final Shipment _shipment = widget.shipmentData ?? Shipment();
+    final Shipment _shipment = widget.shipmentData ?? Shipment(samples: []);
 
     String _appBarText = isNewForm ? 'Add' : 'Update';
     String _saveButtonText = isNewForm ? 'Save' : 'Update';
@@ -69,17 +70,38 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                 child: Column(
                   children: <Widget>[
                     CustomTextFormField(
-                      labelText: "Shipment ID",
+                      labelText: "Shipment Label",
                       initialValue: _shipment.id,
                       onSaved: (value) {
                         if (value != null) _shipment.id = value;
                       },
                     ),
-                    _selectClientDropdown(),
+                    _selectClientDropdown(_shipment),
                     Consumer<SamplesProvider>(
                         builder: (context, sampleProvider, child) {
                       return samplesList(sampleProvider.samples, _shipment);
                     }),
+                    Visibility(
+                      visible: !isNewForm,
+                      child: CustomTextFormField(
+                          labelText: "Total Number of samples",
+                          initialValue: _shipment.samples.length.toString(),
+                          enabled: false),
+                    ),
+                    Visibility(
+                      visible: !isNewForm,
+                      child: CustomTextFormField(
+                          labelText: "Creater",
+                          initialValue: "Admin",
+                          enabled: false),
+                    ),
+                    Visibility(
+                      visible: !isNewForm,
+                      child: CustomTextFormField(
+                          labelText: "Client Id",
+                          initialValue: _shipment.clientId,
+                          enabled: false),
+                    ),
                     Visibility(
                       visible: !isNewForm,
                       child: CustomTextFormField(
@@ -99,6 +121,9 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
+                          _shipment.status = "Created";
+                          _shipment.dateCreated = _shipment.dateModified =
+                              DateTime.now().toString();
 
                           widget.shipmentData == null
                               ? addNewShipment(context, _shipment)
@@ -118,11 +143,12 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   }
 
   samplesList(List<Sample>? samples, Shipment _shipment) {
-    if (samples!.isEmpty) return const Text("No samples available");
+    if (samples!.isEmpty) return const Text("No samples available yet.");
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: MultiSelectDialogField(
+        initialValue: _shipment.samples,
         items: samples
             .map((sample) => MultiSelectItem<Sample?>(
                 sample, sample.patientId ?? "Something"))
@@ -146,34 +172,31 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
     );
   }
 
-  _selectClientDropdown() {
+  _selectClientDropdown(Shipment _shipment) {
     if (_clients.isEmpty) {
       return const Text("Nothing yet");
     }
 
-    var xxx;
+    var clientMenus;
     setState(() {
-      xxx = _clients.map((Client client) {
-        return DropdownMenuItem<Client>(
-          value: client,
+      clientMenus = _clients.map((Client client) {
+        return DropdownMenuItem<String>(
+          value: client.clientId,
           child: Text(client.name ?? "Name unavailable"),
         );
       }).toList();
     });
 
-    return Padding(
-      padding: const EdgeInsets.all(defaultPadding / 2),
-      child: DropdownButtonFormField(
-        value: _value,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-        ),
-        hint: const Text("Please select client"),
-        items: xxx,
-        onChanged: (value) {
-          _value = value as Client;
-        },
-      ),
+    return CustomFormDropdown(
+      value: _value ?? _shipment.clientId,
+      hint: const Text("Please select client"),
+      items: clientMenus,
+      onSaved: (value) {
+        _shipment.clientId = value.toString();
+      },
+      onChanged: (value) {
+        _value = value as Client;
+      },
     );
   }
 
@@ -192,7 +215,6 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   }
 
   void addNewShipment(BuildContext context, Shipment _shipment) {
-    _shipment.dateCreated = _shipment.dateModified = DateTime.now().toString();
     Provider.of<ShipmentProvider>(context, listen: false)
         .addShipment(_shipment);
   }

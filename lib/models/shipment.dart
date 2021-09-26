@@ -3,7 +3,7 @@ import 'package:sample_tracking_system_flutter/models/sample.dart';
 class Shipment {
   String? id;
   String? clientId;
-  List<Sample>? samples;
+  List<Sample> samples;
   String? status;
   String? dateCreated;
   String? dateModified;
@@ -11,7 +11,7 @@ class Shipment {
   Shipment(
       {this.id,
       this.clientId,
-      this.samples,
+      required this.samples,
       this.status,
       this.dateCreated,
       this.dateModified});

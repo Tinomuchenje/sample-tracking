@@ -7,7 +7,7 @@ import 'package:sample_tracking_system_flutter/utils/sqlite_db.dart';
 class ShipmentProvider with ChangeNotifier {
   final dbHelper = DBHelper.instance;
 
-  final Shipment _shipment = Shipment();
+  final Shipment _shipment = Shipment(samples: []);
   final List<Shipment> _shipments = [];
 
   Shipment get shipment => _shipment;
@@ -40,7 +40,7 @@ class ShipmentProvider with ChangeNotifier {
       return Shipment(
           id: maps[index]['shipment_id'],
           clientId: maps[index]['client_id'],
-          samples: maps[index]['samples'],
+          samples: [],
           status: maps[index]['status'],
           dateCreated: maps[index]['created_at'],
           dateModified: maps[index]['modified_at']);

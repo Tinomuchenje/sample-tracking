@@ -20,12 +20,16 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
   int _value = 1;
   @override
   Widget build(BuildContext context) {
+    bool isNewForm = widget.patientData == null;
     final Patient _patient = widget.patientData ?? Patient();
+
+    String _appBarText = isNewForm ? 'Add' : 'Update';
+    String _saveButtonText = isNewForm ? 'Save' : 'Update';
 
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          title: const Text('Add Patient'),
+          title: Text('$_appBarText Patient'),
         ),
         body: Form(
             key: _formKey,
@@ -88,31 +92,39 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                           if (value != null) _patient.cohortNumber = value;
                         },
                       ),
-                      CustomTextFormField(
-                        labelText: "Date created",
-                        enabled: false,
-                        initialValue: getDateCreated(),
-                        onSaved: (value) {
-                          if (value != null) {
-                            _patient.dateCreated = DateTime.now().toString();
-                          }
-                        },
+                      Visibility(
+                        visible: !isNewForm,
+                        child: CustomTextFormField(
+                          labelText: "Date created",
+                          enabled: false,
+                          initialValue: getDateCreated(),
+                          onSaved: (value) {
+                            if (value != null) {
+                              _patient.dateCreated = DateTime.now().toString();
+                            }
+                          },
+                        ),
                       ),
-                      CustomTextFormField(
-                        enabled: false,
-                        initialValue: getDateModified(),
-                        labelText: "Date Modified",
-                        onSaved: (value) {
-                          if (value != null) {
-                            _patient.dateModified = DateTime.now().toString();
-                          }
-                        },
+                      Visibility(
+                        visible: !isNewForm,
+                        child: CustomTextFormField(
+                          enabled: false,
+                          initialValue: getDateModified(),
+                          labelText: "Date Modified",
+                          onSaved: (value) {
+                            if (value != null) {
+                              _patient.dateModified = DateTime.now().toString();
+                            }
+                          },
+                        ),
                       ),
                       CustomElevatedButton(
-                          labelText: "Save Patient",
+                          labelText: "$_saveButtonText Patient",
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
+                              _patient.dateModified = _patient.dateCreated =
+                                  DateTime.now().toString();
 
                               widget.patientData == null
                                   ? addNewSample(context, _patient)
