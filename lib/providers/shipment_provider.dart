@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/consts/table_names.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
+import 'package:sample_tracking_system_flutter/utils/db_models/sample_fields.dart';
+import 'package:sample_tracking_system_flutter/utils/db_models/shipment_fields.dart';
 import 'package:sample_tracking_system_flutter/utils/sqlite_db.dart';
 
 class ShipmentProvider with ChangeNotifier {
@@ -50,7 +52,15 @@ class ShipmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateShipment(Shipment? shipment) {}
+  void updateShipment(Shipment shipment) async {
+    var row = shipment.toMap();
+    row["internetStatus"] = 0; //Flag for no internet
+
+    final id = await dbHelper.update(
+        shipment.id, ShipmentFileds.shipmentId, tableShipment, row);
+
+    notifyListeners();
+  }
 
   getAll() {}
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/consts/table_names.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
+import 'package:sample_tracking_system_flutter/utils/db_models/patient_fields.dart';
 import 'package:sample_tracking_system_flutter/utils/sqlite_db.dart';
 
 class PatientProvider with ChangeNotifier {
@@ -51,7 +52,16 @@ class PatientProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void update(Patient? patient) {}
+  updatePatient(Patient patient) async {
+    var row = patient.toMap();
+    row["internetStatus"] = 0; //Flag for no internet
+
+    final id = await dbHelper.update(
+        patient.patientId, PatientFields.patient_id, tablePatient, row);
+
+    notifyListeners();
+  }
+
   void removeAll() {
     _patients.clear();
   }

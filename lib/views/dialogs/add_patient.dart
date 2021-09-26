@@ -21,6 +21,7 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
   @override
   Widget build(BuildContext context) {
     final Patient _patient = widget.patientData ?? Patient();
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
@@ -36,48 +37,53 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                     children: [
                       CustomTextFormField(
                         labelText: "First Name",
+                        initialValue: _patient.firstname,
                         onSaved: (value) {
                           if (value != null) _patient.firstname = value;
                         },
                       ),
                       CustomTextFormField(
                         labelText: "Last Name",
+                        initialValue: _patient.lastname,
                         onSaved: (value) {
                           if (value != null) _patient.lastname = value;
                         },
                       ),
-                      DropdownButton(
-                        value: _value,
-                        items: [
-                          const DropdownMenuItem(
-                            child: Text("First Item"),
-                            value: 1,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("Second Item"),
-                            value: 2,
-                          )
-                        ],
-                        // onChanged: (int value) {
-                        //   setState(() {
-                        //     // _value = value;
-                        //   });
-                        // },
-                      ),
+                      // DropdownButton(
+                      //   value: _value,
+                      //   items: [
+                      //     const DropdownMenuItem(
+                      //       child: Text("First Item"),
+                      //       value: 1,
+                      //     ),
+                      //     DropdownMenuItem(
+                      //       child: Text("Second Item"),
+                      //       value: 2,
+                      //     )
+                      //   ],
+                      //   // onChanged: (int value) {
+                      //   //   setState(() {
+                      //   //     // _value = value;
+                      //   //   });
+                      //   // },
+                      // ),
                       CustomTextFormField(
                         labelText: "Date of birth",
+                        initialValue: _patient.dob,
                         onSaved: (value) {
                           if (value != null) _patient.dob = value;
                         },
                       ),
                       CustomTextFormField(
                         labelText: "Client",
+                        initialValue: _patient.client,
                         onSaved: (value) {
                           if (value != null) _patient.client = value;
                         },
                       ),
                       CustomTextFormField(
                         labelText: "Cohort Number",
+                        initialValue: _patient.cohortNumber,
                         onSaved: (value) {
                           if (value != null) _patient.cohortNumber = value;
                         },
@@ -142,7 +148,8 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
   }
 
   void updateSample(BuildContext context, Patient _patient) {
-    Provider.of<PatientProvider>(context, listen: false).update(_patient);
+    Provider.of<PatientProvider>(context, listen: false)
+        .updatePatient(_patient);
   }
 
   void showNotification(BuildContext context) {
