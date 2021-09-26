@@ -43,9 +43,9 @@ class SamplesProvider with ChangeNotifier {
     return id;
   }
 
-  Future<List<Sample>> allSamplesFromdatabase() async {
+  Future<void> allSamplesFromdatabase() async {
     final samplesMap = await dbHelper.queryAllRecords(tableSample);
-    print(samplesMap);
+
     var result = List.generate(samplesMap.length, (index) {
       return Sample(
           sample_request_id: samplesMap[index]['sample_request_id'],
@@ -57,7 +57,7 @@ class SamplesProvider with ChangeNotifier {
           test_id: samplesMap[index]['test_id'],
           date_collected: samplesMap[index]['date_collected'],
           status: samplesMap[index]['status'],
-          synced: samplesMap[index]['synced'],
+          synced: samplesMap[index]['synced'] == 1 ? true : false,
           date_synced: samplesMap[index]['synced_at'],
           lab_reference_id: samplesMap[index]['lab_reference_id'],
           location: samplesMap[index]['location'],
@@ -68,33 +68,9 @@ class SamplesProvider with ChangeNotifier {
           modified_at: samplesMap[index]['modified_at']);
     });
 
-    print(result);
     removeAll();
     _samples.addAll(result);
     notifyListeners();
-    return result;
-  }
-
-  Sample buildSample(List<Map<String, dynamic>> samplesMap, int index) {
-    return Sample(
-        sample_request_id: samplesMap[index]['sample_request_id'],
-        client_sample_id: samplesMap[index]['client_sample_id'],
-        patient_id: samplesMap[index]['patient_id'],
-        lab_id: samplesMap[index]['lab_id'],
-        client_id: samplesMap[index]['client_id'],
-        sample_id: samplesMap[index]['sample_id'],
-        test_id: samplesMap[index]['test_id'],
-        date_collected: samplesMap[index]['date_collected'],
-        status: samplesMap[index]['status'],
-        synced: samplesMap[index]['synced'] == 1 ? true : false,
-        date_synced: samplesMap[index]['synced_at'],
-        lab_reference_id: samplesMap[index]['lab_reference_id'],
-        location: samplesMap[index]['location'],
-        result: samplesMap[index]['result'],
-        shipment_id: samplesMap[index]['shipment_id'],
-        client_contact: samplesMap[index]['client_contact'],
-        created_at: samplesMap[index]['created_at'],
-        modified_at: samplesMap[index]['modified_at']);
   }
 
   void removeAll() {

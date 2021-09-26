@@ -17,8 +17,8 @@ class ShipmentProvider with ChangeNotifier {
 
   void addShipment(Shipment? shipment) {
     if (shipment == null) return;
-    _shipments.add(shipment);
 
+    _shipments.add(shipment);
     addToLocalDatabase(shipment);
 
     notifyListeners();
@@ -30,6 +30,24 @@ class ShipmentProvider with ChangeNotifier {
 
     final id = await dbHelper.insert(tableShipment, row);
     return id;
+  }
+
+  Future<void> allShipmentsFromdatabase() async {
+    final maps = await dbHelper.queryAllRecords(tableShipment);
+
+    var result = List.generate(maps.length, (index) {
+      return Shipment(
+          Id: maps[index]['shipment_id'],
+          clientId: maps[index]['client_id'],
+          samples: maps[index]['samples'],
+          status: maps[index]['status'],
+          dateCreated: maps[index]['created_at'],
+          dateModified: maps[index]['modified_at']);
+    });
+
+    removeAll();
+    _shipments.addAll(result);
+    notifyListeners();
   }
 
   void updateShipment(Shipment? shipment) {}
