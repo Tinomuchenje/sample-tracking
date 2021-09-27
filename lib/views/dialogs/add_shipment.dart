@@ -168,6 +168,10 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
           _selectedSamples = results;
           _shipment.samples = [..._selectedSamples];
         },
+        onSaved: (value) {
+          _selectedSamples = value!;
+          _shipment.samples = [..._selectedSamples];
+        },
       ),
     );
   }

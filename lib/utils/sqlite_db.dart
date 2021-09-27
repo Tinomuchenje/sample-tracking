@@ -63,10 +63,10 @@ class DBHelper {
    CREATE table $tableShipment (
     ${ShipmentFileds.shipmentId} $textType $primaryKey,
     ${ShipmentFileds.clientId} $textType,
-    ${ShipmentFileds.samples} $textType,
-    ${ShipmentFileds.status} $arrayType,
-    ${ShipmentFileds.dateCreated} $dateType,
-    ${ShipmentFileds.dateModified} $dateType,
+    ${ShipmentFileds.samples} $arrayType,
+    ${ShipmentFileds.status} $textType,
+    ${ShipmentFileds.dateCreated} $textType,
+    ${ShipmentFileds.dateModified} $textType,
     $internetStatus INT NOT NULL
    )
   ''');
