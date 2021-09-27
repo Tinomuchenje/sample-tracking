@@ -22,11 +22,16 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
 
   @override
   Widget build(BuildContext context) {
+    bool isNewForm = widget.sampleData == null;
     final Sample _sample = widget.sampleData ?? Sample();
+
+    String _appBarText = isNewForm ? 'Add' : 'Update';
+    String _saveButtonText = isNewForm ? 'Save' : 'Update';
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          title: const Text('Add Sample'),
+          title: Text('$_appBarText Sample'),
         ),
         body: Form(
           key: _formKey,
@@ -72,86 +77,80 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                       },
                     ),
                     CustomTextFormField(
-                      labelText: "Sample Id",
+                      labelText: "Sample Types",
                       initialValue: _sample.sampleId,
                       onSaved: (value) {
                         if (value != null) _sample.sampleId = value;
                       },
                     ),
                     CustomTextFormField(
-                      labelText: "Test Id",
+                      labelText: "Test Types",
                       initialValue: _sample.testId,
                       onSaved: (value) {
                         if (value != null) _sample.testId = value;
                       },
                     ),
-                    CustomTextFormField(
-                      labelText: "Date Collected",
-                      initialValue: DateTime.now().toString(),
-                      onSaved: (value) {
-                        if (value != null) _sample.dateCollected = value;
-                      },
+                    Visibility(
+                      visible: !isNewForm,
+                      child: CustomTextFormField(
+                        enabled: false,
+                        labelText: "Date Collected",
+                        initialValue: _sample.dateCollected,
+                      ),
                     ),
-                    CustomTextFormField(
-                      labelText: "Status",
-                      initialValue: _sample.status,
-                      onSaved: (value) {
-                        if (value != null) _sample.status = value;
-                      },
+                    Visibility(
+                      visible: !isNewForm,
+                      child: CustomTextFormField(
+                        enabled: false,
+                        labelText: "Status",
+                        initialValue: _sample.status,
+                      ),
                     ),
-                    CheckboxListTile(
-                      title: const Text("Synced"),
-                      value: _synced,
-                      onChanged: (newValue) {
-                        setState(() {
-                          _sample.synced = newValue;
-                        });
-                      },
-                      controlAffinity: ListTileControlAffinity
-                          .leading, //  <-- leading Checkbox
+                    Visibility(
+                      visible: !isNewForm,
+                      child: CustomTextFormField(
+                          enabled: false,
+                          labelText: "Date Synced",
+                          initialValue: _sample.dateSynced),
                     ),
-                    CustomTextFormField(
-                      labelText: "Date Synced",
-                      initialValue: _sample.dateSynced,
-                      onSaved: (value) {
-                        if (value != null) {
-                          _sample.dateSynced = DateTime.now().toString();
-                        }
-                      },
+                    Visibility(
+                      visible: !isNewForm,
+                      child: CustomTextFormField(
+                          enabled: false,
+                          labelText: "Lab Reference Id",
+                          initialValue: _sample.labReferenceId),
                     ),
-                    CustomTextFormField(
-                      labelText: "Lab Reference Id",
-                      initialValue: _sample.labReferenceId,
-                      onSaved: (value) {
-                        if (value != null) _sample.labReferenceId = value;
-                      },
+                    Visibility(
+                      visible: !isNewForm,
+                      child: CustomTextFormField(
+                          enabled: false,
+                          labelText: "Location",
+                          initialValue: "Hurungwe"),
                     ),
-                    CustomTextFormField(
-                      labelText: "Location",
-                      initialValue: _sample.location,
-                      onSaved: (value) {
-                        if (value != null) _sample.location = value;
-                      },
+                    Visibility(
+                      visible: !isNewForm,
+                      child: CustomTextFormField(
+                        labelText: "Shipment",
+                        initialValue: _sample.shipmentId,
+                      ),
                     ),
-                    CustomTextFormField(
-                      labelText: "Shipment Id",
-                      initialValue: _sample.shipmentId,
-                      onSaved: (value) {
-                        if (value != null) _sample.shipmentId = value;
-                      },
-                    ),
-                    CustomTextFormField(
-                      labelText: "Client Contact",
-                      initialValue: _sample.clientContact,
-                      onSaved: (value) {
-                        if (value != null) _sample.clientContact = value;
-                      },
+                    Visibility(
+                      visible: !isNewForm,
+                      child: CustomTextFormField(
+                          enabled: false,
+                          labelText: "Client Contact",
+                          initialValue: "Admin"),
                     ),
                     CustomElevatedButton(
-                      labelText: "Save Sample",
+                      labelText: "$_saveButtonText Sample",
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
+                          _sample.status = "Created";
+                          _sample.synced = false;
+
+                          _sample.dateSynced =
+                              _sample.dateCollected = DateTime.now().toString();
 
                           widget.sampleData == null
                               ? addNewSample(_sample, context)
