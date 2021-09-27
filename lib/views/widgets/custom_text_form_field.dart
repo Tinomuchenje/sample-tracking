@@ -28,7 +28,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         padding: const EdgeInsets.all(defaultPadding / 2),
         child: TextFormField(
           decoration: InputDecoration(
-            border: OutlineInputBorder(),
+            border: const OutlineInputBorder(),
             hintText: widget.hintText,
             labelText: widget.labelText,
           ),

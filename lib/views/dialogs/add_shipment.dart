@@ -146,14 +146,21 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
     if (samples!.isEmpty) return const Text("No samples available yet.");
 
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(defaultPadding / 2.0),
       child: MultiSelectDialogField(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(5)),
+          border: Border.all(
+            color: Colors.grey,
+            width: 1.0,
+          ),
+        ),
         initialValue: _shipment.samples,
         items: samples
             .map((sample) => MultiSelectItem<Sample?>(
                 sample, sample.patientId ?? "Something"))
             .toList(),
-        buttonIcon: const Icon(Icons.add, size: 30),
+        buttonIcon: const Icon(Icons.add, size: 38),
         height: MediaQuery.of(context).size.height / 2.5,
         searchable: true,
         title: const Text("Samples"),
@@ -161,6 +168,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
         buttonText: const Text(
           "Add samples",
           style: TextStyle(
+            color: Colors.grey,
             fontSize: 16,
           ),
         ),
