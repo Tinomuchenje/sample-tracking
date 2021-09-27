@@ -14,6 +14,17 @@ class ShipmentsTab extends StatefulWidget {
 
 class _ShipmentsTabState extends State<ShipmentsTab> {
   @override
+  void didChangeDependencies() {
+    getSamples();
+    super.didChangeDependencies();
+  }
+
+  void getSamples() {
+    Provider.of<ShipmentProvider>(context, listen: false)
+        .allShipmentsFromdatabase();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -34,13 +45,15 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
       ),
       body: Consumer<ShipmentProvider>(
           builder: (context, shipmentProvider, child) {
-        return _samplesList(shipmentProvider.shipments);
+        return _shipmentsList(shipmentProvider.shipments);
       }),
     );
   }
 
-  ListView _samplesList(List<Shipment> shipment) {
+  ListView _shipmentsList(List<Shipment> shipment) {
     return ListView.builder(
+      shrinkWrap: true,
+      reverse: true,
       itemCount: shipment.length,
       itemBuilder: (context, index) {
         return ListTile(
@@ -54,10 +67,10 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
               ),
             );
           },
-          title: Text(shipment[index].Id.toString()),
-          subtitle: const Text('Sample narration'),
+          title: Text(shipment[index].id.toString()),
+          subtitle: const Text('Shipping description'),
           leading: const Icon(
-            Icons.label,
+            Icons.file_present,
             color: Colors.blue,
           ),
           trailing: const Icon(

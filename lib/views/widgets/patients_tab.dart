@@ -14,6 +14,17 @@ class PatientsTab extends StatefulWidget {
 
 class _PatientsTabState extends State<PatientsTab> {
   @override
+  void didChangeDependencies() {
+    getSamples();
+    super.didChangeDependencies();
+  }
+
+  void getSamples() {
+    Provider.of<PatientProvider>(context, listen: false)
+        .allPatientsFromdatabase();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -40,6 +51,8 @@ class _PatientsTabState extends State<PatientsTab> {
 
   ListView _samplesList(List<Patient> patients) {
     return ListView.builder(
+      shrinkWrap: true,
+      reverse: true,
       itemCount: patients.length,
       itemBuilder: (context, index) {
         return ListTile(
@@ -53,10 +66,11 @@ class _PatientsTabState extends State<PatientsTab> {
               ),
             );
           },
-          title: Text(patients[index].firstname.toString()),
-          subtitle: const Text('Sample narration'),
+          title: Text(
+              patients[index].firstname! + ' ' + patients[index].lastname!),
+          subtitle: const Text('Patient details'),
           leading: const Icon(
-            Icons.label,
+            Icons.person,
             color: Colors.blue,
           ),
           trailing: const Icon(

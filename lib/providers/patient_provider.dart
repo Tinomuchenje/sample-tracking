@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/consts/table_names.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
+import 'package:sample_tracking_system_flutter/utils/db_models/patient_fields.dart';
 import 'package:sample_tracking_system_flutter/utils/sqlite_db.dart';
 
 class PatientProvider with ChangeNotifier {
@@ -28,7 +29,39 @@ class PatientProvider with ChangeNotifier {
     return id;
   }
 
-  void update(Patient? patient) {}
+  Future<void> allPatientsFromdatabase() async {
+    final maps = await dbHelper.queryAllRecords(tablePatient);
+
+    var result = List.generate(maps.length, (index) {
+      return Patient(
+        patientId: maps[index]['patient_id'],
+        firstname: maps[index]['firstname'],
+        lastname: maps[index]['lastname'],
+        gender: maps[index]['gender'],
+        dob: maps[index]['dob'],
+        client: maps[index]['client'],
+        clientPatientId: maps[index]['client_patient_id'],
+        cohortNumber: maps[index]['cohort_number'],
+        dateCreated: maps[index]['created_at'],
+        dateModified: maps[index]['modified_at'],
+      );
+    });
+
+    removeAll();
+    _patients.addAll(result);
+    notifyListeners();
+  }
+
+  updatePatient(Patient patient) async {
+    var row = patient.toMap();
+    row["internetStatus"] = 0; //Flag for no internet
+
+    final id = await dbHelper.update(
+        patient.patientId, PatientFields.patientId, tablePatient, row);
+
+    notifyListeners();
+  }
+
   void removeAll() {
     _patients.clear();
   }

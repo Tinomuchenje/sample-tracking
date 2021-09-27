@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sample_tracking_system_flutter/consts/constants.dart';
 
 class CustomTextFormField extends StatefulWidget {
   final String hintText;
@@ -6,13 +7,15 @@ class CustomTextFormField extends StatefulWidget {
   final Function(String?)? onSaved;
   final String? initialValue;
   final bool? enabled;
+  TextEditingController? controller;
 
   CustomTextFormField(
       {this.hintText = "",
       required this.labelText,
       this.onSaved,
       this.initialValue,
-      this.enabled});
+      this.enabled,
+      this.controller});
 
   @override
   _CustomTextFormFieldState createState() => _CustomTextFormFieldState();
@@ -22,13 +25,14 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(defaultPadding / 2),
         child: TextFormField(
           decoration: InputDecoration(
-            border: OutlineInputBorder(),
+            border: const OutlineInputBorder(),
             hintText: widget.hintText,
             labelText: widget.labelText,
           ),
+          controller: widget.controller,
           enabled: widget.enabled,
           initialValue: widget.initialValue,
           onSaved: widget.onSaved,

@@ -7,19 +7,31 @@ import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
 
-class AddorUpdateSampleDialog extends StatelessWidget {
+class AddorUpdateSampleDialog extends StatefulWidget {
   Sample? sampleData;
   AddorUpdateSampleDialog({Key? key, this.sampleData}) : super(key: key);
 
+  @override
+  State<AddorUpdateSampleDialog> createState() =>
+      _AddorUpdateSampleDialogState();
+}
+
+class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
   final _formKey = GlobalKey<FormState>();
+  final bool _synced = false;
 
   @override
   Widget build(BuildContext context) {
-    final Sample _sample = sampleData ?? Sample();
+    bool isNewForm = widget.sampleData == null;
+    final Sample _sample = widget.sampleData ?? Sample();
+
+    String _appBarText = isNewForm ? 'Add' : 'Update';
+    String _saveButtonText = isNewForm ? 'Save' : 'Update';
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          title: const Text('Add Sample'),
+          title: Text('$_appBarText Sample'),
         ),
         body: Form(
           key: _formKey,
@@ -30,54 +42,117 @@ class AddorUpdateSampleDialog extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     CustomTextFormField(
-                      labelText: "Patient ID",
-                      initialValue: _sample.patient_id,
+                      labelText: "Sample Request ID",
+                      initialValue: _sample.sampleRequestId,
                       onSaved: (value) {
-                        if (value != null) _sample.patient_id = value;
+                        if (value != null) _sample.sampleRequestId = value;
+                      },
+                    ),
+                    CustomTextFormField(
+                      labelText: "Client Sample ID",
+                      initialValue: _sample.clientSampleId,
+                      onSaved: (value) {
+                        if (value != null) _sample.clientSampleId = value;
+                      },
+                    ),
+                    CustomTextFormField(
+                      labelText: "Patient ID",
+                      initialValue: _sample.patientId,
+                      onSaved: (value) {
+                        if (value != null) _sample.patientId = value;
                       },
                     ),
                     CustomTextFormField(
                       labelText: "Lab ID",
-                      initialValue: _sample.lab_id,
+                      initialValue: _sample.labId,
                       onSaved: (value) {
-                        if (value != null) _sample.lab_id = value;
+                        if (value != null) _sample.labId = value;
                       },
                     ),
                     CustomTextFormField(
-                      labelText: "Location",
+                      labelText: "Client Id",
                       initialValue: _sample.location,
                       onSaved: (value) {
                         if (value != null) _sample.location = value;
                       },
                     ),
                     CustomTextFormField(
-                      labelText: "Sample Id",
-                      initialValue: _sample.sample_id,
+                      labelText: "Sample Types",
+                      initialValue: _sample.sampleId,
                       onSaved: (value) {
-                        if (value != null) _sample.sample_id = value;
+                        if (value != null) _sample.sampleId = value;
                       },
                     ),
                     CustomTextFormField(
-                      labelText: "Test Id",
-                      initialValue: _sample.test_id,
+                      labelText: "Test Types",
+                      initialValue: _sample.testId,
                       onSaved: (value) {
-                        if (value != null) _sample.test_id = value;
+                        if (value != null) _sample.testId = value;
                       },
                     ),
-                    CustomTextFormField(
-                      labelText: "Shipment Id",
-                      initialValue: _sample.shipment_id,
-                      onSaved: (value) {
-                        if (value != null) _sample.shipment_id = value;
-                      },
+                    Visibility(
+                      visible: !isNewForm,
+                      child: CustomTextFormField(
+                        enabled: false,
+                        labelText: "Date Collected",
+                        initialValue: _sample.dateCollected,
+                      ),
+                    ),
+                    Visibility(
+                      visible: !isNewForm,
+                      child: CustomTextFormField(
+                        enabled: false,
+                        labelText: "Status",
+                        initialValue: _sample.status,
+                      ),
+                    ),
+                    Visibility(
+                      visible: !isNewForm,
+                      child: CustomTextFormField(
+                          enabled: false,
+                          labelText: "Date Synced",
+                          initialValue: _sample.dateSynced),
+                    ),
+                    Visibility(
+                      visible: !isNewForm,
+                      child: CustomTextFormField(
+                          enabled: false,
+                          labelText: "Lab Reference Id",
+                          initialValue: _sample.labReferenceId),
+                    ),
+                    Visibility(
+                      visible: !isNewForm,
+                      child: CustomTextFormField(
+                          enabled: false,
+                          labelText: "Location",
+                          initialValue: "Hurungwe"),
+                    ),
+                    Visibility(
+                      visible: !isNewForm,
+                      child: CustomTextFormField(
+                        labelText: "Shipment",
+                        initialValue: _sample.shipmentId,
+                      ),
+                    ),
+                    Visibility(
+                      visible: !isNewForm,
+                      child: CustomTextFormField(
+                          enabled: false,
+                          labelText: "Client Contact",
+                          initialValue: "Admin"),
                     ),
                     CustomElevatedButton(
-                      labelText: "Save Sample",
+                      labelText: "$_saveButtonText Sample",
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
+                          _sample.status = "Created";
+                          _sample.synced = false;
 
-                          sampleData == null
+                          _sample.dateSynced =
+                              _sample.dateCollected = DateTime.now().toString();
+
+                          widget.sampleData == null
                               ? addNewSample(_sample, context)
                               : updateSample(_sample, context);
 
@@ -95,13 +170,13 @@ class AddorUpdateSampleDialog extends StatelessWidget {
   }
 
   void addNewSample(Sample _sample, BuildContext context) {
-    _sample.modified_at = _sample.created_at = DateTime.now();
+    _sample.dateModified = _sample.dateCreated = DateTime.now().toString();
 
     Provider.of<SamplesProvider>(context, listen: false).addSample(_sample);
   }
 
   void updateSample(Sample _sample, BuildContext context) {
-    Provider.of<SamplesProvider>(context, listen: false).addSample(_sample);
+    Provider.of<SamplesProvider>(context, listen: false).updateSample(_sample);
   }
 
   void showNotification(BuildContext context) {

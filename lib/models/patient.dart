@@ -3,12 +3,12 @@ class Patient {
   String? firstname;
   String? lastname;
   String? gender;
-  DateTime? dob;
+  String? dob;
   String? client;
   String? clientPatientId;
   String? cohortNumber;
-  DateTime? dateCreated;
-  DateTime? dateModified;
+  String? dateCreated;
+  String? dateModified;
 
   Patient(
       {this.patientId,

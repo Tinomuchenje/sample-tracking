@@ -42,8 +42,7 @@ class DBHelper {
   }
 
   Future<void> createLaboratoryTable(Database db) {
-    return db.execute(
-        '''
+    return db.execute('''
   CREATE table $tableLaboritory 
    ( 
     ${LaboritoryFields.laboratoryId} $textType $primaryKey,
@@ -60,44 +59,41 @@ class DBHelper {
   }
 
   Future<void> createShipmentTable(Database db) {
-    return db.execute(
-        '''
+    return db.execute('''
    CREATE table $tableShipment (
-    ${ShipmentFileds.shipmentId} $textType,
+    ${ShipmentFileds.shipmentId} $textType $primaryKey,
     ${ShipmentFileds.clientId} $textType,
-    ${ShipmentFileds.samples} $textType,
-    ${ShipmentFileds.status} $arrayType,
-    ${ShipmentFileds.dateCreated} $dateType,
-    ${ShipmentFileds.dateModified} $dateType,
+    ${ShipmentFileds.samples} $arrayType,
+    ${ShipmentFileds.status} $textType,
+    ${ShipmentFileds.dateCreated} $textType,
+    ${ShipmentFileds.dateModified} $textType,
     $internetStatus INT NOT NULL
    )
   ''');
   }
 
   Future<void> createPatientTable(Database db) {
-    return db.execute(
-        '''
+    return db.execute('''
     CREATE table $tablePatient(
-      ${PatientFields.patient_id} $textType,
+      ${PatientFields.patientId} $textType $primaryKey,
       ${PatientFields.firstname} $textType,
       ${PatientFields.lastname} $textType,
       ${PatientFields.gender} $textType,
       ${PatientFields.dob} $dateType,
       ${PatientFields.client} $textType,
-      ${PatientFields.client_patient_id} $textType,
-      ${PatientFields.cohort_number} $textType,
-      ${PatientFields.created_at} $dateType,
-      ${PatientFields.modified_at} $dateType,
+      ${PatientFields.clientPatientId} $textType,
+      ${PatientFields.cohortNumber} $textType,
+      ${PatientFields.dateCreated} $dateType,
+      ${PatientFields.dateModified} $dateType,
       $internetStatus INT NOT NULL
       )
     ''');
   }
 
   Future<void> createSampleTable(Database db) {
-    return db.execute(
-        '''
+    return db.execute('''
       CREATE table $tableSample (
-       ${SampleTableFields.sample_request_id} $textType,
+       ${SampleTableFields.sample_request_id} $textType $primaryKey,
        ${SampleTableFields.client_sample_id} $textType,
        ${SampleTableFields.patient_id} $textType,
        ${SampleTableFields.lab_id} $textType,
@@ -125,12 +121,19 @@ class DBHelper {
     return await db.insert(table, row);
   }
 
-  Future<List<Map<String, dynamic>>> queryAllRecords(table) async {
+  Future<int> update(dynamic id, String primaryKeyName, String table,
+      Map<String, dynamic> row) async {
     Database db = await instance.db;
-    return await db.rawQuery('SELECT * FROM $table');
+    return await db
+        .update(table, row, where: '$primaryKeyName = ?', whereArgs: [id]);
   }
 
-  void _onUpgrade(Database db, int old_version, int version) async {
+  Future<List<Map<String, dynamic>>> queryAllRecords(table) async {
+    Database db = await instance.db;
+    return await db.query('$table');
+  }
+
+  void _onUpgrade(Database db, int oldVersion, int version) async {
     print("Database  upgrading: ");
   }
 }
