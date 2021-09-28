@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sample_tracking_system_flutter/models/laboritory.dart';
+import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
+import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
 
 import 'home_page.dart';
 
@@ -21,17 +26,55 @@ class _LoginPageState extends State<LoginPage> {
   _LoginData _data = new _LoginData();
   final _formKey = GlobalKey<FormState>();
   bool _isObscure = true;
+  AppInformationDao appInformation = AppInformationDao();
+  LaboratoryDao labsDao = LaboratoryDao();
 
   void _submit() {
     if (_formKey.currentState!.validate()) {
       Navigator.pop(context);
-     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>HomePage()));
+
+      loadImportantInformation();
+      appInformation.saveLoginIndicator();
+
+      Navigator.push(context,
+          MaterialPageRoute(builder: (BuildContext context) => HomePage()));
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('logging in'),
         ),
       );
     }
+  }
+
+  Future<void> loadLabs() async {
+    var response = jsonDecode(await rootBundle.loadString('assets/labs.json'));
+    saveLaboratories(response);
+  }
+
+  Future<void> saveLaboratories(response) async {
+    await appInformation.getLoginIndicator().then((value) {
+      value == null ? insert(response) : update(response);
+    });
+  }
+
+  void insert(response) {
+    for (var laboratory in response) {
+      laboratory as Map<String, dynamic>;
+      labsDao.insertLabAsJson(laboratory);
+    }
+  }
+
+  void update(response) {
+    for (var laboratory in response) {
+      laboratory as Map<String, dynamic>;
+      labsDao.insertLabAsJson(laboratory);
+    }
+  }
+
+  loadImportantInformation() {
+    loadLabs();
+    //loadClientContact()
+    //LoadOtherData();
   }
 
   @override

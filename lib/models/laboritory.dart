@@ -1,5 +1,5 @@
 class Laboratory {
-  String? laboratoryId;
+  String? id;
   String? name;
   String? type;
   String? code;
@@ -9,7 +9,7 @@ class Laboratory {
   String? lastModifiedDate;
 
   Laboratory(
-      {required this.laboratoryId,
+      {required this.id,
       this.name,
       this.type,
       this.code,
@@ -19,7 +19,7 @@ class Laboratory {
       this.lastModifiedDate});
 
   Laboratory.fromJson(Map<String, dynamic> json) {
-    laboratoryId = json['laboratory_id'];
+    id = json['laboratory_id'];
     name = json['name'];
     type = json['type'];
     code = json['code'];
@@ -31,7 +31,7 @@ class Laboratory {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['laboratory_id'] = laboratoryId;
+    data['laboratory_id'] = id;
     data['name'] = name;
     data['type'] = type;
     data['code'] = code;

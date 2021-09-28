@@ -14,9 +14,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
-  int _selectedDestination=0;
+  int _selectedDestination = 0;
 
-  final List<Widget> _tabs = [DashboardTab(), SamplesTab(), ShipmentsTab(), PatientsTab(), SettingsTab()];
+  final List<Widget> _tabs = [
+    DashboardTab(),
+    SamplesTab(),
+    ShipmentsTab(),
+    PatientsTab(),
+    SettingsTab()
+  ];
 
   @override
   Widget build(BuildContext context) {
