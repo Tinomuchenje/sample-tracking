@@ -1,10 +1,16 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
+import 'package:sample_tracking_system_flutter/models/laboritory.dart';
+import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
+import 'package:sample_tracking_system_flutter/providers/patient_provider.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
+import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
 
 class AddorUpdateSampleDialog extends StatefulWidget {
@@ -19,6 +25,7 @@ class AddorUpdateSampleDialog extends StatefulWidget {
 class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
   final _formKey = GlobalKey<FormState>();
   final bool _synced = false;
+  LaboratoryDao laboratoryDao = LaboratoryDao();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +45,7 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
           child: ListView(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.all(defaultPadding),
+                padding: const EdgeInsets.all(defaultPadding / 2),
                 child: Column(
                   children: <Widget>[
                     CustomTextFormField(
@@ -48,27 +55,19 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                         if (value != null) _sample.sampleRequestId = value;
                       },
                     ),
-                    CustomTextFormField(
-                      labelText: "Client Sample ID",
-                      initialValue: _sample.clientSampleId,
-                      onSaved: (value) {
-                        if (value != null) _sample.clientSampleId = value;
-                      },
-                    ),
-                    CustomTextFormField(
-                      labelText: "Patient ID",
-                      initialValue: _sample.patientId,
-                      onSaved: (value) {
-                        if (value != null) _sample.patientId = value;
-                      },
-                    ),
-                    CustomTextFormField(
-                      labelText: "Lab ID",
-                      initialValue: _sample.labId,
-                      onSaved: (value) {
-                        if (value != null) _sample.labId = value;
-                      },
-                    ),
+                    // CustomTextFormField(
+                    //   labelText: "Client Sample ID",
+                    //   initialValue: _sample.clientSampleId,
+                    //   onSaved: (value) {
+                    //     if (value != null) _sample.clientSampleId = value;
+                    //   },
+                    // ),
+                    Consumer<PatientProvider>(
+                        builder: (context, patientProvider, child) {
+                      return _patientsDropdown(
+                          _sample, patientProvider.patients);
+                    }),
+                    _laboratoriesDropdown(_sample),
                     CustomTextFormField(
                       labelText: "Client Id",
                       initialValue: _sample.location,
@@ -83,13 +82,7 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                         if (value != null) _sample.sampleId = value;
                       },
                     ),
-                    CustomTextFormField(
-                      labelText: "Test Types",
-                      initialValue: _sample.testId,
-                      onSaved: (value) {
-                        if (value != null) _sample.testId = value;
-                      },
-                    ),
+                    _testsDropdown(_sample),
                     Visibility(
                       visible: !isNewForm,
                       child: CustomTextFormField(
@@ -148,6 +141,7 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                           _formKey.currentState!.save();
                           _sample.status = "Created";
                           _sample.synced = false;
+                          _sample.clientSampleId = "SFDFASDS";
 
                           _sample.dateSynced =
                               _sample.dateCollected = DateTime.now().toString();
@@ -167,6 +161,90 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
             ],
           ),
         ));
+  }
+
+  _patientsDropdown(Sample _sample, List<Patient> patients) {
+    if (patients.isEmpty) return const Text("No patients available");
+
+    var patientsList = patients.map((Patient patient) {
+      return "${patient.firstname} ${patient.lastname}";
+    }).toList();
+
+    var _selected;
+    return Padding(
+      padding: const EdgeInsets.all(defaultPadding / 2),
+      child: DropdownSearch<String>(
+        mode: Mode.DIALOG,
+        showSearchBox: true,
+        showSelectedItems: true,
+        items: patientsList,
+        hint: "Select Patient",
+        onChanged: print,
+        onSaved: (value) {
+          if (value != null) _sample.patientId = value.toString();
+        },
+        // selectedItem: _selected
+      ),
+    );
+  }
+
+  _testsDropdown(Sample _sample) {
+    var _test;
+    var testMenus = [
+      const DropdownMenuItem<String>(
+        value: "Covid",
+        child: Text("Covid"),
+      ),
+      const DropdownMenuItem<String>(
+        value: "Tb",
+        child: Text("Tb"),
+      )
+    ];
+
+    return CustomFormDropdown(
+      value: _test ?? _sample.labId,
+      hint: const Text("Select Test"),
+      items: testMenus,
+      onSaved: (value) {
+        _sample.labId = value.toString();
+      },
+      onChanged: (value) {
+        _test = value as String;
+      },
+    );
+  }
+
+  _laboratoriesDropdown(Sample _sample) {
+    Laboratory? _laboratory;
+    return FutureBuilder(
+        future: laboratoryDao.getAllLabs(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const Text("Loading Labs");
+          }
+
+          List<Laboratory>? labs = snapshot.data as List<Laboratory>;
+          List<DropdownMenuItem<String>> labMenus = [];
+
+          labMenus = labs.map((Laboratory laboratory) {
+            return DropdownMenuItem<String>(
+              value: laboratory.id,
+              child: Text(laboratory.name ?? "Name unavailable"),
+            );
+          }).toList();
+
+          return CustomFormDropdown(
+            value: _laboratory ?? _sample.labId,
+            hint: const Text("Lab"),
+            items: labMenus,
+            onSaved: (value) {
+              _sample.labId = value.toString();
+            },
+            onChanged: (value) {
+              _laboratory = value as Laboratory;
+            },
+          );
+        });
   }
 
   void addNewSample(Sample _sample, BuildContext context) {

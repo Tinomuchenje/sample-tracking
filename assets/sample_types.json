@@ -1,0 +1,200 @@
+[
+    {
+        "sample_type_id": "02095a5d-3e8f-4235-a546-4440c11b8977",
+        "name": "Nasal swab",
+        "prefix": "NS",
+        "created_by": "admin",
+        "created_date": "2021-08-14 15:07:33.44017",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-08-14 15:07:33.44017"
+    },
+    {
+        "sample_type_id": "1185c6ac-90fa-4b85-8478-b08b1f3e002b",
+        "name": "Dried Blood Spot",
+        "prefix": "DBS",
+        "created_by": "admin",
+        "created_date": "2021-07-08 16:26:59.056379",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-07-08 16:26:59.056379"
+    },
+    {
+        "sample_type_id": "134b6837-955c-4e47-ae5c-c086d52ffcb0",
+        "name": "Nasopharyngeal / Oropharyngeal swab",
+        "prefix": "NOS",
+        "created_by": "admin",
+        "created_date": "2021-07-30 12:22:18.086974",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-07-30 12:22:18.086974"
+    },
+    {
+        "sample_type_id": "13e7fb37-f309-4cb9-9454-40b51a0fa6d2",
+        "name": "Aspirate",
+        "prefix": "AS",
+        "created_by": "admin",
+        "created_date": "2021-07-20 08:05:38.332371",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-07-20 08:05:38.332371"
+    },
+    {
+        "sample_type_id": "17181482-1346-4d0f-88e7-628da58fe1f9",
+        "name": "Red blood cells",
+        "prefix": "RBC",
+        "created_by": "admin",
+        "created_date": "2021-08-14 00:16:55.132996",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-08-14 00:16:55.132996"
+    },
+    {
+        "sample_type_id": "5153fb5f-0acd-4545-9470-bcd13746f08e",
+        "name": "Cervical swab",
+        "prefix": "CS",
+        "created_by": "admin",
+        "created_date": "2021-07-15 19:37:13.272183",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-07-15 19:37:13.272183"
+    },
+    {
+        "sample_type_id": "56fd2b72-ae2f-4139-bd0a-1ad57e3c8865",
+        "name": "Nasopharyngeal/Oral swab",
+        "prefix": "SW",
+        "created_by": "admin",
+        "created_date": "2021-08-06 22:45:49.535693",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-08-06 22:45:49.535693"
+    },
+    {
+        "sample_type_id": "671e7870-9a86-49b7-8477-1d26fe6b39cd",
+        "name": "Blood plasma",
+        "prefix": "BP",
+        "created_by": "admin",
+        "created_date": "2021-07-12 15:09:14.363211",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-07-12 15:09:14.363211"
+    },
+    {
+        "sample_type_id": "8dde2399-a698-4fb8-bed3-b58c933b6906",
+        "name": "Nasopharyngeal",
+        "prefix": "NOS",
+        "created_by": "admin",
+        "created_date": "2021-08-11 15:22:11.159893",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-08-11 15:22:11.159893"
+    },
+    {
+        "sample_type_id": "9fc771b4-9cc4-4451-9c2f-e0ae1e086d8d",
+        "name": "Nasopharyngeal and Oropharyngeal swab",
+        "prefix": "NSO",
+        "created_by": "admin",
+        "created_date": "2021-07-15 12:37:04.367743",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-07-15 12:37:04.367743"
+    },
+    {
+        "sample_type_id": "a41dbd32-f05c-4fdf-99da-b1ecd1f33df5",
+        "name": "Blood serum",
+        "prefix": "BS",
+        "created_by": "admin",
+        "created_date": "2021-08-11 16:43:52.425465",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-08-11 16:43:52.425465"
+    },
+    {
+        "sample_type_id": "b0a37fe4-dbf0-4605-b0a5-418e12398757",
+        "name": "Bocal swab",
+        "prefix": "OS",
+        "created_by": "admin",
+        "created_date": "2021-08-17 23:03:46.214453",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-08-17 23:03:46.214453"
+    },
+    {
+        "sample_type_id": "b2387520-2ee7-49f8-a1e6-c31fadc6cdbe",
+        "name": "Throat Swab",
+        "prefix": "TS",
+        "created_by": "admin",
+        "created_date": "2021-08-13 12:41:02.873962",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-08-13 12:41:02.873962"
+    },
+    {
+        "sample_type_id": "c5663e24-c037-474e-9715-822edb50096f",
+        "name": "Fluid",
+        "prefix": "FL",
+        "created_by": "admin",
+        "created_date": "2021-08-03 10:08:18.6762",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-08-03 10:08:18.6762"
+    },
+    {
+        "sample_type_id": "cbc0d28f-9531-464c-a073-505107a0512f",
+        "name": "Whole blood",
+        "prefix": "WB",
+        "created_by": "admin",
+        "created_date": "2021-07-13 00:22:42.840441",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-07-13 00:22:42.840441"
+    },
+    {
+        "sample_type_id": "d29b726b-dd87-4858-b5ca-26cb3e07b35a",
+        "name": "DBS",
+        "prefix": "DBS",
+        "created_by": "admin",
+        "created_date": "2021-07-18 12:11:35.732773",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-07-18 12:11:35.732773"
+    },
+    {
+        "sample_type_id": "d5b71dfa-0c8b-4c33-a711-627e5874c0ad",
+        "name": "Nasopharyngeal swab",
+        "prefix": "NS",
+        "created_by": "admin",
+        "created_date": "2021-07-12 13:27:45.887577",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-07-12 13:27:45.887577"
+    },
+    {
+        "sample_type_id": "d8942574-d1b9-473b-a9f4-154c302beef5",
+        "name": "Sputum",
+        "prefix": "SP",
+        "created_by": "admin",
+        "created_date": "2021-07-12 15:51:32.071825",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-07-12 15:51:32.071825"
+    },
+    {
+        "sample_type_id": "f7d29c79-89d4-435e-9808-8ba9d6f6e8d7",
+        "name": "Biopsy",
+        "prefix": "BI",
+        "created_by": "admin",
+        "created_date": "2021-07-23 11:50:47.236505",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-07-23 11:50:47.236505"
+    },
+    {
+        "sample_type_id": "f83b55d1-0638-46d6-9beb-c25b4e559dc5",
+        "name": "Oropharyngeal swab",
+        "prefix": "NS",
+        "created_by": "admin",
+        "created_date": "2021-07-08 08:53:00.555366",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-07-08 08:53:00.555366"
+    },
+    {
+        "sample_type_id": "fb7d1ae0-6357-4a66-a3e2-ab45bc44a11f",
+        "name": "csf",
+        "prefix": "csf",
+        "created_by": "admin",
+        "created_date": "2021-07-13 00:35:48.420092",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-07-13 00:35:48.420092"
+    },
+    {
+        "sample_type_id": "fdec9b98-c021-4977-8b8a-91a29a85daa0",
+        "name": "Nasopharyngeal / Oropharyngeal swab",
+        "prefix": "NOS",
+        "created_by": "admin",
+        "created_date": "2021-07-12 13:29:42.515459",
+        "last_modified_by": "admin",
+        "last_modified_date": "2021-07-12 13:29:42.515459"
+    }
+]

@@ -26,7 +26,7 @@ class AddorUpdateShipmentDialog extends StatefulWidget {
 class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   final _formKey = GlobalKey<FormState>();
   Client? _value;
-  List<Client> _clients = [];
+  final List<Client> _clients = [];
   List _selectedSamples = [];
 
   Future<void> readJson() async {
