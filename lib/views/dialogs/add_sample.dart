@@ -48,13 +48,13 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                 padding: const EdgeInsets.all(defaultPadding / 2),
                 child: Column(
                   children: <Widget>[
-                    CustomTextFormField(
-                      labelText: "Sample Request ID",
-                      initialValue: _sample.sampleRequestId,
-                      onSaved: (value) {
-                        if (value != null) _sample.sampleRequestId = value;
-                      },
-                    ),
+                    // CustomTextFormField(
+                    //   labelText: "Sample Request ID",
+                    //   initialValue: _sample.sampleRequestId,
+                    //   onSaved: (value) {
+                    //     if (value != null) _sample.sampleRequestId = value;
+                    //   },
+                    // ),
                     // CustomTextFormField(
                     //   labelText: "Client Sample ID",
                     //   initialValue: _sample.clientSampleId,
@@ -67,14 +67,14 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                       return _patientsDropdown(
                           _sample, patientProvider.patients);
                     }),
-                    _laboratoriesDropdown(_sample),
-                    CustomTextFormField(
-                      labelText: "Client Id",
-                      initialValue: _sample.location,
-                      onSaved: (value) {
-                        if (value != null) _sample.location = value;
-                      },
-                    ),
+                    //_laboratoriesDropdown(_sample),
+                    // CustomTextFormField(
+                    //   labelText: "Client Id",
+                    //   initialValue: _sample.location,
+                    //   onSaved: (value) {
+                    //     if (value != null) _sample.location = value;
+                    //   },
+                    // ),
                     CustomTextFormField(
                       labelText: "Sample Types",
                       initialValue: _sample.sampleId,
@@ -164,7 +164,11 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
   }
 
   _patientsDropdown(Sample _sample, List<Patient> patients) {
-    if (patients.isEmpty) return const Text("No patients available");
+    //Add button to add patient pop up
+    if (patients.isEmpty) {
+      return CustomElevatedButton(
+          labelText: "Add Patient", onPressed: () => {});
+    }
 
     var patientsList = patients.map((Patient patient) {
       return "${patient.firstname} ${patient.lastname}";

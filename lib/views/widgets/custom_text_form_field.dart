@@ -7,7 +7,7 @@ class CustomTextFormField extends StatefulWidget {
   final Function(String?)? onSaved;
   final String? initialValue;
   final bool? enabled;
-  TextEditingController? controller;
+  final TextEditingController? controller;
 
   CustomTextFormField(
       {this.hintText = "",
