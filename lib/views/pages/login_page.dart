@@ -4,14 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sample_tracking_system_flutter/models/laboritory.dart';
+import 'package:sample_tracking_system_flutter/models/user_type_enum.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
+import 'package:sample_tracking_system_flutter/views/pages/rider/dashboard.dart';
 
 import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  UserType userType;
+  LoginPage({Key? key, required this.userType}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -36,13 +38,28 @@ class _LoginPageState extends State<LoginPage> {
       loadImportantInformation();
       appInformation.saveLoginIndicator();
 
-      Navigator.push(context,
-          MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+      navigateToHome();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('logging in'),
         ),
       );
+    }
+  }
+
+  void navigateToHome() {
+    if (widget.userType == UserType.client) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => const HomePage()));
+    }
+
+    if (widget.userType == UserType.rider) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => const Dashboard()));
     }
   }
 

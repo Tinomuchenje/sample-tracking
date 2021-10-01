@@ -7,6 +7,7 @@ import 'package:sample_tracking_system_flutter/views/pages/login_page.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/patient_provider.dart';
+import 'views/pages/user_options.dart';
 
 void main() {
   runApp(
@@ -38,8 +39,8 @@ class MyApp extends StatelessWidget {
               DateTime.now().difference(_lastQuitTime!).inSeconds > 1) {
             print('Press again Back Button exit');
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: const Text('Press again Back Button exit'),
+              const SnackBar(
+                content: Text('Press again Back Button exit'),
               ),
             );
             _lastQuitTime = DateTime.now();
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
             return true;
           }
         },
-        child: const LoginPage(),
+        child: const UserOptions(),
       ),
     );
   }
