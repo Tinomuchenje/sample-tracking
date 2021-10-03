@@ -1,7 +1,7 @@
 class Shipment {
   String? id;
   String? clientId;
-  List<String> samples;
+  late List<String> samples;
   String? status;
   String? dateCreated;
   String? dateModified;
@@ -35,6 +35,34 @@ class Shipment {
       'destination': destination,
       'clusterClientId': clusterClientId
     };
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['clientId'] = clientId;
+    data['samples'] = samples;
+    data['status'] = status;
+    data['dateCreated'] = dateCreated;
+    data['dateModified'] = dateModified;
+    data['riderId'] = riderId;
+    data['riderName'] = riderName;
+    data['destination'] = destination;
+    data['clusterClientId'] = clusterClientId;
+    return data;
+  }
+
+  Shipment.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    clientId = json['clientId'];
+    samples = json['samples'].cast<String>();
+    status = json['status'];
+    dateCreated = json['dateCreated'];
+    dateModified = json['dateModified'];
+    riderId = json['riderId'];
+    riderName = json['riderName'];
+    destination = json['destination'];
+    clusterClientId = json['clusterClientId'];
   }
 
   @override

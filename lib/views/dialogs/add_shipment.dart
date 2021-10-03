@@ -59,7 +59,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          title: Text('$_appBarText Shipment'),
+          title: Text('$_appBarText Shipment Id'),
         ),
         body: Form(
           key: _formKey,
@@ -174,11 +174,11 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
         ),
         onConfirm: (results) {
           _selectedSamples = results;
-          _shipment.samples = [..._selectedSamples];
+          // _shipment.samples = [..._selectedSamples];
         },
         onSaved: (value) {
           _selectedSamples = value!;
-          _shipment.samples = [..._selectedSamples];
+          //  _shipment.samples = [..._selectedSamples];
         },
       ),
     );

@@ -35,8 +35,8 @@ class LaboratoryDao {
     final recordSnapshot = await _laboratoryTable.find(await _database);
 
     return recordSnapshot.map((snapshot) {
-      final books = Laboratory.fromJson(snapshot.value);
-      return books;
+      final labs = Laboratory.fromJson(snapshot.value);
+      return labs;
     }).toList();
   }
 }

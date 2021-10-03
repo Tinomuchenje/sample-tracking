@@ -16,11 +16,14 @@ class _CustomElevatedButtonState extends State<CustomElevatedButton> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(defaultPadding),
-      child: ElevatedButton(
-          style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all(Size(300, 45))),
-          onPressed: widget.onPressed,
-          child: Text(widget.labelText)),
+      child: SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
+            style: ButtonStyle(
+                minimumSize: MaterialStateProperty.all(Size(300, 45))),
+            onPressed: widget.onPressed,
+            child: Text(widget.labelText)),
+      ),
     );
   }
 }

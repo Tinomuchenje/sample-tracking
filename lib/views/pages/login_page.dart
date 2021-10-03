@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
         child: ListView(
           padding: EdgeInsets.fromLTRB(0, 150, 0, 0),
           children: <Widget>[
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(15),
               child: Text(
                 "ESTS MOHCC APP",
@@ -115,9 +115,9 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               child: TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Username",
                   border: OutlineInputBorder(),
                 ),
@@ -133,13 +133,13 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               child: TextFormField(
                 obscureText: _isObscure,
                 keyboardType: TextInputType.visiblePassword,
                 decoration: InputDecoration(
                   labelText: "Password",
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   suffixIcon: IconButton(
                     icon: Icon(
                         _isObscure ? Icons.visibility : Icons.visibility_off),

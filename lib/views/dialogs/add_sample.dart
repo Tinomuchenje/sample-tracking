@@ -13,6 +13,8 @@ import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_but
 import 'package:sample_tracking_system_flutter/views/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
 
+import 'add_patient.dart';
+
 class AddorUpdateSampleDialog extends StatefulWidget {
   Sample? sampleData;
   AddorUpdateSampleDialog({Key? key, this.sampleData}) : super(key: key);
@@ -167,7 +169,14 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
     //Add button to add patient pop up
     if (patients.isEmpty) {
       return CustomElevatedButton(
-          labelText: "Add Patient", onPressed: () => {});
+          labelText: "Add Patient",
+          onPressed: () => {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            AddorUpdatePatientDialog()))
+              });
     }
 
     var patientsList = patients.map((Patient patient) {
