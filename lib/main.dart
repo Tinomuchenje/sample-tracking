@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
+import 'package:sample_tracking_system_flutter/providers/user_provider.dart';
 import 'package:sample_tracking_system_flutter/utils/sqlite_db.dart';
-import 'package:sample_tracking_system_flutter/views/pages/login_page.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/patient_provider.dart';
@@ -15,7 +15,8 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => PatientProvider()),
         ChangeNotifierProvider(create: (context) => SamplesProvider()),
-        ChangeNotifierProvider(create: (context) => ShipmentProvider())
+        ChangeNotifierProvider(create: (context) => ShipmentProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider())
       ],
       child: const MyApp(),
     ),

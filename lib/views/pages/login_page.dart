@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/user_type_enum.dart';
+import 'package:sample_tracking_system_flutter/providers/user_provider.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
 import 'package:sample_tracking_system_flutter/views/pages/rider/dashboard.dart';
@@ -48,6 +50,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void navigateToHome() {
+    Provider.of<UserProvider>(context, listen: false).currentUser =
+        widget.userType;
+
     if (widget.userType == UserType.client) {
       Navigator.push(
           context,

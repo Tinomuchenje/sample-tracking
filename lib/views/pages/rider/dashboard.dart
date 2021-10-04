@@ -76,54 +76,58 @@ List<Widget> _newShipments() {
   return shipments
       .map((e) => Padding(
             padding: const EdgeInsets.all(12.0),
-            child: ExpansionTile(
-                title: Row(
-                  children: [
-                    const Text("Destination : "),
-                    Text(e.destination ?? "Destination unspecified"),
-                  ],
-                ),
-                subtitle: Column(
-                  children: [
-                    Row(
+            child: Expanded(
+              child: ExpansionTile(
+                  title: Row(
+                    children: [
+                      const Text("Destination : "),
+                      Text(e.destination ?? "Destination unspecified"),
+                    ],
+                  ),
+                  subtitle: SizedBox(
+                    height: 60.0,
+                    child: Column(
                       children: [
-                        const Text("Client : "),
-                        Text(e.clientId ?? "X"),
+                        Row(
+                          children: [
+                            const Text("Client : "),
+                            Text(e.clientId ?? "X"),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text("Date Created-"),
+                            const Text("2021-10-04"),
+                          ],
+                        ),
+                        Row(
+                          children: const [
+                            Text("Status"),
+                            Text("Ready for Shipment"),
+                          ],
+                        )
                       ],
                     ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          const Text("Date Created: "),
-                          Text(e.dateCreated ?? "X"),
-                        ],
-                      ),
-                    ),
-                    Row(
-                      children: const [
-                        Text("Status"),
-                        Text("Ready for Shipment"),
-                      ],
+                  ),
+                  leading: const Icon(
+                    Icons.folder,
+                    size: 40.0,
+                    color: Colors.blue,
+                  ),
+                  //trailing: Icon(
+                  //  Icons.sync,
+                  // color: Colors.green,
+                  // ),
+                  children: [
+                    const Text("Samples"),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          onPressed: () {},
+                          child: const Text("Accept Shipment")),
                     )
-                  ],
-                ),
-                leading: const Icon(
-                  Icons.folder,
-                  size: 300.0,
-                  color: Colors.blue,
-                ),
-                //trailing: Icon(
-                //  Icons.sync,
-                // color: Colors.green,
-                // ),
-                children: [
-                  const Text("Samples"),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                        onPressed: () {}, child: const Text("Start Shipping")),
-                  )
-                ]),
+                  ]),
+            ),
           ))
       .toList();
 }

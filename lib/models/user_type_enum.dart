@@ -1,1 +1,1 @@
-enum UserType { rider, client }
+enum UserType { rider, client, cluster }

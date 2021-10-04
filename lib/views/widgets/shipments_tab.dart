@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
+import 'package:sample_tracking_system_flutter/models/user_type_enum.dart';
 import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
+import 'package:sample_tracking_system_flutter/providers/user_provider.dart';
 import 'package:sample_tracking_system_flutter/views/dialogs/add_shipment.dart';
 
 class ShipmentsTab extends StatefulWidget {
@@ -13,9 +15,13 @@ class ShipmentsTab extends StatefulWidget {
 }
 
 class _ShipmentsTabState extends State<ShipmentsTab> {
+  var currentUser;
+
   @override
   void didChangeDependencies() {
+    currentUser = Provider.of<UserProvider>(context, listen: false).currentUser;
     getSamples();
+
     super.didChangeDependencies();
   }
 
@@ -30,12 +36,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
       length: 2,
       child: Scaffold(
           appBar: AppBar(
-            bottom: const TabBar(
-              tabs: [
-                Tab(text: "Local"),
-                Tab(text: "Awaiting collection"),
-              ],
-            ),
+            bottom: TabBar(tabs: _renderTabs()),
             leading: IconButton(
               icon: const Icon(Icons.add),
               onPressed: () {
@@ -62,6 +63,20 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
             )
           ])),
     );
+  }
+
+  List<Widget> _renderTabs() {
+    if (currentUser == UserType.cluster) {
+      return const [
+        Tab(text: "Local"),
+        Tab(text: "Awaiting collection"),
+      ];
+    } else {
+      return const [
+        Tab(text: "Local"),
+        Tab(text: "Awaiting collection"),
+      ];
+    }
   }
 
   ListView _localShipments(List<Shipment> shipment) {
