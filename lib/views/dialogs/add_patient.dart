@@ -78,13 +78,13 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                           if (value != null) _patient.dob = value;
                         },
                       ),
-                      CustomTextFormField(
-                        labelText: "Client",
-                        initialValue: _patient.client,
-                        onSaved: (value) {
-                          if (value != null) _patient.client = value;
-                        },
-                      ),
+                      // CustomTextFormField(
+                      //   labelText: "Client",
+                      //   initialValue: _patient.client,
+                      //   onSaved: (value) {
+                      //     if (value != null) _patient.client = value;
+                      //   },
+                      // ),
                       CustomTextFormField(
                         labelText: "Cohort Number",
                         initialValue: _patient.cohortNumber,

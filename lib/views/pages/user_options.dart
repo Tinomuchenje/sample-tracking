@@ -25,6 +25,7 @@ class UserOptions extends StatelessWidget {
                           fontStyle: FontStyle.normal)),
                 ),
               ),
+              const SizedBox(height: 20.0),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(

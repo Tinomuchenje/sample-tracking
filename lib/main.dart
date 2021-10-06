@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/providers/user_provider.dart';
+import 'package:sample_tracking_system_flutter/themes/style.dart';
 import 'package:sample_tracking_system_flutter/utils/sqlite_db.dart';
 import 'package:provider/provider.dart';
 
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sample Tracking App',
+      theme: appTheme(context),
       home: WillPopScope(
         onWillPop: () async {
           print('Pressed');

@@ -5,6 +5,8 @@ import 'package:sample_tracking_system_flutter/views/widgets/samples_tab.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/settings_tab.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/shipments_tab.dart';
 
+import 'facility_dashboard.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -17,11 +19,10 @@ class _HomePageState extends State<HomePage> {
   int _selectedDestination = 0;
 
   final List<Widget> _tabs = [
-    DashboardTab(),
-    SamplesTab(),
-    ShipmentsTab(),
-    PatientsTab(),
-    SettingsTab()
+    const FacilityDashboard(),
+    const PatientsTab(),
+    const SamplesTab(),
+    const ShipmentsTab()
   ];
 
   @override
@@ -101,21 +102,21 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.apps),
           ),
           BottomNavigationBarItem(
+            label: "Patients",
+            icon: Icon(Icons.personal_injury),
+          ),
+          BottomNavigationBarItem(
             label: "Samples",
             icon: Icon(Icons.biotech),
           ),
           BottomNavigationBarItem(
             label: "Shipments",
             icon: Icon(Icons.moped),
-          ),
-          BottomNavigationBarItem(
-            label: "Patients",
-            icon: Icon(Icons.personal_injury),
-          ),
-          BottomNavigationBarItem(
-            label: "Settings",
-            icon: Icon(Icons.settings),
-          ),
+          )
+          // BottomNavigationBarItem(
+          //   label: "Settings",
+          //   icon: Icon(Icons.settings),
+          // ),
         ],
       ),
     );
