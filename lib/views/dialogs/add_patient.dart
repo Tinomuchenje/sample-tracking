@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/providers/patient_provider.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
+
+enum Gender { male, female }
 
 class AddorUpdatePatientDialog extends StatefulWidget {
   Patient? patientData;
@@ -21,6 +22,7 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
   int _value = 1;
   var dateController = TextEditingController();
   DateTime selectedDate = DateTime.now();
+  Gender? _character = Gender.male;
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime now = DateTime.now();
@@ -45,9 +47,6 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
 
     String _appBarText = isNewForm ? 'Add' : 'Update';
     String _saveButtonText = isNewForm ? 'Save' : 'Update';
-    bool _value = false;
-    int val = -1;
-    String? _selectedGender = 'male';
 
     return Scaffold(
         appBar: AppBar(
@@ -97,32 +96,30 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                           controller: dateController,
                         ),
                       ),
-                      Row(
-                        children: [
+                      Column(
+                        children: <Widget>[
                           ListTile(
-                            title: const Text("Male"),
-                            leading: Radio(
-                              value: "male",
-                              groupValue: _selectedGender,
-                              onChanged: (String? value) {
+                            title: const Text('Male'),
+                            leading: Radio<Gender>(
+                              value: Gender.male,
+                              groupValue: _character,
+                              onChanged: (Gender? value) {
                                 setState(() {
-                                  _selectedGender = value;
+                                  _character = value;
                                 });
                               },
-                              activeColor: Colors.green,
                             ),
                           ),
                           ListTile(
-                            title: const Text("Female"),
-                            leading: Radio(
-                              value: "female",
-                              groupValue: _selectedGender,
-                              onChanged: (String? value) {
+                            title: const Text('Female'),
+                            leading: Radio<Gender>(
+                              value: Gender.female,
+                              groupValue: _character,
+                              onChanged: (Gender? value) {
                                 setState(() {
-                                  _selectedGender = value;
+                                  _character = value;
                                 });
                               },
-                              activeColor: Colors.green,
                             ),
                           ),
                         ],
