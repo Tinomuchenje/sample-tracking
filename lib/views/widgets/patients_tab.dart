@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/providers/patient_provider.dart';
-import 'package:sample_tracking_system_flutter/themes/style.dart';
 import 'package:sample_tracking_system_flutter/views/dialogs/add_patient.dart';
 import 'package:sample_tracking_system_flutter/views/dialogs/add_sample.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
@@ -156,7 +155,7 @@ class DataSearch extends SearchDelegate<Patient> {
   }
 
   ListView _buildSearchResultTile(List<Patient> searchResultsList) {
-    var color = const Color(0xFFF72670);
+    var color = Colors.blue;
     return ListView.builder(
         itemBuilder: (context, index) => Flexible(
               child: Padding(
@@ -168,8 +167,8 @@ class DataSearch extends SearchDelegate<Patient> {
                     textColor: Colors.grey,
                     iconColor: color,
                     collapsedIconColor: color,
-                    leading: const Icon(Icons.person,
-                        color: Color(0xFFF72670), size: 40),
+                    leading:
+                        const Icon(Icons.person, color: Colors.blue, size: 40),
                     title: SizedBox(
                       height: 30,
                       child: Row(

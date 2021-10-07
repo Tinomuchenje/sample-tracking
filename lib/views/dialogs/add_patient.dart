@@ -22,7 +22,7 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
   int _value = 1;
   var dateController = TextEditingController();
   DateTime selectedDate = DateTime.now();
-  Gender? _character = Gender.male;
+  String? _character = "male";
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime now = DateTime.now();
@@ -100,22 +100,22 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                         children: <Widget>[
                           ListTile(
                             title: const Text('Male'),
-                            leading: Radio<Gender>(
-                              value: Gender.male,
+                            leading: Radio(
+                              value: "male",
                               groupValue: _character,
-                              onChanged: (Gender? value) {
-                                setState(() {
-                                  _character = value;
-                                });
+                              onChanged: (String? value) {
+                                 setState(() {
+                                   _character = value;
+                                 });
                               },
                             ),
                           ),
                           ListTile(
                             title: const Text('Female'),
-                            leading: Radio<Gender>(
-                              value: Gender.female,
+                            leading: Radio(
+                              value: "female",
                               groupValue: _character,
-                              onChanged: (Gender? value) {
+                              onChanged: (String? value) {
                                 setState(() {
                                   _character = value;
                                 });

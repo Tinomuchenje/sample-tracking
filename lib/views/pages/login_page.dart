@@ -10,6 +10,7 @@ import 'package:sample_tracking_system_flutter/providers/user_provider.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
 import 'package:sample_tracking_system_flutter/views/pages/rider/dashboard.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
 
 import 'home_page.dart';
 
@@ -168,14 +169,36 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Padding(
               padding: const EdgeInsets.all(16),
-              child: ElevatedButton(
-                style: ButtonStyle(
-                    minimumSize: MaterialStateProperty.all(Size(300, 45))),
-                onPressed: () {
-                  // Validate returns true if the form is valid, or false otherwise.
-                  _submit();
-                },
-                child: const Text('Submit'),
+              child: Flexible(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: 50,
+                      width: 150,
+                      child: CustomElevatedButton(
+                        press: () {
+                          // Validate returns true if the form is valid, or false otherwise.
+                          // _submit();
+                        },
+                        displayText: 'Request Access',
+                        fillcolor: false,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: 150,
+                      child: CustomElevatedButton(
+                        press: () {
+                          // Validate returns true if the form is valid, or false otherwise.
+                          _submit();
+                        },
+                        displayText: 'LogIn',
+                        fillcolor: true,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
