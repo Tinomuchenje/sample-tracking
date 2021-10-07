@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
 
 class GridDashBoard extends StatefulWidget {
   GridDashBoard({Key? key}) : super(key: key);
@@ -38,47 +39,35 @@ class _GridDashBoardState extends State<GridDashBoard> {
 
   Widget buildDashboardItem(
       {required String title, int count = 0, required IconData icon}) {
-    return Card(
-      elevation: 20,
-      //shadowColor: ,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          // gradient: const LinearGradient(
-          //   colors: [Colors.greenAccent],
-          // ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 25.0),
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text(title,
-                    style: GoogleFonts.openSans(
-                        textStyle: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w600)))
-              ]),
-            ),
-            const SizedBox(height: 12),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-              Icon(
-                icon,
-                size: 45,
-              ),
-              Text(count.toString(),
+    return CustomCard(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 25.0),
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(title,
                   style: GoogleFonts.openSans(
                       textStyle: const TextStyle(
                           color: Colors.grey,
-                          fontSize: 45.0,
-                          fontWeight: FontWeight.bold)))
-            ])
-          ],
-        ),
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600)))
+            ]),
+          ),
+          const SizedBox(height: 12),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            Icon(
+              icon,
+              size: 45,
+            ),
+            Text(count.toString(),
+                style: GoogleFonts.openSans(
+                    textStyle: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 45.0,
+                        fontWeight: FontWeight.bold)))
+          ])
+        ],
       ),
     );
   }

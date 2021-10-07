@@ -1,29 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:sample_tracking_system_flutter/consts/constants.dart';
+import 'package:flutter/widgets.dart';
 
-class CustomElevatedButton extends StatefulWidget {
-  final String labelText;
-  final Function()? onPressed;
+class CustomElevatedButton extends StatelessWidget {
+  final String displayText;
+  final bool fillcolor;
+  final void Function()? press;
+  static const circularRadius = 80.0;
 
-  CustomElevatedButton({required this.labelText, this.onPressed});
+  CustomElevatedButton(
+      {required this.displayText,
+      required this.fillcolor,
+      required this.press});
 
-  @override
-  _CustomElevatedButtonState createState() => _CustomElevatedButtonState();
-}
-
-class _CustomElevatedButtonState extends State<CustomElevatedButton> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(defaultPadding),
-      child: SizedBox(
-        width: double.infinity,
-        child: ElevatedButton(
-            style: ButtonStyle(
-                minimumSize: MaterialStateProperty.all(Size(300, 45))),
-            onPressed: widget.onPressed,
-            child: Text(widget.labelText)),
+    return TextButton(
+      style: TextButton.styleFrom(
+          primary: fillcolor ? Colors.white : Theme.of(context).primaryColor,
+          backgroundColor:
+              fillcolor ? Theme.of(context).primaryColor : Colors.white,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(circularRadius),
+              side: BorderSide(color: Theme.of(context).primaryColor))),
+      child: Text(
+        displayText,
+        style: TextStyle(
+          color: fillcolor ? Colors.white : Theme.of(context).primaryColor,
+        ),
       ),
+      onPressed: press,
     );
   }
 }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/dashboard_tab.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/patients_tab.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/samples_tab.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/settings_tab.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/shipments_tab.dart';
 
 import 'facility_dashboard.dart';
@@ -42,7 +40,7 @@ class _HomePageState extends State<HomePage> {
                 style: textTheme.headline6,
               ),
             ),
-            Divider(
+            const Divider(
               height: 1,
               thickness: 1,
             ),

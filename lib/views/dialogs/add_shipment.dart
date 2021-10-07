@@ -117,8 +117,9 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                           initialValue: _shipment.dateModified),
                     ),
                     CustomElevatedButton(
-                      labelText: _saveButtonText,
-                      onPressed: () {
+                      displayText: _saveButtonText,
+                      fillcolor: true,
+                      press: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
                           _shipment.status = "Created";

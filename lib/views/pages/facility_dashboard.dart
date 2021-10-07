@@ -13,7 +13,6 @@ class _FacilityDashboardState extends State<FacilityDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Colors.black26,
       body: Column(children: [
         const SizedBox(height: 60.0),
         Padding(

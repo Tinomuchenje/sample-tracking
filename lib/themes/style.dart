@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 
-ThemeData appTheme(BuildContext context) {
+ThemeData appTheme() {
+  const purple = Color(0xFFF72670);
   return ThemeData(
-      primaryColor: Colors.grey,
+      primaryColor: purple,
       shadowColor: Colors.grey,
-      textTheme: Theme.of(context).textTheme.apply(
-            bodyColor: Colors.grey,
-            displayColor: Colors.grey,
-          ),
       appBarTheme: const AppBarTheme(backgroundColor: Colors.grey));
 }

@@ -16,6 +16,10 @@ class PatientProvider with ChangeNotifier {
   void add(Patient? patient) {
     if (patient == null) return;
 
+    patient.client = "admin";
+    patient.clientPatientId = "asdfj";
+    patient.dateCreated = patient.dateModified = DateTime.now().toString();
+
     _patients.add(patient);
     addToLocalDatabase(patient);
     notifyListeners();

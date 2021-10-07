@@ -137,8 +137,9 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                           initialValue: "Admin"),
                     ),
                     CustomElevatedButton(
-                      labelText: "$_saveButtonText Sample",
-                      onPressed: () {
+                      displayText: "$_saveButtonText Sample",
+                      fillcolor: true,
+                      press: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
                           _sample.status = "Created";
@@ -169,8 +170,9 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
     //Add button to add patient pop up
     if (patients.isEmpty) {
       return CustomElevatedButton(
-          labelText: "Add Patient",
-          onPressed: () => {
+          displayText: "Add Patient",
+          fillcolor: true,
+          press: () => {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
