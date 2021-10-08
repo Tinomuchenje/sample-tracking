@@ -42,7 +42,7 @@ class _PatientsTabState extends State<PatientsTab> {
       ]),
       body:
           Consumer<PatientProvider>(builder: (context, patientProvider, child) {
-        return Container();
+        return PatientSearch()._buildSearchResultTile(patientProvider.patients);
       }),
     );
   }
