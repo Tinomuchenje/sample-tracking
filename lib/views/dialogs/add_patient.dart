@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/providers/patient_provider.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_date_form_field.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
 
@@ -98,21 +99,12 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                           if (value != null) _patient.phoneNumber = value;
                         },
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          // initialValue: _patient.dob ?? "",
-                          decoration: const InputDecoration(
-                            // icon: Icon(Icons.date_range_outlined),
-                            border: OutlineInputBorder(),
-                            labelText: "Date of birth",
-                          ),
-                          onTap: () => _selectDate(context),
-                          onSaved: (value) {
-                            if (value != null) _patient.dob = value;
-                          },
-                          controller: dateController,
-                        ),
+                      DateFormField(
+                        labelText: "Date of birth",
+                        dateController: dateController,
+                        onSaved: (value) {
+                          if (value != null) _patient.dob = value.toString();
+                        },
                       ),
                       Column(
                         children: <Widget>[

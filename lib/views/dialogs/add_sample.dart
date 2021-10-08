@@ -8,6 +8,7 @@ import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_date_form_field.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
@@ -30,6 +31,7 @@ class AddorUpdateSampleDialog extends StatefulWidget {
 class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
   final _formKey = GlobalKey<FormState>();
   LaboratoryDao laboratoryDao = LaboratoryDao();
+  var dateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +44,11 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
 
     if (widget.patient != null) {
       _patientInitialValue = widget.patient!.clientPatientId ?? "";
+      _patientInitialValue = _patientInitialValue +
+          ": " +
+          (widget.patient!.firstname ?? "") +
+          " " +
+          (widget.patient!.lastname ?? "");
     }
 
     return Scaffold(
@@ -94,13 +101,15 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                           }),
                       _sampleTypes(_sample),
                       _testsDropdown(_sample),
-                      Visibility(
-                        visible: !isNewForm,
-                        child: CustomTextFormField(
-                          enabled: false,
-                          labelText: "Date Collected",
-                          initialValue: _sample.dateCollected,
-                        ),
+                      DateFormField(
+                        labelText: "Date Collected",
+                        initialValue: _sample.dateCollected,
+                        dateController: dateController,
+                        onSaved: (value) {
+                          if (value != null) {
+                            _sample.dateCollected = value.toString();
+                          }
+                        },
                       ),
                       Visibility(
                         visible: !isNewForm,
