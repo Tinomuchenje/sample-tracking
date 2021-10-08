@@ -23,9 +23,7 @@ class SamplesProvider with ChangeNotifier {
       _samples.add(sample);
 
       notifyListeners();
-    }).catchError((onError){
-
-    });
+    }).catchError((onError) {});
   }
 
   updateSample(Sample sample) async {

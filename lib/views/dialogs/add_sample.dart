@@ -87,8 +87,11 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                       // ),
                       CustomTextFormField(
                           labelText: "Patient",
-                          enabled: false,
-                          initialValue: _patientInitialValue),
+                          enabled: widget.patient != null,
+                          initialValue: _patientInitialValue,
+                          onSaved: (value) {
+                            if (value != null) _sample.clientPatientId = value;
+                          }),
                       _sampleTypes(_sample),
                       _testsDropdown(_sample),
                       Visibility(

@@ -17,6 +17,8 @@ class PatientsTab extends StatefulWidget {
 }
 
 class _PatientsTabState extends State<PatientsTab> {
+  List<Patient> _patients = [];
+
   @override
   void didChangeDependencies() {
     getSamples();
@@ -24,8 +26,7 @@ class _PatientsTabState extends State<PatientsTab> {
   }
 
   void getSamples() {
-    Provider.of<PatientProvider>(context, listen: false)
-        .allPatientsFromdatabase();
+    _patients = Provider.of<PatientProvider>(context, listen: false).patients;
   }
 
   @override
@@ -41,7 +42,7 @@ class _PatientsTabState extends State<PatientsTab> {
       ]),
       body:
           Consumer<PatientProvider>(builder: (context, patientProvider, child) {
-        return _samplesList(patientProvider.patients);
+        return Container();
       }),
     );
   }
@@ -81,17 +82,6 @@ class _PatientsTabState extends State<PatientsTab> {
 }
 
 class PatientSearch extends SearchDelegate<Patient> {
-  final patients = [
-    Patient(firstname: "Tinotenda", lastname: "Muchenje", clientPatientId: "1"),
-    Patient(firstname: "Joel", lastname: "Ndaradzi", clientPatientId: "1"),
-    Patient(firstname: "Ruva", lastname: "Muchenje", clientPatientId: "1")
-  ];
-
-  final recents = [
-    Patient(firstname: "John", lastname: "Napata"),
-    Patient(firstname: "Winnet", lastname: "Muchenje")
-  ];
-
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -124,9 +114,10 @@ class PatientSearch extends SearchDelegate<Patient> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    //Show when someone searchs for something
-    ///query.toLowerCase();
-    final searchResultsList = patients.where((x) {
+    List<Patient> _patients =
+        Provider.of<PatientProvider>(context, listen: false).patients;
+
+    final searchResultsList = _patients.where((x) {
       return x.firstname!.toLowerCase().contains(query.toLowerCase()) ||
           x.lastname!.toLowerCase().startsWith(query.toLowerCase()) ||
           x.clientPatientId!.toLowerCase().startsWith(query.toLowerCase());
@@ -155,7 +146,7 @@ class PatientSearch extends SearchDelegate<Patient> {
         ));
   }
 
-  ListView _buildSearchResultTile(List<Patient> searchResultsList) {
+  ListView _buildSearchResultTile(List<Patient> patientsFound) {
     var color = Colors.blue;
     return ListView.builder(
         itemBuilder: (context, index) => Flexible(
@@ -174,8 +165,8 @@ class PatientSearch extends SearchDelegate<Patient> {
                       height: 30,
                       child: Row(
                         children: [
-                          Text(searchResultsList[index].firstname! + " "),
-                          Text(searchResultsList[index].lastname ?? ""),
+                          Text(patientsFound[index].firstname! + " "),
+                          Text(patientsFound[index].lastname ?? ""),
                         ],
                       ),
                     ),
@@ -209,7 +200,9 @@ class PatientSearch extends SearchDelegate<Patient> {
                                       context,
                                       MaterialPageRoute<void>(
                                         builder: (BuildContext context) =>
-                                            AddorUpdatePatientDialog(),
+                                            AddorUpdatePatientDialog(
+                                          patientData: patientsFound[index],
+                                        ),
                                         fullscreenDialog: true,
                                       ),
                                     );
@@ -226,7 +219,9 @@ class PatientSearch extends SearchDelegate<Patient> {
                                         context,
                                         MaterialPageRoute<void>(
                                           builder: (BuildContext context) =>
-                                              AddorUpdateSampleDialog(),
+                                              AddorUpdateSampleDialog(
+                                                  patient:
+                                                      patientsFound[index]),
                                         ),
                                       );
                                     }),
@@ -238,6 +233,6 @@ class PatientSearch extends SearchDelegate<Patient> {
                 ),
               ),
             ),
-        itemCount: searchResultsList.length);
+        itemCount: patientsFound.length);
   }
 }
