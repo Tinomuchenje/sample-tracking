@@ -14,7 +14,7 @@ class _FacilityDashboardState extends State<FacilityDashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(children: [
-        const SizedBox(height: 60.0),
+        const SizedBox(height: 40.0),
         Padding(
             padding: const EdgeInsets.only(left: 16, right: 16),
             child: Row(

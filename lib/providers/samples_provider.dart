@@ -12,6 +12,7 @@ class SamplesProvider with ChangeNotifier {
   Sample get sample => _sample;
 
   List<Sample> get samples {
+    if (_samples.isEmpty) allSamplesFromdatabase();
     return [..._samples];
   }
 

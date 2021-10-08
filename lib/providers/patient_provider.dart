@@ -11,7 +11,10 @@ class PatientProvider with ChangeNotifier {
   final List<Patient> _patients = [];
 
   Patient get patient => _patient;
-  List<Patient> get patients => [..._patients];
+  List<Patient> get patients {
+    if (_patients.isEmpty) allPatientsFromdatabase();
+    return [..._patients];
+  }
 
   void add(Patient? patient) {
     if (patient == null) return;
