@@ -87,7 +87,6 @@ class _SamplesTabState extends State<SamplesTab> {
               ],
             ),
           ],
-          backgroundColor: Colors.blue,
         ),
         body: Consumer<SamplesProvider>(
           builder: (context, samplesProvider, child) =>
@@ -112,7 +111,7 @@ class _SamplesTabState extends State<SamplesTab> {
               ),
             );
           },
-          title: Text(samples[index].sampleId.toString()),
+          title: Text(samples[index].id.toString()),
           subtitle: const Text('Sample narration'),
           leading: const Icon(
             Icons.label,

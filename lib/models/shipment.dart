@@ -1,3 +1,5 @@
+import 'package:sample_tracking_system_flutter/models/audit_log.dart';
+
 class Shipment {
   String? id;
   String? clientId;
@@ -9,18 +11,25 @@ class Shipment {
   String? riderName;
   String? destination;
   String? clusterClientId;
+  String? temperatureOrigin;
+  String? temperatureDestination;
+  AuditLog? auditLog;
 
-  Shipment(
-      {this.id,
-      this.clientId,
-      required this.samples,
-      this.status,
-      this.dateCreated,
-      this.dateModified,
-      this.riderId,
-      this.riderName,
-      this.destination,
-      this.clusterClientId});
+  Shipment({
+    this.id,
+    this.clientId,
+    required this.samples,
+    this.status,
+    this.dateCreated,
+    this.dateModified,
+    this.riderId,
+    this.riderName,
+    this.destination,
+    this.clusterClientId,
+    this.temperatureOrigin,
+    this.temperatureDestination,
+    this.auditLog,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -33,7 +42,10 @@ class Shipment {
       'riderId': riderId,
       'riderName': riderName,
       'destination': destination,
-      'clusterClientId': clusterClientId
+      'clusterClientId': clusterClientId,
+      'temperatureOrigin': temperatureOrigin,
+      'temperatureDestination': temperatureDestination,
+      'auditLog': auditLog
     };
   }
 
@@ -49,6 +61,9 @@ class Shipment {
     data['riderName'] = riderName;
     data['destination'] = destination;
     data['clusterClientId'] = clusterClientId;
+    data['temperatureOrigin'] = temperatureOrigin;
+    data['temperatureDestination'] = temperatureDestination;
+    data['auditLog'] = auditLog;
     return data;
   }
 
@@ -63,6 +78,9 @@ class Shipment {
     riderName = json['riderName'];
     destination = json['destination'];
     clusterClientId = json['clusterClientId'];
+    temperatureOrigin = json['temperatureOrigin'];
+    temperatureDestination = json['temperatureDestination'];
+    auditLog = json['auditLog'];
   }
 
   @override

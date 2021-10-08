@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
-import 'package:sample_tracking_system_flutter/models/user_type_enum.dart';
+import 'package:sample_tracking_system_flutter/models/enums/user_type_enum.dart';
 import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/providers/user_provider.dart';
 import 'package:sample_tracking_system_flutter/views/dialogs/add_shipment.dart';
@@ -51,7 +51,6 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
               },
             ),
             title: const Text("Shipments"),
-            backgroundColor: Colors.blue,
           ),
           body: TabBarView(children: [
             Consumer<ShipmentProvider>(
@@ -99,7 +98,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
           subtitle: const Text('Shipping description'),
           leading: const Icon(
             Icons.file_present,
-            color: Colors.blue,
+            color: Colors.white,
           ),
           trailing: const Icon(
             Icons.sync,

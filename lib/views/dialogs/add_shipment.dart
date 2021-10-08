@@ -27,7 +27,6 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   final _formKey = GlobalKey<FormState>();
   Client? _value;
   final List<Client> _clients = [];
-  List _selectedSamples = [];
 
   Future<void> readJson() async {
     if (_clients.isNotEmpty) return;
@@ -42,13 +41,6 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    readJson();
-  }
-
-  @override
   Widget build(BuildContext context) {
     bool isNewForm = widget.shipmentData == null;
     final Shipment _shipment = widget.shipmentData ?? Shipment(samples: []);
@@ -58,7 +50,6 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blue,
           title: Text('$_appBarText Shipment Id'),
         ),
         body: Form(
@@ -88,9 +79,27 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                           initialValue: _shipment.samples.length.toString(),
                           enabled: false),
                     ),
+                    CustomTextFormField(
+                      keyboardType: TextInputType.number,
+                      labelText: "Temperature Origin",
+                      initialValue: _shipment.temperatureOrigin,
+                      onSaved: (value) {
+                        if (value != null) _shipment.temperatureOrigin = value;
+                      },
+                    ),
+                    CustomTextFormField(
+                      keyboardType: TextInputType.number,
+                      labelText: "Temperature Destination",
+                      initialValue: _shipment.temperatureDestination,
+                      onSaved: (value) {
+                        if (value != null) {
+                          _shipment.temperatureDestination = value;
+                        }
+                      },
+                    ),
                     Visibility(
                       visible: !isNewForm,
-                      child: CustomTextFormField(
+                      child: const CustomTextFormField(
                           labelText: "Creater",
                           initialValue: "Admin",
                           enabled: false),
@@ -116,24 +125,31 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                           enabled: false,
                           initialValue: _shipment.dateModified),
                     ),
-                    CustomElevatedButton(
-                      displayText: _saveButtonText,
-                      fillcolor: true,
-                      press: () {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                          _shipment.status = "Created";
-                          _shipment.dateCreated = _shipment.dateModified =
-                              DateTime.now().toString();
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: 150,
+                      child: CustomElevatedButton(
+                        displayText: _saveButtonText,
+                        fillcolor: true,
+                        press: () {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            _shipment.status = "Created";
+                            _shipment.dateCreated = _shipment.dateModified =
+                                DateTime.now().toString();
 
-                          widget.shipmentData == null
-                              ? addNewShipment(context, _shipment)
-                              : updateShipment(context, _shipment);
+                            widget.shipmentData == null
+                                ? addNewShipment(context, _shipment)
+                                : updateShipment(context, _shipment);
 
-                          showNotification(context);
-                          Navigator.of(context).pop();
-                        }
-                      },
+                            showNotification(context);
+                            Navigator.of(context).pop();
+                          }
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -159,7 +175,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
         initialValue: _shipment.samples,
         items: samples
             .map((sample) => MultiSelectItem<Sample?>(
-                sample, sample.patientId ?? "Something"))
+                sample, sample.clientPatientId ?? "Something"))
             .toList(),
         buttonIcon: const Icon(Icons.add, size: 38),
         height: MediaQuery.of(context).size.height / 2.5,
@@ -174,11 +190,9 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
           ),
         ),
         onConfirm: (results) {
-          _selectedSamples = results;
           // _shipment.samples = [..._selectedSamples];
         },
         onSaved: (value) {
-          _selectedSamples = value!;
           //  _shipment.samples = [..._selectedSamples];
         },
       ),

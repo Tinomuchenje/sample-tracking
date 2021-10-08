@@ -1,5 +1,7 @@
+import 'package:sample_tracking_system_flutter/models/audit_log.dart';
+
 class Patient {
-  String? patientId;
+  String? id;
   String? firstname;
   String? lastname;
   String? gender;
@@ -9,9 +11,11 @@ class Patient {
   String? cohortNumber;
   String? dateCreated;
   String? dateModified;
+  String? phoneNumber;
+  AuditLog? auditLog;
 
   Patient(
-      {this.patientId,
+      {this.id,
       this.firstname,
       this.lastname,
       this.gender,
@@ -19,12 +23,14 @@ class Patient {
       this.client,
       this.clientPatientId,
       this.cohortNumber,
+      this.phoneNumber,
       this.dateCreated,
-      this.dateModified});
+      this.dateModified,
+      this.auditLog});
 
   Map<String, dynamic> toMap() {
     return {
-      'patient_id': patientId,
+      'patient_id': id,
       'firstname': firstname,
       'lastname': lastname,
       'gender': gender,
@@ -37,8 +43,39 @@ class Patient {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['firstname'] = firstname;
+    data['lastname'] = lastname;
+    data['gender'] = gender;
+    data['dob'] = dob;
+    data['client'] = client;
+    data['clientPatientId'] = clientPatientId;
+    data['cohortNumber'] = cohortNumber;
+    data['dateCreated'] = dateCreated;
+    data['dateModified'] = dateModified;
+    data['phoneNumber'] = phoneNumber;
+    data['auditLog'] = auditLog;
+    return data;
+  }
+
+  Patient.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    firstname = json['firstname'];
+    lastname = json['lastname'];
+    gender = json['gender'];
+    dob = json['dob'];
+    client = json['client'];
+    cohortNumber = json['cohortNumber'];
+    dateCreated = json['dateCreated'];
+    dateModified = json['dateModified'];
+    phoneNumber = json['phoneNumber'];
+    auditLog = json['auditLog'];
+  }
+
   @override
   String toString() {
-    return 'Patient{patient_id: $patientId, firstname: $firstname, lastname: $lastname, gender: $gender, dob: $dob, client: $client, client_patient_id: $clientPatientId, cohort_number: $cohortNumber, created_at: $dateCreated, modified_at: $dateModified}';
+    return 'Patient{patient_id: $id, firstname: $firstname, lastname: $lastname, gender: $gender, dob: $dob, client: $client, client_patient_id: $clientPatientId, cohort_number: $cohortNumber, created_at: $dateCreated, modified_at: $dateModified}';
   }
 }

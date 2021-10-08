@@ -6,6 +6,8 @@ import 'package:sample_tracking_system_flutter/providers/patient_provider.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
 
+import 'add_sample.dart';
+
 enum Gender { male, female }
 
 class AddorUpdatePatientDialog extends StatefulWidget {
@@ -19,10 +21,10 @@ class AddorUpdatePatientDialog extends StatefulWidget {
 
 class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
   final _formKey = GlobalKey<FormState>();
-  int _value = 1;
+
   var dateController = TextEditingController();
   DateTime selectedDate = DateTime.now();
-  String? _character = "male";
+  String? _gender = "male";
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime now = DateTime.now();
@@ -81,9 +83,25 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                           if (value != null) _patient.cohortNumber = value;
                         },
                       ),
+                      CustomTextFormField(
+                        labelText: "Client Patient Id",
+                        initialValue: _patient.clientPatientId,
+                        onSaved: (value) {
+                          if (value != null) _patient.clientPatientId = value;
+                        },
+                      ),
+                      CustomTextFormField(
+                        labelText: "Phone number",
+                        keyboardType: TextInputType.phone,
+                        initialValue: _patient.phoneNumber,
+                        onSaved: (value) {
+                          if (value != null) _patient.phoneNumber = value;
+                        },
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
+                          // initialValue: _patient.dob ?? "",
                           decoration: const InputDecoration(
                             // icon: Icon(Icons.date_range_outlined),
                             border: OutlineInputBorder(),
@@ -102,11 +120,11 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                             title: const Text('Male'),
                             leading: Radio(
                               value: "male",
-                              groupValue: _character,
+                              groupValue: _gender,
                               onChanged: (String? value) {
-                                 setState(() {
-                                   _character = value;
-                                 });
+                                setState(() {
+                                  _gender = value;
+                                });
                               },
                             ),
                           ),
@@ -114,25 +132,15 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                             title: const Text('Female'),
                             leading: Radio(
                               value: "female",
-                              groupValue: _character,
+                              groupValue: _gender,
                               onChanged: (String? value) {
                                 setState(() {
-                                  _character = value;
+                                  _gender = value;
                                 });
                               },
                             ),
                           ),
                         ],
-                      ),
-                      Visibility(
-                        visible: !isNewForm,
-                        child: CustomTextFormField(
-                          labelText: "Client",
-                          initialValue: _patient.client,
-                          onSaved: (value) {
-                            if (value != null) _patient.client = value;
-                          },
-                        ),
                       ),
                       Visibility(
                         visible: !isNewForm,
@@ -167,8 +175,8 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           SizedBox(
-                            height: 45,
-                            width: 150,
+                            height: 50,
+                            width: 170,
                             child: CustomElevatedButton(
                                 displayText: "$_saveButtonText Patient",
                                 fillcolor: false,
@@ -186,8 +194,8 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                                 }),
                           ),
                           SizedBox(
-                            height: 45,
-                            width: 150,
+                            height: 50,
+                            width: 170,
                             child: CustomElevatedButton(
                                 displayText: "$_saveButtonText & Add Sample",
                                 fillcolor: true,
@@ -200,7 +208,14 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                                         : updatePatient(context, _patient);
 
                                     showNotification(context);
-                                    Navigator.of(context).pop();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute<void>(
+                                        builder: (BuildContext context) =>
+                                            AddorUpdateSampleDialog(
+                                                patient: _patient),
+                                      ),
+                                    );
                                   }
                                 }),
                           ),
@@ -228,10 +243,12 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
   }
 
   void addNewPatient(BuildContext context, Patient _patient) {
+    _patient.gender = _gender;
     Provider.of<PatientProvider>(context, listen: false).add(_patient);
   }
 
   void updatePatient(BuildContext context, Patient _patient) {
+    _patient.gender = _gender;
     Provider.of<PatientProvider>(context, listen: false)
         .updatePatient(_patient);
   }

@@ -8,14 +8,16 @@ class CustomTextFormField extends StatefulWidget {
   final String? initialValue;
   final bool? enabled;
   final TextEditingController? controller;
+  final TextInputType? keyboardType;
 
-  CustomTextFormField(
+  const CustomTextFormField(
       {this.hintText = "",
       required this.labelText,
       this.onSaved,
       this.initialValue,
       this.enabled,
-      this.controller});
+      this.controller,
+      this.keyboardType});
 
   @override
   _CustomTextFormFieldState createState() => _CustomTextFormFieldState();
@@ -27,6 +29,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return Padding(
         padding: const EdgeInsets.all(defaultPadding / 2),
         child: TextFormField(
+          keyboardType: widget.keyboardType,
           decoration: InputDecoration(
             border: const OutlineInputBorder(),
             hintText: widget.hintText,

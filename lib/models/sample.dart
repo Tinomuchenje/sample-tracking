@@ -1,68 +1,112 @@
+// ignore_for_file: unnecessary_new
+
+import 'audit_log.dart';
+
 class Sample {
-  String? sampleRequestId;
+  String? id;
   String? clientSampleId;
-  String? patientId;
+  String? clientPatientId;
   String? labId;
   String? clientId;
-  String? sampleId;
+  String? sampleType;
   String? testId;
   String? dateCollected;
+  String? collectedBy;
   String? status;
+  String? comment;
   bool? synced;
   String? dateSynced;
   String? labReferenceId;
   String? location;
   String? result;
+  String? resultReceivedBy;
   String? shipmentId;
   String? clientContact;
   String? dateCreated;
   String? dateModified;
+  String? temperatureAtHub;
+  String? temperatureAtLab;
+  AuditLog? auditLogAuditLog;
 
   Sample(
-      {this.sampleRequestId,
+      {this.id,
       this.clientSampleId,
-      this.patientId,
+      this.clientPatientId,
       this.labId,
       this.clientId,
-      this.sampleId,
+      this.sampleType,
       this.testId,
       this.dateCollected,
+      this.collectedBy,
       this.status,
+      this.comment,
       this.synced,
+      this.dateSynced,
       this.labReferenceId,
+      this.location,
       this.result,
+      this.resultReceivedBy,
       this.shipmentId,
       this.clientContact,
       this.dateCreated,
       this.dateModified,
-      this.dateSynced,
-      this.location});
+      this.temperatureAtHub,
+      this.temperatureAtLab,
+      this.auditLogAuditLog});
 
-  Map<String, dynamic> toMap() {
-    return {
-      'sample_request_id': sampleRequestId,
-      'client_sample_id': clientSampleId,
-      'patient_id': patientId,
-      'lab_id': labId,
-      'client_id': clientId,
-      'sample_id': sampleId,
-      'test_id': testId,
-      'date_collected': dateCollected.toString(),
-      'status': status,
-      'synced': synced,
-      'synced_at': dateSynced.toString(),
-      'lab_reference_id': labReferenceId,
-      'location': location,
-      'result': result,
-      'shipment_id': shipmentId,
-      'client_contact': clientContact,
-      'created_at': dateCreated.toString(),
-      'modified_at': dateModified.toString(),
-    };
+  Sample.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    clientSampleId = json['clientSampleId'];
+    clientPatientId = json['clientPatientId'];
+    labId = json['labId'];
+    clientId = json['clientId'];
+    sampleType = json['sampleType'];
+    testId = json['testId'];
+    dateCollected = json['dateCollected'];
+    collectedBy = json['collectedBy'];
+    status = json['status'];
+    comment = json['comment'];
+    synced = json['synced'];
+    dateSynced = json['dateSynced'];
+    labReferenceId = json['labReferenceId'];
+    location = json['location'];
+    result = json['result'];
+    resultReceivedBy = json['resultReceivedBy'];
+    shipmentId = json['shipmentId'];
+    clientContact = json['clientContact'];
+    dateCreated = json['dateCreated'];
+    dateModified = json['dateModified'];
+    temperatureAtHub = json['temperatureAtHub'];
+    temperatureAtLab = json['temperatureAtLab'];
+    auditLogAuditLog = json['AuditLog? auditLog'];
   }
 
-  @override
-  String toString() {
-    return 'Sample{sample_request_id: $sampleRequestId, client_sample_id: $clientSampleId, patient_id: $patientId, lab_id: $labId, client_id: $clientId, sample_id: $sampleId, test_id: $testId, date_collected: $dateCollected, status: $status, synced: $synced, synced_at: $dateSynced, lab_reference_id: $labReferenceId, location: $location, result: $result, shipment_id: $shipmentId, client_contact: $clientContact, created_at: $dateCreated, modified_at: $dateModified}';
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['clientSampleId'] = clientSampleId;
+    data['clientPatientId'] = clientPatientId;
+    data['labId'] = labId;
+    data['clientId'] = clientId;
+    data['sampleType'] = sampleType;
+    data['testId'] = testId;
+    data['dateCollected'] = dateCollected;
+    data['collectedBy'] = collectedBy;
+    data['status'] = status;
+    data['comment'] = comment;
+    data['synced'] = synced;
+    data['dateSynced'] = dateSynced;
+    data['labReferenceId'] = labReferenceId;
+    data['location'] = location;
+    data['result'] = result;
+    data['resultReceivedBy'] = resultReceivedBy;
+    data['shipmentId'] = shipmentId;
+    data['clientContact'] = clientContact;
+    data['dateCreated'] = dateCreated;
+    data['dateModified'] = dateModified;
+    data['temperatureAtHub'] = temperatureAtHub;
+    data['temperatureAtLab'] = temperatureAtLab;
+    data['AuditLog? auditLog'] = auditLogAuditLog;
+    return data;
   }
 }

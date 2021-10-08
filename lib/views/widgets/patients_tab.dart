@@ -35,7 +35,7 @@ class _PatientsTabState extends State<PatientsTab> {
         IconButton(
           icon: const Icon(Icons.search),
           onPressed: () {
-            showSearch(context: context, delegate: DataSearch());
+            showSearch(context: context, delegate: PatientSearch());
           },
         )
       ]),
@@ -80,12 +80,13 @@ class _PatientsTabState extends State<PatientsTab> {
   }
 }
 
-class DataSearch extends SearchDelegate<Patient> {
+class PatientSearch extends SearchDelegate<Patient> {
   final patients = [
-    Patient(firstname: "Tinotenda", lastname: "Muchenje"),
-    Patient(firstname: "Joel", lastname: "Ndaradzi"),
-    Patient(firstname: "Ruva", lastname: "Muchenje")
+    Patient(firstname: "Tinotenda", lastname: "Muchenje", clientPatientId: "1"),
+    Patient(firstname: "Joel", lastname: "Ndaradzi", clientPatientId: "1"),
+    Patient(firstname: "Ruva", lastname: "Muchenje", clientPatientId: "1")
   ];
+
   final recents = [
     Patient(firstname: "John", lastname: "Napata"),
     Patient(firstname: "Winnet", lastname: "Muchenje")
@@ -124,11 +125,11 @@ class DataSearch extends SearchDelegate<Patient> {
   @override
   Widget buildSuggestions(BuildContext context) {
     //Show when someone searchs for something
-    query.toLowerCase();
+    ///query.toLowerCase();
     final searchResultsList = patients.where((x) {
       return x.firstname!.toLowerCase().contains(query.toLowerCase()) ||
-          x.lastname!.toLowerCase().startsWith(query.toLowerCase());
-      // x.cohortNumber!.startsWith(query);
+          x.lastname!.toLowerCase().startsWith(query.toLowerCase()) ||
+          x.clientPatientId!.toLowerCase().startsWith(query.toLowerCase());
     }).toList();
 
     return Visibility(
@@ -226,7 +227,6 @@ class DataSearch extends SearchDelegate<Patient> {
                                         MaterialPageRoute<void>(
                                           builder: (BuildContext context) =>
                                               AddorUpdateSampleDialog(),
-                                          fullscreenDialog: true,
                                         ),
                                       );
                                     }),

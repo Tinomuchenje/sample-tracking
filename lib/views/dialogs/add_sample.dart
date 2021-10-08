@@ -6,18 +6,21 @@ import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/models/laboritory.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
-import 'package:sample_tracking_system_flutter/providers/patient_provider.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/patients_tab.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/samples_tab.dart';
 
 import 'add_patient.dart';
 
 class AddorUpdateSampleDialog extends StatefulWidget {
-  Sample? sampleData;
-  AddorUpdateSampleDialog({Key? key, this.sampleData}) : super(key: key);
+  final Patient? patient;
+  final Sample? sampleData;
+  const AddorUpdateSampleDialog({Key? key, this.sampleData, this.patient})
+      : super(key: key);
 
   @override
   State<AddorUpdateSampleDialog> createState() =>
@@ -26,7 +29,6 @@ class AddorUpdateSampleDialog extends StatefulWidget {
 
 class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
   final _formKey = GlobalKey<FormState>();
-  final bool _synced = false;
   LaboratoryDao laboratoryDao = LaboratoryDao();
 
   @override
@@ -36,134 +38,249 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
 
     String _appBarText = isNewForm ? 'Add' : 'Update';
     String _saveButtonText = isNewForm ? 'Save' : 'Update';
+    String _patientInitialValue = "";
+
+    if (widget.patient != null) {
+      _patientInitialValue = widget.patient!.clientPatientId ?? "";
+    }
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blue,
           title: Text('$_appBarText Sample'),
         ),
-        body: Form(
-          key: _formKey,
-          child: ListView(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(defaultPadding / 2),
-                child: Column(
-                  children: <Widget>[
-                    // CustomTextFormField(
-                    //   labelText: "Sample Request ID",
-                    //   initialValue: _sample.sampleRequestId,
-                    //   onSaved: (value) {
-                    //     if (value != null) _sample.sampleRequestId = value;
-                    //   },
-                    // ),
-                    // CustomTextFormField(
-                    //   labelText: "Client Sample ID",
-                    //   initialValue: _sample.clientSampleId,
-                    //   onSaved: (value) {
-                    //     if (value != null) _sample.clientSampleId = value;
-                    //   },
-                    // ),
-                    Consumer<PatientProvider>(
-                        builder: (context, patientProvider, child) {
-                      return _patientsDropdown(
-                          _sample, patientProvider.patients);
-                    }),
-                    //_laboratoriesDropdown(_sample),
-                    // CustomTextFormField(
-                    //   labelText: "Client Id",
-                    //   initialValue: _sample.location,
-                    //   onSaved: (value) {
-                    //     if (value != null) _sample.location = value;
-                    //   },
-                    // ),
-                    CustomTextFormField(
-                      labelText: "Sample Types",
-                      initialValue: _sample.sampleId,
-                      onSaved: (value) {
-                        if (value != null) _sample.sampleId = value;
-                      },
-                    ),
-                    _testsDropdown(_sample),
-                    Visibility(
-                      visible: !isNewForm,
-                      child: CustomTextFormField(
-                        enabled: false,
-                        labelText: "Date Collected",
-                        initialValue: _sample.dateCollected,
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(defaultPadding / 2),
+                  child: Column(
+                    children: <Widget>[
+                      // CustomTextFormField(
+                      //   labelText: "Sample Request ID",
+                      //   initialValue: _sample.sampleRequestId,
+                      //   onSaved: (value) {
+                      //     if (value != null) _sample.sampleRequestId = value;
+                      //   },
+                      // ),
+                      // CustomTextFormField(
+                      //   labelText: "Client Sample ID",
+                      //   initialValue: _sample.clientSampleId,
+                      //   onSaved: (value) {
+                      //     if (value != null) _sample.clientSampleId = value;
+                      //   },
+                      // ),
+                      // Consumer<PatientProvider>(
+                      //     builder: (context, patientProvider, child) {
+                      //   return _patientsDropdown(
+                      //       _sample, patientProvider.patients);
+                      // }),
+                      //_laboratoriesDropdown(_sample),
+                      // CustomTextFormField(
+                      //   labelText: "Client Id",
+                      //   initialValue: _sample.location,
+                      //   onSaved: (value) {
+                      //     if (value != null) _sample.location = value;
+                      //   },
+                      // ),
+                      CustomTextFormField(
+                          labelText: "Patient",
+                          enabled: false,
+                          initialValue: _patientInitialValue),
+                      _sampleTypes(_sample),
+                      _testsDropdown(_sample),
+                      Visibility(
+                        visible: !isNewForm,
+                        child: CustomTextFormField(
+                          enabled: false,
+                          labelText: "Date Collected",
+                          initialValue: _sample.dateCollected,
+                        ),
                       ),
-                    ),
-                    Visibility(
-                      visible: !isNewForm,
-                      child: CustomTextFormField(
-                        enabled: false,
-                        labelText: "Status",
-                        initialValue: _sample.status,
+                      Visibility(
+                        visible: !isNewForm,
+                        child: CustomTextFormField(
+                          enabled: false,
+                          labelText: "Status",
+                          initialValue: _sample.status,
+                        ),
                       ),
-                    ),
-                    Visibility(
-                      visible: !isNewForm,
-                      child: CustomTextFormField(
-                          enabled: false,
-                          labelText: "Date Synced",
-                          initialValue: _sample.dateSynced),
-                    ),
-                    Visibility(
-                      visible: !isNewForm,
-                      child: CustomTextFormField(
-                          enabled: false,
-                          labelText: "Lab Reference Id",
-                          initialValue: _sample.labReferenceId),
-                    ),
-                    Visibility(
-                      visible: !isNewForm,
-                      child: CustomTextFormField(
-                          enabled: false,
-                          labelText: "Location",
-                          initialValue: "Hurungwe"),
-                    ),
-                    Visibility(
-                      visible: !isNewForm,
-                      child: CustomTextFormField(
-                        labelText: "Shipment",
-                        initialValue: _sample.shipmentId,
+                      Visibility(
+                        visible: !isNewForm,
+                        child: CustomTextFormField(
+                            enabled: false,
+                            labelText: "Date Synced",
+                            initialValue: _sample.dateSynced),
                       ),
-                    ),
-                    Visibility(
-                      visible: !isNewForm,
-                      child: CustomTextFormField(
-                          enabled: false,
-                          labelText: "Client Contact",
-                          initialValue: "Admin"),
-                    ),
-                    CustomElevatedButton(
-                      displayText: "$_saveButtonText Sample",
-                      fillcolor: true,
-                      press: () {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                          _sample.status = "Created";
-                          _sample.synced = false;
-                          _sample.clientSampleId = "SFDFASDS";
+                      Visibility(
+                        visible: !isNewForm,
+                        child: CustomTextFormField(
+                            enabled: false,
+                            labelText: "Lab Reference Id",
+                            initialValue: _sample.labReferenceId),
+                      ),
+                      Visibility(
+                        visible: !isNewForm,
+                        child: const CustomTextFormField(
+                            enabled: false,
+                            labelText: "Location",
+                            initialValue: "Hurungwe"),
+                      ),
+                      Visibility(
+                        visible: !isNewForm,
+                        child: CustomTextFormField(
+                          labelText: "Shipment",
+                          initialValue: _sample.shipmentId,
+                        ),
+                      ),
+                      Visibility(
+                        visible: !isNewForm,
+                        child: const CustomTextFormField(
+                            enabled: false,
+                            labelText: "Client Contact",
+                            initialValue: "Admin"),
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SizedBox(
+                            height: 50,
+                            width: 150,
+                            child: CustomElevatedButton(
+                              displayText: _saveButtonText,
+                              fillcolor: true,
+                              press: () {
+                                if (_formKey.currentState!.validate()) {
+                                  _formKey.currentState!.save();
+                                  _sample.status = "Created";
+                                  _sample.synced = false;
+                                  _sample.clientSampleId = "SFDFASDS";
 
-                          _sample.dateSynced =
-                              _sample.dateCollected = DateTime.now().toString();
+                                  _sample.dateSynced = _sample.dateCollected =
+                                      DateTime.now().toString();
 
-                          widget.sampleData == null
-                              ? addNewSample(_sample, context)
-                              : updateSample(_sample, context);
+                                  widget.sampleData == null
+                                      ? addNewSample(_sample, context)
+                                      : updateSample(_sample, context);
 
-                          showNotification(context);
-                          Navigator.of(context).pop();
-                        }
-                      },
-                    ),
-                  ],
-                ),
-              )
-            ],
+                                  showNotification(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          SamplesTab(),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 50,
+                            width: 150,
+                            child: CustomElevatedButton(
+                              displayText: "$_saveButtonText & New",
+                              fillcolor: true,
+                              press: () {
+                                if (_formKey.currentState!.validate()) {
+                                  _formKey.currentState!.save();
+                                  _sample.status = "Created";
+                                  _sample.synced = false;
+                                  _sample.clientSampleId = "SFDFASDS";
+
+                                  _sample.dateSynced = _sample.dateCollected =
+                                      DateTime.now().toString();
+
+                                  widget.sampleData == null
+                                      ? addNewSample(_sample, context)
+                                      : updateSample(_sample, context);
+
+                                  showNotification(context);
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+
+                                  showSearch(
+                                      context: context,
+                                      delegate: PatientSearch());
+                                }
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      // const SizedBox(height: 20),
+                      // SizedBox(
+                      //   height: 50,
+                      //   width: 170,
+                      //   child: CustomElevatedButton(
+                      //     displayText: "Ship",
+                      //     fillcolor: false,
+                      //     press: () {
+                      //       if (_formKey.currentState!.validate()) {
+                      //         _formKey.currentState!.save();
+                      //         _sample.status = "Created";
+                      //         _sample.synced = false;
+                      //         _sample.clientSampleId = "SFDFASDS";
+
+                      //         _sample.dateSynced = _sample.dateCollected =
+                      //             DateTime.now().toString();
+
+                      //         widget.sampleData == null
+                      //             ? addNewSample(_sample, context)
+                      //             : updateSample(_sample, context);
+
+                      //         showNotification(context);
+                      //         Navigator.of(context).pop();
+                      //       }
+                      //     },
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ));
+  }
+
+  _sampleTypes(Sample _sample) {
+    String? sampleType;
+
+    var sampleTypes = [
+      "Nasal swab",
+      "Dried Blood Spot",
+      "Nasopharyngeal",
+      "Aspirate",
+      "Red blood cells",
+      "Cervical swab",
+      "Blood plasma",
+      "Bocal swab",
+      "Throat Swab",
+      "Fluid",
+      "Whole blood",
+      "DBS",
+      "Nasopharyngeal swab",
+      "Sputum",
+      "Biopsy",
+      "csf",
+    ];
+
+    var sampleTypesMenus = sampleTypes.map((String sampleType) {
+      return DropdownMenuItem<String>(
+          value: sampleType, child: Text(sampleType));
+    }).toList();
+
+    return CustomFormDropdown(
+        items: sampleTypesMenus,
+        hint: const Text("Sample Types"),
+        value: sampleType ?? _sample.sampleType,
+        onChanged: (value) {},
+        onSaved: (value) {});
   }
 
   _patientsDropdown(Sample _sample, List<Patient> patients) {
@@ -196,7 +313,7 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
         hint: "Select Patient",
         onChanged: print,
         onSaved: (value) {
-          if (value != null) _sample.patientId = value.toString();
+          if (value != null) _sample.clientPatientId = value.toString();
         },
         // selectedItem: _selected
       ),
@@ -205,15 +322,20 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
 
   _testsDropdown(Sample _sample) {
     var _test;
+
     var testMenus = [
+      const DropdownMenuItem<String>(
+        value: "Viral Load",
+        child: Text("Viral Load"),
+      ),
+      const DropdownMenuItem<String>(
+        value: "Tuberculousis",
+        child: Text("Tuberculousis"),
+      ),
       const DropdownMenuItem<String>(
         value: "Covid",
         child: Text("Covid"),
       ),
-      const DropdownMenuItem<String>(
-        value: "Tb",
-        child: Text("Tb"),
-      )
     ];
 
     return CustomFormDropdown(

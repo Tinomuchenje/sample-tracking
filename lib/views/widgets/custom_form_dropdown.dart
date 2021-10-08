@@ -25,8 +25,10 @@ class _CustomFormDropdownState extends State<CustomFormDropdown> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(defaultPadding / 2),
+      padding: const EdgeInsets.only(
+          top: defaultPadding / 2, bottom: defaultPadding / 2),
       child: DropdownButtonFormField(
+        menuMaxHeight: MediaQuery.of(context).size.height / 3,
         value: widget.value,
         hint: widget.hint,
         items: widget.items,

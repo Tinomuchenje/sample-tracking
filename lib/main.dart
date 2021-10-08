@@ -7,8 +7,9 @@ import 'package:sample_tracking_system_flutter/themes/style.dart';
 import 'package:sample_tracking_system_flutter/utils/sqlite_db.dart';
 import 'package:provider/provider.dart';
 
+import 'models/enums/user_type_enum.dart';
 import 'providers/patient_provider.dart';
-import 'views/pages/user_options.dart';
+import 'views/pages/login_page.dart';
 
 void main() {
   runApp(
@@ -33,14 +34,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sample Tracking App',
-      theme: appTheme(context),
+      theme: appTheme(),
       home: WillPopScope(
         onWillPop: () async {
-          print('Pressed');
-
           if (_lastQuitTime == null ||
               DateTime.now().difference(_lastQuitTime!).inSeconds > 1) {
-            print('Press again Back Button exit');
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Press again Back Button exit'),
@@ -49,12 +47,13 @@ class MyApp extends StatelessWidget {
             _lastQuitTime = DateTime.now();
             return false;
           } else {
-            print('sign out');
             Navigator.of(context).pop(true);
             return true;
           }
         },
-        child: const UserOptions(),
+        child: LoginPage(
+          userType: UserType.client,
+        ),
       ),
     );
   }

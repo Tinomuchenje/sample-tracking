@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:sample_tracking_system_flutter/providers/patient_provider.dart';
+import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
 
 class GridDashBoard extends StatefulWidget {
@@ -21,7 +24,17 @@ class _GridDashBoardState extends State<GridDashBoard> {
         mainAxisSpacing: 18.0,
         children: <Widget>[
           buildDashboardItem(
-              title: "Total Shipments", count: 120, icon: Icons.select_all),
+              title: "Total Shipments",
+              count: Provider.of<ShipmentProvider>(context, listen: false)
+                  .shipments
+                  .length,
+              icon: Icons.select_all),
+          buildDashboardItem(
+              title: "Patients",
+              count: Provider.of<PatientProvider>(context, listen: false)
+                  .patients
+                  .length,
+              icon: Icons.person),
           buildDashboardItem(
               title: "Due Collection",
               count: 15,
