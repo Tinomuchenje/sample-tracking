@@ -174,13 +174,16 @@ class PatientSearch extends SearchDelegate<Patient> {
                       SizedBox(
                         height: 20,
                         child: Row(
-                          children: const [Text("DOB "), Text("12/07/96")],
+                          children: const [Text("DOB: "), Text("12/07/96")],
                         ),
                       ),
                       SizedBox(
                         height: 20,
                         child: Row(
-                          children: const [Text("Cohort No "), Text("ACBNO")],
+                          children: [
+                            const Text("Client Patient Id: "),
+                            Text(patientsFound[index].clientPatientId!)
+                          ],
                         ),
                       ),
                     ]),
