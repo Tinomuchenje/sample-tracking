@@ -31,7 +31,7 @@ class AddorUpdateSampleDialog extends StatefulWidget {
 class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
   final _formKey = GlobalKey<FormState>();
   LaboratoryDao laboratoryDao = LaboratoryDao();
-  var dateController = TextEditingController();
+  TextEditingController? dateController;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
 
     String _appBarText = isNewForm ? 'Add' : 'Update';
     String _saveButtonText = isNewForm ? 'Save' : 'Update';
-    String _patientInitialValue = "";
+    String? _patientInitialValue = "";
 
     if (widget.patient != null) {
       _patientInitialValue = widget.patient!.clientPatientId ?? "";
@@ -49,6 +49,8 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
           (widget.patient!.firstname ?? "") +
           " " +
           (widget.patient!.lastname ?? "");
+    } else {
+      _patientInitialValue = _sample.clientPatientId;
     }
 
     return Scaffold(
@@ -94,7 +96,7 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                       // ),
                       CustomTextFormField(
                           labelText: "Patient",
-                          enabled: widget.patient != null,
+                          enabled: widget.patient != null || isNewForm,
                           initialValue: _patientInitialValue,
                           onSaved: (value) {
                             if (value != null) _sample.clientPatientId = value;
@@ -261,7 +263,7 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
   }
 
   _sampleTypes(Sample _sample) {
-    String? sampleType;
+    var sampleType;
 
     var sampleTypes = [
       "Nasal swab",
@@ -291,8 +293,12 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
         items: sampleTypesMenus,
         hint: const Text("Sample Types"),
         value: sampleType ?? _sample.sampleType,
-        onChanged: (value) {},
-        onSaved: (value) {});
+        onChanged: (value) {
+          sampleType = value.toString();
+        },
+        onSaved: (value) {
+          _sample.sampleType = value.toString();
+        });
   }
 
   _patientsDropdown(Sample _sample, List<Patient> patients) {
