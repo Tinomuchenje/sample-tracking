@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 class SampleTableFields {
   static final List<String> values = [
     sample_request_id,

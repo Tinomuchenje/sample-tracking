@@ -27,14 +27,14 @@ class SampleType {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['sample_type_id'] = this.sampleTypeId;
-    data['name'] = this.name;
-    data['prefix'] = this.prefix;
-    data['created_by'] = this.createdBy;
-    data['created_date'] = this.createdDate;
-    data['last_modified_by'] = this.lastModifiedBy;
-    data['last_modified_date'] = this.lastModifiedDate;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['sample_type_id'] = sampleTypeId;
+    data['name'] = name;
+    data['prefix'] = prefix;
+    data['created_by'] = createdBy;
+    data['created_date'] = createdDate;
+    data['last_modified_by'] = lastModifiedBy;
+    data['last_modified_date'] = lastModifiedDate;
     return data;
   }
 }

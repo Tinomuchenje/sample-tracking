@@ -2,6 +2,7 @@ import 'package:sample_tracking_system_flutter/models/audit_log.dart';
 
 class Shipment {
   String? id;
+  String? description;
   String? clientId;
   late List<String> samples;
   String? status;
@@ -17,6 +18,7 @@ class Shipment {
 
   Shipment({
     this.id,
+    this.description,
     this.clientId,
     required this.samples,
     this.status,
@@ -52,6 +54,7 @@ class Shipment {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+    data['description'] = description;
     data['clientId'] = clientId;
     data['samples'] = samples;
     data['status'] = status;
@@ -69,6 +72,7 @@ class Shipment {
 
   Shipment.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    description = json['description'];
     clientId = json['clientId'];
     samples = json['samples'].cast<String>();
     status = json['status'];

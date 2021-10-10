@@ -63,7 +63,7 @@ class PatientProvider with ChangeNotifier {
     var row = patient.toMap();
     row["internetStatus"] = 0; //Flag for no internet
 
-    final id = await dbHelper.update(
+    await dbHelper.update(
         patient.id, PatientFields.patientId, tablePatient, row);
 
     notifyListeners();

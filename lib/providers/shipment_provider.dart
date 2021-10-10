@@ -19,6 +19,9 @@ class ShipmentProvider with ChangeNotifier {
   void addShipment(Shipment? shipment) {
     if (shipment == null) return;
 
+// update shipment ids on Samples
+// this will make sure samples loaded without ids
+
     _shipments.add(shipment);
     addToLocalDatabase(shipment);
 

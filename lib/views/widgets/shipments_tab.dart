@@ -17,6 +17,11 @@ class ShipmentsTab extends StatefulWidget {
 class _ShipmentsTabState extends State<ShipmentsTab> {
   var currentUser;
 
+  List<Shipment> localShipment = [Shipment(id: "Gweru", samples: [])];
+  List<Shipment> hubsShipment = [Shipment(id: "Cholocho", samples: [])];
+  List<Shipment> labsShipment = [Shipment(id: "Chimina", samples: [])];
+  List<Shipment> closedShipment = [Shipment(id: "Seke", samples: [])];
+
   @override
   void didChangeDependencies() {
     currentUser = Provider.of<UserProvider>(context, listen: false).currentUser;
@@ -33,7 +38,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 4,
       child: Scaffold(
           appBar: AppBar(
             bottom: TabBar(tabs: _renderTabs()),
@@ -55,11 +60,11 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
           body: TabBarView(children: [
             Consumer<ShipmentProvider>(
                 builder: (context, shipmentProvider, child) {
-              return _localShipments(shipmentProvider.shipments);
+              return _shipments(shipmentProvider.shipments);
             }),
-            Column(
-              children: [..._newShipments()],
-            )
+            _shipments(localShipment),
+            _shipments(hubsShipment),
+            _shipments(closedShipment)
           ])),
     );
   }
@@ -67,18 +72,22 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
   List<Widget> _renderTabs() {
     if (currentUser == UserType.cluster) {
       return const [
-        Tab(text: "Local"),
-        Tab(text: "Awaiting collection"),
+        Tab(text: "Clients"),
+        Tab(text: "Hub"),
+        Tab(text: "Lab"),
+        Tab(text: "Closed")
       ];
     } else {
       return const [
-        Tab(text: "Local"),
-        Tab(text: "Awaiting collection"),
+        Tab(text: "Clients"),
+        Tab(text: "Hub"),
+        Tab(text: "Lab"),
+        Tab(text: "Closed"),
       ];
     }
   }
 
-  ListView _localShipments(List<Shipment> shipment) {
+  ListView _shipments(List<Shipment> shipment) {
     shipment = shipment.reversed.toList();
     return ListView.builder(
       itemCount: shipment.length,
@@ -94,7 +103,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
               ),
             );
           },
-          title: Text(shipment[index].id.toString()),
+          title: Text(shipment[index].description.toString()),
           subtitle: const Text('Shipping description'),
           leading: const Icon(
             Icons.file_present,

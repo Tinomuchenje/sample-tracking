@@ -62,12 +62,11 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                   children: <Widget>[
                     CustomTextFormField(
                       labelText: "Shipment Label",
-                      initialValue: _shipment.id,
+                      initialValue: _shipment.description,
                       onSaved: (value) {
-                        if (value != null) _shipment.id = value;
+                        if (value != null) _shipment.description = value;
                       },
                     ),
-                    _selectClientDropdown(_shipment),
                     Consumer<SamplesProvider>(
                         builder: (context, sampleProvider, child) {
                       return samplesList(sampleProvider.samples, _shipment);
@@ -79,6 +78,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                           initialValue: _shipment.samples.length.toString(),
                           enabled: false),
                     ),
+                    _desination(_shipment),
                     CustomTextFormField(
                       keyboardType: TextInputType.number,
                       labelText: "Temperature Origin",
@@ -163,7 +163,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
     if (samples!.isEmpty) return const Text("No samples available yet.");
 
     return Padding(
-      padding: const EdgeInsets.all(defaultPadding / 2.0),
+      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
       child: MultiSelectDialogField(
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(5)),
@@ -199,11 +199,29 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
     );
   }
 
-  _selectClientDropdown(Shipment _shipment) {
-    if (_clients.isEmpty) {
-      return const Text("Nothing yet");
-    }
+  _desination(Shipment _shipment) {
+    var destination;
 
+    var destinations = ["Hub 1", "Lab 1"];
+
+    var destinationMenus = destinations.map((String sampleType) {
+      return DropdownMenuItem<String>(
+          value: sampleType, child: Text(sampleType));
+    }).toList();
+
+    return CustomFormDropdown(
+        items: destinationMenus,
+        hint: const Text("Destination"),
+        value: destination ?? _shipment.destination,
+        onChanged: (value) {
+          destination = value.toString();
+        },
+        onSaved: (value) {
+          _shipment.destination = value.toString();
+        });
+  }
+
+  _selectClientDropdown(Shipment _shipment) {
     var clientMenus;
     setState(() {
       clientMenus = _clients.map((Client client) {
