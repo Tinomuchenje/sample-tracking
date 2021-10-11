@@ -69,7 +69,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                     ),
                     Consumer<SamplesProvider>(
                         builder: (context, sampleProvider, child) {
-                      return samplesList(sampleProvider.samples, _shipment);
+                      return samplesList(sampleProvider.allSamples, _shipment);
                     }),
                     Visibility(
                       visible: !isNewForm,
@@ -190,10 +190,12 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
           ),
         ),
         onConfirm: (results) {
-          // _shipment.samples = [..._selectedSamples];
+          results as List<Sample>;
+          _shipment.samples = [...results];
         },
         onSaved: (value) {
-          //  _shipment.samples = [..._selectedSamples];
+          value as List<Sample>;
+          _shipment.samples = [...value];
         },
       ),
     );

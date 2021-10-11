@@ -7,50 +7,60 @@ void main() {
     test("Add new sample", () {
       // Arrange
       final sampleProvider = SamplesProvider();
-      var sample =
-          Sample(sampleType: "1", id: "1", clientPatientId: "1");
+      var sample = Sample(sampleType: "1", id: "1", clientPatientId: "1");
 
       // Act
       sampleProvider.addSample(sample);
 
       // Assert
-      assert(sampleProvider.samples[0].sampleType == sample.sampleType);
+      assert(sampleProvider.allSamples[0].sampleType == sample.sampleType);
     });
 
     test("Add sample Create records Length match samples", () {
       // Arrange
       final sampleProvider = SamplesProvider();
-      Sample sampleOne =
-          Sample(sampleType: "1", id: "1", clientPatientId: "1");
+      Sample sampleOne = Sample(sampleType: "1", id: "1", clientPatientId: "1");
 
-      Sample sampleTwo =
-          Sample(sampleType: "1", id: "1", clientPatientId: "1");
+      Sample sampleTwo = Sample(sampleType: "1", id: "1", clientPatientId: "1");
 
       // Act
       sampleProvider.addSample(sampleOne);
       sampleProvider.addSample(sampleTwo);
 
       // Assert
-      assert(sampleProvider.samples.length == 2);
+      assert(sampleProvider.allSamples.length == 2);
     });
 
     test("Adding a valid sample When there is an exisiting one No Duplicates",
         () {
       // Arrange
       final sampleProvider = SamplesProvider();
-      Sample sampleOne =
-          Sample(sampleType: "1", id: "1", clientPatientId: "1");
+      Sample sampleOne = Sample(sampleType: "1", id: "1", clientPatientId: "1");
 
-      Sample sampleTwo =
-          Sample(sampleType: "2", id: "2", clientPatientId: "2");
+      Sample sampleTwo = Sample(sampleType: "2", id: "2", clientPatientId: "2");
 
       // Act
       sampleProvider.addSample(sampleOne);
       sampleProvider.addSample(sampleTwo);
 
       // Assert
-      assert(sampleProvider.samples[0].sampleType !=
-          sampleProvider.samples[1].sampleType);
+      assert(sampleProvider.allSamples[0].sampleType !=
+          sampleProvider.allSamples[1].sampleType);
+    });
+
+    test("Get Unshiped Samples", () {
+      // Arrange
+      final sampleProvider = SamplesProvider();
+      Sample sampleOne = Sample();
+
+      Sample sampleTwo = Sample(shipmentId: "1");
+      // Act
+      
+      sampleProvider.addSample(sampleOne);
+      sampleProvider.addSample(sampleTwo);
+      // Assert
+
+      assert(sampleProvider.unshipedSamples.length == 1);
     });
   });
 }

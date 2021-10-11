@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sample_tracking_system_flutter/consts/table_names.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
-import 'package:sample_tracking_system_flutter/utils/db_models/patient_fields.dart';
-import 'package:sample_tracking_system_flutter/utils/sqlite_db.dart';
+import 'package:sample_tracking_system_flutter/utils/dao/patient_dao.dart';
 
 class PatientProvider with ChangeNotifier {
-  final dbHelper = DBHelper.instance;
-
   final Patient _patient = Patient();
   final List<Patient> _patients = [];
 
   Patient get patient => _patient;
+
   List<Patient> get patients {
     if (_patients.isEmpty) allPatientsFromdatabase();
     return [..._patients];
@@ -18,58 +15,29 @@ class PatientProvider with ChangeNotifier {
 
   void add(Patient? patient) {
     if (patient == null) return;
-
     patient.client = "admin";
-
     patient.dateCreated = patient.dateModified = DateTime.now().toString();
-
-    _patients.add(patient);
     addToLocalDatabase(patient);
     notifyListeners();
   }
 
-  Future<int> addToLocalDatabase(Patient patient) async {
-    var row = patient.toMap();
-    row["internetStatus"] = 0; //Flag for no internet
-
-    final id = await dbHelper.insert(tablePatient, row);
-    return id;
+  Future addToLocalDatabase(Patient patient) async {
+    await PatientDao().insert(patient).then((value) {
+      _patients.add(patient);
+      notifyListeners();
+    }).catchError((onError) {});
   }
 
   Future<void> allPatientsFromdatabase() async {
-    final maps = await dbHelper.queryAllRecords(tablePatient);
-
-    var result = List.generate(maps.length, (index) {
-      return Patient(
-        id: maps[index]['patient_id'],
-        firstname: maps[index]['firstname'],
-        lastname: maps[index]['lastname'],
-        gender: maps[index]['gender'],
-        dob: maps[index]['dob'],
-        client: maps[index]['client'],
-        clientPatientId: maps[index]['client_patient_id'],
-        cohortNumber: maps[index]['cohort_number'],
-        dateCreated: maps[index]['created_at'],
-        dateModified: maps[index]['modified_at'],
-      );
+    await PatientDao().getAllPatients().then((value) {
+      _patients.clear();
+      _patients.addAll(value);
+      notifyListeners();
     });
-
-    removeAll();
-    _patients.addAll(result);
-    notifyListeners();
   }
 
   updatePatient(Patient patient) async {
-    var row = patient.toMap();
-    row["internetStatus"] = 0; //Flag for no internet
-
-    await dbHelper.update(
-        patient.id, PatientFields.patientId, tablePatient, row);
-
+    await PatientDao().update(patient);
     notifyListeners();
-  }
-
-  void removeAll() {
-    _patients.clear();
   }
 }

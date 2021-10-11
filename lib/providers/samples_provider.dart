@@ -11,9 +11,15 @@ class SamplesProvider with ChangeNotifier {
 
   Sample get sample => _sample;
 
-  List<Sample> get samples {
+  List<Sample> get allSamples {
     if (_samples.isEmpty) allSamplesFromdatabase();
     return [..._samples];
+  }
+
+  List<Sample> get unshipedSamples {
+    List<Sample> unshipedSamples = allSamples;
+    unshipedSamples.removeWhere((sample) => sample.shipmentId!.isNotEmpty);
+    return unshipedSamples;
   }
 
   void addSample(Sample? sample) async {

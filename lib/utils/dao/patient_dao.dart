@@ -32,7 +32,7 @@ class PatientDao {
     await _patientTable.delete(await _database, finder: finder);
   }
 
-  Future<List<Patient>> getAllShipments() async {
+  Future<List<Patient>> getAllPatients() async {
     final recordSnapshot = await _patientTable.find(await _database);
 
     return recordSnapshot.map((snapshot) {
