@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_declarations
+
 class ShipmentFileds {
   static final List<String> values = [
     shipmentId,

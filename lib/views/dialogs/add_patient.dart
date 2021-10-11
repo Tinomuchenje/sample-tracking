@@ -3,8 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/providers/patient_provider.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_date_form_field.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
+
+import 'add_sample.dart';
+
+enum Gender { male, female }
 
 class AddorUpdatePatientDialog extends StatefulWidget {
   Patient? patientData;
@@ -17,7 +22,27 @@ class AddorUpdatePatientDialog extends StatefulWidget {
 
 class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
   final _formKey = GlobalKey<FormState>();
-  int _value = 1;
+
+  var dateController = TextEditingController();
+  DateTime selectedDate = DateTime.now();
+  String? _gender = "male";
+
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime now = DateTime.now();
+    DateTime date = DateTime(now.year, now.month, now.day);
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: date,
+        firstDate: DateTime(1900),
+        lastDate: date);
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        dateController = TextEditingController(text: selectedDate.toString());
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isNewForm = widget.patientData == null;
@@ -28,7 +53,6 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blue,
           title: Text('$_appBarText Patient'),
         ),
         body: Form(
@@ -53,44 +77,62 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                           if (value != null) _patient.lastname = value;
                         },
                       ),
-                      // DropdownButton(
-                      //   value: _value,
-                      //   items: [
-                      //     const DropdownMenuItem(
-                      //       child: Text("First Item"),
-                      //       value: 1,
-                      //     ),
-                      //     DropdownMenuItem(
-                      //       child: Text("Second Item"),
-                      //       value: 2,
-                      //     )
-                      //   ],
-                      //   // onChanged: (int value) {
-                      //   //   setState(() {
-                      //   //     // _value = value;
-                      //   //   });
-                      //   // },
-                      // ),
-                      CustomTextFormField(
-                        labelText: "Date of birth",
-                        initialValue: _patient.dob,
-                        onSaved: (value) {
-                          if (value != null) _patient.dob = value;
-                        },
-                      ),
-                      CustomTextFormField(
-                        labelText: "Client",
-                        initialValue: _patient.client,
-                        onSaved: (value) {
-                          if (value != null) _patient.client = value;
-                        },
-                      ),
                       CustomTextFormField(
                         labelText: "Cohort Number",
                         initialValue: _patient.cohortNumber,
                         onSaved: (value) {
                           if (value != null) _patient.cohortNumber = value;
                         },
+                      ),
+                      CustomTextFormField(
+                        labelText: "Client Patient Id",
+                        initialValue: _patient.clientPatientId,
+                        onSaved: (value) {
+                          if (value != null) _patient.clientPatientId = value;
+                        },
+                      ),
+                      CustomTextFormField(
+                        labelText: "Phone number",
+                        keyboardType: TextInputType.phone,
+                        initialValue: _patient.phoneNumber,
+                        onSaved: (value) {
+                          if (value != null) _patient.phoneNumber = value;
+                        },
+                      ),
+                      DateFormField(
+                        labelText: "Date of birth",
+                        dateController: dateController,
+                        onSaved: (value) {
+                          if (value != null) _patient.dob = value.toString();
+                        },
+                      ),
+                      Column(
+                        children: <Widget>[
+                          ListTile(
+                            title: const Text('Male'),
+                            leading: Radio(
+                              value: "male",
+                              groupValue: _gender,
+                              onChanged: (String? value) {
+                                setState(() {
+                                  _gender = value;
+                                });
+                              },
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text('Female'),
+                            leading: Radio(
+                              value: "female",
+                              groupValue: _gender,
+                              onChanged: (String? value) {
+                                setState(() {
+                                  _gender = value;
+                                });
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                       Visibility(
                         visible: !isNewForm,
@@ -118,22 +160,59 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                           },
                         ),
                       ),
-                      CustomElevatedButton(
-                          labelText: "$_saveButtonText Patient",
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              _patient.dateModified = _patient.dateCreated =
-                                  DateTime.now().toString();
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SizedBox(
+                            height: 50,
+                            width: 170,
+                            child: CustomElevatedButton(
+                                displayText: "$_saveButtonText Patient",
+                                fillcolor: false,
+                                press: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    _formKey.currentState!.save();
 
-                              widget.patientData == null
-                                  ? addNewSample(context, _patient)
-                                  : updateSample(context, _patient);
+                                    widget.patientData == null
+                                        ? addNewPatient(context, _patient)
+                                        : updatePatient(context, _patient);
 
-                              showNotification(context);
-                              Navigator.of(context).pop();
-                            }
-                          }),
+                                    showNotification(context);
+                                    Navigator.of(context).pop();
+                                  }
+                                }),
+                          ),
+                          SizedBox(
+                            height: 50,
+                            width: 170,
+                            child: CustomElevatedButton(
+                                displayText: "$_saveButtonText & Add Sample",
+                                fillcolor: true,
+                                press: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    _formKey.currentState!.save();
+
+                                    widget.patientData == null
+                                        ? addNewPatient(context, _patient)
+                                        : updatePatient(context, _patient);
+
+                                    showNotification(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute<void>(
+                                        builder: (BuildContext context) =>
+                                            AddorUpdateSampleDialog(
+                                                patient: _patient),
+                                      ),
+                                    );
+                                  }
+                                }),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 )
@@ -155,11 +234,13 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
     return DateTime.now().toString();
   }
 
-  void addNewSample(BuildContext context, Patient _patient) {
+  void addNewPatient(BuildContext context, Patient _patient) {
+    _patient.gender = _gender;
     Provider.of<PatientProvider>(context, listen: false).add(_patient);
   }
 
-  void updateSample(BuildContext context, Patient _patient) {
+  void updatePatient(BuildContext context, Patient _patient) {
+    _patient.gender = _gender;
     Provider.of<PatientProvider>(context, listen: false)
         .updatePatient(_patient);
   }

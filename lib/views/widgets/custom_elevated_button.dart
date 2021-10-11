@@ -1,26 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:sample_tracking_system_flutter/consts/constants.dart';
+import 'package:flutter/widgets.dart';
 
-class CustomElevatedButton extends StatefulWidget {
-  final String labelText;
-  final Function()? onPressed;
+class CustomElevatedButton extends StatelessWidget {
+  final String displayText;
+  final bool fillcolor;
+  final void Function()? press;
+  static const circularRadius = 20.0;
 
-  CustomElevatedButton({required this.labelText, this.onPressed});
+  CustomElevatedButton(
+      {required this.displayText,
+      required this.fillcolor,
+      required this.press});
 
-  @override
-  _CustomElevatedButtonState createState() => _CustomElevatedButtonState();
-}
-
-class _CustomElevatedButtonState extends State<CustomElevatedButton> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(defaultPadding),
-      child: ElevatedButton(
-          style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all(Size(300, 45))),
-          onPressed: widget.onPressed,
-          child: Text(widget.labelText)),
+    var alternativeColor = Colors.grey;
+    var primaryColor = Theme.of(context).primaryColor;
+    return TextButton(
+      style: TextButton.styleFrom(
+          primary: fillcolor ? Colors.white : alternativeColor,
+          backgroundColor: fillcolor ? alternativeColor : Colors.white,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(circularRadius),
+              side: BorderSide(color: alternativeColor))),
+      child: Text(
+        displayText,
+        style: TextStyle(
+          color: fillcolor ? Colors.white : alternativeColor,
+        ),
+      ),
+      onPressed: press,
     );
   }
 }

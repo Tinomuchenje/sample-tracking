@@ -1,0 +1,202 @@
+[
+  {
+    "laboratory_id": "001a00e5d61545cd8de7ca8022cc6a22",
+    "name": "Parirenyatwa Group of Hospital Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZW000E0E",
+    "created_by": "system",
+    "created_date": "2021-03-28 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-28 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd8de7ca8022cc6l11",
+    "name": "Beitbridge Hospital Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZW06010A",
+    "created_by": "system",
+    "created_date": "2021-03-28 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-28 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd8de7ca8022ll6l11",
+    "name": "Thorngrove Hospital Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZW090A0E",
+    "created_by": "system",
+    "created_date": "2021-03-28 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-28 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd9de7ca8087cc6a73",
+    "name": "National Microbiology Reference Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZWL000001",
+    "created_by": "system",
+    "created_date": "2021-03-11 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-11 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd9de7ca8087cc6a74",
+    "name": "BRIDH Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZW000A0C",
+    "created_by": "system",
+    "created_date": "2021-03-12 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-12 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd9de7ca8087cc6a75",
+    "name": "Kadoma Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZW04030A",
+    "created_by": "system",
+    "created_date": "2021-03-13 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-13 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd9de7ca8087cc6a76",
+    "name": "Marondera Provincial Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZW03050A",
+    "created_by": "system",
+    "created_date": "2021-03-14 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-14 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd9de7ca8087cc6a77",
+    "name": "Bindura Provincial Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZW02010A",
+    "created_by": "system",
+    "created_date": "2021-03-15 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-15 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd9de7ca8087cc6a78",
+    "name": "AiBst Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZWL000002",
+    "created_by": "system",
+    "created_date": "2021-03-16 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-16 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd9de7ca8087cc6a80",
+    "name": "BRTI Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZWL000003",
+    "created_by": "system",
+    "created_date": "2021-03-17 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-17 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd9de7ca8087cc6a81",
+    "name": "National Virology Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZWL000004",
+    "created_by": "system",
+    "created_date": "2021-03-18 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-18 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd9de7ca8087cc6a82",
+    "name": "Mutare Provincial Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZW01050A",
+    "created_by": "system",
+    "created_date": "2021-03-19 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-19 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd9de7ca8087cc6a83",
+    "name": "Masvingo Provincial Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZW08050A",
+    "created_by": "system",
+    "created_date": "2021-03-20 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-20 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd9de7ca8087cc6a84",
+    "name": "Gweru Provincial Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZW07030A",
+    "created_by": "system",
+    "created_date": "2021-03-21 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-21 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd9de7ca8087cc6a85",
+    "name": "Gwanda  Provincial Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZW06030A",
+    "created_by": "system",
+    "created_date": "2021-03-22 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-22 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd9de7ca8087cc6a86",
+    "name": "St Lukes Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZW05040B",
+    "created_by": "system",
+    "created_date": "2021-03-23 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-23 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd9de7ca8087cc6a87",
+    "name": "Chinhoyi Provincial Hospital",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZW04050A",
+    "created_by": "system",
+    "created_date": "2021-03-24 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-24 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd9de7ca8087cc6a88",
+    "name": "Victoria Falls Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZW05030A",
+    "created_by": "system",
+    "created_date": "2021-03-25 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-25 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd9de7ca8087cc6a99",
+    "name": "Mpilo Group Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZW090D0D",
+    "created_by": "system",
+    "created_date": "2021-03-26 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-26 00:00:00"
+  },
+  {
+    "laboratory_id": "001a00e5d61545cd9de7ca8099cc6a33",
+    "name": "National Tuberculosis Reference Laboratory",
+    "type": "CONVENTIONAL_LABORATORY",
+    "code": "ZWL000005",
+    "created_by": "system",
+    "created_date": "2021-03-27 00:00:00",
+    "last_modified_by": "system",
+    "last_modified_date": "2021-03-27 00:00:00"
+  }
+]

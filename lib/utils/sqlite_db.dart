@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:sample_tracking_system_flutter/consts/table_names.dart';
-import 'package:sample_tracking_system_flutter/models/laboritory.dart';
 import 'package:sample_tracking_system_flutter/utils/db_models/laboratory_fields.dart';
 import 'package:sqflite/sqflite.dart';
 

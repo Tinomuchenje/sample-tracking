@@ -11,10 +11,17 @@ class PatientProvider with ChangeNotifier {
   final List<Patient> _patients = [];
 
   Patient get patient => _patient;
-  List<Patient> get patients => [..._patients];
+  List<Patient> get patients {
+    if (_patients.isEmpty) allPatientsFromdatabase();
+    return [..._patients];
+  }
 
   void add(Patient? patient) {
     if (patient == null) return;
+
+    patient.client = "admin";
+
+    patient.dateCreated = patient.dateModified = DateTime.now().toString();
 
     _patients.add(patient);
     addToLocalDatabase(patient);
@@ -34,7 +41,7 @@ class PatientProvider with ChangeNotifier {
 
     var result = List.generate(maps.length, (index) {
       return Patient(
-        patientId: maps[index]['patient_id'],
+        id: maps[index]['patient_id'],
         firstname: maps[index]['firstname'],
         lastname: maps[index]['lastname'],
         gender: maps[index]['gender'],
@@ -56,8 +63,8 @@ class PatientProvider with ChangeNotifier {
     var row = patient.toMap();
     row["internetStatus"] = 0; //Flag for no internet
 
-    final id = await dbHelper.update(
-        patient.patientId, PatientFields.patientId, tablePatient, row);
+    await dbHelper.update(
+        patient.id, PatientFields.patientId, tablePatient, row);
 
     notifyListeners();
   }

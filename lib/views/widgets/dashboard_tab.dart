@@ -15,63 +15,60 @@ class _DashboardTabState extends State<DashboardTab> {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dashboard'),
-        actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-          ),
-          IconButton(
-            onPressed: () => {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("Syncing"),
-                  backgroundColor: Colors.green,
-                ),
-              )
-            },
-            icon: Icon(Icons.sync),
-          )
-        ],
-        backgroundColor: Colors.blue,
-      ),
-      drawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            SizedBox(
-              height: 25,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                'Menu',
-                style: textTheme.headline6,
-              ),
-            ),
-            Divider(
-              height: 1,
-              thickness: 1,
-            ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Patients'),
-              selected: _selectedDestination == 0,
-              onTap: () => selectDestination(0),
-            ),
-            ListTile(
-              leading: Icon(Icons.batch_prediction),
-              title: Text('Batch'),
-              selected: _selectedDestination == 1,
-              onTap: () => selectDestination(1),
-            ),
-
-
-
-          ],
-        ),
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Dashboard'),
+      //   actions: [
+      //     const Padding(
+      //       padding: EdgeInsets.symmetric(horizontal: 16),
+      //     ),
+      //     IconButton(
+      //       onPressed: () => {
+      //         ScaffoldMessenger.of(context).showSnackBar(
+      //           const SnackBar(
+      //             content: Text("Syncing"),
+      //             backgroundColor: Colors.green,
+      //           ),
+      //         )
+      //       },
+      //       icon: const Icon(Icons.sync),
+      //     )
+      //   ],
+      //   backgroundColor: Colors.blue,
+      // ),
+      // drawer: Drawer(
+      //   child: ListView(
+      //     // Important: Remove any padding from the ListView.
+      //     padding: EdgeInsets.zero,
+      //     children: <Widget>[
+      //       const SizedBox(
+      //         height: 25,
+      //       ),
+      //       Padding(
+      //         padding: const EdgeInsets.all(16.0),
+      //         child: Text(
+      //           'Menu',
+      //           style: textTheme.headline6,
+      //         ),
+      //       ),
+      //       const Divider(
+      //         height: 1,
+      //         thickness: 1,
+      //       ),
+      //       ListTile(
+      //         leading: const Icon(Icons.person),
+      //         title: const Text('Patients'),
+      //         selected: _selectedDestination == 0,
+      //         onTap: () => selectDestination(0),
+      //       ),
+      //       ListTile(
+      //         leading: const Icon(Icons.batch_prediction),
+      //         title: const Text('Batch'),
+      //         selected: _selectedDestination == 1,
+      //         onTap: () => selectDestination(1),
+      //       ),
+      //     ],
+      //   ),
+      // ),
       body: GridView.count(
         crossAxisCount: 2,
         children: <Widget>[
@@ -85,7 +82,6 @@ class _DashboardTabState extends State<DashboardTab> {
               Colors.red.shade100),
           makeDashboardItem(
               "Not Synced", 3.toString(), Icons.sync_problem, Colors.white),
-
           makeDashboardItem(
               "Delivered", 30.toString(), Icons.all_inbox, Colors.white),
           makeDashboardItem(
@@ -105,40 +101,37 @@ class _DashboardTabState extends State<DashboardTab> {
       String title, String count, IconData icon, Color color) {
     return Card(
         elevation: 1.0,
-        margin: EdgeInsets.all(8.0),
+        margin: const EdgeInsets.all(8.0),
         child: Container(
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(5.0),
           ),
-          child: InkWell(
-            onTap: () {},
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              verticalDirection: VerticalDirection.down,
-              children: <Widget>[
-                const SizedBox(height: 50.0),
-                Center(
-                    child: Icon(
-                  icon,
-                  size: 40.0,
-                  color: Colors.black,
-                )),
-                const SizedBox(height: 20.0),
-                Center(
-                  child: Text(
-                    count,
-                    style: TextStyle(fontSize: 32),
-                  ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            verticalDirection: VerticalDirection.down,
+            children: <Widget>[
+              const SizedBox(height: 50.0),
+              Center(
+                  child: Icon(
+                icon,
+                size: 40.0,
+                color: Colors.black,
+              )),
+              const SizedBox(height: 20.0),
+              Center(
+                child: Text(
+                  count,
+                  style: const TextStyle(fontSize: 32),
                 ),
-                Center(
-                  child: Text(title,
-                      style:
-                          const TextStyle(fontSize: 18.0, color: Colors.black)),
-                )
-              ],
-            ),
+              ),
+              Center(
+                child: Text(title,
+                    style:
+                        const TextStyle(fontSize: 18.0, color: Colors.black)),
+              )
+            ],
           ),
         ));
   }

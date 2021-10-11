@@ -1,28 +1,25 @@
-class Laboratory {
-  String? id;
+class SampleType {
+  String? sampleTypeId;
   String? name;
-  String? type;
-  String? code;
+  String? prefix;
   String? createdBy;
   String? createdDate;
   String? lastModifiedBy;
   String? lastModifiedDate;
 
-  Laboratory(
-      {required this.id,
+  SampleType(
+      {this.sampleTypeId,
       this.name,
-      this.type,
-      this.code,
+      this.prefix,
       this.createdBy,
       this.createdDate,
       this.lastModifiedBy,
       this.lastModifiedDate});
 
-  Laboratory.fromJson(Map<String, dynamic> json) {
-    id = json['laboratory_id'];
+  SampleType.fromJson(Map<String, dynamic> json) {
+    sampleTypeId = json['sample_type_id'];
     name = json['name'];
-    type = json['type'];
-    code = json['code'];
+    prefix = json['prefix'];
     createdBy = json['created_by'];
     createdDate = json['created_date'];
     lastModifiedBy = json['last_modified_by'];
@@ -31,10 +28,9 @@ class Laboratory {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['laboratory_id'] = id;
+    data['sample_type_id'] = sampleTypeId;
     data['name'] = name;
-    data['type'] = type;
-    data['code'] = code;
+    data['prefix'] = prefix;
     data['created_by'] = createdBy;
     data['created_date'] = createdDate;
     data['last_modified_by'] = lastModifiedBy;
