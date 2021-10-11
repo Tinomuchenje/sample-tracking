@@ -42,7 +42,7 @@ class _GridDashBoardState extends State<GridDashBoard> {
             builder: (context, sampleProvider, child) {
               return buildDashboardItem(
                   title: "Samples",
-                  count: sampleProvider.samples.length,
+                  count: sampleProvider.allSamples.length,
                   icon: Icons.select_all);
             },
           ),

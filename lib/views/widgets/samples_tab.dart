@@ -90,7 +90,7 @@ class _SamplesTabState extends State<SamplesTab> {
         ),
         body: Consumer<SamplesProvider>(
           builder: (context, samplesProvider, child) =>
-              _samplesList(samplesProvider.samples),
+              _samplesList(samplesProvider.allSamples),
         ));
   }
 
