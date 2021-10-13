@@ -56,7 +56,7 @@ class Patient {
     data['dateCreated'] = dateCreated;
     data['dateModified'] = dateModified;
     data['phoneNumber'] = phoneNumber;
-    data['auditLog'] = auditLog;
+    data['auditLog'] = auditLog?.toJson();
     return data;
   }
 

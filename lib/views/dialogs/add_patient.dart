@@ -86,7 +86,7 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                       ),
                       CustomTextFormField(
                         labelText: "Client Patient Id",
-                        initialValue: _patient.clientPatientId,
+                        initialValue: _patient.clientPatientId ?? " ",
                         onSaved: (value) {
                           if (value != null) _patient.clientPatientId = value;
                         },

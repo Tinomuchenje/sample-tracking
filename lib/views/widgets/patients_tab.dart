@@ -117,11 +117,7 @@ class PatientSearch extends SearchDelegate<Patient> {
     List<Patient> _patients =
         Provider.of<PatientProvider>(context, listen: false).patients;
 
-    final searchResultsList = _patients.where((x) {
-      return x.firstname!.toLowerCase().contains(query.toLowerCase()) ||
-          x.lastname!.toLowerCase().startsWith(query.toLowerCase()) ||
-          x.clientPatientId!.toLowerCase().startsWith(query.toLowerCase());
-    }).toList();
+    final searchResultsList = buildSearchResults(_patients);
 
     return Visibility(
         visible: searchResultsList.isNotEmpty,
@@ -146,7 +142,35 @@ class PatientSearch extends SearchDelegate<Patient> {
         ));
   }
 
-  ListView _buildSearchResultTile(List<Patient> patientsFound) {
+  List<Patient> buildSearchResults(List<Patient> _patients) {
+    return _patients.where((patient) {
+      return searchOptions(patient);
+    }).toList();
+  }
+
+  bool searchOptions(Patient patient) {
+    return firstname(patient.firstname) ||
+        lastname(patient.lastname) ||
+        clientPatientId(patient.clientPatientId);
+  }
+
+  bool lastname(String? lastname) {
+    if (lastname == null) return false;
+    return lastname.toLowerCase().contains(query.toLowerCase());
+  }
+
+  bool firstname(String? firstname) {
+    if (firstname == null) return false;
+    return firstname.toLowerCase().contains(query.toLowerCase());
+  }
+
+  bool clientPatientId(String? clientPatientId) {
+    if (clientPatientId == null) return false;
+    return clientPatientId.toLowerCase().startsWith(query.toLowerCase());
+  }
+
+  Widget _buildSearchResultTile(List<Patient> patientsFound) {
+    if (patientsFound.isEmpty) return const Text("No patient found.");
     var color = Colors.blue;
     return ListView.builder(
         itemBuilder: (context, index) => Flexible(
@@ -182,7 +206,7 @@ class PatientSearch extends SearchDelegate<Patient> {
                         child: Row(
                           children: [
                             const Text("Client Patient Id: "),
-                            Text(patientsFound[index].clientPatientId!)
+                            Text(patientsFound[index].clientPatientId ?? "")
                           ],
                         ),
                       ),

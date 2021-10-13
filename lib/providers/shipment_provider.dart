@@ -19,9 +19,9 @@ class ShipmentProvider with ChangeNotifier {
   void addShipment(Shipment? shipment) {
     if (shipment == null) return;
 
-    for (var sample in shipment.samples) {
-      sample.shipmentId = shipment.id;
-    }
+    // for (var sample in shipment.samples) {
+    //   sample.shipmentId = shipment.id;
+    // }
 
     _shipments.add(shipment);
     addToLocalDatabase(shipment);
