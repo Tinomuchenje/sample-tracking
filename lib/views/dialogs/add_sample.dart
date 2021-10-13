@@ -8,14 +8,12 @@ import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
+import 'package:sample_tracking_system_flutter/views/patient/search_patient.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_date_form_field.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/patients_tab.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/samples_tab.dart';
-
-import 'add_patient.dart';
 
 class AddorUpdateSampleDialog extends StatefulWidget {
   final Patient? patient;
@@ -301,43 +299,6 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
         });
   }
 
-  _patientsDropdown(Sample _sample, List<Patient> patients) {
-    //Add button to add patient pop up
-    if (patients.isEmpty) {
-      return CustomElevatedButton(
-          displayText: "Add Patient",
-          fillcolor: true,
-          press: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            AddorUpdatePatientDialog()))
-              });
-    }
-
-    var patientsList = patients.map((Patient patient) {
-      return "${patient.firstname} ${patient.lastname}";
-    }).toList();
-
-    var _selected;
-    return Padding(
-      padding: const EdgeInsets.all(defaultPadding / 2),
-      child: DropdownSearch<String>(
-        mode: Mode.DIALOG,
-        showSearchBox: true,
-        showSelectedItems: true,
-        items: patientsList,
-        hint: "Select Patient",
-        onChanged: print,
-        onSaved: (value) {
-          if (value != null) _sample.clientPatientId = value.toString();
-        },
-        // selectedItem: _selected
-      ),
-    );
-  }
-
   _testsDropdown(Sample _sample) {
     var _test;
 
@@ -367,39 +328,6 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
         _test = value as String;
       },
     );
-  }
-
-  _laboratoriesDropdown(Sample _sample) {
-    Laboratory? _laboratory;
-    return FutureBuilder(
-        future: laboratoryDao.getAllLabs(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const Text("Loading Labs");
-          }
-
-          List<Laboratory>? labs = snapshot.data as List<Laboratory>;
-          List<DropdownMenuItem<String>> labMenus = [];
-
-          labMenus = labs.map((Laboratory laboratory) {
-            return DropdownMenuItem<String>(
-              value: laboratory.id,
-              child: Text(laboratory.name ?? "Name unavailable"),
-            );
-          }).toList();
-
-          return CustomFormDropdown(
-            value: _laboratory ?? _sample.labId,
-            hint: const Text("Lab"),
-            items: labMenus,
-            onSaved: (value) {
-              _sample.labId = value.toString();
-            },
-            onChanged: (value) {
-              _laboratory = value as Laboratory;
-            },
-          );
-        });
   }
 
   void addNewSample(Sample _sample, BuildContext context) {

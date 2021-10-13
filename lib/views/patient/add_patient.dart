@@ -7,7 +7,7 @@ import 'package:sample_tracking_system_flutter/views/widgets/custom_date_form_fi
 import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
 
-import 'add_sample.dart';
+import '../dialogs/add_sample.dart';
 
 enum Gender { male, female }
 
@@ -27,22 +27,6 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
   DateTime selectedDate = DateTime.now();
   String? _gender = "male";
 
-  Future<void> _selectDate(BuildContext context) async {
-    DateTime now = DateTime.now();
-    DateTime date = DateTime(now.year, now.month, now.day);
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: date,
-        firstDate: DateTime(1900),
-        lastDate: date);
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-        dateController = TextEditingController(text: selectedDate.toString());
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     bool isNewForm = widget.patientData == null;
@@ -50,6 +34,8 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
 
     String _appBarText = isNewForm ? 'Add' : 'Update';
     String _saveButtonText = isNewForm ? 'Save' : 'Update';
+
+    _gender = _patient.gender ?? _gender;
 
     return Scaffold(
         appBar: AppBar(
@@ -101,7 +87,7 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                       ),
                       DateFormField(
                         labelText: "Date of birth",
-                        dateController: dateController,
+                        initialValue: _patient.dob,
                         onSaved: (value) {
                           if (value != null) _patient.dob = value.toString();
                         },
