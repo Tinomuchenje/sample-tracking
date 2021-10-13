@@ -26,7 +26,7 @@ class Sample {
   String? dateModified;
   String? temperatureAtHub;
   String? temperatureAtLab;
-  AuditLog? auditLogAuditLog;
+  AuditLog? auditLog;
 
   Sample(
       {this.id,
@@ -52,7 +52,7 @@ class Sample {
       this.dateModified,
       this.temperatureAtHub,
       this.temperatureAtLab,
-      this.auditLogAuditLog});
+      this.auditLog});
 
   Sample.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -78,7 +78,8 @@ class Sample {
     dateModified = json['dateModified'];
     temperatureAtHub = json['temperatureAtHub'];
     temperatureAtLab = json['temperatureAtLab'];
-    auditLogAuditLog = json['auditLog'];
+    auditLog =
+        json['auditLog'] != null ? AuditLog.fromJson(json['auditLog']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -106,7 +107,10 @@ class Sample {
     data['dateModified'] = dateModified;
     data['temperatureAtHub'] = temperatureAtHub;
     data['temperatureAtLab'] = temperatureAtLab;
-    data['AuditLog? auditLog'] = auditLogAuditLog!.toJson();
+    if (auditLog != null) {
+      data['AuditLog? auditLog'] = auditLog!.toJson();
+    }
+
     return data;
   }
 }
