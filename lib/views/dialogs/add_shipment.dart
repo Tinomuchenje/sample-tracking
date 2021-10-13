@@ -190,11 +190,11 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
           ),
         ),
         onConfirm: (results) {
-          results as List<Sample>;
+          //results as List<Sample>;
           //   _shipment.samples = [...results];
         },
         onSaved: (value) {
-          value as List<Sample>;
+          // value as List<Sample>;
           // _shipment.samples = [...value];
         },
       ),

@@ -13,6 +13,7 @@ class ShipmentProvider with ChangeNotifier {
   Shipment get shipment => _shipment;
 
   List<Shipment> get shipments {
+    if (_shipments.isEmpty) allShipmentsFromdatabase();
     return [..._shipments];
   }
 

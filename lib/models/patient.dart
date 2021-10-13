@@ -71,7 +71,8 @@ class Patient {
     dateCreated = json['dateCreated'];
     dateModified = json['dateModified'];
     phoneNumber = json['phoneNumber'];
-    auditLog = json['auditLog'];
+    auditLog =
+        json['auditLog'] != null ? AuditLog.fromJson(json['auditLog']) : null;
   }
 
   @override

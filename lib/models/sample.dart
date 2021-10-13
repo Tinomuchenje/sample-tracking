@@ -78,7 +78,7 @@ class Sample {
     dateModified = json['dateModified'];
     temperatureAtHub = json['temperatureAtHub'];
     temperatureAtLab = json['temperatureAtLab'];
-    auditLogAuditLog = json['AuditLog? auditLog'];
+    auditLogAuditLog = json['auditLog'];
   }
 
   Map<String, dynamic> toJson() {
@@ -106,7 +106,7 @@ class Sample {
     data['dateModified'] = dateModified;
     data['temperatureAtHub'] = temperatureAtHub;
     data['temperatureAtLab'] = temperatureAtLab;
-    data['AuditLog? auditLog'] = auditLogAuditLog;
+    data['AuditLog? auditLog'] = auditLogAuditLog!.toJson();
     return data;
   }
 }

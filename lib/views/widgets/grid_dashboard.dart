@@ -24,12 +24,13 @@ class _GridDashBoardState extends State<GridDashBoard> {
         crossAxisSpacing: 18.0,
         mainAxisSpacing: 18.0,
         children: <Widget>[
-          buildDashboardItem(
-              title: "Total Shipments",
-              count: Provider.of<ShipmentProvider>(context, listen: false)
-                  .shipments
-                  .length,
-              icon: Icons.select_all),
+          Consumer<ShipmentProvider>(
+              builder: (context, shipmentProvider, child) {
+            return buildDashboardItem(
+                title: "Total Shipments",
+                count: shipmentProvider.shipments.length,
+                icon: Icons.select_all);
+          }),
           Consumer<PatientProvider>(
             builder: (context, patientProvider, child) {
               return buildDashboardItem(
@@ -48,14 +49,14 @@ class _GridDashBoardState extends State<GridDashBoard> {
           ),
           buildDashboardItem(
               title: "Due Collection",
-              count: 15,
+              count: 0,
               icon: Icons.check_circle_outline),
-          buildDashboardItem(title: "In Transit", count: 23, icon: Icons.moped),
-          buildDashboardItem(title: "Accepted", count: 3, icon: Icons.task_alt),
+          buildDashboardItem(title: "In Transit", count: 0, icon: Icons.moped),
+          buildDashboardItem(title: "Accepted", count: 0, icon: Icons.task_alt),
           buildDashboardItem(
-              title: "Delivered", count: 113, icon: Icons.all_inbox),
+              title: "Delivered", count: 0, icon: Icons.all_inbox),
           buildDashboardItem(
-              title: "Rejected", count: 113, icon: Icons.highlight_off),
+              title: "Rejected", count: 0, icon: Icons.highlight_off),
         ],
       ),
     );
