@@ -82,7 +82,8 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                       visible: !isNewForm,
                       child: CustomTextFormField(
                           labelText: "Total Number of samples",
-                          initialValue: _shipment.samples.length.toString(),
+                          controller: TextEditingController(
+                              text: _shipment.samples.length.toString()),
                           enabled: false),
                     ),
                     _desination(_shipment),
@@ -188,7 +189,9 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
         ),
         onConfirm: (results) {
           results as List<String?>;
-          _shipment.samples = results;
+          setState(() {
+            _shipment.samples = results;
+          });
         },
         onSaved: (value) {
           value as List<String?>;
