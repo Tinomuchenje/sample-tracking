@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:sample_tracking_system_flutter/models/sample.dart';
 
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
+import 'package:sample_tracking_system_flutter/utils/dao/samples_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/shipment_dao.dart';
-import 'package:sample_tracking_system_flutter/utils/sqlite_db.dart';
+
+import 'package:uuid/uuid.dart';
 
 class ShipmentProvider with ChangeNotifier {
-  final dbHelper = DBHelper.instance;
+  Uuid uuid = const Uuid();
 
   final Shipment _shipment = Shipment(samples: []);
   final List<Shipment> _shipments = [];
@@ -13,25 +16,27 @@ class ShipmentProvider with ChangeNotifier {
   Shipment get shipment => _shipment;
 
   List<Shipment> get shipments {
-    if (_shipments.isEmpty) allShipmentsFromdatabase();
+    allShipmentsFromdatabase();
     return [..._shipments];
   }
 
-  void addShipment(Shipment? shipment) {
+  Future addShipment(Shipment? shipment) async {
     if (shipment == null) return;
 
-    // for (var sample in shipment.samples) {
-    //   sample.shipmentId = shipment.id;
-    // }
+    shipment.id = uuid.v1();
 
-    _shipments.add(shipment);
-    addToLocalDatabase(shipment);
+    for (var sampleId in shipment.samples) {
+      if (sampleId == null) continue;
+      Sample sample = await SampleDao().getSample(sampleId);
+      sample.shipmentId = shipment.id;
+      await SampleDao().insertOrUpdate(sample);
+    }
+
+    await ShipmentDao().insertShipment(shipment).then((value) {
+      _shipments.add(shipment);
+    });
 
     notifyListeners();
-  }
-
-  Future addToLocalDatabase(Shipment shipment) async {
-    ShipmentDao().insertShipment(shipment);
   }
 
   Future allShipmentsFromdatabase() async {

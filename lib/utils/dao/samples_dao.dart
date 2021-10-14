@@ -5,25 +5,23 @@ import '../sembast.dart';
 
 class SampleDao {
   static const String tableName = "Sample";
-  final _sampleTable = intMapStoreFactory.store(tableName);
+  final _sampleTable = stringMapStoreFactory.store(tableName);
 
   Future<Database> get _database async => AppDatabase.instance.database;
 
-  Future insert(Sample sample) async {
-    await _sampleTable.add(await _database, sample.toJson());
-  }
-
-  Future insertAsJson(Map<String, dynamic> value) async {
-    await _sampleTable.add(await _database, value);
+  Future insertOrUpdate(Sample sample) async {
+    String sampleId = sample.id ?? "";
+    await _sampleTable.record(sampleId).put(await _database, sample.toJson());
   }
 
   Future insertSamples(List<Map<String, dynamic>> value) async {
     await _sampleTable.addAll(await _database, value);
   }
 
-  Future update(Sample sample) async {
-    final finder = Finder(filter: Filter.byKey(sample.id));
-    await _sampleTable.update(await _database, sample.toJson(), finder: finder);
+  Future<Sample> getSample(String sampleId) async {
+    var map = await _sampleTable.record(sampleId).get(await _database);
+    if (map == null) return Sample();
+    return Sample.fromJson(map);
   }
 
   Future delete(Sample sample) async {

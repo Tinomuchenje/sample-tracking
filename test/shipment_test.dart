@@ -3,21 +3,23 @@ import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
 
 void main() {
-  group("Samples", () {
+  group("Shipmentd", () {
     final shipmentProvider = ShipmentProvider();
     var shipmentOne = Shipment(
         id: "1",
         clientId: "1",
         status: "Received",
         dateCreated: DateTime.now().toString(),
-        dateModified: DateTime.now().toString(), samples: []);
+        dateModified: DateTime.now().toString(),
+        samples: []);
 
     var shipmentTwo = Shipment(
         id: "2",
         clientId: "2",
         status: "Rejected",
         dateCreated: DateTime.now().toString(),
-        dateModified: DateTime.now().toString(), samples: []);
+        dateModified: DateTime.now().toString(),
+        samples: []);
 
     test("Add new shipment", () {
       // Arrange
@@ -51,6 +53,16 @@ void main() {
       // Assert
       assert(
           shipmentProvider.shipments[0].id != shipmentProvider.shipments[1].id);
+    });
+  });
+
+  group("Database shipment", () {
+    test("Get ", () {
+      // Arrange
+
+      // Act
+
+      // Assert
     });
   });
 }

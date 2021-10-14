@@ -69,7 +69,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                     ),
                     Consumer<SamplesProvider>(
                         builder: (context, sampleProvider, child) {
-                      return samplesList(sampleProvider.allSamples, _shipment);
+                      return samplesList(sampleProvider.unshipedSamples, _shipment);
                     }),
                     Visibility(
                       visible: !isNewForm,
@@ -174,8 +174,8 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
         ),
         initialValue: _shipment.samples,
         items: samples
-            .map((sample) => MultiSelectItem<Sample?>(
-                sample, sample.clientPatientId ?? "Something"))
+            .map((sample) => MultiSelectItem<String?>(
+                sample.id, sample.clientPatientId ?? "Something"))
             .toList(),
         buttonIcon: const Icon(Icons.add, size: 38),
         height: MediaQuery.of(context).size.height / 2.5,
@@ -190,12 +190,12 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
           ),
         ),
         onConfirm: (results) {
-          //results as List<Sample>;
-          //   _shipment.samples = [...results];
+          results as List<String?>;
+          _shipment.samples = results;
         },
         onSaved: (value) {
-          // value as List<Sample>;
-          // _shipment.samples = [...value];
+          value as List<String?>;
+          _shipment.samples = value;
         },
       ),
     );

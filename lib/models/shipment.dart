@@ -4,7 +4,7 @@ class Shipment {
   String? id;
   String? description;
   String? clientId;
-  late List<String> samples;
+  late List<String?> samples;
   String? status;
   String? dateCreated;
   String? dateModified;
@@ -66,7 +66,9 @@ class Shipment {
     data['clusterClientId'] = clusterClientId;
     data['temperatureOrigin'] = temperatureOrigin;
     data['temperatureDestination'] = temperatureDestination;
-    data['auditLog'] = auditLog;
+    if (auditLog != null) {
+      data['auditLog'] = auditLog!.toJson();
+    }
     return data;
   }
 
@@ -84,7 +86,8 @@ class Shipment {
     clusterClientId = json['clusterClientId'];
     temperatureOrigin = json['temperatureOrigin'];
     temperatureDestination = json['temperatureDestination'];
-    auditLog = json['auditLog'];
+    auditLog =
+        json['auditLog'] != null ? AuditLog.fromJson(json['auditLog']) : null;
   }
 
   @override

@@ -36,8 +36,8 @@ class Patient {
       'gender': gender,
       'dob': dob.toString(),
       'client': client,
-      'client_patient_id': clientPatientId,
-      'cohort_number': cohortNumber,
+      'clientPatientId': clientPatientId,
+      'cohortNumber': cohortNumber,
       'created_at': dateCreated.toString(),
       'modified_at': dateModified.toString(),
     };
@@ -67,6 +67,7 @@ class Patient {
     gender = json['gender'];
     dob = json['dob'];
     client = json['client'];
+    clientPatientId = json['clientPatientId'];
     cohortNumber = json['cohortNumber'];
     dateCreated = json['dateCreated'];
     dateModified = json['dateModified'];

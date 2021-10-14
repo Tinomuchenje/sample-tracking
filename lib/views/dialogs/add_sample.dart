@@ -1,9 +1,7 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
-import 'package:sample_tracking_system_flutter/models/laboritory.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
@@ -65,33 +63,6 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                   padding: const EdgeInsets.all(defaultPadding / 2),
                   child: Column(
                     children: <Widget>[
-                      // CustomTextFormField(
-                      //   labelText: "Sample Request ID",
-                      //   initialValue: _sample.sampleRequestId,
-                      //   onSaved: (value) {
-                      //     if (value != null) _sample.sampleRequestId = value;
-                      //   },
-                      // ),
-                      // CustomTextFormField(
-                      //   labelText: "Client Sample ID",
-                      //   initialValue: _sample.clientSampleId,
-                      //   onSaved: (value) {
-                      //     if (value != null) _sample.clientSampleId = value;
-                      //   },
-                      // ),
-                      // Consumer<PatientProvider>(
-                      //     builder: (context, patientProvider, child) {
-                      //   return _patientsDropdown(
-                      //       _sample, patientProvider.patients);
-                      // }),
-                      //_laboratoriesDropdown(_sample),
-                      // CustomTextFormField(
-                      //   labelText: "Client Id",
-                      //   initialValue: _sample.location,
-                      //   onSaved: (value) {
-                      //     if (value != null) _sample.location = value;
-                      //   },
-                      // ),
                       CustomTextFormField(
                           labelText: "Patient",
                           enabled: widget.patient == null || isNewForm,
@@ -165,28 +136,17 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                               displayText: _saveButtonText,
                               fillcolor: true,
                               press: () {
-                                if (_formKey.currentState!.validate()) {
-                                  _formKey.currentState!.save();
-                                  _sample.status = "Created";
-                                  _sample.synced = false;
-                                  _sample.clientSampleId = "SFDFASDS";
+                                if (!_formKey.currentState!.validate()) return;
 
-                                  _sample.dateSynced = _sample.dateCollected =
-                                      DateTime.now().toString();
+                                saveSampleForm(_sample, context);
 
-                                  widget.sampleData == null
-                                      ? addNewSample(_sample, context)
-                                      : updateSample(_sample, context);
-
-                                  showNotification(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute<void>(
-                                      builder: (BuildContext context) =>
-                                          SamplesTab(),
-                                    ),
-                                  );
-                                }
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        const SamplesTab(),
+                                  ),
+                                );
                               },
                             ),
                           ),
@@ -197,60 +157,19 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                               displayText: "$_saveButtonText & New",
                               fillcolor: true,
                               press: () {
-                                if (_formKey.currentState!.validate()) {
-                                  _formKey.currentState!.save();
-                                  _sample.status = "Created";
-                                  _sample.synced = false;
-                                  _sample.clientSampleId = "SFDFASDS";
+                                if (!_formKey.currentState!.validate()) return;
+                                saveSampleForm(_sample, context);
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
 
-                                  _sample.dateSynced = _sample.dateCollected =
-                                      DateTime.now().toString();
-
-                                  widget.sampleData == null
-                                      ? addNewSample(_sample, context)
-                                      : updateSample(_sample, context);
-
-                                  showNotification(context);
-                                  Navigator.of(context).pop();
-                                  Navigator.of(context).pop();
-
-                                  showSearch(
-                                      context: context,
-                                      delegate: PatientSearch());
-                                }
+                                showSearch(
+                                    context: context,
+                                    delegate: PatientSearch());
                               },
                             ),
                           ),
                         ],
                       ),
-
-                      // const SizedBox(height: 20),
-                      // SizedBox(
-                      //   height: 50,
-                      //   width: 170,
-                      //   child: CustomElevatedButton(
-                      //     displayText: "Ship",
-                      //     fillcolor: false,
-                      //     press: () {
-                      //       if (_formKey.currentState!.validate()) {
-                      //         _formKey.currentState!.save();
-                      //         _sample.status = "Created";
-                      //         _sample.synced = false;
-                      //         _sample.clientSampleId = "SFDFASDS";
-
-                      //         _sample.dateSynced = _sample.dateCollected =
-                      //             DateTime.now().toString();
-
-                      //         widget.sampleData == null
-                      //             ? addNewSample(_sample, context)
-                      //             : updateSample(_sample, context);
-
-                      //         showNotification(context);
-                      //         Navigator.of(context).pop();
-                      //       }
-                      //     },
-                      //   ),
-                      // ),
                     ],
                   ),
                 )
@@ -258,6 +177,22 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
             ),
           ),
         ));
+  }
+
+  void saveSampleForm(Sample _sample, BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      saveOrUpdateSample(_sample, context);
+      showNotification(context);
+    }
+  }
+
+  void saveOrUpdateSample(Sample _sample, BuildContext context) {
+    var sampleProvider = Provider.of<SamplesProvider>(context, listen: false);
+
+    widget.sampleData != null
+        ? sampleProvider.updateSample(_sample)
+        : sampleProvider.addSample(_sample);
   }
 
   _sampleTypes(Sample _sample) {
@@ -328,16 +263,6 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
         _test = value as String;
       },
     );
-  }
-
-  void addNewSample(Sample _sample, BuildContext context) {
-    _sample.dateModified = _sample.dateCreated = DateTime.now().toString();
-
-    Provider.of<SamplesProvider>(context, listen: false).addSample(_sample);
-  }
-
-  void updateSample(Sample _sample, BuildContext context) {
-    Provider.of<SamplesProvider>(context, listen: false).updateSample(_sample);
   }
 
   void showNotification(BuildContext context) {

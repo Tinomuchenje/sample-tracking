@@ -108,7 +108,7 @@ class Sample {
     data['temperatureAtHub'] = temperatureAtHub;
     data['temperatureAtLab'] = temperatureAtLab;
     if (auditLog != null) {
-      data['AuditLog? auditLog'] = auditLog!.toJson();
+      data['auditLog'] = auditLog!.toJson();
     }
 
     return data;

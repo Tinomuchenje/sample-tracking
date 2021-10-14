@@ -5,26 +5,20 @@ import '../sembast.dart';
 
 class PatientDao {
   static const String tableName = "Patients";
-  final _patientTable = intMapStoreFactory.store(tableName);
+  final _patientTable = stringMapStoreFactory.store(tableName);
 
   Future<Database> get _database async => AppDatabase.instance.database;
 
-  Future insert(Patient patient) async {
-    await _patientTable.add(await _database, patient.toJson());
-  }
+  Future insertOrUpdate(Patient patient) async {
+    String patientId = patient.id ?? "";
 
-  Future insertAsJson(Map<String, dynamic> value) async {
-    await _patientTable.add(await _database, value);
+    await _patientTable
+        .record(patientId)
+        .put(await _database, patient.toJson());
   }
 
   Future insertPatients(List<Map<String, dynamic>> value) async {
     await _patientTable.addAll(await _database, value);
-  }
-
-  Future update(Patient patient) async {
-    final finder = Finder(filter: Filter.byKey(patient.id));
-    await _patientTable.update(await _database, patient.toJson(),
-        finder: finder);
   }
 
   Future delete(Patient shipment) async {

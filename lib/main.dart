@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/providers/user_provider.dart';
 import 'package:sample_tracking_system_flutter/themes/style.dart';
-import 'package:sample_tracking_system_flutter/utils/sqlite_db.dart';
-import 'package:provider/provider.dart';
 
 import 'models/enums/user_type_enum.dart';
 import 'providers/patient_provider.dart';
@@ -29,8 +29,7 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    DateTime? _lastQuitTime = null;
-    final dbHelper = DBHelper.instance;
+    DateTime? _lastQuitTime;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sample Tracking App',

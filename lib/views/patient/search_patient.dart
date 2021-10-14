@@ -77,7 +77,7 @@ class PatientSearch extends SearchDelegate<Patient> {
 
   bool clientPatientId(String? clientPatientId) {
     if (clientPatientId == null) return false;
-    return clientPatientId.toLowerCase().startsWith(query.toLowerCase());
+    return clientPatientId.toLowerCase().startsWith(query.toString().toLowerCase());
   }
 
   Widget registerPatient(BuildContext context) {

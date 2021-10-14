@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/samples_dao.dart';
-import 'package:sample_tracking_system_flutter/utils/sqlite_db.dart';
+
+import 'package:uuid/uuid.dart';
 
 class SamplesProvider with ChangeNotifier {
-  final dbHelper = DBHelper.instance;
+  Uuid uuid = const Uuid();
 
   final Sample _sample = Sample();
   final List<Sample> _samples = [];
@@ -12,30 +13,36 @@ class SamplesProvider with ChangeNotifier {
   Sample get sample => _sample;
 
   List<Sample> get allSamples {
-    if (_samples.isEmpty) allSamplesFromdatabase();
+    allSamplesFromdatabase();
     return [..._samples];
   }
 
   List<Sample> get unshipedSamples {
     List<Sample> unshipedSamples = allSamples;
-    unshipedSamples.removeWhere((sample) => sample.shipmentId!.isNotEmpty);
+    unshipedSamples.removeWhere((sample) => sample.shipmentId != null);
     return unshipedSamples;
   }
 
-  void addSample(Sample? sample) async {
-    if (sample == null) return;
-
-    await SampleDao().insert(sample).then((key) {
-      sample.id = key;
-      _samples.add(sample);
-
-      notifyListeners();
-    }).catchError((onError) {});
+  void addSample(Sample sample) async {
+    setValues(sample);
+    await saveOrUpdate(sample);
   }
 
-  updateSample(Sample sample) async {
-    await SampleDao().update(sample);
-    notifyListeners();
+  void setValues(Sample sample) {
+    sample.id = uuid.v1();
+    sample.status = "Created";
+    sample.synced = false;
+    sample.clientSampleId = "SFDFASDS";
+    sample.dateModified = _sample.dateCreated = DateTime.now().toString();
+    sample.dateSynced = _sample.dateCollected = DateTime.now().toString();
+  }
+
+  Future saveOrUpdate(Sample sample) async {
+    await SampleDao().insertOrUpdate(sample).then((key) {
+      _samples.clear();
+      _samples.add(sample);
+      notifyListeners();
+    }).catchError((onError) {});
   }
 
   Future allSamplesFromdatabase() async {
@@ -44,5 +51,10 @@ class SamplesProvider with ChangeNotifier {
       _samples.addAll(value);
       notifyListeners();
     }).catchError((onError) {});
+  }
+
+  Future updateSample(Sample sample) async {
+    await saveOrUpdate(sample);
+    return notifyListeners();
   }
 }

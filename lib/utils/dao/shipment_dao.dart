@@ -5,12 +5,15 @@ import '../sembast.dart';
 
 class ShipmentDao {
   static const String tableName = "Shipments";
-  final _shipmentTable = intMapStoreFactory.store(tableName);
+  final _shipmentTable = stringMapStoreFactory.store(tableName);
 
   Future<Database> get _database async => AppDatabase.instance.database;
 
   Future insertShipment(Shipment shipment) async {
-    await _shipmentTable.add(await _database, shipment.toJson());
+    String shipmentId = shipment.id ?? "";
+    await _shipmentTable
+        .record(shipmentId)
+        .put(await _database, shipment.toJson());
   }
 
   Future insertShipmentAsJson(Map<String, dynamic> value) async {
@@ -25,6 +28,12 @@ class ShipmentDao {
     final finder = Finder(filter: Filter.byKey(shipment.id));
     await _shipmentTable.update(await _database, shipment.toJson(),
         finder: finder);
+  }
+
+  Future<Shipment> getShipment(String shipmentId) async {
+    var map = await _shipmentTable.record(shipmentId).get(await _database);
+    if (map == null) return Shipment(samples: []);
+    return Shipment.fromJson(map);
   }
 
   Future delete(Shipment shipment) async {
