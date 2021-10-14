@@ -69,7 +69,13 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                     ),
                     Consumer<SamplesProvider>(
                         builder: (context, sampleProvider, child) {
-                      return samplesList(sampleProvider.unshipedSamples, _shipment);
+                      var samples = sampleProvider.unshipedSamples;
+
+                      if (!isNewForm) {
+                        samples = sampleProvider.allSamples;
+                      }
+
+                      return samplesList(samples, _shipment);
                     }),
                     Visibility(
                       visible: !isNewForm,
