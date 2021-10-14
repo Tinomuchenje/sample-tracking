@@ -32,7 +32,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
 
   void getSamples() {
     Provider.of<ShipmentProvider>(context, listen: false)
-        .allShipmentsFromdatabase();
+        .getAllShipmentsFromdatabase();
   }
 
   @override

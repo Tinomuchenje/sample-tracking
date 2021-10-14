@@ -27,6 +27,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   final _formKey = GlobalKey<FormState>();
   Client? _value;
   final List<Client> _clients = [];
+  List<Sample> samples = [];
 
   Future<void> readJson() async {
     if (_clients.isNotEmpty) return;
@@ -69,7 +70,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                     ),
                     Consumer<SamplesProvider>(
                         builder: (context, sampleProvider, child) {
-                      var samples = sampleProvider.unshipedSamples;
+                      samples = sampleProvider.unshipedSamples;
 
                       if (!isNewForm) {
                         samples = sampleProvider.allSamples;
@@ -113,13 +114,6 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                     Visibility(
                       visible: !isNewForm,
                       child: CustomTextFormField(
-                          labelText: "Client Id",
-                          initialValue: _shipment.clientId,
-                          enabled: false),
-                    ),
-                    Visibility(
-                      visible: !isNewForm,
-                      child: CustomTextFormField(
                           labelText: "Date Created",
                           enabled: false,
                           initialValue: _shipment.dateCreated),
@@ -143,9 +137,6 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                         press: () {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            _shipment.status = "Created";
-                            _shipment.dateCreated = _shipment.dateModified =
-                                DateTime.now().toString();
 
                             widget.shipmentData == null
                                 ? addNewShipment(context, _shipment)
@@ -268,6 +259,8 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   }
 
   void addNewShipment(BuildContext context, Shipment _shipment) {
+    _shipment.status = "Created";
+    _shipment.dateCreated = _shipment.dateModified = DateTime.now().toString();
     Provider.of<ShipmentProvider>(context, listen: false)
         .addShipment(_shipment);
   }

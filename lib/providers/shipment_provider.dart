@@ -16,7 +16,7 @@ class ShipmentProvider with ChangeNotifier {
   Shipment get shipment => _shipment;
 
   List<Shipment> get shipments {
-    allShipmentsFromdatabase();
+    getAllShipmentsFromdatabase();
     return [..._shipments];
   }
 
@@ -24,33 +24,37 @@ class ShipmentProvider with ChangeNotifier {
     if (shipment == null) return;
 
     shipment.id = uuid.v1();
+    await saveOrUpdate(shipment);
+    notifyListeners();
+  }
 
+  Future addShipmentsToSamples(Shipment shipment) async {
     for (var sampleId in shipment.samples) {
       if (sampleId == null) continue;
       Sample sample = await SampleDao().getSample(sampleId);
       sample.shipmentId = shipment.id;
       await SampleDao().insertOrUpdate(sample);
     }
-
-    await ShipmentDao().insertShipment(shipment).then((value) {
-      _shipments.add(shipment);
-    });
-
-    notifyListeners();
   }
 
-  Future allShipmentsFromdatabase() async {
+  Future saveOrUpdate(Shipment shipment) async {
+    await addShipmentsToSamples(shipment);
+    await ShipmentDao().insertOrUpdate(shipment).then((value) {
+      _shipments.add(shipment);
+      notifyListeners();
+    });
+  }
+
+  Future getAllShipmentsFromdatabase() async {
     await ShipmentDao().getAllShipments().then((value) {
       _shipments.clear();
       _shipments.addAll(value);
+      notifyListeners();
     });
-
-    notifyListeners();
   }
 
   Future updateShipment(Shipment shipment) async {
-    await ShipmentDao().update(shipment);
-
+    await saveOrUpdate(shipment);
     notifyListeners();
   }
 
