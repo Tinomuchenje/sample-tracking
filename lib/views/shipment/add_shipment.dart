@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/models/client.dart';
@@ -9,7 +10,7 @@ import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
@@ -28,6 +29,8 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   Client? _value;
   final List<Client> _clients = [];
   List<Sample> samples = [];
+  int _sampleCount = 0;
+  List<String?> selectedSamples = [];
 
   Future<void> readJson() async {
     if (_clients.isNotEmpty) return;
@@ -48,6 +51,10 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
 
     String _appBarText = isNewForm ? 'Add' : 'Update';
     String _saveButtonText = isNewForm ? 'Save' : 'Update';
+
+    if (widget.shipmentData != null) {
+      selectedSamples = widget.shipmentData!.samples;
+    }
 
     return Scaffold(
         appBar: AppBar(
@@ -75,17 +82,8 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                       if (!isNewForm) {
                         samples = sampleProvider.allSamples;
                       }
-
-                      return samplesList(samples, _shipment);
+                      return samplesSection(context, samples, _shipment);
                     }),
-                    Visibility(
-                      visible: !isNewForm,
-                      child: CustomTextFormField(
-                          labelText: "Total Number of samples",
-                          controller: TextEditingController(
-                              text: _shipment.samples.length.toString()),
-                          enabled: false),
-                    ),
                     _desination(_shipment),
                     CustomTextFormField(
                       keyboardType: TextInputType.number,
@@ -112,7 +110,6 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                           initialValue: "Admin",
                           enabled: false),
                     ),
-
                     const SizedBox(
                       height: 20,
                     ),
@@ -125,7 +122,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                         press: () {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-
+                            _shipment.samples = selectedSamples;
                             widget.shipmentData == null
                                 ? addNewShipment(context, _shipment)
                                 : updateShipment(context, _shipment);
@@ -144,19 +141,105 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
         ));
   }
 
+  Padding samplesSection(
+      BuildContext context, List<Sample>? samples, Shipment _shipment) {
+    _sampleCount = selectedSamples.length;
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          TextButton(
+              onPressed: () {
+                _samplesDialog(context, samples, _shipment);
+              },
+              child: Text(
+                "View Samples",
+                style: GoogleFonts.openSans(
+                    textStyle: const TextStyle(
+                  color: Colors.blue,
+                  fontSize: 15.0,
+                )),
+              )),
+          Padding(
+            padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+            child: ElevatedButton(
+                onPressed: () {
+                  _samplesDialog(context, samples, _shipment);
+                },
+                child: const Icon(
+                  Icons.add,
+                  size: 30,
+                  color: Colors.grey,
+                ),
+                style: TextButton.styleFrom(
+                    primary: Colors.grey,
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        side: const BorderSide(color: Colors.grey)))),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("$_sampleCount samples",
+                style: GoogleFonts.openSans(
+                    textStyle: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 15.0,
+                ))),
+          )
+        ],
+      ),
+    );
+  }
+
+  void _samplesDialog(
+      BuildContext context, List<Sample>? samples, Shipment _shipment) async {
+    if (samples!.isEmpty) {
+      return showErrorNotification(context, "No samples available, please add");
+    }
+
+    var items = samples
+        .map((sample) => MultiSelectItem<String?>(
+            sample.id, sample.clientPatientId ?? "Something"))
+        .toList();
+
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return MultiSelectDialog(
+            confirmText: const Text("OK"),
+            cancelText: const Text("CANCEL"),
+            items: items,
+            initialValue:
+                selectedSamples.isEmpty ? _shipment.samples : selectedSamples,
+            height: MediaQuery.of(context).size.height / 2.5,
+            searchable: true,
+            searchHint: "",
+            onConfirm: (results) {
+              results as List<String?>;
+              setState(() {
+                selectedSamples = results;
+                _sampleCount = results.length;
+              });
+            },
+          );
+        });
+  }
+
   samplesList(List<Sample>? samples, Shipment _shipment) {
     if (samples!.isEmpty) return const Text("No samples available yet.");
 
     return Padding(
       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
       child: MultiSelectDialogField(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(5)),
-          border: Border.all(
-            color: Colors.grey,
-            width: 1.0,
-          ),
-        ),
+        // decoration: BoxDecoration(
+        //   borderRadius: const BorderRadius.all(Radius.circular(5)),
+        //   border: Border.all(
+        //     color: Colors.grey,
+        //     width: 1.0,
+        //   ),
+        // ),
         initialValue: _shipment.samples,
         items: samples
             .map((sample) => MultiSelectItem<String?>(
@@ -165,15 +248,9 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
         buttonIcon: const Icon(Icons.add, size: 38),
         height: MediaQuery.of(context).size.height / 2.5,
         searchable: true,
+        chipDisplay: MultiSelectChipDisplay.none(),
         title: const Text("Samples"),
         selectedColor: Colors.blue,
-        buttonText: const Text(
-          "Add samples",
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 16,
-          ),
-        ),
         onConfirm: (results) {
           results as List<String?>;
           setState(() {
@@ -266,6 +343,16 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
       const SnackBar(
         content: Text("Sample saved"),
         backgroundColor: Colors.green,
+      ),
+    );
+  }
+
+  void showErrorNotification(BuildContext context, String message) {
+    // we should extract this into common area for forms
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
       ),
     );
   }

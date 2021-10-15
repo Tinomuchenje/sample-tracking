@@ -8,7 +8,7 @@ import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
 import 'package:sample_tracking_system_flutter/views/patient/search_patient.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_date_form_field.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
 import 'package:sample_tracking_system_flutter/views/sample/samples_tab.dart';

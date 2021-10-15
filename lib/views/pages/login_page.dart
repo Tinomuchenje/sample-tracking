@@ -10,7 +10,7 @@ import 'package:sample_tracking_system_flutter/providers/user_provider.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
 import 'package:sample_tracking_system_flutter/views/pages/rider/dashboard.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 
 import 'home_page.dart';
 
