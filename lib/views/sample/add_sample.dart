@@ -11,7 +11,7 @@ import 'package:sample_tracking_system_flutter/views/widgets/custom_date_form_fi
 import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/samples_tab.dart';
+import 'package:sample_tracking_system_flutter/views/sample/samples_tab.dart';
 
 class AddorUpdateSampleDialog extends StatefulWidget {
   final Patient? patient;
@@ -37,21 +37,19 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
     String _appBarText = isNewForm ? 'Add' : 'Update';
     String _saveButtonText = isNewForm ? 'Save' : 'Update';
     String? _patientInitialValue = "";
-
+    String? _patientId = "";
     if (widget.patient != null) {
-      _patientInitialValue = widget.patient!.clientPatientId ?? "";
+      _patientId = widget.patient!.clientPatientId ?? "";
       _patientInitialValue = _patientInitialValue +
-          ": " +
+          // ": " +
           (widget.patient!.firstname ?? "") +
           " " +
           (widget.patient!.lastname ?? "");
-    } else {
-      _patientInitialValue = _sample.clientPatientId;
     }
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('$_appBarText Sample'),
+          title: Text('$_appBarText Sample for $_patientInitialValue'),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -66,7 +64,7 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                       CustomTextFormField(
                           labelText: "Patient",
                           enabled: widget.patient == null || isNewForm,
-                          initialValue: _patientInitialValue,
+                          initialValue: _patientId,
                           onSaved: (value) {
                             if (value != null) _sample.clientPatientId = value;
                           }),
@@ -94,13 +92,6 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                         visible: !isNewForm,
                         child: CustomTextFormField(
                             enabled: false,
-                            labelText: "Date Synced",
-                            initialValue: _sample.dateSynced),
-                      ),
-                      Visibility(
-                        visible: !isNewForm,
-                        child: CustomTextFormField(
-                            enabled: false,
                             labelText: "Lab Reference Id",
                             initialValue: _sample.labReferenceId),
                       ),
@@ -117,13 +108,6 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                           labelText: "Shipment",
                           initialValue: _sample.shipmentId,
                         ),
-                      ),
-                      Visibility(
-                        visible: !isNewForm,
-                        child: const CustomTextFormField(
-                            enabled: false,
-                            labelText: "Client Contact",
-                            initialValue: "Admin"),
                       ),
                       const SizedBox(height: 20),
                       Row(

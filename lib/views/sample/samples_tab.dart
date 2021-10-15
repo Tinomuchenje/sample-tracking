@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
-import 'package:sample_tracking_system_flutter/views/dialogs/add_sample.dart';
+import 'package:sample_tracking_system_flutter/views/sample/add_sample.dart';
+import 'package:sample_tracking_system_flutter/views/patient/search_patient.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
 
 class SamplesTab extends StatefulWidget {
   const SamplesTab({Key? key}) : super(key: key);
@@ -31,13 +33,7 @@ class _SamplesTabState extends State<SamplesTab> {
           leading: IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => AddorUpdateSampleDialog(),
-                  fullscreenDialog: true,
-                ),
-              );
+              showSearch(context: context, delegate: PatientSearch());
             },
           ),
           title: const Text('Samples'),
@@ -100,26 +96,43 @@ class _SamplesTabState extends State<SamplesTab> {
       reverse: true,
       itemCount: samples.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute<void>(
-                builder: (BuildContext context) =>
-                    AddorUpdateSampleDialog(sampleData: samples[index]),
-                fullscreenDialog: true,
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CustomCard(
+            child: ListTile(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        AddorUpdateSampleDialog(sampleData: samples[index]),
+                    fullscreenDialog: true,
+                  ),
+                );
+              },
+              title: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(samples[index].clientPatientId.toString()),
+                    const Text("Tinotenda Muchenje"),
+                  ],
+                ),
               ),
-            );
-          },
-          title: Text(samples[index].clientPatientId.toString()),
-          subtitle: const Text('Sample narration'),
-          leading: const Icon(
-            Icons.label,
-            color: Colors.blue,
-          ),
-          trailing: const Icon(
-            Icons.sync,
-            color: Colors.green,
+              subtitle: Row(
+                children: const [Text('Status : '), Text("Created")],
+              ),
+              leading: const Icon(
+                Icons.biotech,
+                size: 45,
+                color: Colors.blue,
+              ),
+              trailing: const Icon(
+                Icons.sync,
+                color: Colors.green,
+              ),
+            ),
           ),
         );
       },

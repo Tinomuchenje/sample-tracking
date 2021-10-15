@@ -112,20 +112,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                           initialValue: "Admin",
                           enabled: false),
                     ),
-                    Visibility(
-                      visible: !isNewForm,
-                      child: CustomTextFormField(
-                          labelText: "Date Created",
-                          enabled: false,
-                          initialValue: _shipment.dateCreated),
-                    ),
-                    Visibility(
-                      visible: !isNewForm,
-                      child: CustomTextFormField(
-                          labelText: "Date Modified",
-                          enabled: false,
-                          initialValue: _shipment.dateModified),
-                    ),
+
                     const SizedBox(
                       height: 20,
                     ),
