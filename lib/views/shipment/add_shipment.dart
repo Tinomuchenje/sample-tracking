@@ -8,12 +8,11 @@ import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/models/client.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
-import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
+import 'package:sample_tracking_system_flutter/views/sample/shipment_samples.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class AddorUpdateShipmentDialog extends StatefulWidget {
   Shipment? shipmentData;
@@ -30,7 +29,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   final List<Client> _clients = [];
   List<Sample> samples = [];
   int _sampleCount = 0;
-  List<String?> selectedSamples = [];
+  List<String> selectedSamples = [];
 
   Future<void> readJson() async {
     if (_clients.isNotEmpty) return;
@@ -44,10 +43,26 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
     }
   }
 
+  Shipment loadCurrentShipment(String shipmentId) {
+    var shipements = Provider.of<ShipmentProvider>(context, listen: false)
+        .shipments
+        .where((shipment) => shipment.id == shipmentId)
+        .toList();
+
+    if (shipements.isEmpty) return Shipment(samples: []);
+
+    return shipements.first;
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isNewForm = widget.shipmentData == null;
-    final Shipment _shipment = widget.shipmentData ?? Shipment(samples: []);
+
+    Shipment _shipment = widget.shipmentData ?? Shipment(samples: []);
+
+    if (_shipment.id != null) {
+      _shipment = loadCurrentShipment(_shipment.id ?? "");
+    }
 
     String _appBarText = isNewForm ? 'Add' : 'Update';
     String _saveButtonText = isNewForm ? 'Save' : 'Update';
@@ -75,23 +90,13 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                         if (value != null) _shipment.description = value;
                       },
                     ),
-                    Consumer<SamplesProvider>(
-                        builder: (context, sampleProvider, child) {
-                      samples = sampleProvider.unshipedSamples;
-
-                      if (!isNewForm) {
-                        samples = sampleProvider.allSamples;
-                      }
-                      return samplesSection(context, samples, _shipment);
-                    }),
+                    samplesSection(_shipment),
                     _desination(_shipment),
                     CustomTextFormField(
                       keyboardType: TextInputType.number,
                       labelText: "Temperature Origin",
                       initialValue: _shipment.temperatureOrigin,
-                      onSaved: (value) {
-                        if (value != null) _shipment.temperatureOrigin = value;
-                      },
+                      onSaved: (value) {},
                     ),
                     CustomTextFormField(
                       keyboardType: TextInputType.number,
@@ -141,8 +146,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
         ));
   }
 
-  Padding samplesSection(
-      BuildContext context, List<Sample>? samples, Shipment _shipment) {
+  Padding samplesSection(Shipment _shipment) {
     _sampleCount = selectedSamples.length;
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -151,7 +155,18 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
         children: [
           TextButton(
               onPressed: () {
-                _samplesDialog(context, samples, _shipment);
+                Provider.of<ShipmentProvider>(context, listen: false)
+                    .addShipment(_shipment)
+                    .then((savedShipment) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => ShipmentSamples(
+                        shipment: savedShipment,
+                      ),
+                    ),
+                  );
+                });
               },
               child: Text(
                 "View Samples",
@@ -161,24 +176,6 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                   fontSize: 15.0,
                 )),
               )),
-          Padding(
-            padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-            child: ElevatedButton(
-                onPressed: () {
-                  _samplesDialog(context, samples, _shipment);
-                },
-                child: const Icon(
-                  Icons.add,
-                  size: 30,
-                  color: Colors.grey,
-                ),
-                style: TextButton.styleFrom(
-                    primary: Colors.grey,
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        side: const BorderSide(color: Colors.grey)))),
-          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text("$_sampleCount samples",
@@ -193,77 +190,77 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
     );
   }
 
-  void _samplesDialog(
-      BuildContext context, List<Sample>? samples, Shipment _shipment) async {
-    if (samples!.isEmpty) {
-      return showErrorNotification(context, "No samples available, please add");
-    }
+  // void _samplesDialog(
+  //     BuildContext context, List<Sample>? samples, Shipment _shipment) async {
+  //   if (samples!.isEmpty) {
+  //     return showErrorNotification(context, "No samples available, please add");
+  //   }
 
-    var items = samples
-        .map((sample) => MultiSelectItem<String?>(
-            sample.id, sample.clientPatientId ?? "Something"))
-        .toList();
+  //   var items = samples
+  //       .map((sample) => MultiSelectItem<String?>(
+  //           sample.id, sample.clientPatientId ?? "Something"))
+  //       .toList();
 
-    await showDialog(
-        context: context,
-        builder: (context) {
-          return MultiSelectDialog(
-            confirmText: const Text("OK"),
-            cancelText: const Text("CANCEL"),
-            items: items,
-            initialValue:
-                selectedSamples.isEmpty ? _shipment.samples : selectedSamples,
-            height: MediaQuery.of(context).size.height / 2.5,
-            searchable: true,
-            searchHint: "",
-            onConfirm: (results) {
-              results as List<String?>;
-              setState(() {
-                selectedSamples = results;
-                _sampleCount = results.length;
-              });
-            },
-          );
-        });
-  }
+  //   await showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return MultiSelectDialog(
+  //           confirmText: const Text("OK"),
+  //           cancelText: const Text("CANCEL"),
+  //           items: items,
+  //           initialValue:
+  //               selectedSamples.isEmpty ? _shipment.samples : selectedSamples,
+  //           height: MediaQuery.of(context).size.height / 2.5,
+  //           searchable: true,
+  //           searchHint: "",
+  //           onConfirm: (results) {
+  //             results as List<String>;
+  //             setState(() {
+  //               selectedSamples = results;
+  //               _sampleCount = results.length;
+  //             });
+  //           },
+  //         );
+  //       });
+  // }
 
-  samplesList(List<Sample>? samples, Shipment _shipment) {
-    if (samples!.isEmpty) return const Text("No samples available yet.");
+  // samplesList(List<Sample>? samples, Shipment _shipment) {
+  //   if (samples!.isEmpty) return const Text("No samples available yet.");
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-      child: MultiSelectDialogField(
-        // decoration: BoxDecoration(
-        //   borderRadius: const BorderRadius.all(Radius.circular(5)),
-        //   border: Border.all(
-        //     color: Colors.grey,
-        //     width: 1.0,
-        //   ),
-        // ),
-        initialValue: _shipment.samples,
-        items: samples
-            .map((sample) => MultiSelectItem<String?>(
-                sample.id, sample.clientPatientId ?? "Something"))
-            .toList(),
-        buttonIcon: const Icon(Icons.add, size: 38),
-        height: MediaQuery.of(context).size.height / 2.5,
-        searchable: true,
-        chipDisplay: MultiSelectChipDisplay.none(),
-        title: const Text("Samples"),
-        selectedColor: Colors.blue,
-        onConfirm: (results) {
-          results as List<String?>;
-          setState(() {
-            _shipment.samples = results;
-          });
-        },
-        onSaved: (value) {
-          value as List<String?>;
-          _shipment.samples = value;
-        },
-      ),
-    );
-  }
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+  //     child: MultiSelectDialogField(
+  //       // decoration: BoxDecoration(
+  //       //   borderRadius: const BorderRadius.all(Radius.circular(5)),
+  //       //   border: Border.all(
+  //       //     color: Colors.grey,
+  //       //     width: 1.0,
+  //       //   ),
+  //       // ),
+  //       initialValue: _shipment.samples,
+  //       items: samples
+  //           .map((sample) => MultiSelectItem<String?>(
+  //               sample.id, sample.clientPatientId ?? "Something"))
+  //           .toList(),
+  //       buttonIcon: const Icon(Icons.add, size: 38),
+  //       height: MediaQuery.of(context).size.height / 2.5,
+  //       searchable: true,
+  //       chipDisplay: MultiSelectChipDisplay.none(),
+  //       title: const Text("Samples"),
+  //       selectedColor: Colors.blue,
+  //       onConfirm: (results) {
+  //         results as List<String>;
+  //         setState(() {
+  //           _shipment.samples = results;
+  //         });
+  //       },
+  //       onSaved: (value) {
+  //         value as List<String>;
+  //         _shipment.samples = value;
+  //       },
+  //     ),
+  //   );
+  // }
 
   _desination(Shipment _shipment) {
     var destination;
@@ -329,7 +326,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
     _shipment.status = "Created";
     _shipment.dateCreated = _shipment.dateModified = DateTime.now().toString();
     Provider.of<ShipmentProvider>(context, listen: false)
-        .addShipment(_shipment);
+        .updateShipment(_shipment);
   }
 
   void updateShipment(BuildContext context, Shipment _shipment) {

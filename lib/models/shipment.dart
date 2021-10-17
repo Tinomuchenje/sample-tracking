@@ -4,7 +4,7 @@ class Shipment {
   String? id;
   String? description;
   String? clientId;
-  late List<String?> samples;
+  late List<String> samples;
   String? status;
   String? dateCreated;
   String? dateModified;

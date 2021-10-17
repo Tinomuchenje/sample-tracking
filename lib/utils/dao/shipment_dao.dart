@@ -9,11 +9,12 @@ class ShipmentDao {
 
   Future<Database> get _database async => AppDatabase.instance.database;
 
-  Future insertOrUpdate(Shipment shipment) async {
+  Future<Shipment> insertOrUpdate(Shipment shipment) async {
     String shipmentId = shipment.id ?? "";
-    await _shipmentTable
+    final savedShipment = await _shipmentTable
         .record(shipmentId)
         .put(await _database, shipment.toJson());
+    return Shipment.fromJson(savedShipment);
   }
 
   Future insertShipmentAsJson(Map<String, dynamic> value) async {
