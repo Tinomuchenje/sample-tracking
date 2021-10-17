@@ -1,41 +1,41 @@
 class Patient {
-  String? id;
-  String? appId;
-  String? firstname;
-  String? lastname;
-  String? gender;
-  String? dob;
-  String? client;
-  String? clientPatientId;
-  String? cohortNumber;
-  String? phoneNumber;
-  String? createdBy;
-  String? lastModifiedBy;
-  String? createdDate;
-  String? lastModifiedDate;
+  String id = "";
+  String appId = "";
+  String firstName = "";
+  String lastName = "";
+  String gender = "";
+  String dob = "";
+  String client = "";
+  String clientPatientId = "";
+  String cohortNumber = "";
+  String phoneNumber = "";
+  String createdBy = "";
+  String lastModifiedBy = "";
+  String createdDate = "";
+  String lastModifiedDate = "";
 
   Patient(
-      {this.id,
-        this.appId,
-      this.firstname,
-      this.lastname,
-      this.gender,
-      this.dob,
-      this.client,
-      this.clientPatientId,
-      this.cohortNumber,
-      this.phoneNumber,
-      this.createdBy,
-      this.lastModifiedBy,
-      this.createdDate,
-      this.lastModifiedDate});
+      {this.id = "",
+      this.appId = "",
+      this.firstName = "",
+      this.lastName = "",
+      this.gender = "",
+      this.dob = "",
+      this.client = "",
+      this.clientPatientId = "",
+      this.cohortNumber = "",
+      this.phoneNumber = "",
+      this.createdBy = "",
+      this.lastModifiedBy = "",
+      this.createdDate = "",
+      this.lastModifiedDate = ""});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['appId'] = appId;
-    data['firstname'] = firstname;
-    data['lastname'] = lastname;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
     data['gender'] = gender;
     data['dob'] = dob;
     data['client'] = client;
@@ -50,21 +50,19 @@ class Patient {
   }
 
   Patient.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['_id'];
     appId = json['appId'];
-    firstname = json['firstname'];
-    lastname = json['lastname'];
+    firstName = json['lastName'];
+    lastName = json['lastName'];
     gender = json['gender'];
     dob = json['dob'];
     client = json['client'];
     clientPatientId = json['clientPatientId'];
     cohortNumber = json['cohortNumber'];
     phoneNumber = json['phoneNumber'];
-   createdBy=json['createdBy'];
-   lastModifiedBy=json['lastModifiedBy'];
-   createdDate=json['createdDate'];
-   lastModifiedDate=json['lastModifiedDate'];
+    createdBy = json['createdBy'];
+    lastModifiedBy = json['lastModifiedBy'];
+    createdDate = json['createdDate'];
+    lastModifiedDate = json['lastModifiedDate'];
   }
-
-
 }

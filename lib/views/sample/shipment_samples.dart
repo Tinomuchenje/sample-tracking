@@ -117,8 +117,8 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
     var currentSamples = shipmentx.samples.toList();
 
     for (Sample sample in selectedSamples) {
-      if (sample.id == null) continue;
-      currentSamples.add(sample.id ?? "");
+      if (sample.appId == null) continue;
+      currentSamples.add(sample.appId ?? "");
     }
     
     setState(() {

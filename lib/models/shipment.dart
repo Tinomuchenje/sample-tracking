@@ -16,7 +16,7 @@ class Shipment {
   bool? isModifiedByHub;
   bool? isModifiedByFacility;
   bool? isModifiedByLaboratory;
-  bool? isModifiedByCourrier;
+  bool? isModifiedByCourier;
   String? createdBy;
   String? lastModifiedBy;
   String? createdDate;
@@ -40,7 +40,7 @@ class Shipment {
       this.isModifiedByHub,
       this.isModifiedByFacility,
       this.isModifiedByLaboratory,
-      this.isModifiedByCourrier,
+      this.isModifiedByCourier,
       this.createdBy,
       this.lastModifiedBy,
       this.createdDate,
@@ -65,7 +65,7 @@ class Shipment {
     isModifiedByHub = json['isModifiedByHub'];
     isModifiedByFacility = json['isModifiedByFacility'];
     isModifiedByLaboratory = json['isModifiedByLaboratory'];
-    isModifiedByCourrier = json['isModifiedByCourrier'];
+    isModifiedByCourier = json['isModifiedByCourrier'];
     createdBy = json['createdBy'];
     lastModifiedBy = json['lastModifiedBy'];
     createdDate = json['createdDate'];
@@ -91,7 +91,7 @@ class Shipment {
     data['isModifiedByHub'] = isModifiedByHub;
     data['isModifiedByFacility'] = isModifiedByFacility;
     data['isModifiedByLaboratory'] = isModifiedByLaboratory;
-    data['isModifiedByCourrier'] = isModifiedByCourrier;
+    data['isModifiedByCourrier'] = isModifiedByCourier;
     data['createdBy'] = createdBy;
     data['lastModifiedBy'] = lastModifiedBy;
     data['createdDate'] = createdDate;

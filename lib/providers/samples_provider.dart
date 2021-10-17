@@ -29,7 +29,7 @@ class SamplesProvider with ChangeNotifier {
   }
 
   void setValues(Sample sample) {
-    sample.id = uuid.v1();
+    sample.appId = uuid.v1();
     sample.status = "Created";
     sample.synced = false;
     sample.clientSampleId = "SFDFASDS";

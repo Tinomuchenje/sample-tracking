@@ -25,7 +25,7 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
 
   var dateController = TextEditingController();
   DateTime selectedDate = DateTime.now();
-  String? _gender = "male";
+  String _gender = "male";
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
     String _appBarText = isNewForm ? 'Add' : 'Update';
     String _saveButtonText = isNewForm ? 'Save' : 'Update';
 
-    _gender = _patient.gender ?? _gender;
+    _gender = _patient.gender.isNotEmpty ? _patient.gender : _gender;
 
     return Scaffold(
         appBar: AppBar(
@@ -51,16 +51,16 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                     children: [
                       CustomTextFormField(
                         labelText: "First Name",
-                        initialValue: _patient.firstname,
+                        initialValue: _patient.firstName,
                         onSaved: (value) {
-                          if (value != null) _patient.firstname = value;
+                          if (value != null) _patient.firstName = value;
                         },
                       ),
                       CustomTextFormField(
                         labelText: "Last Name",
-                        initialValue: _patient.lastname,
+                        initialValue: _patient.lastName,
                         onSaved: (value) {
-                          if (value != null) _patient.lastname = value;
+                          if (value != null) _patient.lastName = value;
                         },
                       ),
                       CustomTextFormField(
@@ -87,7 +87,8 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                       ),
                       DateFormField(
                         labelText: "Date of birth",
-                        initialValue: _patient.dob,
+                        initialValue:
+                            _patient.dob.isEmpty ? null : _patient.dob,
                         onSaved: (value) {
                           if (value != null) _patient.dob = value.toString();
                         },
@@ -101,7 +102,7 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                               groupValue: _gender,
                               onChanged: (String? value) {
                                 setState(() {
-                                  _gender = value;
+                                  _gender = value as String;
                                 });
                               },
                             ),
@@ -113,7 +114,7 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                               groupValue: _gender,
                               onChanged: (String? value) {
                                 setState(() {
-                                  _gender = value;
+                                  _gender = value as String;
                                 });
                               },
                             ),
@@ -141,7 +142,8 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                           labelText: "Date Modified",
                           onSaved: (value) {
                             if (value != null) {
-                              _patient.lastModifiedDate = DateTime.now().toString();
+                              _patient.lastModifiedDate =
+                                  DateTime.now().toString();
                             }
                           },
                         ),

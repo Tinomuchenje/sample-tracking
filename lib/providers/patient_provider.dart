@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/patient_dao.dart';
+import 'package:sample_tracking_system_flutter/views/patient/patient_controller.dart';
 import 'package:uuid/uuid.dart';
-import 'package:http/http.dart' as http;
-
 
 class PatientProvider with ChangeNotifier {
   Uuid uuid = const Uuid();
@@ -23,7 +22,14 @@ class PatientProvider with ChangeNotifier {
     patient.appId = uuid.v1();
     patient.client = "admin";
     patient.createdDate = patient.lastModifiedDate = DateTime.now().toString();
-    addOnlinePatient(patient);
+    // Need to check connection here before going
+    try {
+      PatientController().addOnlinePatient(patient);
+    } catch (error) {
+      // ignore: avoid_print
+      print(error);
+    }
+
     addToLocalDatabase(patient);
     notifyListeners();
   }
@@ -44,20 +50,8 @@ class PatientProvider with ChangeNotifier {
   }
 
   updatePatient(Patient patient) async {
+    //PatientController().updateOnlinePatient(patient);
     await addToLocalDatabase(patient);
     notifyListeners();
   }
-
-  Future<http.Response> fetchOnlinePatients() {
-    return http.get(Uri.parse(base_url+'patients'));
-  }
-
-  Future<http.Response> updateOnlinePatient(String id, Patient patient) {
-    return http.put(Uri.parse(base_url+'patients'), body: patient.toJson());
-  }
-
-  Future<http.Response> addOnlinePatient(Patient patient) {
-    return http.post(Uri.parse(base_url+'patients'),body:patient);
-  }
-
 }

@@ -13,4 +13,12 @@ class SampleController{
 
     return samples;
   }
+
+  addOnlineSample(Sample sample){
+    
+  }
+
+  updateOnlineSample(Sample sample){
+    
+  }
 }

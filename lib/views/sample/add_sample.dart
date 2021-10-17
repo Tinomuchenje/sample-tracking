@@ -39,12 +39,12 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
     String? _patientInitialValue = "";
     String? _patientId = "";
     if (widget.patient != null) {
-      _patientId = widget.patient!.clientPatientId ?? "";
+      _patientId = widget.patient!.clientPatientId;
       _patientInitialValue = _patientInitialValue +
           // ": " +
-          (widget.patient!.firstname ?? "") +
+          (widget.patient!.firstName) +
           " " +
-          (widget.patient!.lastname ?? "");
+          (widget.patient!.lastName);
     }
 
     return Scaffold(

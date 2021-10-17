@@ -41,8 +41,8 @@ class _PatientDetailsTileState extends State<PatientDetailsTile> {
                       height: 30,
                       child: Row(
                         children: [
-                          Text(patientsFound[index].firstname! + " "),
-                          Text(patientsFound[index].lastname ?? ""),
+                          Text(patientsFound[index].firstName + " "),
+                          Text(patientsFound[index].lastName),
                         ],
                       ),
                     ),
@@ -58,7 +58,7 @@ class _PatientDetailsTileState extends State<PatientDetailsTile> {
                         child: Row(
                           children: [
                             const Text("Client Patient Id: "),
-                            Text(patientsFound[index].clientPatientId ?? "")
+                            Text(patientsFound[index].clientPatientId)
                           ],
                         ),
                       ),

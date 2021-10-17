@@ -60,8 +60,8 @@ class PatientSearch extends SearchDelegate<Patient> {
   }
 
   bool searchOptions(Patient patient) {
-    return firstname(patient.firstname) ||
-        lastname(patient.lastname) ||
+    return firstname(patient.firstName) ||
+        lastname(patient.lastName) ||
         clientPatientId(patient.clientPatientId);
   }
 
