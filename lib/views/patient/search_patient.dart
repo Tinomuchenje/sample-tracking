@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/providers/patient_provider.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 
 import 'add_patient.dart';
 import 'patient_details_tile.dart';

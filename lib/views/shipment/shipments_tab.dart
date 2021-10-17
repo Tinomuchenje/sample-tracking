@@ -5,7 +5,8 @@ import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/models/enums/user_type_enum.dart';
 import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/providers/user_provider.dart';
-import 'package:sample_tracking_system_flutter/views/dialogs/add_shipment.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/add_shipment.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
 
 class ShipmentsTab extends StatefulWidget {
   const ShipmentsTab({Key? key}) : super(key: key);
@@ -92,26 +93,38 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
     return ListView.builder(
       itemCount: shipment.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute<void>(
-                builder: (BuildContext context) =>
-                    AddorUpdateShipmentDialog(shipmentData: shipment[index]),
-                fullscreenDialog: true,
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CustomCard(
+            child: ListTile(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        AddorUpdateShipmentDialog(
+                            shipmentData: shipment[index]),
+                    fullscreenDialog: true,
+                  ),
+                );
+              },
+              title: Text(shipment[index].description.toString()),
+              subtitle: Row(
+                children: [
+                  const Text("Status:"),
+                  Text(shipment[index].status ?? "Ready")
+                ],
               ),
-            );
-          },
-          title: Text(shipment[index].description.toString()),
-          subtitle: const Text('Shipping description'),
-          leading: const Icon(
-            Icons.file_present,
-            color: Colors.white,
-          ),
-          trailing: const Icon(
-            Icons.sync,
-            color: Colors.green,
+              leading: const Icon(
+                Icons.folder,
+                size: 45,
+                color: Colors.blue,
+              ),
+              trailing: const Icon(
+                Icons.sync,
+                color: Colors.green,
+              ),
+            ),
           ),
         );
       },

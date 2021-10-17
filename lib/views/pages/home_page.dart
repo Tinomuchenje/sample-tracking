@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/views/patient/patients_tab.dart';
 import 'package:sample_tracking_system_flutter/views/sample/samples_tab.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/shipments_tab.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/shipments_tab.dart';
 
 import 'facility_dashboard.dart';
 

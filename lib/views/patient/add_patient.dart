@@ -4,7 +4,7 @@ import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/providers/patient_provider.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_date_form_field.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_elevated_button.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
 
 import '../sample/add_sample.dart';
