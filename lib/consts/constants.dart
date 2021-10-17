@@ -32,3 +32,5 @@ const Color shrineBackgroundWhite = Colors.white;
 const defaultLetterSpacing = 0.03;
 
 const defaultPadding = 15.0;
+
+const base_url = 'http://196.27.127.58:4080/api/';

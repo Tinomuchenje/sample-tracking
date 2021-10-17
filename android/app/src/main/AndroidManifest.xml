@@ -3,7 +3,10 @@
    <application
         android:label="sample_tracking_system_flutter"
         android:icon="@mipmap/ic_launcher">
-        <activity
+       <!-- Required to fetch data from the internet. -->
+       <uses-permission android:name="android.permission.INTERNET" />
+
+       <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"

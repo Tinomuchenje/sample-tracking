@@ -1,9 +1,8 @@
 // ignore_for_file: unnecessary_new
 
-import 'audit_log.dart';
-
 class Sample {
   String? id;
+  String? appId;
   String? clientSampleId;
   String? clientPatientId;
   String? labId;
@@ -22,14 +21,21 @@ class Sample {
   String? resultReceivedBy;
   String? shipmentId;
   String? clientContact;
-  String? dateCreated;
-  String? dateModified;
   String? temperatureAtHub;
   String? temperatureAtLab;
-  AuditLog? auditLog;
+  bool? isModifiedByHub;
+  bool? isModifiedByFacility;
+  bool? isModifiedByLaboratory;
+  bool? isModifiedByCourrier;
+  String? createdBy;
+  String? lastModifiedBy;
+  String? createdDate;
+  String? lastModifiedDate;
+
 
   Sample(
       {this.id,
+        this.appId,
       this.clientSampleId,
       this.clientPatientId,
       this.labId,
@@ -48,43 +54,53 @@ class Sample {
       this.resultReceivedBy,
       this.shipmentId,
       this.clientContact,
-      this.dateCreated,
-      this.dateModified,
       this.temperatureAtHub,
       this.temperatureAtLab,
-      this.auditLog});
+      this.isModifiedByHub,
+      this.isModifiedByFacility,
+      this.isModifiedByLaboratory,
+      this.isModifiedByCourrier,
+      this.createdBy,
+      this.lastModifiedBy,
+      this.createdDate,
+      this.lastModifiedDate});
 
   Sample.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    clientSampleId = json['clientSampleId'];
-    clientPatientId = json['clientPatientId'];
-    labId = json['labId'];
-    clientId = json['clientId'];
-    sampleType = json['sampleType'];
-    testId = json['testId'];
-    dateCollected = json['dateCollected'];
-    collectedBy = json['collectedBy'];
-    status = json['status'];
-    comment = json['comment'];
-    synced = json['synced'];
-    dateSynced = json['dateSynced'];
-    labReferenceId = json['labReferenceId'];
-    location = json['location'];
-    result = json['result'];
-    resultReceivedBy = json['resultReceivedBy'];
-    shipmentId = json['shipmentId'];
-    clientContact = json['clientContact'];
-    dateCreated = json['dateCreated'];
-    dateModified = json['dateModified'];
-    temperatureAtHub = json['temperatureAtHub'];
-    temperatureAtLab = json['temperatureAtLab'];
-    auditLog =
-        json['auditLog'] != null ? AuditLog.fromJson(json['auditLog']) : null;
+    id=json['id'];
+    appId = json['appId'];
+    clientSampleId=json['clientSampleId'];
+    clientPatientId=json['clientPatientId'];
+    labId=json['labId'];
+    clientId=json['clientId'];
+    sampleType=json['sampleType'];
+    testId=json['testId'];
+    dateCollected=json['dateCollected'];
+    collectedBy=json['collectedBy'];
+    status=json['status'];
+    comment=json['comment'];
+    synced=json['synced'];
+    dateSynced=json['dateSynced'];
+    labReferenceId=json['labReferenceId'];
+    location=json['location'];
+    result=json['result'];
+    resultReceivedBy=json['resultReceivedBy'];
+    shipmentId=json['shipmentId'];
+    clientContact=json['clientContact'];
+    temperatureAtHub=json['temperatureAtHub'];
+    temperatureAtLab=json['temperatureAtLab'];
+    isModifiedByHub=json['isModifiedByHub'];
+    isModifiedByFacility=json['isModifiedByFacility'];
+    isModifiedByLaboratory=json['isModifiedByLaboratory'];
+    isModifiedByCourrier=json['isModifiedByCourrier'];
+    createdBy=json['createdBy'];
+    lastModifiedBy=json['lastModifiedBy'];
+    createdDate=json['createdDate'];
+    lastModifiedDate=json['lastModifiedDate'];
   }
-
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+    data['appId'] = appId;
     data['clientSampleId'] = clientSampleId;
     data['clientPatientId'] = clientPatientId;
     data['labId'] = labId;
@@ -103,14 +119,16 @@ class Sample {
     data['resultReceivedBy'] = resultReceivedBy;
     data['shipmentId'] = shipmentId;
     data['clientContact'] = clientContact;
-    data['dateCreated'] = dateCreated;
-    data['dateModified'] = dateModified;
     data['temperatureAtHub'] = temperatureAtHub;
     data['temperatureAtLab'] = temperatureAtLab;
-    if (auditLog != null) {
-      data['auditLog'] = auditLog!.toJson();
-    }
-
+    data['isModifiedByHub'] = isModifiedByHub;
+    data['isModifiedByFacility'] = isModifiedByFacility;
+    data['isModifiedByLaboratory'] = isModifiedByLaboratory;
+    data['isModifiedByCourrier'] = isModifiedByCourrier;
+    data['createdBy'] = createdBy;
+    data['lastModifiedBy'] = lastModifiedBy;
+    data['createdDate'] = createdDate;
+    data['lastModifiedDate'] = lastModifiedDate;
     return data;
   }
 }

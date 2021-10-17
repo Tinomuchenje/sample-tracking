@@ -173,21 +173,21 @@ class _LoginPageState extends State<LoginPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    // SizedBox(
+                    //   height: 50,
+                    //   width: 150,
+                    //   child: CustomElevatedButton(
+                    //     press: () {
+                    //       // Validate returns true if the form is valid, or false otherwise.
+                    //       // _submit();
+                    //     },
+                    //     displayText: 'Request Access',
+                    //     fillcolor: false,
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 50,
-                      width: 150,
-                      child: CustomElevatedButton(
-                        press: () {
-                          // Validate returns true if the form is valid, or false otherwise.
-                          // _submit();
-                        },
-                        displayText: 'Request Access',
-                        fillcolor: false,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 50,
-                      width: 150,
+                      width: 340,
                       child: CustomElevatedButton(
                         press: () {
                           // Validate returns true if the form is valid, or false otherwise.

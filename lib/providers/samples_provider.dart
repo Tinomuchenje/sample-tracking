@@ -33,7 +33,7 @@ class SamplesProvider with ChangeNotifier {
     sample.status = "Created";
     sample.synced = false;
     sample.clientSampleId = "SFDFASDS";
-    sample.dateModified = _sample.dateCreated = DateTime.now().toString();
+    sample.lastModifiedDate = _sample.createdDate = DateTime.now().toString();
     sample.dateSynced = _sample.dateCollected = DateTime.now().toString();
   }
 

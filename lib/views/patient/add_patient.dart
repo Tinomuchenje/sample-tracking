@@ -128,7 +128,7 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                           initialValue: getDateCreated(),
                           onSaved: (value) {
                             if (value != null) {
-                              _patient.dateCreated = DateTime.now().toString();
+                              _patient.createdDate = DateTime.now().toString();
                             }
                           },
                         ),
@@ -141,7 +141,7 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                           labelText: "Date Modified",
                           onSaved: (value) {
                             if (value != null) {
-                              _patient.dateModified = DateTime.now().toString();
+                              _patient.lastModifiedDate = DateTime.now().toString();
                             }
                           },
                         ),
@@ -208,14 +208,14 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
 
   String getDateModified() {
     if (widget.patientData != null) {
-      return widget.patientData!.dateModified.toString();
+      return widget.patientData!.lastModifiedDate.toString();
     }
     return DateTime.now().toString();
   }
 
   String getDateCreated() {
     if (widget.patientData != null) {
-      return widget.patientData!.dateCreated.toString();
+      return widget.patientData!.createdDate.toString();
     }
     return DateTime.now().toString();
   }
