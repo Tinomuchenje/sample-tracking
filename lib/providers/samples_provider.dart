@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/samples_dao.dart';
+import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
 
 import 'package:uuid/uuid.dart';
 
@@ -25,6 +26,12 @@ class SamplesProvider with ChangeNotifier {
 
   void addSample(Sample sample) async {
     setValues(sample);
+    try {
+      SampleController().addOnlineSample(sample);
+    } catch (error) {
+      print(error);
+    }
+
     await saveOrUpdate(sample);
   }
 

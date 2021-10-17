@@ -72,7 +72,7 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                       _testsDropdown(_sample),
                       DateFormField(
                         labelText: "Date Collected",
-                        initialValue: _sample.dateCollected,
+                        initialValue: _sample.dateCollected.isEmpty ? null : _sample.dateCollected,
                         dateController: dateController,
                         onSaved: (value) {
                           if (value != null) {
@@ -201,15 +201,20 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
       "csf",
     ];
 
-    var sampleTypesMenus = sampleTypes.map((String sampleType) {
-      return DropdownMenuItem<String>(
-          value: sampleType, child: Text(sampleType));
-    }).toList();
+    var sampleTypesMenus = sampleTypes
+        .map((String sampleType) {
+          return DropdownMenuItem<String>(
+              value: sampleType, child: Text(sampleType));
+        })
+        .toSet()
+        .toList();
 
     return CustomFormDropdown(
         items: sampleTypesMenus,
         hint: const Text("Sample Types"),
-        value: sampleType ?? _sample.sampleType,
+        value: sampleType ?? _sample.sampleType.isEmpty
+            ? null
+            : _sample.sampleType,
         onChanged: (value) {
           sampleType = value.toString();
         },
@@ -237,7 +242,7 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
     ];
 
     return CustomFormDropdown(
-      value: _test ?? _sample.labId,
+      value: _test ?? _sample.labId.isEmpty ? null : _sample.labId,
       hint: const Text("Select Test"),
       items: testMenus,
       onSaved: (value) {

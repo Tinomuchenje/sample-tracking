@@ -10,7 +10,7 @@ class SampleDao {
   Future<Database> get _database async => AppDatabase.instance.database;
 
   Future insertOrUpdate(Sample sample) async {
-    String sampleId = sample.appId ?? "";
+    String sampleId = sample.appId;
     await _sampleTable.record(sampleId).put(await _database, sample.toJson());
   }
 

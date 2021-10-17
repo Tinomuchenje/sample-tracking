@@ -1,68 +1,66 @@
-// ignore_for_file: unnecessary_new
-
 class Sample {
-  String? appId;
-  String? id;
-  String? clientSampleId;
-  String? clientPatientId;
-  String? labId;
-  String? clientId;
-  String? sampleType;
-  String? testId;
-  String? dateCollected;
-  String? collectedBy;
-  String? status;
-  String? comment;
-  bool? synced;
-  String? dateSynced;
-  String? labReferenceId;
-  String? location;
-  String? result;
-  String? resultReceivedBy;
-  String? shipmentId;
-  String? clientContact;
-  String? temperatureAtHub;
-  String? temperatureAtLab;
-  bool? isModifiedByHub;
-  bool? isModifiedByFacility;
-  bool? isModifiedByLaboratory;
-  bool? isModifiedByCourier;
-  String? createdBy;
-  String? lastModifiedBy;
-  String? createdDate;
-  String? lastModifiedDate;
+  String appId = "";
+  String id = "";
+  String clientSampleId = "";
+  String clientPatientId = "";
+  String labId = "";
+  String clientId = "";
+  String sampleType = "";
+  String testId = "";
+  String dateCollected = "";
+  String collectedBy = "";
+  String status = "";
+  String comment = "";
+  bool synced = false;
+  String dateSynced = "";
+  String labReferenceId = "";
+  String location = "";
+  String result = "";
+  String resultReceivedBy = "";
+  String shipmentId = "";
+  String clientContact = "";
+  String temperatureAtHub = "";
+  String temperatureAtLab = "";
+  bool isModifiedByHub = false;
+  bool isModifiedByFacility = false;
+  bool isModifiedByLaboratory = false;
+  bool isModifiedByCourier = false;
+  String createdBy = "";
+  String lastModifiedBy = "";
+  String createdDate = "";
+  String lastModifiedDate = "";
 
   Sample(
-      {this.appId,
-      this.id,
-      this.clientSampleId,
-      this.clientPatientId,
-      this.labId,
-      this.clientId,
-      this.sampleType,
-      this.testId,
-      this.dateCollected,
-      this.collectedBy,
-      this.status,
-      this.comment,
-      this.synced,
-      this.dateSynced,
-      this.labReferenceId,
-      this.location,
-      this.result,
-      this.resultReceivedBy,
-      this.shipmentId,
-      this.clientContact,
-      this.temperatureAtHub,
-      this.temperatureAtLab,
-      this.isModifiedByHub,
-      this.isModifiedByFacility,
-      this.isModifiedByLaboratory,
-      this.isModifiedByCourier,
-      this.createdBy,
-      this.lastModifiedBy,
-      this.createdDate,
-      this.lastModifiedDate});
+      {this.appId = "",
+      this.id = "",
+      this.clientSampleId = "",
+      this.clientPatientId = "",
+      this.labId = "",
+      this.clientId = "",
+      this.sampleType = "",
+      this.testId = "",
+      this.dateCollected = "",
+      this.collectedBy = "",
+      this.status = "",
+      this.comment = "",
+      this.synced = false,
+      this.dateSynced = "",
+      this.labReferenceId = "",
+      this.location = "",
+      this.result = "",
+      this.resultReceivedBy = "",
+      this.shipmentId = "",
+      this.clientContact = "",
+      this.temperatureAtHub = "",
+      this.temperatureAtLab = "",
+      this.isModifiedByHub = false,
+      this.isModifiedByFacility = false,
+      this.isModifiedByLaboratory = false,
+      this.isModifiedByCourier = false,
+      this.createdBy = "",
+      this.lastModifiedBy = "",
+      this.createdDate = "",
+      this.lastModifiedDate = ""});
 
   Sample.fromJson(Map<String, dynamic> json) {
     appId = json['id'];
