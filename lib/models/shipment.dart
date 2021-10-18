@@ -13,10 +13,10 @@ class Shipment {
   String? clusterClientId;
   String? temperatureOrigin;
   String? temperatureDestination;
-  bool? isModifiedByHub;
-  bool? isModifiedByFacility;
-  bool? isModifiedByLaboratory;
-  bool? isModifiedByCourier;
+  bool isModifiedByHub = false;
+  bool isModifiedByFacility = false;
+  bool isModifiedByLaboratory = false;
+  bool isModifiedByCourier = false;
   String? createdBy;
   String? lastModifiedBy;
   String? createdDate;
@@ -37,10 +37,10 @@ class Shipment {
       this.clusterClientId,
       this.temperatureOrigin,
       this.temperatureDestination,
-      this.isModifiedByHub,
-      this.isModifiedByFacility,
-      this.isModifiedByLaboratory,
-      this.isModifiedByCourier,
+      this.isModifiedByHub = false,
+      this.isModifiedByFacility = false,
+      this.isModifiedByLaboratory = false,
+      this.isModifiedByCourier = false,
       this.createdBy,
       this.lastModifiedBy,
       this.createdDate,
@@ -51,7 +51,12 @@ class Shipment {
     appId = json['appId'];
     description = json['description'];
     clientId = json['clientId'];
-    samples = json['samples'];
+    if (json['samples'] != null) {
+      samples = <String>[];
+      json['samples'].forEach((value) {
+        samples.add(value);
+      });
+    }
     status = json['status'];
     dateCreated = json['dateCreated'];
     dateModified = json['dateModified'];

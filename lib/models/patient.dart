@@ -52,7 +52,7 @@ class Patient {
   Patient.fromJson(Map<String, dynamic> json) {
     id = json['_id'] ?? json['id'];
     appId = json['appId'];
-    firstName = json['lastName'];
+    firstName = json['firstName'];
     lastName = json['lastName'];
     gender = json['gender'];
     dob = json['dob'];
