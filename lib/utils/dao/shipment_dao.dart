@@ -46,7 +46,10 @@ class ShipmentDao {
     final recordSnapshot = await _shipmentTable.find(await _database);
 
     return recordSnapshot.map((snapshot) {
-      final shipments = Shipment.fromJson(snapshot.value);
+      // Map<String, dynamic> map = snapshot.value;
+      Map<String, dynamic> map = Map<String, dynamic>.from(snapshot.value);
+
+      final shipments = Shipment.fromJson(map);
       return shipments;
     }).toList();
   }

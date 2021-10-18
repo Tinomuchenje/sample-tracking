@@ -10,7 +10,7 @@ class SampleDao {
   Future<Database> get _database async => AppDatabase.instance.database;
 
   Future insertOrUpdate(Sample sample) async {
-    String sampleId = sample.id ?? "";
+    String sampleId = sample.appId;
     await _sampleTable.record(sampleId).put(await _database, sample.toJson());
   }
 
@@ -25,7 +25,7 @@ class SampleDao {
   }
 
   Future delete(Sample sample) async {
-    final finder = Finder(filter: Filter.byKey(sample.id));
+    final finder = Finder(filter: Filter.byKey(sample.appId));
     await _sampleTable.delete(await _database, finder: finder);
   }
 

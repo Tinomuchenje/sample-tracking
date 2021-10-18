@@ -10,7 +10,7 @@ class PatientDao {
   Future<Database> get _database async => AppDatabase.instance.database;
 
   Future insertOrUpdate(Patient patient) async {
-    String patientId = patient.id ?? "";
+    String patientId = patient.appId;
 
     await _patientTable
         .record(patientId)

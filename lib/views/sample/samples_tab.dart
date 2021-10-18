@@ -116,7 +116,6 @@ class _SamplesTabState extends State<SamplesTab> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(samples[index].clientPatientId.toString()),
-                    const Text("Tinotenda Muchenje"),
                   ],
                 ),
               ),

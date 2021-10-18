@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/patient_dao.dart';
+import 'package:sample_tracking_system_flutter/views/patient/patient_controller.dart';
 import 'package:uuid/uuid.dart';
 
 class PatientProvider with ChangeNotifier {
@@ -11,15 +12,23 @@ class PatientProvider with ChangeNotifier {
   Patient get patient => _patient;
 
   List<Patient> get patients {
-    allPatientsFromdatabase();
+    allPatientsFromDatabase();
     return [..._patients];
   }
 
   void add(Patient? patient) {
     if (patient == null) return;
-    patient.id = uuid.v1();
+    patient.appId = uuid.v1();
     patient.client = "admin";
-    patient.dateCreated = patient.dateModified = DateTime.now().toString();
+    patient.createdDate = patient.lastModifiedDate = DateTime.now().toString();
+    // Need to check connection here before going
+    try {
+      PatientController().addOnlinePatient(patient);
+    } catch (error) {
+      // ignore: avoid_print
+      print(error);
+    }
+
     addToLocalDatabase(patient);
     notifyListeners();
   }
@@ -31,7 +40,7 @@ class PatientProvider with ChangeNotifier {
     }).catchError((onError) {});
   }
 
-  Future<void> allPatientsFromdatabase() async {
+  Future<void> allPatientsFromDatabase() async {
     await PatientDao().getAllPatients().then((value) {
       _patients.clear();
       _patients.addAll(value);
@@ -40,6 +49,7 @@ class PatientProvider with ChangeNotifier {
   }
 
   updatePatient(Patient patient) async {
+    //PatientController().updateOnlinePatient(patient);
     await addToLocalDatabase(patient);
     notifyListeners();
   }

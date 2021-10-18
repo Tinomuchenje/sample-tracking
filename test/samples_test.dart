@@ -7,7 +7,7 @@ void main() {
     test("Add new sample", () {
       // Arrange
       final sampleProvider = SamplesProvider();
-      var sample = Sample(sampleType: "1", id: "1", clientPatientId: "1");
+      var sample = Sample(sampleType: "1", appId: "1", clientPatientId: "1");
 
       // Act
       sampleProvider.addSample(sample);
@@ -19,9 +19,9 @@ void main() {
     test("Add sample Create records Length match samples", () {
       // Arrange
       final sampleProvider = SamplesProvider();
-      Sample sampleOne = Sample(sampleType: "1", id: "1", clientPatientId: "1");
+      Sample sampleOne = Sample(sampleType: "1", appId: "1", clientPatientId: "1");
 
-      Sample sampleTwo = Sample(sampleType: "1", id: "1", clientPatientId: "1");
+      Sample sampleTwo = Sample(sampleType: "1", appId: "1", clientPatientId: "1");
 
       // Act
       sampleProvider.addSample(sampleOne);
@@ -35,9 +35,9 @@ void main() {
         () {
       // Arrange
       final sampleProvider = SamplesProvider();
-      Sample sampleOne = Sample(sampleType: "1", id: "1", clientPatientId: "1");
+      Sample sampleOne = Sample(sampleType: "1", appId: "1", clientPatientId: "1");
 
-      Sample sampleTwo = Sample(sampleType: "2", id: "2", clientPatientId: "2");
+      Sample sampleTwo = Sample(sampleType: "2", appId: "2", clientPatientId: "2");
 
       // Act
       sampleProvider.addSample(sampleOne);

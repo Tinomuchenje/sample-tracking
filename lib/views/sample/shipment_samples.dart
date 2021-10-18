@@ -89,8 +89,8 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
     }
 
     var items = samples
-        .map((sample) => MultiSelectItem<Sample>(
-            sample, sample.clientPatientId ?? "Something"))
+        .map(
+            (sample) => MultiSelectItem<Sample>(sample, sample.clientPatientId))
         .toList();
 
     await showDialog(
@@ -117,10 +117,9 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
     var currentSamples = shipmentx.samples.toList();
 
     for (Sample sample in selectedSamples) {
-      if (sample.id == null) continue;
-      currentSamples.add(sample.id ?? "");
+      currentSamples.add(sample.appId);
     }
-    
+
     setState(() {
       shipmentx.samples = currentSamples;
     });
@@ -148,7 +147,7 @@ class ShipmentSamplesCard extends StatelessWidget {
           child: CustomCard(
             child: ListTile(
                 onTap: () {},
-                title: Text(samples[index].clientPatientId ?? ""),
+                title: Text(samples[index].clientPatientId),
                 subtitle: Row(
                   children: const [Text("Status:"), Text("Ready")],
                 ),

@@ -48,9 +48,9 @@ class ShipmentProvider with ChangeNotifier {
   }
 
   Future addShipmentsToSamples(Shipment shipment) async {
-    for (var sampleId in shipment.samples) {     
+    for (var sampleId in shipment.samples) {
       Sample sample = await SampleDao().getSample(sampleId);
-      sample.shipmentId = shipment.id;
+      sample.shipmentId = shipment.id ?? "";
       await SampleDao().insertOrUpdate(sample);
     }
   }
