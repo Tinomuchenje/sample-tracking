@@ -63,8 +63,8 @@ class Sample {
       this.lastModifiedDate = ""});
 
   Sample.fromJson(Map<String, dynamic> json) {
-    appId = json['id'];
-    id = json['id'];
+    appId = json['appId'];
+    id = json['_id'] ?? json['id'];
     clientSampleId = json['clientSampleId'];
     clientPatientId = json['clientPatientId'];
     labId = json['labId'];
@@ -108,7 +108,7 @@ class Sample {
     data['collectedBy'] = collectedBy;
     data['status'] = status;
     data['comment'] = comment;
-    data['synced'] = synced;
+    data['synced'] = synced.toString();
     data['dateSynced'] = dateSynced;
     data['labReferenceId'] = labReferenceId;
     data['location'] = location;
@@ -118,10 +118,10 @@ class Sample {
     data['clientContact'] = clientContact;
     data['temperatureAtHub'] = temperatureAtHub;
     data['temperatureAtLab'] = temperatureAtLab;
-    data['isModifiedByHub'] = isModifiedByHub;
-    data['isModifiedByFacility'] = isModifiedByFacility;
-    data['isModifiedByLaboratory'] = isModifiedByLaboratory;
-    data['isModifiedByCourier'] = isModifiedByCourier;
+    data['isModifiedByHub'] = isModifiedByHub.toString();
+    data['isModifiedByFacility'] = isModifiedByFacility.toString();
+    data['isModifiedByLaboratory'] = isModifiedByLaboratory.toString();
+    data['isModifiedByCourier'] = isModifiedByCourier.toString();
     data['createdBy'] = createdBy;
     data['lastModifiedBy'] = lastModifiedBy;
     data['createdDate'] = createdDate;
