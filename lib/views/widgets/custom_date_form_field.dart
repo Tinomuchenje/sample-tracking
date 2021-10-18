@@ -57,8 +57,12 @@ class _DateFormFieldState extends State<DateFormField> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
+        var dateTime = DateTime.parse(selectedDate.toString());
+
+        var formatedDate = "${dateTime.day}-${dateTime.month}-${dateTime.year}";
+
         widget.dateController =
-            TextEditingController(text: selectedDate.toString());
+            TextEditingController(text: formatedDate);
       });
     }
   }
