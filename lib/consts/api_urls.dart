@@ -3,5 +3,7 @@ const baseUrl = 'https://sample-tracking-backend.herokuapp.com/v1/';
 // Patient
 
 // Sample
-const addSampleUrl = baseUrl + 'sample';
+const sampleUrl = baseUrl + 'sample';
+
 // Shipment
+const shipmentUrl = baseUrl + 'shipment';

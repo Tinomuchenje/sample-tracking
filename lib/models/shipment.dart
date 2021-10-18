@@ -24,7 +24,7 @@ class Shipment {
 
   Shipment(
       {this.id,
-        this.appId,
+      this.appId,
       this.description,
       this.clientId,
       required this.samples,
@@ -45,7 +45,6 @@ class Shipment {
       this.lastModifiedBy,
       this.createdDate,
       this.lastModifiedDate});
-
 
   Shipment.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -88,10 +87,10 @@ class Shipment {
     data['clusterClientId'] = clusterClientId;
     data['temperatureOrigin'] = temperatureOrigin;
     data['temperatureDestination'] = temperatureDestination;
-    data['isModifiedByHub'] = isModifiedByHub;
-    data['isModifiedByFacility'] = isModifiedByFacility;
-    data['isModifiedByLaboratory'] = isModifiedByLaboratory;
-    data['isModifiedByCourrier'] = isModifiedByCourier;
+    data['isModifiedByHub'] = isModifiedByHub.toString();
+    data['isModifiedByFacility'] = isModifiedByFacility.toString();
+    data['isModifiedByLaboratory'] = isModifiedByLaboratory.toString();
+    data['isModifiedByCourrier'] = isModifiedByCourier.toString();
     data['createdBy'] = createdBy;
     data['lastModifiedBy'] = lastModifiedBy;
     data['createdDate'] = createdDate;

@@ -20,7 +20,7 @@ class SampleController {
 
   addOnlineSample(Sample sample) async {
     final response =
-        await http.post(Uri.parse(addSampleUrl), body: sample.toJson());
+        await http.post(Uri.parse(sampleUrl), body: sample.toJson());
 
     if (response.statusCode == 200) {
       return Sample.fromJson(jsonDecode(response.body));
