@@ -72,7 +72,9 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                       _testsDropdown(_sample),
                       DateFormField(
                         labelText: "Date Collected",
-                        initialValue: _sample.dateCollected.isEmpty ? null : _sample.dateCollected,
+                        initialValue: _sample.dateCollected.isEmpty
+                            ? null
+                            : _sample.dateCollected,
                         dateController: dateController,
                         onSaved: (value) {
                           if (value != null) {
@@ -123,7 +125,8 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                                 if (!_formKey.currentState!.validate()) return;
 
                                 saveSampleForm(_sample, context);
-
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute<void>(

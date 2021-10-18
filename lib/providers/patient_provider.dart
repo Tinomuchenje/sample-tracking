@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/patient_dao.dart';
 import 'package:sample_tracking_system_flutter/views/patient/patient_controller.dart';

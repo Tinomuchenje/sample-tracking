@@ -52,12 +52,15 @@ class SamplesProvider with ChangeNotifier {
     }).catchError((onError) {});
   }
 
-  Future allSamplesFromdatabase() async {
+  Future<void> allSamplesFromdatabase() async {
     await SampleDao().getAll().then((value) {
       _samples.clear();
       _samples.addAll(value);
       notifyListeners();
-    }).catchError((onError) {});
+    });
+    // .catchError((error) {
+    //   print(error);
+    // });
   }
 
   Future updateSample(Sample sample) async {

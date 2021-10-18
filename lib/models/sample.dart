@@ -75,7 +75,7 @@ class Sample {
     collectedBy = json['collectedBy'];
     status = json['status'];
     comment = json['comment'];
-    synced = json['synced'];
+    synced = json['synced'] == "true" ? true : false;
     dateSynced = json['dateSynced'];
     labReferenceId = json['labReferenceId'];
     location = json['location'];
@@ -85,13 +85,15 @@ class Sample {
     clientContact = json['clientContact'];
     temperatureAtHub = json['temperatureAtHub'];
     temperatureAtLab = json['temperatureAtLab'];
-    isModifiedByHub = json['isModifiedByHub'];
-    isModifiedByFacility = json['isModifiedByFacility'];
-    isModifiedByLaboratory = json['isModifiedByLaboratory'];
-    isModifiedByCourier = json['isModifiedByCourier'];
+    isModifiedByHub = json['isModifiedByHub'] == "true" ? true : false;
+    isModifiedByFacility =
+        json['isModifiedByFacility'] == "true" ? true : false;
+    isModifiedByLaboratory =
+        json['isModifiedByLaboratory'] == "true" ? true : false;
+    isModifiedByCourier = json['isModifiedByCourier'] == "true" ? true : false;
     createdBy = json['createdBy'];
     lastModifiedBy = json['lastModifiedBy'];
-    createdDate = json['createdDate'];
+    createdDate = json['createdDate'] ?? "";
     lastModifiedDate = json['lastModifiedDate'];
   }
   Map<String, dynamic> toJson() {
