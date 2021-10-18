@@ -66,10 +66,12 @@ class Shipment {
     clusterClientId = json['clusterClientId'];
     temperatureOrigin = json['temperatureOrigin'];
     temperatureDestination = json['temperatureDestination'];
-    isModifiedByHub = json['isModifiedByHub'];
-    isModifiedByFacility = json['isModifiedByFacility'];
-    isModifiedByLaboratory = json['isModifiedByLaboratory'];
-    isModifiedByCourier = json['isModifiedByCourrier'];
+    isModifiedByHub = json['isModifiedByHub'] == "true" ? true : false;
+    isModifiedByFacility =
+        json['isModifiedByFacility'] == "true" ? true : false;
+    isModifiedByLaboratory =
+        json['isModifiedByLaboratory'] == "true" ? true : false;
+    isModifiedByCourier = json['isModifiedByCourrier'] == "true" ? true : false;
     createdBy = json['createdBy'];
     lastModifiedBy = json['lastModifiedBy'];
     createdDate = json['createdDate'];
