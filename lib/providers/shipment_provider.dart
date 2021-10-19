@@ -22,6 +22,30 @@ class ShipmentProvider with ChangeNotifier {
     return [..._shipments];
   }
 
+  List<Shipment> get clientShipments {
+    var clientShipments =
+        _shipments.where((shipement) => shipement.status == "client");
+    return [...clientShipments];
+  }
+
+  List<Shipment> get hubShipments {
+    var hubShipments =
+        _shipments.where((shipement) => shipement.status == "hub");
+    return [...hubShipments];
+  }
+
+  List<Shipment> get labShipments {
+    var labShipments =
+        _shipments.where((shipement) => shipement.status == "lab");
+    return [...labShipments];
+  }
+
+  List<Shipment> get closedShipments {
+    var closedShipments =
+        _shipments.where((shipement) => shipement.status == "lab");
+    return [...closedShipments];
+  }
+
   List<Sample> get shipmentSamples {
     loadSamples();
     return [..._shipmentSamples];

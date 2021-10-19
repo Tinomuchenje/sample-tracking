@@ -96,18 +96,25 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                       keyboardType: TextInputType.number,
                       labelText: "Temperature Origin",
                       initialValue: _shipment.temperatureOrigin,
-                      onSaved: (value) {},
-                    ),
-                    CustomTextFormField(
-                      keyboardType: TextInputType.number,
-                      labelText: "Temperature Destination",
-                      initialValue: _shipment.temperatureDestination,
                       onSaved: (value) {
                         if (value != null) {
-                          _shipment.temperatureDestination = value;
+                          _shipment.temperatureOrigin = value;
                         }
                       },
                     ),
+                    // Visibility( //Show for user type hub or corier
+                    //   visible: !isNewForm,
+                    //   child: CustomTextFormField(
+                    //     keyboardType: TextInputType.number,
+                    //     labelText: "Temperature Destination",
+                    //     initialValue: _shipment.temperatureDestination,
+                    //     onSaved: (value) {
+                    //       if (value != null) {
+                    //         _shipment.temperatureDestination = value;
+                    //       }
+                    //     },
+                    //   ),
+                    // ),
                     Visibility(
                       visible: !isNewForm,
                       child: const CustomTextFormField(

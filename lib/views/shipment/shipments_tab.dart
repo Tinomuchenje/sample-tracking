@@ -18,11 +18,6 @@ class ShipmentsTab extends StatefulWidget {
 class _ShipmentsTabState extends State<ShipmentsTab> {
   var currentUser;
 
-  List<Shipment> localShipment = [Shipment(id: "Gweru", samples: [])];
-  List<Shipment> hubsShipment = [Shipment(id: "Cholocho", samples: [])];
-  List<Shipment> labsShipment = [Shipment(id: "Chimina", samples: [])];
-  List<Shipment> closedShipment = [Shipment(id: "Seke", samples: [])];
-
   @override
   void didChangeDependencies() {
     currentUser = Provider.of<UserProvider>(context, listen: false).currentUser;
@@ -41,32 +36,33 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-          appBar: AppBar(
-            bottom: TabBar(tabs: _renderTabs()),
-            leading: IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) =>
-                        AddorUpdateShipmentDialog(),
-                    fullscreenDialog: true,
-                  ),
-                );
-              },
-            ),
-            title: const Text("Shipments"),
+        appBar: AppBar(
+          bottom: TabBar(tabs: _renderTabs()),
+          leading: IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) =>
+                      AddorUpdateShipmentDialog(),
+                  fullscreenDialog: true,
+                ),
+              );
+            },
           ),
-          body: TabBarView(children: [
-            Consumer<ShipmentProvider>(
-                builder: (context, shipmentProvider, child) {
-              return _shipments(shipmentProvider.shipments);
-            }),
-            _shipments(localShipment),
-            _shipments(hubsShipment),
-            _shipments(closedShipment)
-          ])),
+          title: const Text("Shipments"),
+        ),
+        body: Consumer<ShipmentProvider>(
+            builder: (context, shipmentProvider, child) {
+          return TabBarView(children: [
+            _shipments(shipmentProvider.shipments),
+            _shipments(shipmentProvider.hubShipments),
+            _shipments(shipmentProvider.labShipments),
+            _shipments(shipmentProvider.closedShipments)
+          ]);
+        }),
+      ),
     );
   }
 
