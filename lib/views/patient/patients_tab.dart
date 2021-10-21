@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/providers/patient_provider.dart';
 
+import 'add_patient.dart';
 import 'patient_details_tile.dart';
 import 'search_patient.dart';
 
@@ -17,14 +18,28 @@ class _PatientsTabState extends State<PatientsTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Search Patients"), actions: <Widget>[
-        IconButton(
-          icon: const Icon(Icons.search),
-          onPressed: () {
-            showSearch(context: context, delegate: PatientSearch());
-          },
-        )
-      ]),
+      appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => AddorUpdatePatientDialog(),
+                  fullscreenDialog: true,
+                ),
+              );
+            },
+          ),
+          title: const Text("Search Patients"),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                showSearch(context: context, delegate: PatientSearch());
+              },
+            )
+          ]),
       body:
           Consumer<PatientProvider>(builder: (context, patientProvider, child) {
         return PatientDetailsTile(patients: patientProvider.patients);

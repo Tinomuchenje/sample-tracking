@@ -21,10 +21,6 @@ class _PatientDetailsTileState extends State<PatientDetailsTile> {
   Widget build(BuildContext context) {
     List<Patient> patientsFound = widget.patients;
 
-    if (patientsFound.isEmpty) {
-      return PatientSearch().registerPatient(context);
-    }
-    
     return ListView.builder(
         itemBuilder: (context, index) => Flexible(
               child: Padding(
@@ -50,7 +46,10 @@ class _PatientDetailsTileState extends State<PatientDetailsTile> {
                       SizedBox(
                         height: 20,
                         child: Row(
-                          children: const [Text("DOB: "), Text("12/07/96")],
+                          children: [
+                            const Text("DOB: "),
+                            Text(patientsFound[index].dob)
+                          ],
                         ),
                       ),
                       SizedBox(

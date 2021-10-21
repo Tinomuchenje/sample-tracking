@@ -20,7 +20,7 @@ class SamplesProvider with ChangeNotifier {
 
   List<Sample> get unshipedSamples {
     List<Sample> unshipedSamples = allSamples;
-    unshipedSamples.removeWhere((sample) => sample.shipmentId != null);
+    unshipedSamples.removeWhere((sample) => sample.shipmentId != "");
     return unshipedSamples;
   }
 

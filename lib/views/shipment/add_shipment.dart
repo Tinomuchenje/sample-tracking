@@ -30,7 +30,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   List<Sample> samples = [];
   int _sampleCount = 0;
   List<String> selectedSamples = [];
-
+  bool isNewForm = false;
   Future<void> readJson() async {
     if (_clients.isNotEmpty) return;
     var response =
@@ -56,7 +56,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
 
   @override
   Widget build(BuildContext context) {
-    bool isNewForm = widget.shipmentData == null;
+    isNewForm = widget.shipmentData == null;
 
     Shipment _shipment = widget.shipmentData ?? Shipment(samples: []);
 
@@ -162,18 +162,29 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
         children: [
           TextButton(
               onPressed: () {
-                Provider.of<ShipmentProvider>(context, listen: false)
-                    .addShipment(_shipment)
-                    .then((savedShipment) {
+                if (isNewForm) {
+                  Provider.of<ShipmentProvider>(context, listen: false)
+                      .addShipment(_shipment)
+                      .then((savedShipment) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => ShipmentSamples(
+                          shipment: savedShipment,
+                        ),
+                      ),
+                    );
+                  });
+                } else {
                   Navigator.push(
                     context,
                     MaterialPageRoute<void>(
                       builder: (BuildContext context) => ShipmentSamples(
-                        shipment: savedShipment,
+                        shipment: _shipment,
                       ),
                     ),
                   );
-                });
+                }
               },
               child: Text(
                 "View Samples",

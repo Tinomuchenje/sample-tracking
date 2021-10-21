@@ -85,7 +85,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
   }
 
   ListView _shipments(List<Shipment> shipment) {
-    shipment = shipment.reversed.toList();
+    // shipment = shipment.reversed.toList();
     return ListView.builder(
       itemCount: shipment.length,
       itemBuilder: (context, index) {
