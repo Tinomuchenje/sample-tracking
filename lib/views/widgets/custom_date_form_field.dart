@@ -3,7 +3,7 @@ import 'package:sample_tracking_system_flutter/consts/constants.dart';
 
 class DateFormField extends StatefulWidget {
   Function(Object?) onSaved;
-  final String? initialValue;
+  String? initialValue;
   final String labelText;
   TextEditingController? dateController;
 
@@ -49,11 +49,13 @@ class _DateFormFieldState extends State<DateFormField> {
   Future _selectDate(BuildContext context) async {
     DateTime now = DateTime.now();
     DateTime date = DateTime(now.year, now.month, now.day);
+
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: date,
         firstDate: DateTime(1900),
         lastDate: date);
+        
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
@@ -61,8 +63,8 @@ class _DateFormFieldState extends State<DateFormField> {
 
         var formatedDate = "${dateTime.day}-${dateTime.month}-${dateTime.year}";
 
-        widget.dateController =
-            TextEditingController(text: formatedDate);
+        widget.initialValue = null;
+        widget.dateController = TextEditingController(text: formatedDate);
       });
     }
   }

@@ -29,6 +29,7 @@ class Sample {
   String lastModifiedBy = "";
   String createdDate = "";
   String lastModifiedDate = "";
+  String patient = "";
 
   Sample(
       {this.appId = "",
@@ -60,7 +61,8 @@ class Sample {
       this.createdBy = "",
       this.lastModifiedBy = "",
       this.createdDate = "",
-      this.lastModifiedDate = ""});
+      this.lastModifiedDate = "",
+      this.patient = ""});
 
   Sample.fromJson(Map<String, dynamic> json) {
     appId = json['appId'];
@@ -95,6 +97,7 @@ class Sample {
     lastModifiedBy = json['lastModifiedBy'];
     createdDate = json['createdDate'] ?? "";
     lastModifiedDate = json['lastModifiedDate'];
+    patient = json['patient'] ?? "";
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -128,6 +131,7 @@ class Sample {
     data['lastModifiedBy'] = lastModifiedBy;
     data['createdDate'] = createdDate;
     data['lastModifiedDate'] = lastModifiedDate;
+    data['patient'] = patient;
     return data;
   }
 }

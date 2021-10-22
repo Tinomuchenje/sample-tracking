@@ -34,6 +34,12 @@ class _CustomFormDropdownState extends State<CustomFormDropdown> {
         items: widget.items,
         onChanged: widget.onChanged,
         onSaved: widget.onSaved,
+        validator: (value) {
+          if (value == null) {
+            return "Can not be empty";
+          }
+          return null;
+        },
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
         ),

@@ -27,17 +27,16 @@ class AddorUpdateSampleDialog extends StatefulWidget {
 class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
   final _formKey = GlobalKey<FormState>();
   LaboratoryDao laboratoryDao = LaboratoryDao();
-  TextEditingController? dateController;
 
   @override
   Widget build(BuildContext context) {
     bool isNewForm = widget.sampleData == null;
     final Sample _sample = widget.sampleData ?? Sample();
-
-    String _appBarText = isNewForm ? 'Add' : 'Update';
-    String _saveButtonText = isNewForm ? 'Save' : 'Update';
     String? _patientInitialValue = "";
     String? _patientId = "";
+    String _appBarText = isNewForm ? 'Add' : 'Update';
+    String _saveButtonText = isNewForm ? 'Save' : 'Update';
+
     if (widget.patient != null) {
       _patientId = widget.patient!.clientPatientId;
       _patientInitialValue = _patientInitialValue +
@@ -64,7 +63,9 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                       CustomTextFormField(
                           labelText: "Patient",
                           enabled: widget.patient == null || isNewForm,
-                          initialValue: _patientId,
+                          initialValue: _patientId == ""
+                              ? _sample.clientPatientId
+                              : _patientId,
                           onSaved: (value) {
                             if (value != null) _sample.clientPatientId = value;
                           }),
@@ -75,7 +76,6 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                         initialValue: _sample.dateCollected.isEmpty
                             ? null
                             : _sample.dateCollected,
-                        dateController: dateController,
                         onSaved: (value) {
                           if (value != null) {
                             _sample.dateCollected = value.toString();
@@ -90,13 +90,13 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                           initialValue: _sample.status,
                         ),
                       ),
-                      Visibility(
-                        visible: !isNewForm,
-                        child: CustomTextFormField(
-                            enabled: false,
-                            labelText: "Lab Reference Id",
-                            initialValue: _sample.labReferenceId),
-                      ),
+                      // Visibility(
+                      //   visible: !isNewForm,
+                      //   child: CustomTextFormField(
+                      //       enabled: false,
+                      //       labelText: "Lab Reference Id",
+                      //       initialValue: _sample.labReferenceId),
+                      // ),
                       Visibility(
                         visible: !isNewForm,
                         child: const CustomTextFormField(
@@ -104,13 +104,13 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                             labelText: "Location",
                             initialValue: "Hurungwe"),
                       ),
-                      Visibility(
-                        visible: !isNewForm,
-                        child: CustomTextFormField(
-                          labelText: "Shipment",
-                          initialValue: _sample.shipmentId,
-                        ),
-                      ),
+                      // Visibility(
+                      //   visible: !isNewForm,
+                      //   child: CustomTextFormField(
+                      //     labelText: "Shipment",
+                      //     initialValue: _sample.shipmentId,
+                      //   ),
+                      // ),
                       const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
