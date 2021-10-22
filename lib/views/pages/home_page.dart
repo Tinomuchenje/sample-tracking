@@ -6,7 +6,8 @@ import 'package:sample_tracking_system_flutter/views/shipment/shipments_tab.dart
 import 'facility_dashboard.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  int pageIndex;
+  HomePage({Key? key, this.pageIndex = 0}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -25,6 +26,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.pageIndex > 0) {
+      _currentIndex = widget.pageIndex;
+      widget.pageIndex = 0;
+    }
+
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(

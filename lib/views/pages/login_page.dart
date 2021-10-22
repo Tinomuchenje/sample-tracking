@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (BuildContext context) => const HomePage()));
+              builder: (BuildContext context) => HomePage()));
     }
 
     if (widget.userType == UserType.rider) {

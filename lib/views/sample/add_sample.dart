@@ -6,6 +6,7 @@ import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
+import 'package:sample_tracking_system_flutter/views/pages/home_page.dart';
 import 'package:sample_tracking_system_flutter/views/patient/search_patient.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_date_form_field.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
@@ -130,8 +131,9 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute<void>(
-                                    builder: (BuildContext context) =>
-                                        const SamplesTab(),
+                                    builder: (BuildContext context) => HomePage(
+                                      pageIndex: 2,
+                                    ),
                                   ),
                                 );
                               },
@@ -146,8 +148,6 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                               press: () {
                                 if (!_formKey.currentState!.validate()) return;
                                 saveSampleForm(_sample, context);
-                                Navigator.of(context).pop();
-                                Navigator.of(context).pop();
 
                                 showSearch(
                                     context: context,
