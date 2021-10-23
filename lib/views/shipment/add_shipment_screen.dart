@@ -63,8 +63,8 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
     String _saveButtonText = isNewForm ? 'Save' : 'Update';
     Shipment _shipment = widget.shipmentData ?? Shipment(samples: []);
 
-    if (_shipment.appId != null) {
-      _shipment = loadCurrentShipment(_shipment.appId ?? "");
+    if (_shipment.appId.isNotEmpty) {
+      _shipment = loadCurrentShipment(_shipment.appId);
     }
 
     if (widget.shipmentData != null) {
@@ -148,9 +148,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   }
 
   _desination(Shipment _shipment) {
-    var destination;
-
-    var destinations = ["Hub 1", "Lab 1"];
+    List<String> destinations = ["Hub 1", "Lab 1"];
 
     var destinationMenus = destinations.map((String sampleType) {
       return DropdownMenuItem<String>(
@@ -160,9 +158,11 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
     return CustomFormDropdown(
         items: destinationMenus,
         hint: const Text("Destination"),
-        value: destination ?? _shipment.destination,
+        value: _shipment.destination.isEmpty
+            ? destinations[0]
+            : _shipment.destination,
         onChanged: (value) {
-          destination = value.toString();
+          _shipment.destination = value.toString();
         },
         onSaved: (value) {
           _shipment.destination = value.toString();
@@ -223,100 +223,4 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
       ),
     );
   }
-
-  // void _samplesDialog(
-  //     BuildContext context, List<Sample>? samples, Shipment _shipment) async {
-  //   if (samples!.isEmpty) {
-  //     return showErrorNotification(context, "No samples available, please add");
-  //   }
-
-  //   var items = samples
-  //       .map((sample) => MultiSelectItem<String?>(
-  //           sample.id, sample.clientPatientId ?? "Something"))
-  //       .toList();
-
-  //   await showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return MultiSelectDialog(
-  //           confirmText: const Text("OK"),
-  //           cancelText: const Text("CANCEL"),
-  //           items: items,
-  //           initialValue:
-  //               selectedSamples.isEmpty ? _shipment.samples : selectedSamples,
-  //           height: MediaQuery.of(context).size.height / 2.5,
-  //           searchable: true,
-  //           searchHint: "",
-  //           onConfirm: (results) {
-  //             results as List<String>;
-  //             setState(() {
-  //               selectedSamples = results;
-  //               _sampleCount = results.length;
-  //             });
-  //           },
-  //         );
-  //       });
-  // }
-
-  // samplesList(List<Sample>? samples, Shipment _shipment) {
-  //   if (samples!.isEmpty) return const Text("No samples available yet.");
-
-  //   return Padding(
-  //     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-  //     child: MultiSelectDialogField(
-  //       // decoration: BoxDecoration(
-  //       //   borderRadius: const BorderRadius.all(Radius.circular(5)),
-  //       //   border: Border.all(
-  //       //     color: Colors.grey,
-  //       //     width: 1.0,
-  //       //   ),
-  //       // ),
-  //       initialValue: _shipment.samples,
-  //       items: samples
-  //           .map((sample) => MultiSelectItem<String?>(
-  //               sample.id, sample.clientPatientId ?? "Something"))
-  //           .toList(),
-  //       buttonIcon: const Icon(Icons.add, size: 38),
-  //       height: MediaQuery.of(context).size.height / 2.5,
-  //       searchable: true,
-  //       chipDisplay: MultiSelectChipDisplay.none(),
-  //       title: const Text("Samples"),
-  //       selectedColor: Colors.blue,
-  //       onConfirm: (results) {
-  //         results as List<String>;
-  //         setState(() {
-  //           _shipment.samples = results;
-  //         });
-  //       },
-  //       onSaved: (value) {
-  //         value as List<String>;
-  //         _shipment.samples = value;
-  //       },
-  //     ),
-  //   );
-  // }
-
-  // _selectClientDropdown(Shipment _shipment) {
-  //   var clientMenus;
-  //   setState(() {
-  //     clientMenus = _clients.map((Client client) {
-  //       return DropdownMenuItem<String>(
-  //         value: client.clientId,
-  //         child: Text(client.name ?? "Name unavailable"),
-  //       );
-  //     }).toList();
-  //   });
-
-  //   return CustomFormDropdown(
-  //     value: _value ?? _shipment.clientId,
-  //     hint: const Text("Please select client"),
-  //     items: clientMenus,
-  //     onSaved: (value) {
-  //       _shipment.clientId = value.toString();
-  //     },
-  //     onChanged: (value) {
-  //       _value = value as Client;
-  //     },
-  //   );
-  // }
 }

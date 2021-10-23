@@ -81,7 +81,7 @@ List<Widget> _newShipments() {
                   title: Row(
                     children: [
                       const Text("Destination : "),
-                      Text(e.destination ?? "Destination unspecified"),
+                      Text(e.destination),
                     ],
                   ),
                   subtitle: SizedBox(
@@ -91,13 +91,13 @@ List<Widget> _newShipments() {
                         Row(
                           children: [
                             const Text("Client : "),
-                            Text(e.clientId ?? "X"),
+                            Text(e.clientId),
                           ],
                         ),
                         Row(
-                          children: [
-                            const Text("Date Created-"),
-                            const Text("2021-10-04"),
+                          children: const[
+                             Text("Date Created-"),
+                             Text("2021-10-04"),
                           ],
                         ),
                         Row(

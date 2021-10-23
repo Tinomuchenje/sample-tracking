@@ -22,7 +22,7 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
 
   @override
   Widget build(BuildContext context) {
-    currentShipmentId = widget.shipment!.appId ?? "";
+    currentShipmentId = widget.shipment!.appId;
 
     return Scaffold(
       appBar: AppBar(title: const Text("Shipment Samples")),

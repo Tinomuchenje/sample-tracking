@@ -5,7 +5,6 @@ import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 
 import 'add_patient.dart';
-import 'search_patient.dart';
 
 class PatientDetailsTile extends StatefulWidget {
   List<Patient> patients;

@@ -10,7 +10,7 @@ class ShipmentDao {
   Future<Database> get _database async => AppDatabase.instance.database;
 
   Future<Shipment> insertOrUpdate(Shipment shipment) async {
-    String shipmentId = shipment.appId ?? "";
+    String shipmentId = shipment.appId;
     final savedShipment = await _shipmentTable
         .record(shipmentId)
         .put(await _database, shipment.toJson());

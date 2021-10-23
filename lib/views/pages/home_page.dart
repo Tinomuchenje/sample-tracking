@@ -15,7 +15,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
-  int _selectedDestination = 0;
 
   final List<Widget> _tabs = [
     const FacilityDashboard(),
@@ -34,59 +33,6 @@ class _HomePageState extends State<HomePage> {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                'Header',
-                style: textTheme.headline6,
-              ),
-            ),
-            const Divider(
-              height: 1,
-              thickness: 1,
-            ),
-            ListTile(
-              leading: Icon(Icons.favorite),
-              title: Text('Item 1'),
-              selected: _selectedDestination == 0,
-              onTap: () => {},
-            ),
-            ListTile(
-              leading: Icon(Icons.delete),
-              title: Text('Item 2'),
-              selected: _selectedDestination == 1,
-              onTap: () => {},
-            ),
-            ListTile(
-              leading: Icon(Icons.label),
-              title: Text('Item 3'),
-              selected: _selectedDestination == 2,
-              onTap: () => {},
-            ),
-            const Divider(
-              height: 1,
-              thickness: 1,
-            ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'Label',
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.bookmark),
-              title: Text('Item A'),
-              selected: _selectedDestination == 3,
-              onTap: () => {},
-            ),
-          ],
-        ),
-      ),
       body: _tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

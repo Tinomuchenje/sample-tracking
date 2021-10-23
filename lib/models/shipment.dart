@@ -1,50 +1,51 @@
 class Shipment {
-  String? id;
-  String? appId;
-  String? description;
-  String? clientId;
+  String id = "";
+  String appId = "";
+  String description = "";
+  String clientId = "";
   late List<String> samples;
-  String? status;
-  String? dateCreated;
-  String? dateModified;
-  String? riderId;
-  String? riderName;
-  String? destination;
-  String? clusterClientId;
-  String? temperatureOrigin;
-  String? temperatureDestination;
+  String status = "";
+  String dateCreated = "";
+  String dateModified = "";
+  String riderId = "";
+  String riderName = "";
+  String destination = "";
+  String clusterClientId = "";
+  String temperatureOrigin = "";
+  String temperatureDestination = "";
   bool isModifiedByHub = false;
   bool isModifiedByFacility = false;
   bool isModifiedByLaboratory = false;
   bool isModifiedByCourier = false;
-  String? createdBy;
-  String? lastModifiedBy;
-  String? createdDate;
-  String? lastModifiedDate;
+  String createdBy = "";
+  String lastModifiedBy = "";
+  String createdDate = "";
+  String lastModifiedDate = "";
 
-  Shipment(
-      {this.id,
-      this.appId,
-      this.description,
-      this.clientId,
-      required this.samples,
-      this.status,
-      this.dateCreated,
-      this.dateModified,
-      this.riderId,
-      this.riderName,
-      this.destination,
-      this.clusterClientId,
-      this.temperatureOrigin,
-      this.temperatureDestination,
-      this.isModifiedByHub = false,
-      this.isModifiedByFacility = false,
-      this.isModifiedByLaboratory = false,
-      this.isModifiedByCourier = false,
-      this.createdBy,
-      this.lastModifiedBy,
-      this.createdDate,
-      this.lastModifiedDate});
+  Shipment({
+    this.id = "",
+    this.appId = "",
+    this.description = "",
+    this.clientId = "",
+    this.samples = const [],
+    this.status = "",
+    this.dateCreated = "",
+    this.dateModified = "",
+    this.riderId = "",
+    this.riderName = "",
+    this.destination = "",
+    this.clusterClientId = "",
+    this.temperatureOrigin = "",
+    this.temperatureDestination = "",
+    this.isModifiedByHub = false,
+    this.isModifiedByFacility = false,
+    this.isModifiedByLaboratory = false,
+    this.isModifiedByCourier = false,
+    this.createdBy = "",
+    this.lastModifiedBy = "",
+    this.createdDate = "",
+    this.lastModifiedDate = "",
+  });
 
   Shipment.fromJson(Map<String, dynamic> json) {
     id = json['id'];

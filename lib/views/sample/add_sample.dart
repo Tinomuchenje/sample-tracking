@@ -12,7 +12,6 @@ import 'package:sample_tracking_system_flutter/views/widgets/custom_date_form_fi
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
-import 'package:sample_tracking_system_flutter/views/sample/samples_tab.dart';
 
 class AddorUpdateSampleDialog extends StatefulWidget {
   final Patient? patient;
