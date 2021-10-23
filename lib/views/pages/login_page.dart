@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
     if (_formKey.currentState!.validate()) {
       Navigator.pop(context);
 
-      loadImportantInformation();
+      // loadImportantInformation();
       appInformation.saveLoginIndicator();
 
       navigateToHome();

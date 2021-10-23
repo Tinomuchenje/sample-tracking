@@ -49,7 +49,6 @@ class PatientProvider with ChangeNotifier {
   }
 
   updatePatient(Patient patient) async {
-    //PatientController().updateOnlinePatient(patient);
     await addToLocalDatabase(patient);
     notifyListeners();
   }

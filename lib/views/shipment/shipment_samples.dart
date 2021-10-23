@@ -125,7 +125,7 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
     });
 
     Provider.of<ShipmentProvider>(context, listen: false)
-        .saveOrUpdate(shipmentx);
+        .addToLocalDatabase(shipmentx);
   }
 }
 

@@ -42,7 +42,7 @@ class ShipmentProvider with ChangeNotifier {
 
   List<Shipment> get closedShipments {
     var closedShipments =
-        _shipments.where((shipement) => shipement.status == "lab");
+        _shipments.where((shipement) => shipement.status == "closed");
     return [...closedShipments];
   }
 
@@ -62,11 +62,12 @@ class ShipmentProvider with ChangeNotifier {
     });
   }
 
-  Future<Shipment> addShipment(Shipment? shipment) async {
-    if (shipment == null) return Shipment(samples: []);
-
+  Future<Shipment> addShipment(Shipment shipment) async {
     shipment.appId = shipment.appId ?? uuid.v1();
-    await saveOrUpdate(shipment);
+    _shipment.status = "Created";
+    _shipment.dateCreated = _shipment.dateModified = DateTime.now().toString();
+
+    await addToLocalDatabase(shipment);
     notifyListeners();
     return shipment;
   }
@@ -79,8 +80,9 @@ class ShipmentProvider with ChangeNotifier {
     }
   }
 
-  Future<Shipment> saveOrUpdate(Shipment shipment) async {
+  Future<Shipment> addToLocalDatabase(Shipment shipment) async {
     await addShipmentsToSamples(shipment);
+
     await ShipmentDao().insertOrUpdate(shipment).then((value) {
       _shipments.add(shipment);
       notifyListeners();
@@ -89,17 +91,17 @@ class ShipmentProvider with ChangeNotifier {
     return shipment;
   }
 
+  Future updateShipment(Shipment shipment) async {
+    await addToLocalDatabase(shipment);
+    notifyListeners();
+  }
+
   Future getAllShipmentsFromdatabase() async {
     await ShipmentDao().getAllShipments().then((value) {
       _shipments.clear();
       _shipments.addAll(value);
       notifyListeners();
     });
-  }
-
-  Future updateShipment(Shipment shipment) async {
-    await saveOrUpdate(shipment);
-    notifyListeners();
   }
 
   Future deleteShipment(Shipment shipment) async {

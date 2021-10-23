@@ -5,7 +5,7 @@ import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/models/enums/user_type_enum.dart';
 import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/providers/user_provider.dart';
-import 'package:sample_tracking_system_flutter/views/shipment/add_shipment.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/add_shipment_screen.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
 
 class ShipmentsTab extends StatefulWidget {

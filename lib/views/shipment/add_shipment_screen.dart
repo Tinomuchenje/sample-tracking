@@ -9,10 +9,11 @@ import 'package:sample_tracking_system_flutter/models/client.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
-import 'package:sample_tracking_system_flutter/views/sample/shipment_samples.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/shipment_samples.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/notification_service.dart';
 
 class AddorUpdateShipmentDialog extends StatefulWidget {
   Shipment? shipmentData;
@@ -31,6 +32,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   int _sampleCount = 0;
   List<String> selectedSamples = [];
   bool isNewForm = false;
+
   Future<void> readJson() async {
     if (_clients.isNotEmpty) return;
     var response =
@@ -57,15 +59,13 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   @override
   Widget build(BuildContext context) {
     isNewForm = widget.shipmentData == null;
-
+    String _appBarText = isNewForm ? 'Add' : 'Update';
+    String _saveButtonText = isNewForm ? 'Save' : 'Update';
     Shipment _shipment = widget.shipmentData ?? Shipment(samples: []);
 
     if (_shipment.appId != null) {
       _shipment = loadCurrentShipment(_shipment.appId ?? "");
     }
-
-    String _appBarText = isNewForm ? 'Add' : 'Update';
-    String _saveButtonText = isNewForm ? 'Save' : 'Update';
 
     if (widget.shipmentData != null) {
       selectedSamples = widget.shipmentData!.samples;
@@ -102,19 +102,6 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                         }
                       },
                     ),
-                    // Visibility( //Show for user type hub or corier
-                    //   visible: !isNewForm,
-                    //   child: CustomTextFormField(
-                    //     keyboardType: TextInputType.number,
-                    //     labelText: "Temperature Destination",
-                    //     initialValue: _shipment.temperatureDestination,
-                    //     onSaved: (value) {
-                    //       if (value != null) {
-                    //         _shipment.temperatureDestination = value;
-                    //       }
-                    //     },
-                    //   ),
-                    // ),
                     Visibility(
                       visible: !isNewForm,
                       child: const CustomTextFormField(
@@ -134,12 +121,19 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                         press: () {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            _shipment.samples = selectedSamples;
-                            widget.shipmentData == null
-                                ? addNewShipment(context, _shipment)
-                                : updateShipment(context, _shipment);
 
-                            showNotification(context);
+                            if (widget.shipmentData == null) {
+                              Provider.of<ShipmentProvider>(context,
+                                      listen: false)
+                                  .addShipment(_shipment);
+                            } else {
+                              Provider.of<ShipmentProvider>(context,
+                                      listen: false)
+                                  .updateShipment(_shipment);
+                            }
+
+                            NotificationService.success(
+                                context, "Saved successfully");
                             Navigator.of(context).pop();
                           }
                         },
@@ -151,6 +145,28 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
             ],
           ),
         ));
+  }
+
+  _desination(Shipment _shipment) {
+    var destination;
+
+    var destinations = ["Hub 1", "Lab 1"];
+
+    var destinationMenus = destinations.map((String sampleType) {
+      return DropdownMenuItem<String>(
+          value: sampleType, child: Text(sampleType));
+    }).toList();
+
+    return CustomFormDropdown(
+        items: destinationMenus,
+        hint: const Text("Destination"),
+        value: destination ?? _shipment.destination,
+        onChanged: (value) {
+          destination = value.toString();
+        },
+        onSaved: (value) {
+          _shipment.destination = value.toString();
+        });
   }
 
   Padding samplesSection(Shipment _shipment) {
@@ -280,95 +296,27 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   //   );
   // }
 
-  _desination(Shipment _shipment) {
-    var destination;
+  // _selectClientDropdown(Shipment _shipment) {
+  //   var clientMenus;
+  //   setState(() {
+  //     clientMenus = _clients.map((Client client) {
+  //       return DropdownMenuItem<String>(
+  //         value: client.clientId,
+  //         child: Text(client.name ?? "Name unavailable"),
+  //       );
+  //     }).toList();
+  //   });
 
-    var destinations = ["Hub 1", "Lab 1"];
-
-    var destinationMenus = destinations.map((String sampleType) {
-      return DropdownMenuItem<String>(
-          value: sampleType, child: Text(sampleType));
-    }).toList();
-
-    return CustomFormDropdown(
-        items: destinationMenus,
-        hint: const Text("Destination"),
-        value: destination ?? _shipment.destination,
-        onChanged: (value) {
-          destination = value.toString();
-        },
-        onSaved: (value) {
-          _shipment.destination = value.toString();
-        });
-  }
-
-  _selectClientDropdown(Shipment _shipment) {
-    var clientMenus;
-    setState(() {
-      clientMenus = _clients.map((Client client) {
-        return DropdownMenuItem<String>(
-          value: client.clientId,
-          child: Text(client.name ?? "Name unavailable"),
-        );
-      }).toList();
-    });
-
-    return CustomFormDropdown(
-      value: _value ?? _shipment.clientId,
-      hint: const Text("Please select client"),
-      items: clientMenus,
-      onSaved: (value) {
-        _shipment.clientId = value.toString();
-      },
-      onChanged: (value) {
-        _value = value as Client;
-      },
-    );
-  }
-
-  String getDateModified() {
-    if (widget.shipmentData != null) {
-      return widget.shipmentData!.dateModified.toString();
-    }
-    return DateTime.now().toString();
-  }
-
-  String getDateCreated() {
-    if (widget.shipmentData != null) {
-      return widget.shipmentData!.dateCreated.toString();
-    }
-    return DateTime.now().toString();
-  }
-
-  void addNewShipment(BuildContext context, Shipment _shipment) {
-    _shipment.status = "Created";
-    _shipment.dateCreated = _shipment.dateModified = DateTime.now().toString();
-    Provider.of<ShipmentProvider>(context, listen: false)
-        .updateShipment(_shipment);
-  }
-
-  void updateShipment(BuildContext context, Shipment _shipment) {
-    Provider.of<ShipmentProvider>(context, listen: false)
-        .updateShipment(_shipment);
-  }
-
-  void showNotification(BuildContext context) {
-    // we should extract this into common area for forms
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Sample saved"),
-        backgroundColor: Colors.green,
-      ),
-    );
-  }
-
-  void showErrorNotification(BuildContext context, String message) {
-    // we should extract this into common area for forms
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
-      ),
-    );
-  }
+  //   return CustomFormDropdown(
+  //     value: _value ?? _shipment.clientId,
+  //     hint: const Text("Please select client"),
+  //     items: clientMenus,
+  //     onSaved: (value) {
+  //       _shipment.clientId = value.toString();
+  //     },
+  //     onChanged: (value) {
+  //       _value = value as Client;
+  //     },
+  //   );
+  // }
 }
