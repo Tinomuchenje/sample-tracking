@@ -48,13 +48,20 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
 
   @override
   Widget build(BuildContext context) {
-    isNewForm = widget.shipmentData == null;
-    String _appBarText = isNewForm ? 'Add' : 'Update';
-    String _saveButtonText = isNewForm ? 'Save' : 'Update';
+    String _appBarText = 'Add';
+    String _saveButtonText = 'Save';
     Shipment _shipment = widget.shipmentData ?? Shipment(samples: []);
 
+    if (widget.shipmentData == null || widget.shipmentData!.appId.isEmpty) {
+      isNewForm = true;
+    }
+
+    if (!isNewForm) {
+      _appBarText = _saveButtonText = 'Update';
+    }
+
     if (widget.shipmentData != null) {
-      selectedSamples = widget.shipmentData!.samples;
+      _sampleCount = widget.shipmentData!.samples.length;
     }
 
     return Scaffold(
@@ -100,7 +107,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                     ),
                     SizedBox(
                       height: 50,
-                      width: 150,
+                      width: double.infinity,
                       child: CustomElevatedButton(
                         displayText: _saveButtonText,
                         fillcolor: true,
@@ -158,7 +165,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   }
 
   Padding samplesSection(Shipment _shipment) {
-    _sampleCount = selectedSamples.length;
+    _sampleCount = _shipment.samples.length;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(

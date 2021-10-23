@@ -56,7 +56,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
         body: Consumer<ShipmentProvider>(
             builder: (context, shipmentProvider, child) {
           return TabBarView(children: [
-            _shipments(shipmentProvider.shipments),
+            _shipments(shipmentProvider.clientShipments),
             _shipments(shipmentProvider.hubShipments),
             _shipments(shipmentProvider.labShipments),
             _shipments(shipmentProvider.closedShipments)

@@ -68,7 +68,7 @@ class ShipmentProvider with ChangeNotifier {
     notifyListeners();
     return shipment;
   }
-  
+
   Future<Shipment> addToLocalDatabase(Shipment shipment) async {
     await addShipmentsToSamples(shipment);
 
@@ -85,13 +85,13 @@ class ShipmentProvider with ChangeNotifier {
       shipment.appId = uuid.v1();
     }
 
-    if (_shipment.status.isEmpty) {
-      _shipment.status = "Created";
+    if (shipment.status.isEmpty) {
+      shipment.status = "client";
     }
 
-    if (_shipment.dateCreated.isEmpty) {
-      _shipment.dateCreated =
-          _shipment.dateModified = DateTime.now().toString();
+    if (shipment.dateCreated.isEmpty) {
+      shipment.dateCreated =
+          shipment.dateModified = DateTime.now().toString();
     }
   }
 
@@ -102,7 +102,6 @@ class ShipmentProvider with ChangeNotifier {
       await SampleDao().insertOrUpdate(sample);
     }
   }
-
 
   Future getAllShipmentsFromdatabase() async {
     await ShipmentDao().getAllShipments().then((value) {

@@ -6,6 +6,8 @@ import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/notification_service.dart';
 
 import 'add_shipment_screen.dart';
 
@@ -27,30 +29,58 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
 
     return Scaffold(
       appBar: AppBar(title: const Text("Shipment Samples")),
-      body: shipmentExistingSamplesCards(),
-      floatingActionButton:
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 20),
           Consumer<SamplesProvider>(builder: (context, sampleProvider, child) {
-        return addSamples(context, sampleProvider.unshipedSamples);
-      }),
+            return addSamples(context, sampleProvider.unshipedSamples);
+          }),
+          const SizedBox(height: 20),
+          Expanded(child: shipmentExistingSamplesCards()),
+        ],
+      ),
     );
   }
 
-  FloatingActionButton addSamples(BuildContext context, List<Sample> samples) {
-    return FloatingActionButton.extended(
-        onPressed: () {
-          _samplesDialog(context, samples);
-        },
-        label: const Text('Add samples'),
-        icon: const Icon(
-          Icons.add,
-          size: 35.0,
-          color: Colors.white,
+  Widget addSamples(BuildContext context, List<Sample> samples) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        SizedBox(
+          height: 50,
+          width: 150,
+          child: CustomElevatedButton(
+            displayText: "Save samples",
+            fillcolor: false,
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => AddorUpdateShipmentDialog(
+                    shipmentData: currentShipment,
+                  ),
+                ),
+              );
+            },
+          ),
         ),
-        backgroundColor: Colors.blue);
+        SizedBox(
+          height: 50,
+          width: 150,
+          child: CustomElevatedButton(
+            displayText: "Add sample/s",
+            fillcolor: true,
+            press: () {
+              _samplesDialog(context, samples);
+            },
+          ),
+        ),
+      ],
+    );
   }
 
   Widget shipmentExistingSamplesCards() {
-    
     _displayedSamples = currentShipment!.samples.toList();
 
     if (_displayedSamples.isEmpty) {
@@ -65,28 +95,19 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
           return const Text("Loading");
         }
         var samples = snapshot.data as List<Sample>;
-        if (samples.isEmpty) const Text("No samples available");
+
+        if (samples.isEmpty) const Center(child: Text("No samples available"));
+
         return ShipmentSamplesCard(samples: samples);
       },
     );
   }
 
-  // Shipment loadCurrentShipment() {
-  //   var shipements = Provider.of<ShipmentProvider>(context, listen: false)
-  //       .shipments
-  //       .where((shipment) => shipment.appId == currentShipmentId)
-  //       .toList();
-
-  //   if (shipements.isEmpty) return Shipment(samples: []);
-
-  //   return shipements.first;
-  // }
-
   void _samplesDialog(BuildContext context, List<Sample>? samples) async {
     List<Sample> selectedSamples = [];
     if (samples!.isEmpty) {
-      return;
-      // showErrorNotification(context, "No samples available, please add");
+      return NotificationService.warning(
+          context, 'No samples available, please add');
     }
 
     var items = samples
@@ -114,7 +135,6 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
   }
 
   void updateSample(List<Sample> selectedSamples, BuildContext context) {
-  
     var currentSampleIds = currentShipment!.samples.toList();
 
     for (Sample sample in selectedSamples) {
@@ -124,15 +144,6 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
     setState(() {
       currentShipment!.samples = currentSampleIds;
     });
-
-    Navigator.push(
-      context,
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) => AddorUpdateShipmentDialog(
-          shipmentData: currentShipment,
-        ),
-      ),
-    );
   }
 }
 
