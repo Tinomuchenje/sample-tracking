@@ -5,7 +5,7 @@ class CustomElevatedButton extends StatelessWidget {
   final String displayText;
   final bool fillcolor;
   final void Function()? press;
-  static const circularRadius = 20.0;
+  static const circularRadius = 5.0;
 
   CustomElevatedButton(
       {required this.displayText,

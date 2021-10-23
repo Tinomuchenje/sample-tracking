@@ -22,7 +22,7 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
 
   @override
   Widget build(BuildContext context) {
-    currentShipmentId = widget.shipment!.id ?? "";
+    currentShipmentId = widget.shipment!.appId ?? "";
 
     return Scaffold(
       appBar: AppBar(title: const Text("Shipment Samples")),
@@ -73,7 +73,7 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
   Shipment loadCurrentShipment() {
     var shipements = Provider.of<ShipmentProvider>(context, listen: false)
         .shipments
-        .where((shipment) => shipment.id == currentShipmentId)
+        .where((shipment) => shipment.appId == currentShipmentId)
         .toList();
 
     if (shipements.isEmpty) return Shipment(samples: []);

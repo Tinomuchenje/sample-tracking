@@ -9,7 +9,7 @@ import 'package:sample_tracking_system_flutter/models/enums/user_type_enum.dart'
 import 'package:sample_tracking_system_flutter/providers/user_provider.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
-import 'package:sample_tracking_system_flutter/views/pages/rider/dashboard.dart';
+import 'package:sample_tracking_system_flutter/views/rider/dashboard.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 
 import 'home_page.dart';
@@ -55,10 +55,8 @@ class _LoginPageState extends State<LoginPage> {
         widget.userType;
 
     if (widget.userType == UserType.client) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) => HomePage()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (BuildContext context) => HomePage()));
     }
 
     if (widget.userType == UserType.rider) {
@@ -103,105 +101,107 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: EdgeInsets.fromLTRB(0, 150, 0, 0),
-          children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.all(15),
-              child: Text(
-                "ESTS MOHCC APP",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  labelText: "Username",
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your username';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _data.username = value!;
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: TextFormField(
-                obscureText: _isObscure,
-                keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecoration(
-                  labelText: "Password",
-                  border: const OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                        _isObscure ? Icons.visibility : Icons.visibility_off),
-                    onPressed: () {
-                      setState(() {
-                        _isObscure = !_isObscure;
-                      });
-                    },
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _data.password = value!;
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Flexible(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(23.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                flex: 4,
+                fit: FlexFit.loose,
+                child: Column(
                   children: [
-                    // SizedBox(
-                    //   height: 50,
-                    //   width: 150,
-                    //   child: CustomElevatedButton(
-                    //     press: () {
-                    //       // Validate returns true if the form is valid, or false otherwise.
-                    //       // _submit();
-                    //     },
-                    //     displayText: 'Request Access',
-                    //     fillcolor: false,
-                    //   ),
-                    // ),
+                    const SizedBox(height: 25),
                     SizedBox(
-                      height: 50,
-                      width: 340,
-                      child: CustomElevatedButton(
-                        press: () {
-                          // Validate returns true if the form is valid, or false otherwise.
-                          _submit();
-                        },
-                        displayText: 'LogIn',
-                        fillcolor: true,
+                        height: 130,
+                        child: Image.asset('assets/images/moh.png')),
+                    SizedBox(
+                        height: 200,
+                        child: Image.asset('assets/images/brt.jpg')),
+                    const Text(
+                      "SAMPLE TRACKING",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-          ],
+              Flexible(
+                flex: 2,
+                fit: FlexFit.loose,
+                child: Form(
+                  key: _formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            labelText: "Username",
+                            border: OutlineInputBorder(),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your username';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _data.username = value!;
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        TextFormField(
+                          obscureText: _isObscure,
+                          keyboardType: TextInputType.visiblePassword,
+                          decoration: InputDecoration(
+                            labelText: "Password",
+                            border: const OutlineInputBorder(),
+                            suffixIcon: IconButton(
+                              icon: Icon(_isObscure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
+                              onPressed: () {
+                                setState(() {
+                                  _isObscure = !_isObscure;
+                                });
+                              },
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _data.password = value!;
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        SizedBox(
+                          height: 50,
+                          width: 340,
+                          child: CustomElevatedButton(
+                            press: () {
+                              _submit();
+                            },
+                            displayText: 'LogIn',
+                            fillcolor: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

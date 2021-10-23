@@ -46,7 +46,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   Shipment loadCurrentShipment(String shipmentId) {
     var shipements = Provider.of<ShipmentProvider>(context, listen: false)
         .shipments
-        .where((shipment) => shipment.id == shipmentId)
+        .where((shipment) => shipment.appId == shipmentId)
         .toList();
 
     if (shipements.isEmpty) return Shipment(samples: []);
@@ -60,8 +60,8 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
 
     Shipment _shipment = widget.shipmentData ?? Shipment(samples: []);
 
-    if (_shipment.id != null) {
-      _shipment = loadCurrentShipment(_shipment.id ?? "");
+    if (_shipment.appId != null) {
+      _shipment = loadCurrentShipment(_shipment.appId ?? "");
     }
 
     String _appBarText = isNewForm ? 'Add' : 'Update';
@@ -187,7 +187,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                 }
               },
               child: Text(
-                "View Samples",
+                "View/Add Samples",
                 style: GoogleFonts.openSans(
                     textStyle: const TextStyle(
                   color: Colors.blue,

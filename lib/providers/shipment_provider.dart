@@ -65,7 +65,7 @@ class ShipmentProvider with ChangeNotifier {
   Future<Shipment> addShipment(Shipment? shipment) async {
     if (shipment == null) return Shipment(samples: []);
 
-    shipment.id = shipment.id ?? uuid.v1();
+    shipment.appId = shipment.appId ?? uuid.v1();
     await saveOrUpdate(shipment);
     notifyListeners();
     return shipment;
@@ -74,7 +74,7 @@ class ShipmentProvider with ChangeNotifier {
   Future addShipmentsToSamples(Shipment shipment) async {
     for (var sampleId in shipment.samples) {
       Sample sample = await SampleDao().getSample(sampleId);
-      sample.shipmentId = shipment.id ?? "";
+      sample.shipmentId = shipment.appId ?? "";
       await SampleDao().insertOrUpdate(sample);
     }
   }

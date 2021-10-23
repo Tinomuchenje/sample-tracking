@@ -10,7 +10,7 @@ class ShipmentDao {
   Future<Database> get _database async => AppDatabase.instance.database;
 
   Future<Shipment> insertOrUpdate(Shipment shipment) async {
-    String shipmentId = shipment.id ?? "";
+    String shipmentId = shipment.appId ?? "";
     final savedShipment = await _shipmentTable
         .record(shipmentId)
         .put(await _database, shipment.toJson());
@@ -25,12 +25,6 @@ class ShipmentDao {
     await _shipmentTable.addAll(await _database, value);
   }
 
-  Future update(Shipment shipment) async {
-    final finder = Finder(filter: Filter.byKey(shipment.id));
-    await _shipmentTable.update(await _database, shipment.toJson(),
-        finder: finder);
-  }
-
   Future<Shipment> getShipment(String shipmentId) async {
     var map = await _shipmentTable.record(shipmentId).get(await _database);
     if (map == null) return Shipment(samples: []);
@@ -38,7 +32,7 @@ class ShipmentDao {
   }
 
   Future delete(Shipment shipment) async {
-    final finder = Finder(filter: Filter.byKey(shipment.id));
+    final finder = Finder(filter: Filter.byKey(shipment.appId));
     await _shipmentTable.delete(await _database, finder: finder);
   }
 
