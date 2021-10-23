@@ -7,7 +7,7 @@ import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart'
 import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
 
 class GridDashBoard extends StatefulWidget {
-  GridDashBoard({Key? key}) : super(key: key);
+  const GridDashBoard({Key? key}) : super(key: key);
 
   @override
   _GridDashBoardState createState() => _GridDashBoardState();

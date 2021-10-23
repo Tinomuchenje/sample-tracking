@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-const ColorScheme _shrineColorScheme = ColorScheme(
-  primary: shrinePink100,
-  primaryVariant: shrineBrown900,
-  secondary: shrinePink50,
-  secondaryVariant: shrineBrown900,
-  surface: shrineSurfaceWhite,
-  background: shrineBackgroundWhite,
-  error: shrineErrorRed,
-  onPrimary: shrineBrown900,
-  onSecondary: shrineBrown900,
-  onSurface: shrineBrown900,
-  onBackground: shrineBrown900,
-  onError: shrineSurfaceWhite,
-  brightness: Brightness.light,
-);
+// const ColorScheme _shrineColorScheme = ColorScheme(
+//   primary: shrinePink100,
+//   primaryVariant: shrineBrown900,
+//   secondary: shrinePink50,
+//   secondaryVariant: shrineBrown900,
+//   surface: shrineSurfaceWhite,
+//   background: shrineBackgroundWhite,
+//   error: shrineErrorRed,
+//   onPrimary: shrineBrown900,
+//   onSecondary: shrineBrown900,
+//   onSurface: shrineBrown900,
+//   onBackground: shrineBrown900,
+//   onError: shrineSurfaceWhite,
+//   brightness: Brightness.light,
+// );
 
 const Color shrinePink50 = Color(0xFFFEEAE6);
 const Color shrinePink100 = Color(0xFFFEDBD0);

@@ -4,9 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
-import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
+
+import 'add_shipment_screen.dart';
 
 class ShipmentSamples extends StatefulWidget {
   final Shipment? shipment;
@@ -18,11 +19,11 @@ class ShipmentSamples extends StatefulWidget {
 
 class _ShipmentSamplesState extends State<ShipmentSamples> {
   List<String> _displayedSamples = [];
-  String? currentShipmentId;
+  Shipment? currentShipment;
 
   @override
   Widget build(BuildContext context) {
-    currentShipmentId = widget.shipment!.appId;
+    currentShipment = widget.shipment;
 
     return Scaffold(
       appBar: AppBar(title: const Text("Shipment Samples")),
@@ -49,8 +50,8 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
   }
 
   Widget shipmentExistingSamplesCards() {
-    Shipment shipmentx = loadCurrentShipment();
-    _displayedSamples = shipmentx.samples.toList();
+    
+    _displayedSamples = currentShipment!.samples.toList();
 
     if (_displayedSamples.isEmpty) {
       return const Text("No samples available");
@@ -70,16 +71,16 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
     );
   }
 
-  Shipment loadCurrentShipment() {
-    var shipements = Provider.of<ShipmentProvider>(context, listen: false)
-        .shipments
-        .where((shipment) => shipment.appId == currentShipmentId)
-        .toList();
+  // Shipment loadCurrentShipment() {
+  //   var shipements = Provider.of<ShipmentProvider>(context, listen: false)
+  //       .shipments
+  //       .where((shipment) => shipment.appId == currentShipmentId)
+  //       .toList();
 
-    if (shipements.isEmpty) return Shipment(samples: []);
+  //   if (shipements.isEmpty) return Shipment(samples: []);
 
-    return shipements.first;
-  }
+  //   return shipements.first;
+  // }
 
   void _samplesDialog(BuildContext context, List<Sample>? samples) async {
     List<Sample> selectedSamples = [];
@@ -113,19 +114,25 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
   }
 
   void updateSample(List<Sample> selectedSamples, BuildContext context) {
-    Shipment shipmentx = loadCurrentShipment();
-    var currentSamples = shipmentx.samples.toList();
+  
+    var currentSampleIds = currentShipment!.samples.toList();
 
     for (Sample sample in selectedSamples) {
-      currentSamples.add(sample.appId);
+      currentSampleIds.add(sample.appId);
     }
 
     setState(() {
-      shipmentx.samples = currentSamples;
+      currentShipment!.samples = currentSampleIds;
     });
 
-    Provider.of<ShipmentProvider>(context, listen: false)
-        .addToLocalDatabase(shipmentx);
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => AddorUpdateShipmentDialog(
+          shipmentData: currentShipment,
+        ),
+      ),
+    );
   }
 }
 

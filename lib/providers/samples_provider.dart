@@ -29,7 +29,7 @@ class SamplesProvider with ChangeNotifier {
     try {
       SampleController().addOnlineSample(sample);
     } catch (error) {
-      print(error);
+      // print(error);
     }
 
     await saveOrUpdate(sample);

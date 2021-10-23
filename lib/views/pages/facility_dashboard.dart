@@ -47,7 +47,7 @@ class _FacilityDashboardState extends State<FacilityDashboard> {
         const SizedBox(
           height: 10.0,
         ),
-        GridDashBoard(),
+        const GridDashBoard(),
       ]),
     );
   }

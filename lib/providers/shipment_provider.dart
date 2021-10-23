@@ -62,24 +62,13 @@ class ShipmentProvider with ChangeNotifier {
     });
   }
 
-  Future<Shipment> addShipment(Shipment shipment) async {
-    shipment.appId = shipment.appId.isEmpty ? uuid.v1() : shipment.appId;
-    _shipment.status = "Created";
-    _shipment.dateCreated = _shipment.dateModified = DateTime.now().toString();
-
+  Future<Shipment> addUpdateShipment(Shipment shipment) async {
+    setShipmentValues(shipment);
     await addToLocalDatabase(shipment);
     notifyListeners();
     return shipment;
   }
-
-  Future addShipmentsToSamples(Shipment shipment) async {
-    for (var sampleId in shipment.samples) {
-      Sample sample = await SampleDao().getSample(sampleId);
-      sample.shipmentId = shipment.appId;
-      await SampleDao().insertOrUpdate(sample);
-    }
-  }
-
+  
   Future<Shipment> addToLocalDatabase(Shipment shipment) async {
     await addShipmentsToSamples(shipment);
 
@@ -91,10 +80,29 @@ class ShipmentProvider with ChangeNotifier {
     return shipment;
   }
 
-  Future updateShipment(Shipment shipment) async {
-    await addToLocalDatabase(shipment);
-    notifyListeners();
+  void setShipmentValues(Shipment shipment) {
+    if (shipment.appId.isEmpty) {
+      shipment.appId = uuid.v1();
+    }
+
+    if (_shipment.status.isEmpty) {
+      _shipment.status = "Created";
+    }
+
+    if (_shipment.dateCreated.isEmpty) {
+      _shipment.dateCreated =
+          _shipment.dateModified = DateTime.now().toString();
+    }
   }
+
+  Future addShipmentsToSamples(Shipment shipment) async {
+    for (var sampleId in shipment.samples) {
+      Sample sample = await SampleDao().getSample(sampleId);
+      sample.shipmentId = shipment.appId;
+      await SampleDao().insertOrUpdate(sample);
+    }
+  }
+
 
   Future getAllShipmentsFromdatabase() async {
     await ShipmentDao().getAllShipments().then((value) {

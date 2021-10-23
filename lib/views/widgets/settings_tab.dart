@@ -13,36 +13,36 @@ class _SettingsTabState extends State<SettingsTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.menu),
-        title: Text('Settings'),
+        leading: const Icon(Icons.menu),
+        title: const Text('Settings'),
         actions: [],
         backgroundColor: Colors.blue,
       ),
       body: ListView(
         children: <Widget>[
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          ListTile(title: Text("Profile",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24),),),
+          const ListTile(title: Text("Profile",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24),),),
           ListTile(
-            leading: Icon(Icons.lock),
-            title: Text("Change password"),
-            trailing: Icon(Icons.chevron_right),
+            leading:const Icon(Icons.lock),
+            title: const Text("Change password"),
+            trailing:const Icon(Icons.chevron_right),
             onTap: () => {},
           ),
-          Divider(thickness: 1,),
+          const Divider(thickness: 1,),
 
-          ListTile(title: Text("Sync",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24),),),
+          const ListTile(title: Text("Sync",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24),),),
           ListTile(
-            leading: Icon(Icons.sync),
-            title: Text("Sync Settings"),
-            trailing: Icon(Icons.chevron_right),
+            leading:const Icon(Icons.sync),
+            title:const Text("Sync Settings"),
+            trailing:const Icon(Icons.chevron_right),
             onTap: () => {},
           ),
           ListTile(
-            leading: Icon(Icons.dns),
-            title: Text("Server Settings"),
-            trailing: Icon(Icons.chevron_right),
+            leading:const Icon(Icons.dns),
+            title:const Text("Server Settings"),
+            trailing:const Icon(Icons.chevron_right),
             onTap: () => {},
           ),
         ],

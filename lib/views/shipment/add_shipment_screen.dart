@@ -9,12 +9,14 @@ import 'package:sample_tracking_system_flutter/models/client.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
-import 'package:sample_tracking_system_flutter/views/shipment/shipment_samples.dart';
+import 'package:sample_tracking_system_flutter/views/pages/home_page.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/shipment_samples_screen.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/notification_service.dart';
 
+// ignore: must_be_immutable
 class AddorUpdateShipmentDialog extends StatefulWidget {
   Shipment? shipmentData;
   AddorUpdateShipmentDialog({Key? key, this.shipmentData}) : super(key: key);
@@ -26,7 +28,6 @@ class AddorUpdateShipmentDialog extends StatefulWidget {
 
 class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   final _formKey = GlobalKey<FormState>();
-  Client? _value;
   final List<Client> _clients = [];
   List<Sample> samples = [];
   int _sampleCount = 0;
@@ -45,27 +46,12 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
     }
   }
 
-  Shipment loadCurrentShipment(String shipmentId) {
-    var shipements = Provider.of<ShipmentProvider>(context, listen: false)
-        .shipments
-        .where((shipment) => shipment.appId == shipmentId)
-        .toList();
-
-    if (shipements.isEmpty) return Shipment(samples: []);
-
-    return shipements.first;
-  }
-
   @override
   Widget build(BuildContext context) {
     isNewForm = widget.shipmentData == null;
     String _appBarText = isNewForm ? 'Add' : 'Update';
     String _saveButtonText = isNewForm ? 'Save' : 'Update';
     Shipment _shipment = widget.shipmentData ?? Shipment(samples: []);
-
-    if (_shipment.appId.isNotEmpty) {
-      _shipment = loadCurrentShipment(_shipment.appId);
-    }
 
     if (widget.shipmentData != null) {
       selectedSamples = widget.shipmentData!.samples;
@@ -122,19 +108,21 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
 
-                            if (widget.shipmentData == null) {
-                              Provider.of<ShipmentProvider>(context,
-                                      listen: false)
-                                  .addShipment(_shipment);
-                            } else {
-                              Provider.of<ShipmentProvider>(context,
-                                      listen: false)
-                                  .updateShipment(_shipment);
-                            }
+                            Provider.of<ShipmentProvider>(context,
+                                    listen: false)
+                                .addUpdateShipment(_shipment);
 
                             NotificationService.success(
                                 context, "Saved successfully");
-                            Navigator.of(context).pop();
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) => HomePage(
+                                  pageIndex: 3,
+                                ),
+                              ),
+                            );
                           }
                         },
                       ),
@@ -178,29 +166,15 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
         children: [
           TextButton(
               onPressed: () {
-                if (isNewForm) {
-                  Provider.of<ShipmentProvider>(context, listen: false)
-                      .addShipment(_shipment)
-                      .then((savedShipment) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => ShipmentSamples(
-                          shipment: savedShipment,
-                        ),
-                      ),
-                    );
-                  });
-                } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => ShipmentSamples(
-                        shipment: _shipment,
-                      ),
+                _formKey.currentState!.save();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => ShipmentSamples(
+                      shipment: _shipment,
                     ),
-                  );
-                }
+                  ),
+                );
               },
               child: Text(
                 "View/Add Samples",

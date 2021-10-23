@@ -25,7 +25,7 @@ void main() {
       // Arrange
 
       // Act
-      shipmentProvider.addShipment(shipmentOne);
+      shipmentProvider.addUpdateShipment(shipmentOne);
 
       // Asssert
       assert(shipmentProvider.shipments[0].id == shipmentOne.id);
@@ -35,8 +35,8 @@ void main() {
       // Arrange
 
       // Act
-      shipmentProvider.addShipment(shipmentOne);
-      shipmentProvider.addShipment(shipmentTwo);
+      shipmentProvider.addUpdateShipment(shipmentOne);
+      shipmentProvider.addUpdateShipment(shipmentTwo);
 
       // Assert
       assert(shipmentProvider.shipments.length == 2);
@@ -47,8 +47,8 @@ void main() {
       // Arrange
 
       // Act
-      shipmentProvider.addShipment(shipmentOne);
-      shipmentProvider.addShipment(shipmentTwo);
+      shipmentProvider.addUpdateShipment(shipmentOne);
+      shipmentProvider.addUpdateShipment(shipmentTwo);
 
       // Assert
       assert(
