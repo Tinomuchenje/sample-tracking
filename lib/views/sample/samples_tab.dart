@@ -6,6 +6,7 @@ import 'package:sample_tracking_system_flutter/views/sample/state/samples_provid
 import 'package:sample_tracking_system_flutter/views/sample/add_sample.dart';
 import 'package:sample_tracking_system_flutter/views/patient/search_patient.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_sync_status.dart';
 
 class SamplesTab extends StatefulWidget {
   const SamplesTab({Key? key}) : super(key: key);
@@ -127,10 +128,8 @@ class _SamplesTabState extends State<SamplesTab> {
                 size: 45,
                 color: Colors.blue,
               ),
-              trailing: const Icon(
-                Icons.sync,
-                color: Colors.green,
-              ),
+              trailing:
+                  CustomSyncStatusIcon(positiveStatus: samples[index].synced),
             ),
           ),
         );

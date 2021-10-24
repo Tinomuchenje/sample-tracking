@@ -6,6 +6,7 @@ import 'package:sample_tracking_system_flutter/utils/dao/samples_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/shipment_dao.dart';
 import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/shipment_controller.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/state/status.dart';
 
 import 'package:uuid/uuid.dart';
 
@@ -24,8 +25,9 @@ class ShipmentProvider with ChangeNotifier {
   }
 
   List<Shipment> get clientShipments {
-    var clientShipments =
-        _shipments.where((shipement) => shipement.status == "client");
+    var clientShipments = _shipments.where((shipement) =>
+        shipement.status == createdStatus ||
+        shipement.status == publishedStatus);
     return [...clientShipments];
   }
 
@@ -69,6 +71,7 @@ class ShipmentProvider with ChangeNotifier {
         .addOnlineShipment(shipment)
         .then((savedShipment) {
       addToLocalDatabase(shipment);
+      ShipmentController().notifyShipment();
     });
   }
 
@@ -84,10 +87,6 @@ class ShipmentProvider with ChangeNotifier {
   void setShipmentValues(Shipment shipment) {
     if (shipment.appId.isEmpty) {
       shipment.appId = uuid.v1();
-    }
-
-    if (shipment.status.isEmpty) {
-      shipment.status = "client";
     }
 
     if (shipment.dateCreated.isEmpty) {

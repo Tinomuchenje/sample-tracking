@@ -6,6 +6,7 @@ import 'package:sample_tracking_system_flutter/models/enums/user_type_enum.dart'
 import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/add_shipment_screen.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_sync_status.dart';
 
 class ShipmentsTab extends StatefulWidget {
   const ShipmentsTab({Key? key}) : super(key: key);
@@ -84,7 +85,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
   }
 
   ListView _shipments(List<Shipment> shipment) {
-    // shipment = shipment.reversed.toList();
+    shipment = shipment.reversed.toList();
     return ListView.builder(
       itemCount: shipment.length,
       itemBuilder: (context, index) {
@@ -112,9 +113,8 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
                 size: 45,
                 color: Colors.blue,
               ),
-              trailing: const Icon(
-                Icons.sync,
-                color: Colors.green,
+              trailing: CustomSyncStatusIcon(
+                positiveStatus: shipment[index].synced,
               ),
             ),
           ),
@@ -123,84 +123,3 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
     );
   }
 }
-
-// List<Widget> _newShipments() {
-//   //get new shipments list
-//   var shipments = [
-//     Shipment(
-//         id: "1",
-//         clientId: "1",
-//         status: "readyForCollection",
-//         samples: [],
-//         destination: "Harare",
-//         dateCreated: DateUtils.dateOnly(DateTime.now()).toString()),
-//     Shipment(
-//         id: "2",
-//         clientId: "2",
-//         status: "readyForCollection",
-//         samples: [],
-//         destination: "Norton",
-//         dateCreated: DateUtils.dateOnly(DateTime.now()).toString()),
-//     Shipment(
-//         id: "3",
-//         clientId: "3",
-//         status: "readyForCollection",
-//         samples: [],
-//         destination: "Zvimba",
-//         dateCreated: DateUtils.dateOnly(DateTime.now()).toString())
-//   ];
-
-//   return shipments
-//       .map((e) => Padding(
-//             padding: const EdgeInsets.all(12.0),
-//             child: ExpansionTile(
-//                 title: Row(
-//                   children: [
-//                     const Text("Destination : "),
-//                     Text(e.destination),
-//                   ],
-//                 ),
-//                 subtitle: Column(
-//                   children: [
-//                     Row(
-//                       children: [
-//                         const Text("Client : "),
-//                         Text(e.clientId),
-//                       ],
-//                     ),
-//                     Expanded(
-//                       child: Row(
-//                         children: [
-//                           const Text("Date Created: "),
-//                           Text(e.dateCreated),
-//                         ],
-//                       ),
-//                     ),
-//                     Row(
-//                       children: const [
-//                         Text("Status"),
-//                         Text("Ready for Shipment"),
-//                       ],
-//                     )
-//                   ],
-//                 ),
-//                 leading: const Icon(
-//                   Icons.folder,
-//                   size: 300.0,
-//                   color: Colors.blue,
-//                 ),
-//                 //trailing: Icon(
-//                 //  Icons.sync,
-//                 // color: Colors.green,
-//                 // ),
-//                 children: [
-//                   const Text("Samples"),
-//                   SizedBox(
-//                     width: double.infinity,
-//                     child: ElevatedButton(
-//                         onPressed: () {}, child: const Text("Start Shipping")),
-//                   )
-//                 ]),
-//           ))
-//       .toList();
-//}

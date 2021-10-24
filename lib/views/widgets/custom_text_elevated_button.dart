@@ -15,7 +15,7 @@ class CustomElevatedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var alternativeColor = Colors.grey;
-    var primaryColor = Theme.of(context).primaryColor;
+
     return TextButton(
       style: TextButton.styleFrom(
           primary: fillcolor ? Colors.white : alternativeColor,

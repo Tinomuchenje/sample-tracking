@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sample_tracking_system_flutter/models/enums/user_type_enum.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/login_screen.dart';
 
 import 'package:sample_tracking_system_flutter/views/sample/state/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
@@ -9,7 +9,7 @@ import 'package:sample_tracking_system_flutter/views/authentication/state/user_p
 import 'package:sample_tracking_system_flutter/themes/style.dart';
 
 import 'views/patient/data_state/patient_provider.dart';
-import 'views/authentication/login_screen.dart';
+import 'views/shipment/add_shipment_screen.dart';
 
 void main() {
   runApp(
@@ -33,9 +33,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Sample Tracking App',
       theme: appTheme(),
-      home: LoginPage(
-       
-      ),
+      home: const LoginPage(),
     );
   }
 }

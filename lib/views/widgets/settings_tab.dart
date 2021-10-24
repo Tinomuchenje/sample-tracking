@@ -15,7 +15,7 @@ class _SettingsTabState extends State<SettingsTab> {
       appBar: AppBar(
         leading: const Icon(Icons.menu),
         title: const Text('Settings'),
-        actions: [],
+        actions: const [],
         backgroundColor: Colors.blue,
       ),
       body: ListView(
@@ -23,26 +23,37 @@ class _SettingsTabState extends State<SettingsTab> {
           const SizedBox(
             height: 20,
           ),
-          const ListTile(title: Text("Profile",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24),),),
+          const ListTile(
+            title: Text(
+              "Profile",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+            ),
+          ),
           ListTile(
-            leading:const Icon(Icons.lock),
+            leading: const Icon(Icons.lock),
             title: const Text("Change password"),
-            trailing:const Icon(Icons.chevron_right),
+            trailing: const Icon(Icons.chevron_right),
             onTap: () => {},
           ),
-          const Divider(thickness: 1,),
-
-          const ListTile(title: Text("Sync",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24),),),
+          const Divider(
+            thickness: 1,
+          ),
+          const ListTile(
+            title: Text(
+              "Sync",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+            ),
+          ),
           ListTile(
-            leading:const Icon(Icons.sync),
-            title:const Text("Sync Settings"),
-            trailing:const Icon(Icons.chevron_right),
+            leading: const Icon(Icons.sync),
+            title: const Text("Sync Settings"),
+            trailing: const Icon(Icons.chevron_right),
             onTap: () => {},
           ),
           ListTile(
-            leading:const Icon(Icons.dns),
-            title:const Text("Server Settings"),
-            trailing:const Icon(Icons.chevron_right),
+            leading: const Icon(Icons.dns),
+            title: const Text("Server Settings"),
+            trailing: const Icon(Icons.chevron_right),
             onTap: () => {},
           ),
         ],

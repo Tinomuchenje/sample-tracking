@@ -7,7 +7,7 @@ class CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 10,
+        elevation: 2,
         child: Container(
             decoration: BoxDecoration(
               color: Colors.white,

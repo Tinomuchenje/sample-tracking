@@ -50,7 +50,7 @@ class Shipment {
   });
 
   Shipment.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['_id'] ?? json['id'];
     appId = json['appId'];
     description = json['description'];
     clientId = json['clientId'];
@@ -76,9 +76,9 @@ class Shipment {
         json['isModifiedByLaboratory'] == "true" ? true : false;
     isModifiedByCourier = json['isModifiedByCourrier'] == "true" ? true : false;
     createdBy = json['createdBy'];
-    lastModifiedBy = json['lastModifiedBy'];
-    createdDate = json['createdDate'];
-    lastModifiedDate = json['createdDate'];
+    lastModifiedBy = json['lastModifiedBy'] ?? "";
+    createdDate = json['createdDate'] ?? "";
+    lastModifiedDate = json['createdDate'] ?? "";
     synced = json['synced'];
   }
 

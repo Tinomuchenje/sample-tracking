@@ -12,6 +12,7 @@ import 'package:sample_tracking_system_flutter/views/widgets/custom_date_form_fi
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/notification_service.dart';
 
 class AddorUpdateSampleDialog extends StatefulWidget {
   final Patient? patient;
@@ -169,7 +170,7 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       saveOrUpdateSample(_sample, context);
-      showNotification(context);
+     NotificationService.success(context, "Sample saved");
     }
   }
 
@@ -253,16 +254,6 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
       onChanged: (value) {
         _test = value as String;
       },
-    );
-  }
-
-  void showNotification(BuildContext context) {
-    // we should extract this into common area for forms
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Sample saved"),
-        backgroundColor: Colors.green,
-      ),
     );
   }
 }

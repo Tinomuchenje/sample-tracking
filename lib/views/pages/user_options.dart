@@ -36,9 +36,8 @@ class UserOptions extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) => LoginPage(
-                                  // userType: UserType.client,
-                                  )));
+                              builder: (BuildContext context) =>
+                                  const LoginPage()));
                     },
                   ),
                 ),
@@ -55,8 +54,8 @@ class UserOptions extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) => LoginPage(
-                                  // userType: UserType.rider
+                              builder: (BuildContext context) => const LoginPage(
+                                  
                                   )));
                     },
                   ),

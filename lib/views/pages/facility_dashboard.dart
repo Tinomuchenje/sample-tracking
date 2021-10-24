@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_app_drawer.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/grid_dashboard.dart';
 
 class FacilityDashboard extends StatefulWidget {
@@ -13,6 +15,7 @@ class _FacilityDashboardState extends State<FacilityDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const CustomAppDrawer(),
       body: Column(children: [
         const SizedBox(height: 40.0),
         Padding(

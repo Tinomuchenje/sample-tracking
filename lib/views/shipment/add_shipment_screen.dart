@@ -11,6 +11,7 @@ import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/views/pages/home_page.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/shipment_samples_screen.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/state/status.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
@@ -77,6 +78,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                 child: Column(
                   children: <Widget>[
                     CustomTextFormField(
+                      enabled: _shipment.status != publishedStatus,
                       labelText: "Shipment Label",
                       initialValue: _shipment.description,
                       onSaved: (value) {
@@ -86,6 +88,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                     samplesSection(_shipment),
                     _desination(_shipment),
                     CustomTextFormField(
+                      enabled: _shipment.status != publishedStatus,
                       keyboardType: TextInputType.number,
                       labelText: "Temperature Origin",
                       initialValue: _shipment.temperatureOrigin,
@@ -105,34 +108,42 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                     const SizedBox(
                       height: 20,
                     ),
-                    SizedBox(
-                      height: 50,
-                      width: double.infinity,
-                      child: CustomElevatedButton(
-                        displayText: _saveButtonText,
-                        fillcolor: true,
-                        press: () {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-
-                            Provider.of<ShipmentProvider>(context,
-                                    listen: false)
-                                .addUpdateShipment(_shipment);
-
-                            NotificationService.success(
-                                context, "Saved successfully");
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute<void>(
-                                builder: (BuildContext context) => HomePage(
-                                  pageIndex: 3,
-                                ),
-                              ),
-                            );
-                          }
-                        },
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          height: 50,
+                          width: 150,
+                          child: CustomElevatedButton(
+                            displayText: _saveButtonText,
+                            fillcolor: false,
+                            press: () {
+                              if (_shipment.status != publishedStatus) {
+                                _shipment.status = createdStatus;
+                                saveShipment(context, _shipment);
+                              } else {
+                                preventEditingPublishedMessage(context);
+                              }
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 50,
+                          width: 150,
+                          child: CustomElevatedButton(
+                            displayText: _saveButtonText + " & Publish",
+                            fillcolor: true,
+                            press: () {
+                              if (_shipment.status != publishedStatus) {
+                                _shipment.status = publishedStatus;
+                                saveShipment(context, _shipment);
+                              } else {
+                                preventEditingPublishedMessage(context);
+                              }
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -140,6 +151,30 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
             ],
           ),
         ));
+  }
+
+  void preventEditingPublishedMessage(BuildContext context) {
+    NotificationService.warning(context, "Cannot edit published shipment!");
+  }
+
+  void saveShipment(BuildContext context, Shipment _shipment) {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      Provider.of<ShipmentProvider>(context, listen: false)
+          .addUpdateShipment(_shipment);
+
+      NotificationService.success(context, "Saved successfully");
+
+      Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => HomePage(
+            pageIndex: 3,
+          ),
+        ),
+      );
+    }
   }
 
   _desination(Shipment _shipment) {
@@ -157,7 +192,11 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
             ? destinations[0]
             : _shipment.destination,
         onChanged: (value) {
-          _shipment.destination = value.toString();
+          if (_shipment.status == publishedStatus) {
+            preventEditingPublishedMessage(context);
+          } else {
+            _shipment.destination = value.toString();
+          }
         },
         onSaved: (value) {
           _shipment.destination = value.toString();
@@ -173,15 +212,19 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
         children: [
           TextButton(
               onPressed: () {
-                _formKey.currentState!.save();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => ShipmentSamples(
-                      shipment: _shipment,
+                if (_shipment.status != publishedStatus) {
+                  _formKey.currentState!.save();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => ShipmentSamples(
+                        shipment: _shipment,
+                      ),
                     ),
-                  ),
-                );
+                  );
+                } else {
+                  preventEditingPublishedMessage(context);
+                }
               },
               child: Text(
                 "View/Add Samples",

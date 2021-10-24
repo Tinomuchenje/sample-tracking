@@ -77,7 +77,7 @@ class Sample {
     collectedBy = json['collectedBy'];
     status = json['status'];
     comment = json['comment'];
-    synced = json['synced'] == "true" ? true : false;
+    synced = json['synced'];
     dateSynced = json['dateSynced'];
     labReferenceId = json['labReferenceId'];
     location = json['location'];
@@ -113,7 +113,7 @@ class Sample {
     data['collectedBy'] = collectedBy;
     data['status'] = status;
     data['comment'] = comment;
-    data['synced'] = synced.toString();
+    data['synced'] = synced;
     data['dateSynced'] = dateSynced;
     data['labReferenceId'] = labReferenceId;
     data['location'] = location;

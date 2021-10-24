@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_app_drawer.dart';
 
 class CourierDashboard extends StatefulWidget {
   const CourierDashboard({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const CustomAppDrawer(),
       body: DefaultTabController(
         length: 3,
         child: Scaffold(
