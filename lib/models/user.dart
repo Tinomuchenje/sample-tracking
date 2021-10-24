@@ -1,11 +1,11 @@
-class User {
+class AuthenticationUser {
   late String password;
   late bool rememberMe;
   late String username;
 
-  User({this.password="", this.rememberMe=false, this.username=""});
+  AuthenticationUser({this.password="", this.rememberMe=false, this.username=""});
 
-  User.fromJson(Map<String, dynamic> json) {
+  AuthenticationUser.fromJson(Map<String, dynamic> json) {
     password = json['password'];
     rememberMe = json['rememberMe'];
     username = json['username'];

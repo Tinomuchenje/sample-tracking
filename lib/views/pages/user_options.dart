@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sample_tracking_system_flutter/models/enums/user_type_enum.dart';
 import 'package:sample_tracking_system_flutter/views/authentication/login_screen.dart';
 
 class UserOptions extends StatelessWidget {
@@ -38,7 +37,7 @@ class UserOptions extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) => LoginPage(
-                                    userType: UserType.client,
+                                  // userType: UserType.client,
                                   )));
                     },
                   ),
@@ -56,8 +55,9 @@ class UserOptions extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  LoginPage(userType: UserType.rider)));
+                              builder: (BuildContext context) => LoginPage(
+                                  // userType: UserType.rider
+                                  )));
                     },
                   ),
                 ),

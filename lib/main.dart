@@ -10,8 +10,6 @@ import 'package:sample_tracking_system_flutter/themes/style.dart';
 
 import 'views/patient/data_state/patient_provider.dart';
 import 'views/authentication/login_screen.dart';
-import 'views/patient/patients_tab.dart';
-import 'views/sample/add_sample.dart';
 
 void main() {
   runApp(
@@ -36,7 +34,7 @@ class MyApp extends StatelessWidget {
       title: 'Sample Tracking App',
       theme: appTheme(),
       home: LoginPage(
-        userType: UserType.client,
+       
       ),
     );
   }
