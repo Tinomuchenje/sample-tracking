@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/models/enums/user_type_enum.dart';
-import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
-import 'package:sample_tracking_system_flutter/providers/user_provider.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/add_shipment_screen.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
 
@@ -20,7 +19,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
 
   @override
   void didChangeDependencies() {
-    currentUser = Provider.of<UserProvider>(context, listen: false).currentUser;
+    //currentUser = Provider.of<UserProvider>(context, listen: false).currentUser;
     getSamples();
 
     super.didChangeDependencies();

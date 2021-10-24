@@ -8,7 +8,7 @@ import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/models/client.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
-import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/views/pages/home_page.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/shipment_samples_screen.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';

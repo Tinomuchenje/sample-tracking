@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
-import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
 
 void main() {
   group("Shipmentd", () {

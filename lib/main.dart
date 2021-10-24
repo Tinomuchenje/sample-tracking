@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/enums/user_type_enum.dart';
 
 import 'package:sample_tracking_system_flutter/views/sample/state/samples_provider.dart';
-import 'package:sample_tracking_system_flutter/providers/shipment_provider.dart';
-import 'package:sample_tracking_system_flutter/providers/user_provider.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/state/user_provider.dart';
 import 'package:sample_tracking_system_flutter/themes/style.dart';
 
 import 'views/patient/data_state/patient_provider.dart';
