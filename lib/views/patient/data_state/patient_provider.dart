@@ -21,10 +21,7 @@ class PatientProvider with ChangeNotifier {
     setValue(patient);
     await PatientController().addOnlinePatient(patient).then((savedPatient) {
       addToLocalDatabase(savedPatient);
-      patient = savedPatient;
     });
-
-    notifyListeners();
   }
 
   void setValue(Patient patient) {

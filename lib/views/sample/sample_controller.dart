@@ -18,14 +18,27 @@ class SampleController {
     return samples;
   }
 
-  addOnlineSample(Sample sample) async {
-    final response =
-        await http.post(Uri.parse(sampleUrl), body: sample.toJson());
+  Future<Sample> addOnlineSample(Sample sample) async {
+    Sample savedSample = Sample();
+    sample.synced = true;
 
-    if (response.statusCode == 200) {
-      return Sample.fromJson(jsonDecode(response.body));
-    }
-    return null;
+    await http
+        .post(Uri.parse(sampleUrl),
+            headers: headers, body: json.encode(sample.toJson()))
+        .then((response) {
+      if (response.statusCode != 200) {
+        sample.synced = false;
+        savedSample = sample;
+        return;
+      }
+
+      savedSample = Sample.fromJson(jsonDecode(response.body));
+    }).catchError((error) {
+      sample.synced = false;
+      savedSample = sample;
+    });
+
+    return savedSample;
   }
 
   updateOnlineSample(Sample sample) {}

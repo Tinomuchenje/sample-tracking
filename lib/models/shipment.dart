@@ -21,6 +21,7 @@ class Shipment {
   String lastModifiedBy = "";
   String createdDate = "";
   String lastModifiedDate = "";
+  bool synced = false;
 
   Shipment({
     this.id = "",
@@ -45,6 +46,7 @@ class Shipment {
     this.lastModifiedBy = "",
     this.createdDate = "",
     this.lastModifiedDate = "",
+    this.synced = false,
   });
 
   Shipment.fromJson(Map<String, dynamic> json) {
@@ -77,6 +79,7 @@ class Shipment {
     lastModifiedBy = json['lastModifiedBy'];
     createdDate = json['createdDate'];
     lastModifiedDate = json['createdDate'];
+    synced = json['synced'];
   }
 
   Map<String, dynamic> toJson() {
@@ -103,6 +106,7 @@ class Shipment {
     data['lastModifiedBy'] = lastModifiedBy;
     data['createdDate'] = createdDate;
     data['lastModifiedDate'] = lastModifiedDate;
+    data['synced'] = synced;
     return data;
   }
 }

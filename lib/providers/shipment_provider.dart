@@ -5,6 +5,7 @@ import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/samples_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/shipment_dao.dart';
 import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/shipment_controller.dart';
 
 import 'package:uuid/uuid.dart';
 
@@ -57,21 +58,21 @@ class ShipmentProvider with ChangeNotifier {
       _shipmentSamples.clear();
       _shipmentSamples.addAll(listOfSamples);
       notifyListeners();
-    }).catchError((error) {
-//
+    }).catchError((error) {});
+  }
+
+  Future addUpdateShipment(Shipment shipment) async {
+    setShipmentValues(shipment);
+    await addShipmentsToSamples(shipment);
+
+    await ShipmentController()
+        .addOnlineShipment(shipment)
+        .then((savedShipment) {
+      addToLocalDatabase(shipment);
     });
   }
 
-  Future<Shipment> addUpdateShipment(Shipment shipment) async {
-    setShipmentValues(shipment);
-    await addToLocalDatabase(shipment);
-    notifyListeners();
-    return shipment;
-  }
-
   Future<Shipment> addToLocalDatabase(Shipment shipment) async {
-    await addShipmentsToSamples(shipment);
-
     await ShipmentDao().insertOrUpdate(shipment).then((value) {
       _shipments.add(shipment);
       notifyListeners();
@@ -90,8 +91,7 @@ class ShipmentProvider with ChangeNotifier {
     }
 
     if (shipment.dateCreated.isEmpty) {
-      shipment.dateCreated =
-          shipment.dateModified = DateTime.now().toString();
+      shipment.dateCreated = shipment.dateModified = DateTime.now().toString();
     }
   }
 
@@ -99,7 +99,7 @@ class ShipmentProvider with ChangeNotifier {
     for (var sampleId in shipment.samples) {
       Sample sample = await SampleDao().getSample(sampleId);
       sample.shipmentId = shipment.appId;
-      await SampleDao().insertOrUpdate(sample);
+      await SampleDao().insertOrUpdate(sample); // go online
     }
   }
 

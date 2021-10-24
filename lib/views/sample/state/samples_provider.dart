@@ -26,13 +26,9 @@ class SamplesProvider with ChangeNotifier {
 
   void addSample(Sample sample) async {
     setValues(sample);
-    try {
-      SampleController().addOnlineSample(sample);
-    } catch (error) {
-      // print(error);
-    }
-
-    await saveOrUpdate(sample);
+    await SampleController().addOnlineSample(sample).then((savedSample) {
+      addToLocalDatabase(savedSample);
+    });
   }
 
   void setValues(Sample sample) {
@@ -44,7 +40,7 @@ class SamplesProvider with ChangeNotifier {
     sample.dateSynced = _sample.dateCollected = DateTime.now().toString();
   }
 
-  Future saveOrUpdate(Sample sample) async {
+  Future addToLocalDatabase(Sample sample) async {
     await SampleDao().insertOrUpdate(sample).then((key) {
       _samples.clear();
       _samples.add(sample);
@@ -64,7 +60,7 @@ class SamplesProvider with ChangeNotifier {
   }
 
   Future updateSample(Sample sample) async {
-    await saveOrUpdate(sample);
+    await addToLocalDatabase(sample);
     return notifyListeners();
   }
 }

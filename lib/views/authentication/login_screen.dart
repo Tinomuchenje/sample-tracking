@@ -36,17 +36,17 @@ class _LoginPageState extends State<LoginPage> {
     if (!_formKey.currentState!.validate()) return;
 
     _formKey.currentState!.save();
-
-    await AuthenticationController.getToken(_user).then((token) => {
-          if (token.isNotEmpty)
-            {
-              Provider.of<UserProvider>(context, listen: false).logintoken = token,
-              NotificationService.success(context, "Login succesful."),
-              navigateToHome()
-            }
-          else
-            {NotificationService.error(context, "Login failed.")}
-        });
+    navigateToHome();
+    // await AuthenticationController.getToken(_user).then((token) => {
+    //       if (token.isNotEmpty)
+    //         {
+    //           Provider.of<UserProvider>(context, listen: false).logintoken = token,
+    //           NotificationService.success(context, "Login succesful."),
+    //           navigateToHome()
+    //         }
+    //       else
+    //         {NotificationService.error(context, "Login failed.")}
+    //     });
   }
 
   void navigateToHome() {
