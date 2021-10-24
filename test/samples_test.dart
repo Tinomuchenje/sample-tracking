@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
-import 'package:sample_tracking_system_flutter/providers/samples_provider.dart';
+import 'package:sample_tracking_system_flutter/views/sample/state/samples_provider.dart';
 
 void main() {
   group("Samples", () {
