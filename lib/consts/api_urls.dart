@@ -1,4 +1,6 @@
-const baseUrl = 'https://sample-tracking-backend.herokuapp.com/v1/';
+const baseUrl = 'http://196.27.127.58:4080/api/';
+
+const loginUrl = baseUrl + 'authenticate/';
 
 // Patient
 

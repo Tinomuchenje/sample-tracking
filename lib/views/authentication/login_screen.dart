@@ -6,13 +6,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/enums/user_type_enum.dart';
+import 'package:sample_tracking_system_flutter/models/user.dart';
 import 'package:sample_tracking_system_flutter/providers/user_provider.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
 import 'package:sample_tracking_system_flutter/views/rider/dashboard.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/notification_service.dart';
 
-import 'home_page.dart';
+import '../pages/home_page.dart';
+import 'authentication_controller.dart';
 
 class LoginPage extends StatefulWidget {
   UserType userType;
@@ -22,32 +25,28 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginData {
-  String username = '';
-  String password = '';
-}
-
 class _LoginPageState extends State<LoginPage> {
-  _LoginData _data = new _LoginData();
   final _formKey = GlobalKey<FormState>();
   bool _isObscure = true;
   AppInformationDao appInformation = AppInformationDao();
   LaboratoryDao labsDao = LaboratoryDao();
+  final User _user = User();
 
-  void _submit() {
-    if (_formKey.currentState!.validate()) {
-      Navigator.pop(context);
+  void _submit() async {
+    if (!_formKey.currentState!.validate()) return;
 
-      // loadImportantInformation();
-      appInformation.saveLoginIndicator();
+    _formKey.currentState!.save();
 
-      navigateToHome();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('logging in'),
-        ),
-      );
-    }
+    await AuthenticationController.getToken(_user).then((token) => {
+          if (token.isNotEmpty)
+            {
+              Provider.of<UserProvider>(context, listen: false).logintoken = token,
+              NotificationService.success(context, "Login succesful."),
+              navigateToHome()
+            }
+          else
+            {NotificationService.error(context, "Login failed.")}
+        });
   }
 
   void navigateToHome() {
@@ -152,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                             return null;
                           },
                           onSaved: (value) {
-                            _data.username = value!;
+                            _user.username = value!;
                           },
                         ),
                         const SizedBox(height: 20),
@@ -180,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                             return null;
                           },
                           onSaved: (value) {
-                            _data.password = value!;
+                            _user.password = value!;
                           },
                         ),
                         const SizedBox(height: 20),

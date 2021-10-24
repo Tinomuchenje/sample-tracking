@@ -9,7 +9,7 @@ import 'package:sample_tracking_system_flutter/themes/style.dart';
 
 import 'models/enums/user_type_enum.dart';
 import 'providers/patient_provider.dart';
-import 'views/pages/login_page.dart';
+import 'views/authentication/login_screen.dart';
 
 void main() {
   runApp(

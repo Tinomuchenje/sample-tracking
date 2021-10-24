@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/models/enums/user_type_enum.dart';
-import 'package:sample_tracking_system_flutter/views/pages/login_page.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/login_screen.dart';
 
 class UserOptions extends StatelessWidget {
   const UserOptions({Key? key}) : super(key: key);
