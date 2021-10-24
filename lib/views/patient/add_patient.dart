@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
-import 'package:sample_tracking_system_flutter/providers/patient_provider.dart';
+import 'package:sample_tracking_system_flutter/views/patient/data_state/patient_provider.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_date_form_field.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/notification_service.dart';
 
 import '../sample/add_sample.dart';
 
@@ -168,7 +169,6 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                                         ? addNewPatient(context, _patient)
                                         : updatePatient(context, _patient);
 
-                                    showNotification(context);
                                     Navigator.of(context).pop();
                                   }
                                 }),
@@ -186,16 +186,6 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                                     widget.patientData == null
                                         ? addNewPatient(context, _patient)
                                         : updatePatient(context, _patient);
-
-                                    showNotification(context);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute<void>(
-                                        builder: (BuildContext context) =>
-                                            AddorUpdateSampleDialog(
-                                                patient: _patient),
-                                      ),
-                                    );
                                   }
                                 }),
                           ),
@@ -206,6 +196,16 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                 )
               ],
             )));
+  }
+
+  void navigateToPatient(BuildContext context, Patient _patient) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) =>
+            AddorUpdateSampleDialog(patient: _patient),
+      ),
+    );
   }
 
   String getDateModified() {
@@ -222,23 +222,21 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
     return DateTime.now().toString();
   }
 
-  void addNewPatient(BuildContext context, Patient _patient) {
+  void addNewPatient(BuildContext context, Patient _patient) async {
     _patient.gender = _gender;
-    Provider.of<PatientProvider>(context, listen: false).add(_patient);
+    await Provider.of<PatientProvider>(context, listen: false)
+        .add(_patient)
+        .then((value) {
+      if (value != null) {
+        NotificationService.success(context, "Patient saved succesfully");
+        navigateToPatient(context, value);
+      }
+    });
   }
 
   void updatePatient(BuildContext context, Patient _patient) {
     _patient.gender = _gender;
     Provider.of<PatientProvider>(context, listen: false)
         .updatePatient(_patient);
-  }
-
-  void showNotification(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Patient saved"),
-        backgroundColor: Colors.green,
-      ),
-    );
   }
 }

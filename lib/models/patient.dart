@@ -13,6 +13,7 @@ class Patient {
   String lastModifiedBy = "";
   String createdDate = "";
   String lastModifiedDate = "";
+  bool sync = false;
 
   Patient(
       {this.id = "",
@@ -28,7 +29,8 @@ class Patient {
       this.createdBy = "",
       this.lastModifiedBy = "",
       this.createdDate = "",
-      this.lastModifiedDate = ""});
+      this.lastModifiedDate = "",
+      this.sync = false});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -46,6 +48,7 @@ class Patient {
     data['lastModifiedBy'] = lastModifiedBy;
     data['createdDate'] = createdDate;
     data['lastModifiedDate'] = lastModifiedDate;
+    data['sync'] = sync;
     return data;
   }
 
@@ -64,5 +67,6 @@ class Patient {
     lastModifiedBy = json['lastModifiedBy'];
     createdDate = json['createdDate'];
     lastModifiedDate = json['lastModifiedDate'];
+    sync = json['sync'];
   }
 }

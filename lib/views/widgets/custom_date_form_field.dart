@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
+import 'package:sample_tracking_system_flutter/utils/date_service.dart';
 
 class DateFormField extends StatefulWidget {
   Function(Object?) onSaved;
@@ -55,16 +56,12 @@ class _DateFormFieldState extends State<DateFormField> {
         initialDate: date,
         firstDate: DateTime(1900),
         lastDate: date);
-        
+
     if (picked != null && picked != selectedDate) {
       setState(() {
-        selectedDate = picked;
-        var dateTime = DateTime.parse(selectedDate.toString());
-
-        var formatedDate = "${dateTime.day}-${dateTime.month}-${dateTime.year}";
-
         widget.initialValue = null;
-        widget.dateController = TextEditingController(text: formatedDate);
+        widget.dateController =
+            TextEditingController(text: DateService.removeTime(picked));
       });
     }
   }

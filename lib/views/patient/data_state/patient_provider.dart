@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/patient_dao.dart';
+import 'package:sample_tracking_system_flutter/utils/date_service.dart';
 import 'package:sample_tracking_system_flutter/views/patient/patient_controller.dart';
 import 'package:uuid/uuid.dart';
 
@@ -16,21 +17,35 @@ class PatientProvider with ChangeNotifier {
     return [..._patients];
   }
 
-  void add(Patient? patient) {
-    if (patient == null) return;
-    patient.appId = uuid.v1();
-    patient.client = "admin";
-    patient.createdDate = patient.lastModifiedDate = DateTime.now().toString();
-    // Need to check connection here before going
-    try {
-      PatientController().addOnlinePatient(patient);
-    } catch (error) {
-      // ignore: avoid_print
-      print(error);
+  Future add(Patient patient) async {
+    setValue(patient);
+    await PatientController().addOnlinePatient(patient).then((savedPatient) {
+      addToLocalDatabase(savedPatient);
+      patient = savedPatient;
+    });
+
+    notifyListeners();
+  }
+
+  void setValue(Patient patient) {
+    patient.createdBy = patient.lastModifiedBy = 'admin';
+    if (patient.appId.isEmpty) {
+      patient.appId = uuid.v1();
     }
 
-    addToLocalDatabase(patient);
-    notifyListeners();
+    if (patient.client.isEmpty) {
+      patient.client = "admin";
+    }
+
+    var currentDate = DateService.convertToIsoString(DateTime.now());
+
+    if (patient.createdDate.isEmpty) {
+      patient.createdDate = currentDate;
+    }
+
+    if (patient.lastModifiedDate.isEmpty) {
+      patient.lastModifiedDate = currentDate;
+    }
   }
 
   Future addToLocalDatabase(Patient patient) async {
