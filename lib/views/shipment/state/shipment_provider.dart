@@ -41,7 +41,7 @@ class ShipmentProvider with ChangeNotifier {
       shipments;
     }
     var publishedShipments =
-        _shipments.where((shipement) => shipement.status == publishedStatus);
+        _shipments.where((shipment) => shipment.status == publishedStatus);
     return [...publishedShipments];
   }
 
@@ -49,10 +49,10 @@ class ShipmentProvider with ChangeNotifier {
     if (_shipments.isEmpty) {
       shipments;
     }
-    var inprogressShipments = _shipments.where((shipement) =>
-        shipement.status == accept ||
-        shipement.status == enroute ||
-        shipement.status == collected);
+    var inprogressShipments = _shipments.where((shipment) =>
+        shipment.status == accept ||
+        shipment.status == enroute ||
+        shipment.status == collected);
     return [...inprogressShipments];
   }
 
@@ -61,7 +61,7 @@ class ShipmentProvider with ChangeNotifier {
       shipments;
     }
     var closedShipments =
-        _shipments.where((shipement) => shipement.status == delivered);
+        _shipments.where((shipment) => shipment.status == delivered);
     return [...closedShipments];
   }
 
@@ -71,7 +71,7 @@ class ShipmentProvider with ChangeNotifier {
 
   List<Shipment> get hubShipments {
     var hubShipments =
-        _shipments.where((shipement) => shipement.status == "hub");
+        _shipments.where((shipment) => shipment.status == "hub");
     return [...hubShipments];
   }
 
