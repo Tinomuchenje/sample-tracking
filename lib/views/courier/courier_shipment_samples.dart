@@ -18,7 +18,12 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
         appBar: AppBar(
           title: const Text('Samples on shipment'),
         ),
-        body: shipmentExistingSamplesCards(widget.sampleIds));
+        body: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            shipmentExistingSamplesCards(widget.sampleIds),
+          ],
+        ));
   }
 
   Widget shipmentExistingSamplesCards(List<String> _displayedSamples) {
