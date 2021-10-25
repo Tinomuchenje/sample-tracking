@@ -4,6 +4,7 @@ import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/samples_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/shipment_dao.dart';
+import 'package:sample_tracking_system_flutter/views/courier/status.dart';
 import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/shipment_controller.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/state/status.dart';
@@ -31,14 +32,42 @@ class ShipmentProvider with ChangeNotifier {
     return [...clientShipments];
   }
 
+///// Courier shipments
+  ///
+  ///
+  ///
   List<Shipment> get publishedShipments {
     if (_shipments.isEmpty) {
       shipments;
     }
-    var clientShipments =
+    var publishedShipments =
         _shipments.where((shipement) => shipement.status == publishedStatus);
-    return [...clientShipments];
+    return [...publishedShipments];
   }
+
+  List<Shipment> get inprogressShipments {
+    if (_shipments.isEmpty) {
+      shipments;
+    }
+    var inprogressShipments = _shipments.where((shipement) =>
+        shipement.status == accept ||
+        shipement.status == enroute ||
+        shipement.status == collected);
+    return [...inprogressShipments];
+  }
+
+  List<Shipment> get closedShipments {
+    if (_shipments.isEmpty) {
+      shipments;
+    }
+    var closedShipments =
+        _shipments.where((shipement) => shipement.status == delivered);
+    return [...closedShipments];
+  }
+
+///////
+  ///
+  ///
 
   List<Shipment> get hubShipments {
     var hubShipments =
@@ -50,12 +79,6 @@ class ShipmentProvider with ChangeNotifier {
     var labShipments =
         _shipments.where((shipement) => shipement.status == "lab");
     return [...labShipments];
-  }
-
-  List<Shipment> get closedShipments {
-    var closedShipments =
-        _shipments.where((shipement) => shipement.status == "closed");
-    return [...closedShipments];
   }
 
   List<Sample> get shipmentSamples {

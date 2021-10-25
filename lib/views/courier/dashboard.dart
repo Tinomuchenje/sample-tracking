@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
-import 'package:sample_tracking_system_flutter/views/shipment/add_shipment_screen.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_app_drawer.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
@@ -46,8 +45,8 @@ class _CourierDashboardState extends State<CourierDashboard> {
               builder: (context, shipmentProvider, child) {
                 return TabBarView(children: [
                   _shipments(shipmentProvider.publishedShipments),
-                  _shipments(shipmentProvider.clientShipments),
-                  _shipments(shipmentProvider.clientShipments)
+                  _shipments(shipmentProvider.inprogressShipments),
+                  _shipments(shipmentProvider.closedShipments)
                 ]);
               },
             )),
@@ -69,8 +68,8 @@ ListView _shipments(List<Shipment> shipment) {
               Navigator.push(
                 context,
                 MaterialPageRoute<void>(
-                  builder: (BuildContext context) => CourierShipmentSamples(
-                      sampleIds: shipment[index].samples.toList()),
+                  builder: (BuildContext context) =>
+                      CourierShipmentSamples(shipment: shipment[index]),
                   fullscreenDialog: true,
                 ),
               );
