@@ -78,6 +78,8 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
                   DateService.convertToIsoString(DateTime.now());
               Provider.of<ShipmentProvider>(context, listen: false)
                   .addUpdateShipment(widget.shipment);
+
+              Navigator.of(context).pop();
             },
           ),
         ),
