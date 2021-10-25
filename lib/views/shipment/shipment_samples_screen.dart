@@ -6,7 +6,7 @@ import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/views/sample/state/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/shipment_card.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/state/status.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/notification_service.dart';
 
@@ -34,9 +34,13 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: 20),
-          Consumer<SamplesProvider>(builder: (context, sampleProvider, child) {
-            return addSamples(context, sampleProvider.unshipedSamples);
-          }),
+          Visibility(
+            visible: currentShipment!.status != publishedStatus,
+            child: Consumer<SamplesProvider>(
+                builder: (context, sampleProvider, child) {
+              return addSamples(context, sampleProvider.unshipedSamples);
+            }),
+          ),
           const SizedBox(height: 20),
           Expanded(child: shipmentExistingSamplesCards()),
         ],

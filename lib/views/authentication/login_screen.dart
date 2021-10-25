@@ -56,15 +56,13 @@ class _LoginPageState extends State<LoginPage> {
 
   void navigateToHome(String role) {
     if (role == 'facility') {
-      Navigator.push(context,
+      Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (BuildContext context) => HomePage()));
     }
 
     if (role == 'courier') {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) => const CourierDashboard()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => const CourierDashboard()));
     }
   }
 

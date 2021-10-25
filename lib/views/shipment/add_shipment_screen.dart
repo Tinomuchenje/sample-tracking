@@ -212,19 +212,15 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
         children: [
           TextButton(
               onPressed: () {
-                if (_shipment.status != publishedStatus) {
-                  _formKey.currentState!.save();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => ShipmentSamples(
-                        shipment: _shipment,
-                      ),
+                _formKey.currentState!.save();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => ShipmentSamples(
+                      shipment: _shipment,
                     ),
-                  );
-                } else {
-                  preventEditingPublishedMessage(context);
-                }
+                  ),
+                );
               },
               child: Text(
                 "View/Add Samples",
