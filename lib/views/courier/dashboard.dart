@@ -26,7 +26,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
             drawer: const CustomAppDrawer(),
             appBar: AppBar(
               title: const Text("Shipments"),
-              backgroundColor: Colors.lightBlue[900],
+              // backgroundColor: Colors.lightBlue[900],
               bottom: const TabBar(
                 tabs: [
                   Tab(

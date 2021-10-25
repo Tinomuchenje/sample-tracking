@@ -11,6 +11,7 @@ import 'package:sample_tracking_system_flutter/views/shipment/state/status.dart'
 
 class CourierShipmentSamples extends StatefulWidget {
   Shipment shipment;
+
   CourierShipmentSamples({Key? key, required this.shipment}) : super(key: key);
 
   @override
@@ -20,42 +21,82 @@ class CourierShipmentSamples extends StatefulWidget {
 class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
   @override
   Widget build(BuildContext context) {
+    Shipment shipment = widget.shipment;
     String currentStatus = widget.shipment.status;
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Samples on shipment'),
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          label: Text("$currentStatus Shipment"),
-          backgroundColor: Colors.grey,
-          onPressed: () {
-            if (currentStatus == publishedStatus) {
-              currentStatus = accept;
-            } else if (currentStatus == accept) {
-              currentStatus = enroute;
-            } else if (currentStatus == enroute) {
-              currentStatus = collected;
-            } else if (currentStatus == collected) {
-              currentStatus = delivered;
-            }
+    String currentStatusPromt = "";
+    List<Map> status_label = [
+      {"status": "published", "prompt": "Accept", "action": "accept"},
+      {"status": "accepted", "prompt": "Proceed", "action": "enroute"},
+      {"status": "enroute", "prompt": "Collect", "action": "collect"},
+      {"status": "collect", "prompt": "Deliver", "action": "delivered"}
+    ];
 
-            var shipmenti = widget.shipment;
-            shipmenti.riderId = "617564934de5aa0c94839c2c";
-            shipmenti.riderName = "Tendai Katsande";
-            shipmenti.status = currentStatus;
-            shipmenti.lastModifiedBy = shipmenti.riderName;
-            shipmenti.dateModified =
-                DateService.convertToIsoString(DateTime.now());
-            Provider.of<ShipmentProvider>(context, listen: false)
-                .addUpdateShipment(widget.shipment);
-          },
+    print(currentStatus);
+    var status = status_label
+        .where((_status) =>
+            _status['status'].toString() ==
+            currentStatus.toString().toLowerCase())
+        .toList();
+    print(status);
+    if (status.isNotEmpty) currentStatusPromt = status[0]['prompt'];
+
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Shipment'),
+          bottom: const TabBar(
+            indicatorColor: Colors.white,
+            tabs: [
+              Tab(text: 'Info'),
+              Tab(text: 'Samples'),
+            ],
+          ),
         ),
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
+        floatingActionButton: Visibility(
+          visible: status.isNotEmpty,
+          child: FloatingActionButton.extended(
+            label: Text(currentStatusPromt),
+            backgroundColor: Colors.grey,
+            onPressed: () {
+              if (currentStatus == publishedStatus) {
+                currentStatus = accept;
+              } else if (currentStatus == accept) {
+                currentStatus = enroute;
+              } else if (currentStatus == enroute) {
+                currentStatus = collected;
+              } else if (currentStatus == collected) {
+                currentStatus = delivered;
+              }
+
+              var shipmenti = widget.shipment;
+              shipmenti.riderId = "617564934de5aa0c94839c2c";
+              shipmenti.riderName = "Tendai Katsande";
+              shipmenti.status = currentStatus;
+              shipmenti.lastModifiedBy = shipmenti.riderName;
+              shipmenti.dateModified =
+                  DateService.convertToIsoString(DateTime.now());
+              Provider.of<ShipmentProvider>(context, listen: false)
+                  .addUpdateShipment(widget.shipment);
+            },
+          ),
+        ),
+        body: TabBarView(
           children: [
-            shipmentExistingSamplesCards(widget.shipment.samples.toList()),
+            Text('info here'),
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  shipmentExistingSamplesCards(
+                      widget.shipment.samples.toList()),
+                ],
+              ),
+            ),
           ],
-        ));
+        ),
+      ),
+    );
   }
 
   Widget shipmentExistingSamplesCards(List<String> _displayedSamples) {

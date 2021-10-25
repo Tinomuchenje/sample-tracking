@@ -10,7 +10,7 @@ class PatientController {
   }
 
   Future<http.Response> updateOnlinePatient(Patient patient) {
-    return http.put(Uri.parse(patientsUrl), body: patient.toJson());
+    return http.put(Uri.parse(patientsUrl+'/'+patient.id), body: patient.toJson());
   }
 
   Future<Patient> addOnlinePatient(Patient patient) async {

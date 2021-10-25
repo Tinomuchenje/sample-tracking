@@ -41,5 +41,7 @@ class SampleController {
     return savedSample;
   }
 
-  updateOnlineSample(Sample sample) {}
+  updateOnlineSample(Sample sample) {
+    return http.put(Uri.parse(sampleUrl+'/'+sample.id), body: sample.toJson());
+  }
 }

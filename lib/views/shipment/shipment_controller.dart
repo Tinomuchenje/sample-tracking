@@ -36,7 +36,7 @@ class ShipmentController {
 
   Future<Shipment> updateOnlineShipment(Shipment shipment) async {
     await http
-        .put(Uri.parse(shipmentUrl),
+        .put(Uri.parse(shipmentUrl+'/'+shipment.id),
             headers: headers, body: json.encode(shipment.toJson()))
         .then((response) {
       shipment = validateResponse(response, shipment);
