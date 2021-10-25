@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/add_shipment_screen.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_app_drawer.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
+import 'package:sample_tracking_system_flutter/views/widgets/custom_sync_status.dart';
+
+import 'courier_shipment_samples.dart';
 
 class CourierDashboard extends StatefulWidget {
   const CourierDashboard({Key? key}) : super(key: key);
@@ -13,68 +20,81 @@ class _CourierDashboardState extends State<CourierDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const CustomAppDrawer(),
       body: DefaultTabController(
         length: 3,
         child: Scaffold(
-          backgroundColor: Colors.blueGrey[50],
-          appBar: AppBar(
-            title: const Text("Shipments"),
-            backgroundColor: Colors.lightBlue[900],
-            bottom: const TabBar(
-              tabs: [
-                Tab(
-                  text: ("New"),
-                ),
-                Tab(
-                  text: ("In progress"),
-                ),
-                Tab(
-                  text: ("Closed"),
-                )
-              ],
+            backgroundColor: Colors.blueGrey[50],
+            drawer: const CustomAppDrawer(),
+            appBar: AppBar(
+              title: const Text("Shipments"),
+              backgroundColor: Colors.lightBlue[900],
+              bottom: const TabBar(
+                tabs: [
+                  Tab(
+                    text: ("New"),
+                  ),
+                  Tab(
+                    text: ("In progress"),
+                  ),
+                  Tab(
+                    text: ("Closed"),
+                  )
+                ],
+              ),
             ),
-          ),
-          body: TabBarView(children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [..._newShipments()],
-            ),
-            const Text("Second"),
-            const Text("Third"),
-          ]),
-        ),
+            body: Consumer<ShipmentProvider>(
+              builder: (context, shipmentProvider, child) {
+                return TabBarView(children: [
+                  _shipments(shipmentProvider.publishedShipments),
+                  _shipments(shipmentProvider.clientShipments),
+                  _shipments(shipmentProvider.clientShipments)
+                ]);
+              },
+            )),
       ),
     );
   }
 }
 
-List<Widget> _newShipments() {
-  //get new shipments list
-  var shipments = [
-    Shipment(
-        id: "1",
-        clientId: "1",
-        status: "readyForCollection",
-        samples: [],
-        destination: "Harare",
-        dateCreated: DateUtils.dateOnly(DateTime.now()).toString()),
-    Shipment(
-        id: "2",
-        clientId: "2",
-        status: "readyForCollection",
-        samples: [],
-        destination: "Norton",
-        dateCreated: DateUtils.dateOnly(DateTime.now()).toString()),
-    Shipment(
-        id: "3",
-        clientId: "3",
-        status: "readyForCollection",
-        samples: [],
-        destination: "Zvimba",
-        dateCreated: DateUtils.dateOnly(DateTime.now()).toString())
-  ];
+ListView _shipments(List<Shipment> shipment) {
+  shipment = shipment.reversed.toList();
+  return ListView.builder(
+    itemCount: shipment.length,
+    itemBuilder: (context, index) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: CustomCard(
+          child: ListTile(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => CourierShipmentSamples(
+                      sampleIds: shipment[index].samples.toList()),
+                  fullscreenDialog: true,
+                ),
+              );
+            },
+            title: Text(shipment[index].description.toString()),
+            subtitle: Row(
+              children: [const Text("Status:"), Text(shipment[index].status)],
+            ),
+            leading: const Icon(
+              Icons.folder,
+              size: 45,
+              color: Colors.blue,
+            ),
+            trailing: CustomSyncStatusIcon(
+              positiveStatus: shipment[index].synced,
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
 
+List<Widget> _newShipments(List<Shipment> shipments) {
   return shipments
       .map((e) => Padding(
             padding: const EdgeInsets.all(12.0),

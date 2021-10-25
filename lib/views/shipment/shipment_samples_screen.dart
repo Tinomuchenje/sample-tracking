@@ -5,6 +5,7 @@ import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/views/sample/state/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/shipment_card.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/notification_service.dart';
@@ -144,46 +145,5 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
     setState(() {
       currentShipment!.samples = currentSampleIds;
     });
-  }
-}
-
-class ShipmentSamplesCard extends StatelessWidget {
-  const ShipmentSamplesCard({
-    Key? key,
-    required this.samples,
-  }) : super(key: key);
-
-  final List<Sample> samples;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: samples.length,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CustomCard(
-            child: ListTile(
-                onTap: () {},
-                title: Text(samples[index].clientPatientId),
-                subtitle: Row(
-                  children: const [Text("Status:"), Text("Ready")],
-                ),
-                leading: const Icon(
-                  Icons.folder,
-                  size: 45,
-                  color: Colors.blue,
-                ),
-                trailing: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.delete_outline,
-                    color: Colors.red,
-                  ),
-                )),
-          ),
-        );
-      },
-    );
   }
 }

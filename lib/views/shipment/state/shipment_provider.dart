@@ -31,6 +31,15 @@ class ShipmentProvider with ChangeNotifier {
     return [...clientShipments];
   }
 
+  List<Shipment> get publishedShipments {
+    if (_shipments.isEmpty) {
+      shipments;
+    }
+    var clientShipments =
+        _shipments.where((shipement) => shipement.status == publishedStatus);
+    return [...clientShipments];
+  }
+
   List<Shipment> get hubShipments {
     var hubShipments =
         _shipments.where((shipement) => shipement.status == "hub");
