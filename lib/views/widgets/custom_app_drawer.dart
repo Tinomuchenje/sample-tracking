@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/views/authentication/login_screen.dart';
 
 import 'custom_text_elevated_button.dart';
@@ -24,11 +25,13 @@ class CustomAppDrawer extends StatelessWidget {
                   displayText: "LOGOUT",
                   fillcolor: true,
                   press: () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPage()),
-                      (_) => false,
-                    );
+                    AppInformationDao().deleteLoggedInUser().then((value) {
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()),
+                        (_) => false,
+                      );
+                    });
                   },
                 ))
           ],

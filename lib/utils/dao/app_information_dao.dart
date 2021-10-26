@@ -14,7 +14,14 @@ class AppInformationDao {
   }
 
   Future<UserDetails?> getUserDetails() async {
-    var map = await _appInfo.record("user").get(await _database);
+    var map = await _appInfo.record('user').get(await _database);
     return map != null ? UserDetails.fromJson(map) : null;
+  }
+
+  Future deleteLoggedInUser() async {
+    await _appInfo
+        .record('user')
+        .delete(await _database)
+        .catchError((error) {});
   }
 }
