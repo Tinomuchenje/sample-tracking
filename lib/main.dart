@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/entry.dart';
 import 'package:sample_tracking_system_flutter/views/authentication/login_screen.dart';
 
 import 'package:sample_tracking_system_flutter/views/sample/state/samples_provider.dart';
@@ -30,10 +31,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Sample Tracking App',
-      theme: appTheme(),
-      home: const LoginPage(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Sample Tracking App',
+        theme: appTheme(),
+        home: const Entry());
   }
 }

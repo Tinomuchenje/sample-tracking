@@ -28,20 +28,6 @@ class _LoginPageState extends State<LoginPage> {
   LaboratoryDao labsDao = LaboratoryDao();
   final AuthenticationUser _user = AuthenticationUser();
 
-  @override
-  void initState() {
-    super.initState();
-    checkExistingUser();
-  }
-
-  checkExistingUser() async {
-    await AppInformationDao().getUserDetails().then((userDetails) {
-      if (userDetails != null) {
-        navigateToHome(userDetails.user!.role);
-      }
-    });
-  }
-
   void _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -100,8 +86,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(23.0),
+        child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -110,18 +95,18 @@ class _LoginPageState extends State<LoginPage> {
                 fit: FlexFit.loose,
                 child: Column(
                   children: [
-                    const SizedBox(height: 25),
-                    SizedBox(
-                        height: 130,
-                        child: Image.asset('assets/images/moh.png')),
-                    SizedBox(
-                        height: 200,
-                        child: Image.asset('assets/images/brt.jpg')),
+                    SizedBox(height: MediaQuery.of(context).size.height / 3),
+                    // SizedBox(
+                    //     height: 130,
+                    //     child: Image.asset('assets/images/moh.png')),
+                    // SizedBox(
+                    //     height: 200,
+                    //     child: Image.asset('assets/images/brt.jpg')),
                     const Text(
                       "SAMPLE TRACKING",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 25,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -129,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Flexible(
-                flex: 2,
+                flex: 4,
                 fit: FlexFit.loose,
                 child: Form(
                   key: _formKey,
