@@ -103,7 +103,7 @@ class ShipmentProvider with ChangeNotifier {
         .addOnlineShipment(shipment)
         .then((savedShipment) {
       addToLocalDatabase(shipment);
-      ShipmentController().notifyShipment();
+      // ShipmentController().notifyShipment();
     });
   }
 

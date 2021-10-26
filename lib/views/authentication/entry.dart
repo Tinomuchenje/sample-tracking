@@ -3,6 +3,7 @@ import 'package:sample_tracking_system_flutter/models/user_details.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/views/courier/dashboard.dart';
 import 'package:sample_tracking_system_flutter/views/pages/home_page.dart';
+import 'package:sample_tracking_system_flutter/views/registration/registration.dart';
 
 import 'login_screen.dart';
 
@@ -27,7 +28,7 @@ class _EntryState extends State<Entry> {
           var userDetails = snapshot.data;
 
           if (userDetails == null) {
-            return const LoginPage();
+            return const Registration(); //LoginPage();
           }
           userDetails as UserDetails;
           return userDetails.user!.role == 'facility'

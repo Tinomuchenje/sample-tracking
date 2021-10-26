@@ -25,19 +25,21 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
     String currentStatus = widget.shipment.status;
     String currentStatusPromt = "";
     List<Map> status_label = [
-      {"status": "published", "prompt": "Accept", "action": "accept"},
-      {"status": "accepted", "prompt": "Proceed", "action": "enroute"},
+      {"status": "published", "prompt": "Accept", "action": "accepted"},
+      {
+        "status": "accepted",
+        "prompt": "Proceed to facility",
+        "action": "enroute"
+      },
       {"status": "enroute", "prompt": "Collect", "action": "collect"},
-      {"status": "collect", "prompt": "Deliver", "action": "delivered"}
+      {"status": "collected", "prompt": "Deliver", "action": "delivered"}
     ];
 
-    print(currentStatus);
     var status = status_label
         .where((_status) =>
             _status['status'].toString() ==
             currentStatus.toString().toLowerCase())
         .toList();
-    print(status);
     if (status.isNotEmpty) currentStatusPromt = status[0]['prompt'];
 
     return DefaultTabController(
@@ -69,15 +71,14 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
                 currentStatus = delivered;
               }
 
-              var shipmenti = widget.shipment;
-              shipmenti.riderId = "617564934de5aa0c94839c2c";
-              shipmenti.riderName = "Tendai Katsande";
-              shipmenti.status = currentStatus;
-              shipmenti.lastModifiedBy = shipmenti.riderName;
-              shipmenti.dateModified =
+              shipment.riderId = "617564934de5aa0c94839c2c";
+              shipment.riderName = "Tendai Katsande";
+              shipment.status = currentStatus;
+              shipment.lastModifiedBy = shipment.riderName;
+              shipment.dateModified =
                   DateService.convertToIsoString(DateTime.now());
               Provider.of<ShipmentProvider>(context, listen: false)
-                  .addUpdateShipment(widget.shipment);
+                  .addUpdateShipment(shipment);
 
               Navigator.of(context).pop();
             },
@@ -85,7 +86,14 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
         ),
         body: TabBarView(
           children: [
-            Text('info here'),
+            Column(
+              children: <Widget>[
+                Text(shipment.description),
+                Text(shipment.description),
+                Text("Number of samples " +
+                    shipment.samples.toList().length.toString()),
+              ],
+            ),
             Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
