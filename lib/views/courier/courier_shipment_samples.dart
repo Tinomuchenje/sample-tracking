@@ -37,6 +37,7 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
             _status['status'].toString() ==
             currentStatus.toString().toLowerCase())
         .toList();
+
     print(status);
     if (status.isNotEmpty) currentStatusPromt = status[0]['prompt'];
 
@@ -85,7 +86,7 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
         ),
         body: TabBarView(
           children: [
-            Text('info here'),
+            const Text('info here'),
             Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,

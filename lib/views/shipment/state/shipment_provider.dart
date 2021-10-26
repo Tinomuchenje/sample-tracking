@@ -70,8 +70,7 @@ class ShipmentProvider with ChangeNotifier {
   ///
 
   List<Shipment> get hubShipments {
-    var hubShipments =
-        _shipments.where((shipment) => shipment.status == "hub");
+    var hubShipments = _shipments.where((shipment) => shipment.status == "hub");
     return [...hubShipments];
   }
 
@@ -109,7 +108,7 @@ class ShipmentProvider with ChangeNotifier {
 
   Future<Shipment> addToLocalDatabase(Shipment shipment) async {
     await ShipmentDao().insertOrUpdate(shipment).then((value) {
-      _shipments.add(shipment);
+      _shipments.clear();
       notifyListeners();
     });
 

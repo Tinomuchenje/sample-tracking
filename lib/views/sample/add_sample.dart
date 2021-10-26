@@ -8,11 +8,11 @@ import 'package:sample_tracking_system_flutter/views/sample/state/samples_provid
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
 import 'package:sample_tracking_system_flutter/views/pages/home_page.dart';
 import 'package:sample_tracking_system_flutter/views/patient/search_patient.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_date_form_field.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_form_dropdown.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/notification_service.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_date_form_field.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_form_dropdown.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_text_form_field.dart';
+import 'package:sample_tracking_system_flutter/widgets/notification_service.dart';
 
 class AddorUpdateSampleDialog extends StatefulWidget {
   final Patient? patient;

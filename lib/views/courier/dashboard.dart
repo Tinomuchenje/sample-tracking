@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_app_drawer.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_sync_status.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_app_drawer.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_card.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_sync_status.dart';
+
 
 import 'courier_shipment_samples.dart';
 
