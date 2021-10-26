@@ -28,18 +28,33 @@ class _LoginPageState extends State<LoginPage> {
   LaboratoryDao labsDao = LaboratoryDao();
   final AuthenticationUser _user = AuthenticationUser();
 
+  @override
+  void initState() {
+    super.initState();
+    checkExistingUser();
+  }
+
+  checkExistingUser() async {
+    await AppInformationDao().getUserDetails().then((userDetails) {
+      if (userDetails != null) {
+        navigateToHome(userDetails.user!.role);
+      }
+    });
+  }
+
   void _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
     _formKey.currentState!.save();
-    // Navigator.push(context,
-    //     MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+
     await AuthenticationController.login(_user).then((userDetails) {
-      if (userDetails.token.isEmpty) {
-        return NotificationService.error(context, "Login failed.");
+      if (userDetails.token.isNotEmpty) {
+        AppInformationDao().saveUserDetails(userDetails);
+        navigateToHome(userDetails.user!.role);
+        return NotificationService.success(context, "Login succesful.");
       }
-      navigateToHome(userDetails.user!.role);
-      NotificationService.success(context, "Login succesful.");
+
+      return NotificationService.error(context, "Login failed.");
     });
 
     // await AuthenticationController.getToken(_user).then((token) => {
@@ -66,17 +81,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<void> loadLabs() async {
-    var response = jsonDecode(await rootBundle.loadString('assets/labs.json'));
-    saveLaboratories(response);
-  }
-
-  Future<void> saveLaboratories(response) async {
-    await appInformation.getLoginIndicator().then((value) {
-      value == null ? insert(response) : update(response);
-    });
-  }
-
   void insert(response) {
     for (var laboratory in response) {
       laboratory as Map<String, dynamic>;
@@ -89,12 +93,6 @@ class _LoginPageState extends State<LoginPage> {
       laboratory as Map<String, dynamic>;
       labsDao.insertLabAsJson(laboratory);
     }
-  }
-
-  loadImportantInformation() {
-    loadLabs();
-    //loadClientContact()
-    //LoadOtherData();
   }
 
   @override

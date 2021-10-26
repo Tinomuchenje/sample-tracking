@@ -1,20 +1,20 @@
+import 'package:sample_tracking_system_flutter/models/user_details.dart';
 import 'package:sembast/sembast.dart';
 
 import '../sembast.dart';
 
 class AppInformationDao {
-  var store = StoreRef<String, String>.main();
+  static const String tableName = "AppInfo";
+  final _appInfo = stringMapStoreFactory.store(tableName);
+
   Future<Database> get _database async => AppDatabase.instance.database;
 
-  Future saveLoginIndicator() async {
-    await store.record('first').put(await _database, 'true');
+  Future saveUserDetails(UserDetails userDetails) async {
+    await _appInfo.record('user').put(await _database, userDetails.toJson());
   }
 
-  Future<String?> getLoginIndicator() async {
-    return await store.record('first').get(await _database);
-  }
-
-  clearLoginIndicator() async {
-    await store.record('first').delete(await _database);
+  Future<UserDetails?> getUserDetails() async {
+    var map = await _appInfo.record("user").get(await _database);
+    return map != null ? UserDetails.fromJson(map) : null;
   }
 }
