@@ -4,12 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/user.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/state/user_provider.dart';
 import 'package:sample_tracking_system_flutter/views/courier/dashboard.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/views/widgets/notification_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../pages/home_page.dart';
 import 'authentication_controller.dart';
@@ -34,10 +37,14 @@ class _LoginPageState extends State<LoginPage> {
     _formKey.currentState!.save();
     // Navigator.push(context,
     //     MaterialPageRoute(builder: (BuildContext context) => HomePage()));
-    await AuthenticationController.login(_user).then((userDetails) {
+    await AuthenticationController.login(_user).then((userDetails) async {
       if (userDetails.token.isEmpty) {
         return NotificationService.error(context, "Login failed.");
       }
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("user", userDetails.user.toString());
+      prefs.setString("token", userDetails.token.toString());
+
       navigateToHome(userDetails.user!.role);
       NotificationService.success(context, "Login succesful.");
     });
@@ -102,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Padding(
+        child: Padding (
           padding: const EdgeInsets.all(23.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -110,24 +117,27 @@ class _LoginPageState extends State<LoginPage> {
               Flexible(
                 flex: 4,
                 fit: FlexFit.loose,
-                child: Column(
+                child: Row(
                   children: [
-                    const SizedBox(height: 25),
-                    SizedBox(
-                        height: 130,
-                        child: Image.asset('assets/images/moh.png')),
-                    SizedBox(
-                        height: 200,
-                        child: Image.asset('assets/images/brt.jpg')),
-                    const Text(
-                      "SAMPLE TRACKING",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    // const SizedBox(height: 25),
+                    // SizedBox(
+                    //     height: 130,
+                    //     child: Image.asset('assets/images/moh.png')),
+                    // SizedBox(
+                    //     height: 200,
+                    //     child: Image.asset('assets/images/brt.jpg')),
                   ],
+                ),
+              ),
+              SizedBox(
+                height: 150,
+              ),
+              const Text(
+                "SAMPLE TRACKING",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               Flexible(

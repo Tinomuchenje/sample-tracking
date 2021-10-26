@@ -4,6 +4,7 @@ import 'package:sample_tracking_system_flutter/consts/api_urls.dart';
 import 'package:sample_tracking_system_flutter/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:sample_tracking_system_flutter/models/user_details.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationController {
   static Future<String> getToken(AuthenticationUser user) async {
@@ -20,7 +21,7 @@ class AuthenticationController {
     var userdetails = UserDetails();
     await http
         .post(Uri.parse(loginUrl), headers: headers, body: json.encode(user))
-        .then((response) {
+        .then((response) async {
       if (response.statusCode != 200) return;
       userdetails = UserDetails.fromJson(jsonDecode(response.body));
     }).catchError((error) {});
