@@ -100,7 +100,7 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                       // ),
                       Visibility(
                         visible: !isNewForm,
-                        child: const CustomTextFormField(
+                        child: CustomTextFormField(
                             enabled: false,
                             labelText: "Location",
                             initialValue: "Hurungwe"),

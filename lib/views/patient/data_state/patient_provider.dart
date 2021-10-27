@@ -25,20 +25,17 @@ class PatientProvider with ChangeNotifier {
   }
 
   void setValue(Patient patient) {
-    patient.createdBy = patient.lastModifiedBy = 'admin';
-    if (patient.appId.isEmpty) {
-      patient.appId = uuid.v1();
-    }
+    if (patient.createdBy.isEmpty) patient.createdBy = 'admin';
 
-    if (patient.client.isEmpty) {
-      patient.client = "admin";
-    }
+    if (patient.lastModifiedBy.isEmpty) patient.lastModifiedBy = 'admin';
+
+    if (patient.appId.isEmpty) patient.appId = uuid.v1();
+
+    if (patient.client.isEmpty) patient.client = "admin";
 
     var currentDate = DateService.convertToIsoString(DateTime.now());
 
-    if (patient.createdDate.isEmpty) {
-      patient.createdDate = currentDate;
-    }
+    if (patient.createdDate.isEmpty) patient.createdDate = currentDate;
 
     if (patient.lastModifiedDate.isEmpty) {
       patient.lastModifiedDate = currentDate;

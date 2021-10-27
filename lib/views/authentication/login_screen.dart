@@ -1,16 +1,14 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sample_tracking_system_flutter/consts/routing_constants.dart';
 import 'package:sample_tracking_system_flutter/models/user.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
-import 'package:sample_tracking_system_flutter/views/courier/dashboard.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/widgets/notification_service.dart';
 
-import '../pages/home_page.dart';
 import 'authentication_controller.dart';
 
 class LoginPage extends StatefulWidget {
@@ -56,13 +54,11 @@ class _LoginPageState extends State<LoginPage> {
 
   void navigateToHome(String role) {
     if (role == 'facility') {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+      Navigator.of(context).pushReplacementNamed(facilityHomePage);
     }
 
     if (role == 'courier') {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) => const CourierDashboard()));
+      Navigator.of(context).pushReplacementNamed(courierHomePage);
     }
   }
 

@@ -100,7 +100,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                     ),
                     Visibility(
                       visible: !isNewForm,
-                      child: const CustomTextFormField(
+                      child: CustomTextFormField(
                           labelText: "Creater",
                           initialValue: "Admin",
                           enabled: false),

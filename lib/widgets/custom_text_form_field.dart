@@ -10,7 +10,7 @@ class CustomTextFormField extends StatefulWidget {
   final TextEditingController? controller;
   final TextInputType? keyboardType;
 
-  const CustomTextFormField(
+   CustomTextFormField(
       {this.hintText = "",
       required this.labelText,
       this.onSaved,
