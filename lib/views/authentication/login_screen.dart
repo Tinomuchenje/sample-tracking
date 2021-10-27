@@ -7,8 +7,8 @@ import 'package:sample_tracking_system_flutter/models/user.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
 import 'package:sample_tracking_system_flutter/views/courier/dashboard.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/notification_service.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
+import 'package:sample_tracking_system_flutter/widgets/notification_service.dart';
 
 import '../pages/home_page.dart';
 import 'authentication_controller.dart';

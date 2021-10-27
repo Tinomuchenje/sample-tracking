@@ -7,8 +7,8 @@ import 'package:sample_tracking_system_flutter/views/sample/state/samples_provid
 import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/shipment_card.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/state/status.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/notification_service.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
+import 'package:sample_tracking_system_flutter/widgets/notification_service.dart';
 
 import 'add_shipment_screen.dart';
 

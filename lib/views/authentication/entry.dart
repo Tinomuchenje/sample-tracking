@@ -28,7 +28,7 @@ class _EntryState extends State<Entry> {
           var userDetails = snapshot.data;
 
           if (userDetails == null) {
-            return const Registration(); //LoginPage();
+            return const LoginPage();//Registration(); //
           }
           userDetails as UserDetails;
           return userDetails.user!.role == 'facility'

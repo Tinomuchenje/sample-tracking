@@ -40,6 +40,7 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
             _status['status'].toString() ==
             currentStatus.toString().toLowerCase())
         .toList();
+
     if (status.isNotEmpty) currentStatusPromt = status[0]['prompt'];
 
     return DefaultTabController(
@@ -86,6 +87,7 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
         ),
         body: TabBarView(
           children: [
+
             Column(
               children: <Widget>[
                 Text(shipment.description),
@@ -94,6 +96,7 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
                     shipment.samples.toList().length.toString()),
               ],
             ),
+
             Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,

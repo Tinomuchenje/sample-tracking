@@ -12,10 +12,10 @@ import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_pro
 import 'package:sample_tracking_system_flutter/views/pages/home_page.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/shipment_samples_screen.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/state/status.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_form_dropdown.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_text_form_field.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/notification_service.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_form_dropdown.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_text_form_field.dart';
+import 'package:sample_tracking_system_flutter/widgets/notification_service.dart';
 
 // ignore: must_be_immutable
 class AddorUpdateShipmentDialog extends StatefulWidget {

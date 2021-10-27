@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/views/patient/data_state/patient_provider.dart';
 import 'package:sample_tracking_system_flutter/views/sample/state/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
+
+import 'custom_card.dart';
 
 class GridDashBoard extends StatefulWidget {
   const GridDashBoard({Key? key}) : super(key: key);

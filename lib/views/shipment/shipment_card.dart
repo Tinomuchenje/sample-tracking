@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_card.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_card.dart';
 
 class ShipmentSamplesCard extends StatelessWidget {
   const ShipmentSamplesCard({

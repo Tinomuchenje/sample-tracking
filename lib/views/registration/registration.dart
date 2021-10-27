@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sample_tracking_system_flutter/views/widgets/custom_text_elevated_button.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
 
 class Registration extends StatefulWidget {
   const Registration({Key? key}) : super(key: key);
