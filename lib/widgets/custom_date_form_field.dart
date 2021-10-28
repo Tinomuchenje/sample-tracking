@@ -29,6 +29,7 @@ class _DateFormFieldState extends State<DateFormField> {
       padding: const EdgeInsets.only(
           top: defaultPadding / 2, bottom: defaultPadding / 2),
       child: TextFormField(
+        keyboardType: TextInputType.none,
         initialValue: widget.initialValue,
         decoration: InputDecoration(
           border: const OutlineInputBorder(),
