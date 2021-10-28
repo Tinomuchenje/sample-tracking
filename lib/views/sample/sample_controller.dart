@@ -22,19 +22,19 @@ class SampleController {
     await http.get(Uri.parse(patientsUrl), headers: headers).then((response) {
       if (response.statusCode == 200) {
         var tokenMaps = jsonDecode(response.body);
-        tokenMaps.forEach((value) {
+        tokenMaps.forEach((value) async {
           Sample sample = Sample.fromJson(value);
           sample.synced = true;
-          SampleDao().insertOrUpdate(sample);
+          await SampleDao().insertOrUpdate(sample);
         });
       }
     });
   }
 
   Future addSamplesOnline() async {
-    await SampleDao().getLocalSamples().then((patients) {
+    await SampleDao().getLocalSamples().then((patients) async {
       for (Sample sample in patients) {
-        createOrUpdate(sample);
+        await createOrUpdate(sample);
       }
     });
   }
@@ -60,7 +60,7 @@ class SampleController {
   }
 
   Sample _validateResponse(http.Response response, Sample sample) {
-    if (response.statusCode == 201) {
+    if (response.statusCode == 201 || response.statusCode == 200) {
       sample = Sample.fromJson(jsonDecode(response.body));
     } else {
       sample.synced = false;

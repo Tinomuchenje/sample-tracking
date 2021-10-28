@@ -170,16 +170,13 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       saveOrUpdateSample(_sample, context);
-     NotificationService.success(context, "Sample saved");
+      NotificationService.success(context, "Sample saved");
     }
   }
 
   void saveOrUpdateSample(Sample _sample, BuildContext context) {
-    var sampleProvider = Provider.of<SamplesProvider>(context, listen: false);
+     Provider.of<SamplesProvider>(context, listen: false).addSample(_sample);
 
-    widget.sampleData != null
-        ? sampleProvider.updateSample(_sample)
-        : sampleProvider.addSample(_sample);
   }
 
   _sampleTypes(Sample _sample) {

@@ -44,13 +44,12 @@ class SamplesProvider with ChangeNotifier {
     sample.lastModifiedDate =
         _sample.createdDate = DateService.convertToIsoString(DateTime.now());
 
-    sample.dateSynced = _sample.dateCollected = DateTime.now().toString();
+    sample.dateSynced =
+        _sample.dateCollected = DateService.convertToIsoString(DateTime.now());
   }
 
   Future addToLocalDatabase(Sample sample) async {
     await SampleDao().insertOrUpdate(sample).then((key) {
-      _samples.clear();
-      _samples.add(sample);
       notifyListeners();
     }).catchError((onError) {});
   }
@@ -66,8 +65,4 @@ class SamplesProvider with ChangeNotifier {
     // });
   }
 
-  Future updateSample(Sample sample) async {
-    await addToLocalDatabase(sample);
-    return notifyListeners();
-  }
 }

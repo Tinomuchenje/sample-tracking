@@ -3,14 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/consts/routing_constants.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
-import 'package:sample_tracking_system_flutter/utils/date_service.dart';
 import 'package:sample_tracking_system_flutter/views/patient/data_state/patient_provider.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_date_form_field.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_form_field.dart';
 import 'package:sample_tracking_system_flutter/widgets/notification_service.dart';
-
-enum Gender { male, female }
 
 class AddorUpdatePatientDialog extends StatefulWidget {
   Patient? patientData;
@@ -87,6 +84,7 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                         },
                       ),
                       DateFormField(
+                        removeTime: true,
                         labelText: "Date of birth",
                         initialValue:
                             _patient.dob.isEmpty ? null : _patient.dob,

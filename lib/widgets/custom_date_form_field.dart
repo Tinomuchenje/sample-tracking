@@ -4,6 +4,7 @@ import 'package:sample_tracking_system_flutter/utils/date_service.dart';
 
 class DateFormField extends StatefulWidget {
   Function(Object?) onSaved;
+  bool removeTime;
   String? initialValue;
   final String labelText;
   TextEditingController? dateController;
@@ -11,6 +12,7 @@ class DateFormField extends StatefulWidget {
   DateFormField({
     Key? key,
     required this.onSaved,
+    this.removeTime = false,
     this.initialValue,
     this.dateController,
     required this.labelText,
@@ -61,8 +63,10 @@ class _DateFormFieldState extends State<DateFormField> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         widget.initialValue = null;
-        widget.dateController =
-            TextEditingController(text: DateService.removeTime(picked));
+        widget.dateController = TextEditingController(
+            text: widget.removeTime
+                ? DateService.removeTime(picked)
+                : DateService.convertToIsoString(picked));
       });
     }
   }

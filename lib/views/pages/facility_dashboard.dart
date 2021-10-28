@@ -48,8 +48,8 @@ class _FacilityDashboardState extends State<FacilityDashboard> {
                             // Samples syncing
                             await SampleController()
                                 .addSamplesOnline()
-                                .then((value) {
-                              PatientController().getOnlinePatients();
+                                .then((value) async{
+                             await SampleController().getOnlineSamples();
                             });
                           },
                           icon: const Icon(Icons.sync)),

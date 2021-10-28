@@ -10,11 +10,11 @@ class PatientController {
     await http.get(Uri.parse(patientsUrl), headers: headers).then((response) {
       if (response.statusCode == 200) {
         var tokenMaps = jsonDecode(response.body);
-        tokenMaps.forEach((value) {
+        tokenMaps.forEach((value) async {
           Patient patient = Patient.fromJson(value);
           patient.sync = true;
 
-          PatientDao().insertOrUpdate(patient);
+          await PatientDao().insertOrUpdate(patient);
         });
       }
     });
