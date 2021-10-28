@@ -79,7 +79,7 @@ class Shipment {
     lastModifiedBy = json['lastModifiedBy'] ?? "";
     createdDate = json['createdDate'] ?? "";
     lastModifiedDate = json['createdDate'] ?? "";
-    synced = json['synced'];
+    // synced = json['synced'] == null ? false : true;
   }
 
   Map<String, dynamic> toJson() {

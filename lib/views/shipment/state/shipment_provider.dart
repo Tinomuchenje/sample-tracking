@@ -131,7 +131,7 @@ class ShipmentProvider with ChangeNotifier {
   Future addShipmentsToSamples(Shipment shipment) async {
     for (var sampleId in shipment.samples) {
       Sample sample = await SampleDao().getSample(sampleId);
-      sample.shipmentId = shipment.id.toString(); // duplicating shipment
+      sample.shipmentId = shipment.appId.toString(); // duplicating shipment
       await SampleDao().insertOrUpdate(sample); // go online
     }
   }

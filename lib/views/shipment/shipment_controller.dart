@@ -54,7 +54,9 @@ class ShipmentController {
 
   Shipment _validateResponse(http.Response response, Shipment shipment) {
     if (response.statusCode == 201 || response.statusCode == 200) {
-      shipment = Shipment.fromJson(jsonDecode(response.body));
+      Map<String, dynamic> map = jsonDecode(response.body);
+      map['samples'] = jsonDecode(map['samples']);
+      shipment = Shipment.fromJson(map);
     } else {
       shipment.synced = false;
     }
