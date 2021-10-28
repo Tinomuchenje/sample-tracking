@@ -11,10 +11,10 @@ const loginUrl = baseUrl + 'authenticate';
 const getAccountUrl = baseUrl + 'account';
 
 // Patient
-const patientsUrl = baseUrl + 'patients';
+const patientsUrl = baseUrl + 'patients/';
 
 // Sample
-const sampleUrl = baseUrl + 'samples';
+const sampleUrl = baseUrl + 'samples/';
 
 // Shipment
-const shipmentUrl = baseUrl + 'shipments';
+const shipmentUrl = baseUrl + 'shipments/';

@@ -6,29 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:sample_tracking_system_flutter/utils/dao/patient_dao.dart';
 
 class PatientController {
-  Future<Patient> addOnlinePatient(Patient patient) async {
-    Patient savedPatient = Patient();
-    patient.sync = true;
-
-    await http
-        .post(Uri.parse(patientsUrl),
-            headers: headers, body: json.encode(patient))
-        .then((response) {
-      if (response.statusCode != 200) {
-        patient.sync = false;
-        savedPatient = patient;
-        return;
-      }
-
-      savedPatient = Patient.fromJson(jsonDecode(response.body));
-    }).catchError((error) {
-      patient.sync = false;
-      savedPatient = patient;
-    });
-
-    return savedPatient;
-  }
-
   Future getOnlinePatients() async {
     await http.get(Uri.parse(patientsUrl), headers: headers).then((response) {
       if (response.statusCode == 200) {
@@ -50,24 +27,34 @@ class PatientController {
     });
   }
 
-  Future createOrUpdate(Patient patient) async {
+  Future<Patient> createOrUpdate(Patient patient) async {
     patient.sync = true;
-    if (patient.id == null) {
-      await _createPatient(patient);
+    if (patient.id == null ) {
+      return await _createPatient(patient);
     } else {
-      await _updatePatient(patient);
+      return await _updatePatient(patient);
     }
   }
 
-  Future _createPatient(Patient patient) async {
+  Future<Patient> _createPatient(Patient patient) async {
     await http
         .post(Uri.parse(patientsUrl),
             headers: headers, body: json.encode(patient))
         .then((response) {
-      if (response.statusCode == 201) {
-        Map<String, dynamic> tokenMap = jsonDecode(response.body);
-      }
+      patient = _validateResponse(response, patient);
+    }).catchError((error) {
+      patient.sync = false;
     });
+    return patient;
+  }
+
+  Patient _validateResponse(http.Response response, Patient patient) {
+    if (response.statusCode == 201) {
+      patient = Patient.fromJson(jsonDecode(response.body));
+    } else {
+      patient.sync = false;
+    }
+    return patient;
   }
 
   Future _updatePatient(Patient patient) async {
@@ -75,7 +62,10 @@ class PatientController {
         .put(Uri.parse(patientsUrl + patient.id.toString()),
             headers: headers, body: json.encode(patient))
         .then((response) {
-      if (response.statusCode == 201) {}
+      patient = _validateResponse(response, patient);
+    }).catchError((error) {
+      patient.sync = false;
     });
+    return patient;
   }
 }

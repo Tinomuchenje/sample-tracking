@@ -19,7 +19,7 @@ class PatientProvider with ChangeNotifier {
 
   Future add(Patient patient) async {
     setValue(patient);
-    await PatientController().addOnlinePatient(patient).then((savedPatient) {
+    await PatientController().createOrUpdate(patient).then((savedPatient) {
       addToLocalDatabase(savedPatient);
     });
   }
