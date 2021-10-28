@@ -11,6 +11,7 @@ class ShipmentController {
       if (response.statusCode == 200) {
         var tokenMaps = jsonDecode(response.body);
         tokenMaps.forEach((value) async {
+          value['samples'] = jsonDecode(value['samples']);
           Shipment shipment = Shipment.fromJson(value);
           shipment.synced = true;
 

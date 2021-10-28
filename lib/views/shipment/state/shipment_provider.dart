@@ -102,13 +102,12 @@ class ShipmentProvider with ChangeNotifier {
     await addShipmentsToSamples(shipment);
 
     await ShipmentController().createOrUpdate(shipment).then((savedShipment) {
-      addToLocalDatabase(shipment);
+      addToLocalDatabase(savedShipment);
       // ShipmentController().notifyShipment();
     });
   }
 
   Future<Shipment> addToLocalDatabase(Shipment shipment) async {
-    shipment.samples = json.decode(shipment.samples);
     await ShipmentDao().insertOrUpdate(shipment).then((value) {
       _shipments.clear();
       notifyListeners();
