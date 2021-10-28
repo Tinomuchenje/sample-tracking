@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
 
 class Registration extends StatefulWidget {
@@ -15,13 +16,12 @@ class _RegistrationState extends State<Registration> {
   late final void Function()? press;
 
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Flexible(
-          flex: 4,
-          fit: FlexFit.loose,
+        child: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Padding(
@@ -32,15 +32,6 @@ class _RegistrationState extends State<Registration> {
                   const Text(
                     "Registration",
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                        labelText: "Username", border: OutlineInputBorder()),
-                    validator: (value) {},
-                    onSaved: (value) {},
                   ),
                   const SizedBox(
                     height: 20,
@@ -63,12 +54,6 @@ class _RegistrationState extends State<Registration> {
                   const SizedBox(
                     height: 20,
                   ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                        labelText: "Phone", border: OutlineInputBorder()),
-                    validator: (value) {},
-                    onSaved: (value) {},
-                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -81,16 +66,64 @@ class _RegistrationState extends State<Registration> {
                   const SizedBox(
                     height: 20,
                   ),
+                  CustomFormDropdown(
+                    onChanged: (value) {},
+                    items: [],
+                    onSaved: (value) {},
+                    hint: Text("Select Access Level"),
+                    value: "",
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
 
+                  CustomFormDropdown(
+                    onChanged: (value) {},
+                    items: [],
+                    onSaved: (value) {},
+                    hint: Text("Select Role"),
+                    value: "",
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                        labelText: "Username", border: OutlineInputBorder()),
+                    validator: (value) {},
+                    onSaved: (value) {},
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                        labelText: "Password", border: OutlineInputBorder()),
+                    validator: (value) {},
+                    onSaved: (value) {},
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                        labelText: "Confirm password",
+                        border: OutlineInputBorder()),
+                    validator: (value) {},
+                    onSaved: (value) {},
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   SizedBox(
                     height: 50,
                     width: 340,
                     child: CustomElevatedButton(
                       displayText: "Register",
                       fillcolor: true,
-                      press: (){},),
+                      press: () {},
+                    ),
                   )
-
                 ],
               ),
             ),

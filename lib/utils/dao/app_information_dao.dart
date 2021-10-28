@@ -9,13 +9,13 @@ class AppInformationDao {
 
   Future<Database> get _database async => AppDatabase.instance.database;
 
-  Future saveUserDetails(UserDetails userDetails) async {
-    await _appInfo.record('user').put(await _database, userDetails.toJson());
+  Future saveUserDetails(User user) async {
+    await _appInfo.record('user').put(await _database, user.toJson());
   }
 
-  Future<UserDetails?> getUserDetails() async {
+  Future<User?> getUserDetails() async {
     var map = await _appInfo.record('user').get(await _database);
-    return map != null ? UserDetails.fromJson(map) : null;
+    return map != null ? User.fromJson(map) : null;
   }
 
   Future deleteLoggedInUser() async {

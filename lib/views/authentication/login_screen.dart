@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sample_tracking_system_flutter/models/user.dart';
+import 'package:sample_tracking_system_flutter/models/auth_user.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
 import 'package:sample_tracking_system_flutter/views/courier/dashboard.dart';
@@ -32,10 +32,13 @@ class _LoginPageState extends State<LoginPage> {
 
     _formKey.currentState!.save();
 
-    await AuthenticationController.login(_user).then((userDetails) {
-      if (userDetails.token.isNotEmpty) {
-        AppInformationDao().saveUserDetails(userDetails);
-        navigateToHome(userDetails.user!.role);
+    await AuthenticationController.login(_user).then((token) async {
+      if (token.isNotEmpty) {
+        var user = await AuthenticationController.getAccount();
+        print(user);
+        AppInformationDao().saveUserDetails(user);
+        // AppInformationDao().saveUserDetails(userDetails);
+        // navigateToHome(userDetails.user!.accessLevel);
         return NotificationService.success(context, "Login succesful.");
       }
 
@@ -54,13 +57,13 @@ class _LoginPageState extends State<LoginPage> {
     //     });
   }
 
-  void navigateToHome(String role) {
-    if (role == 'facility') {
+  void navigateToHome(String? accesLevel) {
+    if (accesLevel == 'facility') {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (BuildContext context) => HomePage()));
     }
 
-    if (role == 'courier') {
+    if (accesLevel == 'courier') {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (BuildContext context) => const CourierDashboard()));
     }

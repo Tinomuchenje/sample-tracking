@@ -1,60 +1,56 @@
 class Client {
-  String? clientUid;
+  String? id;
   String? clientId;
   String? name;
   String? phone;
+  String? emailAddress;
   String? districtId;
-  String? districtName;
+  String? district;
   String? provinceId;
-  String? provinceName;
-  String? createdBy;
-  String? createdDate;
-  String? lastModifiedBy;
-  String? lastModifiedDate;
+  String? province;
+  Null clientContacts;
+  String? emailIddress;
 
   Client(
-      {this.clientUid,
-      this.clientId,
-      this.name,
-      this.phone,
-      this.districtId,
-      this.districtName,
-      this.provinceId,
-      this.provinceName,
-      this.createdBy,
-      this.createdDate,
-      this.lastModifiedBy,
-      this.lastModifiedDate});
+      {this.id,
+        this.clientId,
+        this.name,
+        this.phone,
+        this.emailAddress,
+        this.districtId,
+        this.district,
+        this.provinceId,
+        this.province,
+        this.clientContacts,
+        this.emailIddress});
 
-  Client.fromJson(Map<String, dynamic> json) {
-    clientUid = json['client_uid'];
-    clientId = json['client_id'];
+  Client.fromJson(Map<String?, dynamic> json) {
+    id = json['id'];
+    clientId = json['clientId'];
     name = json['name'];
     phone = json['phone'];
-    districtId = json['district_id'];
-    districtName = json['district_name'];
-    provinceId = json['province_id'];
-    provinceName = json['province_name'];
-    createdBy = json['created_by'];
-    createdDate = json['created_date'];
-    lastModifiedBy = json['last_modified_by'];
-    lastModifiedDate = json['last_modified_date'];
+    emailAddress = json['emailAddress'];
+    districtId = json['districtId'];
+    district = json['district'];
+    provinceId = json['provinceId'];
+    province = json['province'];
+    clientContacts = json['clientContacts'];
+    emailIddress = json['emailIddress'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['client_uid'] = clientUid;
-    data['client_id'] = clientId;
-    data['name'] = name;
-    data['phone'] = phone;
-    data['district_id'] = districtId;
-    data['district_name'] = districtName;
-    data['province_id'] = provinceId;
-    data['province_name'] = provinceName;
-    data['created_by'] = createdBy;
-    data['created_date'] = createdDate;
-    data['last_modified_by'] = lastModifiedBy;
-    data['last_modified_date'] = lastModifiedDate;
+  Map<String?, dynamic> toJson() {
+    final Map<String?, dynamic> data = new Map<String?, dynamic>();
+    data['id'] = this.id;
+    data['clientId'] = this.clientId;
+    data['name'] = this.name;
+    data['phone'] = this.phone;
+    data['emailAddress'] = this.emailAddress;
+    data['districtId'] = this.districtId;
+    data['district'] = this.district;
+    data['provinceId'] = this.provinceId;
+    data['province'] = this.province;
+    data['clientContacts'] = this.clientContacts;
+    data['emailIddress'] = this.emailIddress;
     return data;
   }
 }

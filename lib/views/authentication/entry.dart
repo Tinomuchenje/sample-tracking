@@ -8,7 +8,7 @@ import 'package:sample_tracking_system_flutter/views/registration/registration.d
 import 'login_screen.dart';
 
 class Entry extends StatefulWidget {
- const Entry({Key? key}) : super(key: key);
+  const Entry({Key? key}) : super(key: key);
 
   @override
   _EntryState createState() => _EntryState();
@@ -21,17 +21,19 @@ class _EntryState extends State<Entry> {
         future: AppInformationDao().getUserDetails(),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
             );
           }
-          var userDetails = snapshot.data;
+          var user = snapshot.data;
 
-          if (userDetails == null) {
-            return const LoginPage();//Registration(); //
+          if (user == null) {
+            return const  LoginPage(); //Registration();
           }
-          userDetails as UserDetails;
-          return userDetails.user!.role == 'facility'
+          user as User;
+          return user.accessLevel == 'facility'
               ? HomePage()
               : const CourierDashboard();
         });
