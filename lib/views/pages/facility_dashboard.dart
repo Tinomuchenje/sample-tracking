@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sample_tracking_system_flutter/views/patient/patient_controller.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_app_drawer.dart';
 import 'package:sample_tracking_system_flutter/widgets/grid_dashboard.dart';
-
 
 class FacilityDashboard extends StatefulWidget {
   const FacilityDashboard({Key? key}) : super(key: key);
@@ -36,8 +36,11 @@ class _FacilityDashboardState extends State<FacilityDashboard> {
                           // alignment: Alignment.topLeft,
                           color: Colors.grey,
                           iconSize: 40,
-                          onPressed: () {},
-                          icon: const Icon(Icons.notifications)),
+                          onPressed: () {
+                            PatientController().addPatientsOnline();
+                            PatientController().getOnlinePatients();
+                          },
+                          icon: const Icon(Icons.sync)),
                       IconButton(
                           alignment: Alignment.topRight,
                           color: Colors.grey,

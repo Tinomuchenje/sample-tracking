@@ -29,8 +29,6 @@ class PatientProvider with ChangeNotifier {
 
     if (patient.lastModifiedBy.isEmpty) patient.lastModifiedBy = 'admin';
 
-    if (patient.appId.isEmpty) patient.appId = uuid.v1();
-
     if (patient.client.isEmpty) patient.client = "admin";
 
     var currentDate = DateService.convertToIsoString(DateTime.now());
@@ -50,7 +48,7 @@ class PatientProvider with ChangeNotifier {
   }
 
   Future<void> allPatientsFromDatabase() async {
-    await PatientDao().getAllPatients().then((value) {
+    await PatientDao().getLocalPatients().then((value) {
       _patients.clear();
       _patients.addAll(value);
       notifyListeners();

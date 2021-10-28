@@ -1,5 +1,5 @@
 class Patient {
-  String id = "";
+  int? id;
   String appId = "";
   String firstName = "";
   String lastName = "";
@@ -16,7 +16,7 @@ class Patient {
   bool sync = false;
 
   Patient(
-      {this.id = "",
+      {this.id,
       this.appId = "",
       this.firstName = "",
       this.lastName = "",
@@ -53,7 +53,7 @@ class Patient {
   }
 
   Patient.fromJson(Map<String, dynamic> json) {
-    id = json['_id'] ?? json['id'];
+    id = json['id'];
     appId = json['appId'];
     firstName = json['firstName'];
     lastName = json['lastName'];
@@ -67,6 +67,6 @@ class Patient {
     lastModifiedBy = json['lastModifiedBy'];
     createdDate = json['createdDate'];
     lastModifiedDate = json['lastModifiedDate'];
-    sync = json['sync'];
+    sync = json['sync'] ?? false;
   }
 }

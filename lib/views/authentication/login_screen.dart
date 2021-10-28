@@ -36,7 +36,8 @@ class _LoginPageState extends State<LoginPage> {
       if (token.isNotEmpty) {
         Provider.of<UserProvider>(context, listen: false).logintoken = token;
         NotificationService.success(context, "Login succesful.");
-        var xxx = AuthenticationController.getAccount(token);
+
+        Navigator.of(context).pushReplacementNamed(facilityHomePage);
       } else {
         NotificationService.error(context, "Login failed.");
       }
