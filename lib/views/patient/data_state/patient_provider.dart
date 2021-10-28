@@ -35,9 +35,7 @@ class PatientProvider with ChangeNotifier {
 
     if (patient.createdDate.isEmpty) patient.createdDate = currentDate;
 
-    if (patient.lastModifiedDate.isEmpty) {
-      patient.lastModifiedDate = currentDate;
-    }
+    patient.lastModifiedDate = currentDate;
   }
 
   Future _addToLocalDatabase(Patient patient) async {

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/consts/routing_constants.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
+import 'package:sample_tracking_system_flutter/utils/date_service.dart';
 import 'package:sample_tracking_system_flutter/views/patient/data_state/patient_provider.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_date_form_field.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
@@ -120,33 +121,6 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                             ),
                           ),
                         ],
-                      ),
-                      Visibility(
-                        visible: !isNewForm,
-                        child: CustomTextFormField(
-                          labelText: "Date created",
-                          enabled: false,
-                          initialValue: getDateCreated(),
-                          onSaved: (value) {
-                            if (value != null) {
-                              _patient.createdDate = DateTime.now().toString();
-                            }
-                          },
-                        ),
-                      ),
-                      Visibility(
-                        visible: !isNewForm,
-                        child: CustomTextFormField(
-                          enabled: false,
-                          initialValue: getDateModified(),
-                          labelText: "Date Modified",
-                          onSaved: (value) {
-                            if (value != null) {
-                              _patient.lastModifiedDate =
-                                  DateTime.now().toString();
-                            }
-                          },
-                        ),
                       ),
                       const SizedBox(
                         height: 20,
