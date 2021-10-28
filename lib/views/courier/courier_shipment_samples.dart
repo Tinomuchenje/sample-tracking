@@ -3,11 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/utils/date_service.dart';
-import 'package:sample_tracking_system_flutter/views/courier/status.dart';
 import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/shipment_card.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
-import 'package:sample_tracking_system_flutter/views/shipment/state/status.dart';
 
 class CourierShipmentSamples extends StatefulWidget {
   Shipment shipment;
