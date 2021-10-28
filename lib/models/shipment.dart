@@ -1,5 +1,5 @@
 class Shipment {
-  String id = "";
+  int? id;
   String appId = "";
   String description = "";
   String clientId = "";
@@ -24,7 +24,7 @@ class Shipment {
   bool synced = false;
 
   Shipment({
-    this.id = "",
+    this.id,
     this.appId = "",
     this.description = "",
     this.clientId = "",

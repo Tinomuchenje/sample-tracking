@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sample_tracking_system_flutter/views/patient/patient_controller.dart';
 import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/shipment_controller.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_app_drawer.dart';
 import 'package:sample_tracking_system_flutter/widgets/grid_dashboard.dart';
 
@@ -48,8 +49,15 @@ class _FacilityDashboardState extends State<FacilityDashboard> {
                             // Samples syncing
                             await SampleController()
                                 .addSamplesOnline()
-                                .then((value) async{
-                             await SampleController().getOnlineSamples();
+                                .then((value) async {
+                              await SampleController().getOnlineSamples();
+
+                              // Shipment syncing
+                              await ShipmentController()
+                                  .addShipmentsOnline()
+                                  .then((value) async {
+                                await ShipmentController().getOnlineShipments();
+                              });
                             });
                           },
                           icon: const Icon(Icons.sync)),

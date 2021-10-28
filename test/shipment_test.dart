@@ -6,7 +6,7 @@ void main() {
   group("Shipmentd", () {
     final shipmentProvider = ShipmentProvider();
     var shipmentOne = Shipment(
-        id: "1",
+        //id: "1",
         clientId: "1",
         status: "Received",
         dateCreated: DateTime.now().toString(),
@@ -14,7 +14,7 @@ void main() {
         samples: []);
 
     var shipmentTwo = Shipment(
-        id: "2",
+        //id: "2",
         clientId: "2",
         status: "Rejected",
         dateCreated: DateTime.now().toString(),

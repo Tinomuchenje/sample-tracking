@@ -72,7 +72,7 @@ class SampleController {
 
   Future _updateSample(Sample sample) async {
     await http
-        .put(Uri.parse(patientsUrl + sample.id.toString()),
+        .put(Uri.parse(sampleUrl + sample.id.toString()),
             headers: headers, body: json.encode(sample))
         .then((response) {
       sample = _validateResponse(response, sample);

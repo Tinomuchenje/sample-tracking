@@ -3,47 +3,70 @@ import 'dart:convert';
 import 'package:sample_tracking_system_flutter/consts/api_urls.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:http/http.dart' as http;
+import 'package:sample_tracking_system_flutter/utils/dao/shipment_dao.dart';
 
 class ShipmentController {
-  Future<Shipment> addOnlineShipment(Shipment shipment) async {
-    shipment.synced = true;
+    Future getOnlineShipments() async {
+    await http.get(Uri.parse(shipmentUrl), headers: headers).then((response) {
+      if (response.statusCode == 200) {
+        var tokenMaps = jsonDecode(response.body);
+        tokenMaps.forEach((value) async {
+          Shipment shipment = Shipment.fromJson(value);
+          shipment.synced = true;
 
-    if (shipment.id.isNotEmpty) return updateOnlineShipment(shipment);
-
-    return addNewOnlineShipment(shipment);
+          await ShipmentDao().insertOrUpdate(shipment);
+        });
+      }
+    });
   }
 
-  Future<Shipment> addNewOnlineShipment(Shipment shipment) async {
+  Future addShipmentsOnline() async {
+    await ShipmentDao().getAllShipments().then((shipments) async {
+      for (Shipment shipment in shipments) {
+        await createOrUpdate(shipment);
+      }
+    });
+  }
+
+  Future<Shipment> createOrUpdate(Shipment shipment) async {
+    shipment.synced = true;
+    if (shipment.id == null) {
+      return await _createShipment(shipment);
+    } else {
+      return await _updateShipment(shipment);
+    }
+  }
+
+  Future<Shipment> _createShipment(Shipment shipment) async {
     await http
         .post(Uri.parse(shipmentUrl),
-            headers: headers, body: json.encode(shipment.toJson()))
+            headers: headers, body: json.encode(shipment))
         .then((response) {
-      shipment = validateResponse(response, shipment);
+      shipment = _validateResponse(response, shipment);
     }).catchError((error) {
       shipment.synced = false;
     });
     return shipment;
   }
 
-  Shipment validateResponse(http.Response response, Shipment shipment) {
-    if (response.statusCode != 200) {
-      shipment.synced = false;
-    } else {
+  Shipment _validateResponse(http.Response response, Shipment shipment) {
+    if (response.statusCode == 201 || response.statusCode == 200) {
       shipment = Shipment.fromJson(jsonDecode(response.body));
+    } else {
+      shipment.synced = false;
     }
     return shipment;
   }
 
-  Future<Shipment> updateOnlineShipment(Shipment shipment) async {
+  Future _updateShipment(Shipment shipment) async {
     await http
-        .put(Uri.parse(shipmentUrl + '/' + shipment.id),
-            headers: headers, body: json.encode(shipment.toJson()))
+        .put(Uri.parse(shipmentUrl + shipment.id.toString()),
+            headers: headers, body: json.encode(shipment))
         .then((response) {
-      shipment = validateResponse(response, shipment);
+      shipment = _validateResponse(response, shipment);
     }).catchError((error) {
       shipment.synced = false;
     });
-
     return shipment;
   }
 
