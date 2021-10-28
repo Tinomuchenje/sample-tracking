@@ -1,4 +1,4 @@
-const baseUrl = 'https://sample-tracking-backend.herokuapp.com/v1/';
+const baseUrl = 'http://196.27.127.58:4080/api/';
 final headers = {
   'accept': 'application/json',
   'content-type': 'application/json',
@@ -8,6 +8,7 @@ final headers = {
 
 //Authentication
 const loginUrl = baseUrl + 'authenticate';
+const getAccountUrl = baseUrl + 'account';
 
 // Patient
 const patientsUrl = baseUrl + 'patient';

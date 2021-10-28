@@ -16,6 +16,13 @@ class AuthenticationController {
     return tokenMap.values.first;
   }
 
+  static getAccount(String token) async {
+    await http.get(Uri.parse(getAccountUrl), headers: headers).then((response) {
+      if (response.statusCode != 200) return null;
+      Map<String, dynamic> tokenMap = jsonDecode(response.body);
+    });
+  }
+
   static Future<UserDetails> login(AuthenticationUser user) async {
     var userdetails = UserDetails();
     await http

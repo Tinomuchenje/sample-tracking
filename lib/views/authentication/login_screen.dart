@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/routing_constants.dart';
 import 'package:sample_tracking_system_flutter/models/user.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
@@ -10,6 +11,7 @@ import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_butt
 import 'package:sample_tracking_system_flutter/widgets/notification_service.dart';
 
 import 'authentication_controller.dart';
+import 'state/user_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -30,26 +32,15 @@ class _LoginPageState extends State<LoginPage> {
 
     _formKey.currentState!.save();
 
-    await AuthenticationController.login(_user).then((userDetails) {
-      if (userDetails.token.isNotEmpty) {
-        AppInformationDao().saveUserDetails(userDetails);
-        navigateToHome(userDetails.user!.role);
-        return NotificationService.success(context, "Login succesful.");
+    await AuthenticationController.getToken(_user).then((token) {
+      if (token.isNotEmpty) {
+        Provider.of<UserProvider>(context, listen: false).logintoken = token;
+        NotificationService.success(context, "Login succesful.");
+        var xxx = AuthenticationController.getAccount(token);
+      } else {
+        NotificationService.error(context, "Login failed.");
       }
-
-      return NotificationService.error(context, "Login failed.");
     });
-
-    // await AuthenticationController.getToken(_user).then((token) => {
-    //       if (token.isNotEmpty)
-    //         {
-    //           Provider.of<UserProvider>(context, listen: false).logintoken = token,
-    //           NotificationService.success(context, "Login succesful."),
-    //           navigateToHome()
-    //         }
-    //       else
-    //         {NotificationService.error(context, "Login failed.")}
-    //     });
   }
 
   void navigateToHome(String role) {

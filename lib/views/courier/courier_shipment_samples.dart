@@ -25,10 +25,10 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
     String currentStatus = widget.shipment.status;
     String currentStatusPromt = "";
     List<Map> status_label = [
-      {"status": "published", "prompt": "Accept", "action": "accept"},
+      {"status": "published", "prompt": "Accept", "action": "accepted"},
       {"status": "accepted", "prompt": "Proceed", "action": "enroute"},
-      {"status": "enroute", "prompt": "Collect", "action": "collect"},
-      {"status": "collect", "prompt": "Deliver", "action": "delivered"}
+      {"status": "enroute", "prompt": "Collect", "action": "collected"},
+      {"status": "collected", "prompt": "Deliver", "action": "delivered"}
     ];
 
     print(currentStatus);
@@ -60,20 +60,20 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
             label: Text(currentStatusPromt),
             backgroundColor: Colors.grey,
             onPressed: () {
-              if (currentStatus == publishedStatus) {
-                currentStatus = accept;
-              } else if (currentStatus == accept) {
-                currentStatus = enroute;
-              } else if (currentStatus == enroute) {
-                currentStatus = collected;
-              } else if (currentStatus == collected) {
-                currentStatus = delivered;
-              }
+              // if (currentStatus == publishedStatus) {
+              //   currentStatus = accept;
+              // } else if (currentStatus == accept) {
+              //   currentStatus = enroute;
+              // } else if (currentStatus == enroute) {
+              //   currentStatus = collected;
+              // } else if (currentStatus == collected) {
+              //   currentStatus = delivered;
+              // }
 
               var shipmenti = widget.shipment;
               shipmenti.riderId = "617564934de5aa0c94839c2c";
               shipmenti.riderName = "Tendai Katsande";
-              shipmenti.status = currentStatus;
+              shipmenti.status = status[0]['action'];
               shipmenti.lastModifiedBy = shipmenti.riderName;
               shipmenti.dateModified =
                   DateService.convertToIsoString(DateTime.now());
