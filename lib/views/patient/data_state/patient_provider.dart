@@ -25,6 +25,7 @@ class PatientProvider with ChangeNotifier {
   }
 
   void setValue(Patient patient) {
+    if (patient.appId.isEmpty) patient.appId = uuid.v1();
     if (patient.createdBy.isEmpty) patient.createdBy = 'admin';
 
     if (patient.lastModifiedBy.isEmpty) patient.lastModifiedBy = 'admin';

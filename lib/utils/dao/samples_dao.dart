@@ -12,8 +12,6 @@ class SampleDao {
   Future<Database> get _database async => AppDatabase.instance.database;
 
   Future insertOrUpdate(Sample sample) async {
-    if (sample.appId.isEmpty) sample.appId = uuid.v1();
-
     await _sampleTable
         .record(sample.appId)
         .put(await _database, sample.toJson());

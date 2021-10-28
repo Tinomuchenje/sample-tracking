@@ -12,7 +12,7 @@ class PatientDao {
   Future<Database> get _database async => AppDatabase.instance.database;
 
   Future insertOrUpdate(Patient patient) async {
-    if (patient.appId.isEmpty) patient.appId = uuid.v1();
+ 
 
     await _patientTable
         .record(patient.appId)

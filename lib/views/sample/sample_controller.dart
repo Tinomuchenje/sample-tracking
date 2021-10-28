@@ -22,9 +22,11 @@ class SampleController {
     await http.get(Uri.parse(sampleUrl), headers: headers).then((response) {
       if (response.statusCode == 200) {
         var tokenMaps = jsonDecode(response.body);
+
         tokenMaps.forEach((value) async {
           Sample sample = Sample.fromJson(value);
           sample.synced = true;
+
           await SampleDao().insertOrUpdate(sample);
         });
       }
@@ -32,8 +34,8 @@ class SampleController {
   }
 
   Future addSamplesOnline() async {
-    await SampleDao().getLocalSamples().then((patients) async {
-      for (Sample sample in patients) {
+    await SampleDao().getLocalSamples().then((samples) async {
+      for (Sample sample in samples) {
         await createOrUpdate(sample);
       }
     });

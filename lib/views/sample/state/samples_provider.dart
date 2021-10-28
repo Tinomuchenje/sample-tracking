@@ -33,6 +33,8 @@ class SamplesProvider with ChangeNotifier {
   }
 
   void setValues(Sample sample) {
+    if (sample.appId.isEmpty) sample.appId = uuid.v1();
+
     if (sample.status.isEmpty) {
       sample.status = "Created";
     }
@@ -50,6 +52,7 @@ class SamplesProvider with ChangeNotifier {
 
   Future addToLocalDatabase(Sample sample) async {
     await SampleDao().insertOrUpdate(sample).then((key) {
+      _samples.clear();
       notifyListeners();
     }).catchError((onError) {});
   }
@@ -64,5 +67,4 @@ class SamplesProvider with ChangeNotifier {
     //   print(error);
     // });
   }
-
 }
