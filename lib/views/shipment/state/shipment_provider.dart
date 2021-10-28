@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 
@@ -106,6 +108,7 @@ class ShipmentProvider with ChangeNotifier {
   }
 
   Future<Shipment> addToLocalDatabase(Shipment shipment) async {
+    shipment.samples = json.decode(shipment.samples);
     await ShipmentDao().insertOrUpdate(shipment).then((value) {
       _shipments.clear();
       notifyListeners();
@@ -128,7 +131,7 @@ class ShipmentProvider with ChangeNotifier {
   Future addShipmentsToSamples(Shipment shipment) async {
     for (var sampleId in shipment.samples) {
       Sample sample = await SampleDao().getSample(sampleId);
-      sample.shipmentId = shipment.appId;
+      sample.shipmentId = shipment.id.toString(); // duplicating shipment
       await SampleDao().insertOrUpdate(sample); // go online
     }
   }

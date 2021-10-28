@@ -51,7 +51,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   Widget build(BuildContext context) {
     String _appBarText = 'Add';
     String _saveButtonText = 'Save';
-    Shipment _shipment = widget.shipmentData ?? Shipment(samples: []);
+    Shipment _shipment = widget.shipmentData ?? Shipment();
 
     if (widget.shipmentData == null || widget.shipmentData!.appId.isEmpty) {
       isNewForm = true;
@@ -213,6 +213,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
           TextButton(
               onPressed: () {
                 _formKey.currentState!.save();
+
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(

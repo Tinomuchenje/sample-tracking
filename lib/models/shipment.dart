@@ -3,7 +3,7 @@ class Shipment {
   String appId = "";
   String description = "";
   String clientId = "";
-  late List<String> samples;
+  late dynamic samples;
   String status = "";
   String dateCreated = "";
   String dateModified = "";

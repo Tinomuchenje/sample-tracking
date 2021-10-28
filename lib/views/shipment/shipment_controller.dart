@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:sample_tracking_system_flutter/utils/dao/shipment_dao.dart';
 
 class ShipmentController {
-    Future getOnlineShipments() async {
+  Future getOnlineShipments() async {
     await http.get(Uri.parse(shipmentUrl), headers: headers).then((response) {
       if (response.statusCode == 200) {
         var tokenMaps = jsonDecode(response.body);
@@ -30,6 +30,9 @@ class ShipmentController {
 
   Future<Shipment> createOrUpdate(Shipment shipment) async {
     shipment.synced = true;
+
+    shipment.samples = json.encode(shipment.samples);
+
     if (shipment.id == null) {
       return await _createShipment(shipment);
     } else {
