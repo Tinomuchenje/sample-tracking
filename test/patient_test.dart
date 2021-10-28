@@ -14,7 +14,7 @@ void main() {
         phoneNumber: '0777440550');
 
     // Act
-    var result = await PatientProvider().add(patient);
+    var result = await PatientProvider().addPatient(patient);
 
     // Assert
     assert(result != null);

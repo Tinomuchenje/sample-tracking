@@ -13,6 +13,7 @@ class PatientController {
         tokenMaps.forEach((value) {
           Patient patient = Patient.fromJson(value);
           patient.sync = true;
+
           PatientDao().insertOrUpdate(patient);
         });
       }
@@ -20,9 +21,9 @@ class PatientController {
   }
 
   Future addPatientsOnline() async {
-    await PatientDao().getLocalPatients().then((patients) {
+    await PatientDao().getLocalPatients().then((patients) async {
       for (Patient patient in patients) {
-        createOrUpdate(patient);
+        await createOrUpdate(patient);
       }
     });
   }

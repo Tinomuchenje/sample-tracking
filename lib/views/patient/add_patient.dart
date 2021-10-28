@@ -215,7 +215,7 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
   Future saveOrUpdatePatient(BuildContext context, Patient _patient) async {
     _patient.gender = _gender;
     await Provider.of<PatientProvider>(context, listen: false)
-        .add(_patient)
+        .addPatient(_patient)
         .then((value) {
       NotificationService.success(context, "Patient saved succesfully");
     });

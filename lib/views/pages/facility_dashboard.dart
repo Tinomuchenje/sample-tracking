@@ -41,8 +41,8 @@ class _FacilityDashboardState extends State<FacilityDashboard> {
                             // Patients syncing
                             await PatientController()
                                 .addPatientsOnline()
-                                .then((value) {
-                              PatientController().getOnlinePatients();
+                                .then((value) async {
+                              await PatientController().getOnlinePatients();
                             });
 
                             // Samples syncing

@@ -13,14 +13,14 @@ class PatientProvider with ChangeNotifier {
   Patient get patient => _patient;
 
   List<Patient> get patients {
-    allPatientsFromDatabase();
+    _allPatientsFromDatabase();
     return [..._patients];
   }
 
-  Future add(Patient patient) async {
+  Future addPatient(Patient patient) async {
     setValue(patient);
     await PatientController().createOrUpdate(patient).then((savedPatient) {
-      addToLocalDatabase(savedPatient);
+      _addToLocalDatabase(savedPatient);
     });
   }
 
@@ -40,14 +40,14 @@ class PatientProvider with ChangeNotifier {
     }
   }
 
-  Future addToLocalDatabase(Patient patient) async {
+  Future _addToLocalDatabase(Patient patient) async {
     await PatientDao().insertOrUpdate(patient).then((value) {
-      _patients.add(patient);
+      _patients.clear();
       notifyListeners();
     }).catchError((onError) {});
   }
 
-  Future<void> allPatientsFromDatabase() async {
+  Future<void> _allPatientsFromDatabase() async {
     await PatientDao().getLocalPatients().then((value) {
       _patients.clear();
       _patients.addAll(value);
@@ -56,7 +56,7 @@ class PatientProvider with ChangeNotifier {
   }
 
   updatePatient(Patient patient) async {
-    await addToLocalDatabase(patient);
+    await _addToLocalDatabase(patient);
     notifyListeners();
   }
 }
