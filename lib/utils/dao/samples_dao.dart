@@ -13,8 +13,10 @@ class SampleDao {
 
   Future insertOrUpdate(Sample sample) async {
     if (sample.appId.isEmpty) sample.appId = uuid.v1();
-    String sampleId = sample.appId;
-    await _sampleTable.record(sampleId).put(await _database, sample.toJson());
+
+    await _sampleTable
+        .record(sample.appId)
+        .put(await _database, sample.toJson());
   }
 
   Future insertSamples(List<Map<String, dynamic>> value) async {

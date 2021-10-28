@@ -19,7 +19,7 @@ class SampleController {
   }
 
   Future getOnlineSamples() async {
-    await http.get(Uri.parse(patientsUrl), headers: headers).then((response) {
+    await http.get(Uri.parse(sampleUrl), headers: headers).then((response) {
       if (response.statusCode == 200) {
         var tokenMaps = jsonDecode(response.body);
         tokenMaps.forEach((value) async {
