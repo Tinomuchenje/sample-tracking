@@ -1,15 +1,18 @@
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sembast/sembast.dart';
+import 'package:uuid/uuid.dart';
 
 import '../sembast.dart';
 
 class SampleDao {
   static const String tableName = "Sample";
   final _sampleTable = stringMapStoreFactory.store(tableName);
+  Uuid uuid = const Uuid();
 
   Future<Database> get _database async => AppDatabase.instance.database;
 
   Future insertOrUpdate(Sample sample) async {
+    if (sample.appId.isEmpty) sample.appId = uuid.v1();
     String sampleId = sample.appId;
     await _sampleTable.record(sampleId).put(await _database, sample.toJson());
   }
@@ -29,7 +32,7 @@ class SampleDao {
     await _sampleTable.delete(await _database, finder: finder);
   }
 
-  Future<List<Sample>> getAll() async {
+  Future<List<Sample>> getLocalSamples() async {
     final recordSnapshot = await _sampleTable.find(await _database);
 
     return recordSnapshot.map((snapshot) {

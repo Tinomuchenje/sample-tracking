@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sample_tracking_system_flutter/views/patient/patient_controller.dart';
+import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_app_drawer.dart';
 import 'package:sample_tracking_system_flutter/widgets/grid_dashboard.dart';
 
@@ -36,9 +37,20 @@ class _FacilityDashboardState extends State<FacilityDashboard> {
                           // alignment: Alignment.topLeft,
                           color: Colors.grey,
                           iconSize: 40,
-                          onPressed: () {
-                            PatientController().addPatientsOnline();
-                            PatientController().getOnlinePatients();
+                          onPressed: () async {
+                            // Patients syncing
+                            await PatientController()
+                                .addPatientsOnline()
+                                .then((value) {
+                              PatientController().getOnlinePatients();
+                            });
+
+                            // Samples syncing
+                            await SampleController()
+                                .addSamplesOnline()
+                                .then((value) {
+                              PatientController().getOnlinePatients();
+                            });
                           },
                           icon: const Icon(Icons.sync)),
                       IconButton(

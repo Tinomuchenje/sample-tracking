@@ -18,30 +18,65 @@ class SampleController {
     return samples;
   }
 
-  Future<Sample> addOnlineSample(Sample sample) async {
-    Sample savedSample = Sample();
-    sample.synced = true;
-
-    await http
-        .post(Uri.parse(sampleUrl),
-            headers: headers, body: json.encode(sample.toJson()))
-        .then((response) {
-      if (response.statusCode != 200) {
-        sample.synced = false;
-        savedSample = sample;
-        return;
+  Future getOnlineSamples() async {
+    await http.get(Uri.parse(patientsUrl), headers: headers).then((response) {
+      if (response.statusCode == 200) {
+        var tokenMaps = jsonDecode(response.body);
+        tokenMaps.forEach((value) {
+          Sample sample = Sample.fromJson(value);
+          sample.synced = true;
+          SampleDao().insertOrUpdate(sample);
+        });
       }
-
-      savedSample = Sample.fromJson(jsonDecode(response.body));
-    }).catchError((error) {
-      sample.synced = false;
-      savedSample = sample;
     });
-
-    return savedSample;
   }
 
-  updateOnlineSample(Sample sample) {
-    return http.put(Uri.parse(sampleUrl+'/'+sample.id), body: sample.toJson());
+  Future addSamplesOnline() async {
+    await SampleDao().getLocalSamples().then((patients) {
+      for (Sample sample in patients) {
+        createOrUpdate(sample);
+      }
+    });
+  }
+
+  Future<Sample> createOrUpdate(Sample sample) async {
+    sample.synced = true;
+    if (sample.id == null) {
+      return await _createSample(sample);
+    } else {
+      return await _updateSample(sample);
+    }
+  }
+
+  Future<Sample> _createSample(Sample sample) async {
+    await http
+        .post(Uri.parse(sampleUrl), headers: headers, body: json.encode(sample))
+        .then((response) {
+      sample = _validateResponse(response, sample);
+    }).catchError((error) {
+      sample.synced = false;
+    });
+    return sample;
+  }
+
+  Sample _validateResponse(http.Response response, Sample sample) {
+    if (response.statusCode == 201) {
+      sample = Sample.fromJson(jsonDecode(response.body));
+    } else {
+      sample.synced = false;
+    }
+    return sample;
+  }
+
+  Future _updateSample(Sample sample) async {
+    await http
+        .put(Uri.parse(patientsUrl + sample.id.toString()),
+            headers: headers, body: json.encode(sample))
+        .then((response) {
+      sample = _validateResponse(response, sample);
+    }).catchError((error) {
+      sample.synced = false;
+    });
+    return sample;
   }
 }

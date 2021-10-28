@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/samples_dao.dart';
+import 'package:sample_tracking_system_flutter/utils/date_service.dart';
 import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
 
 import 'package:uuid/uuid.dart';
@@ -26,17 +27,23 @@ class SamplesProvider with ChangeNotifier {
 
   void addSample(Sample sample) async {
     setValues(sample);
-    await SampleController().addOnlineSample(sample).then((savedSample) {
+    await SampleController().createOrUpdate(sample).then((savedSample) {
       addToLocalDatabase(savedSample);
     });
   }
 
   void setValues(Sample sample) {
-    sample.appId = uuid.v1();
-    sample.status = "Created";
-    sample.synced = false;
-    sample.clientSampleId = "SFDFASDS";
-    sample.lastModifiedDate = _sample.createdDate = DateTime.now().toString();
+    if (sample.status.isEmpty) {
+      sample.status = "Created";
+    }
+
+    if (sample.clientSampleId.isEmpty) {
+      sample.clientSampleId = "SFDFASDS";
+    }
+
+    sample.lastModifiedDate =
+        _sample.createdDate = DateService.convertToIsoString(DateTime.now());
+
     sample.dateSynced = _sample.dateCollected = DateTime.now().toString();
   }
 
@@ -49,7 +56,7 @@ class SamplesProvider with ChangeNotifier {
   }
 
   Future<void> allSamplesFromdatabase() async {
-    await SampleDao().getAll().then((value) {
+    await SampleDao().getLocalSamples().then((value) {
       _samples.clear();
       _samples.addAll(value);
       notifyListeners();

@@ -19,7 +19,7 @@ class PatientController {
     });
   }
 
-  void addPatientsOnline() async {
+  Future addPatientsOnline() async {
     await PatientDao().getLocalPatients().then((patients) {
       for (Patient patient in patients) {
         createOrUpdate(patient);
@@ -29,7 +29,7 @@ class PatientController {
 
   Future<Patient> createOrUpdate(Patient patient) async {
     patient.sync = true;
-    if (patient.id == null ) {
+    if (patient.id == null) {
       return await _createPatient(patient);
     } else {
       return await _updatePatient(patient);
@@ -49,7 +49,7 @@ class PatientController {
   }
 
   Patient _validateResponse(http.Response response, Patient patient) {
-    if (response.statusCode == 201) {
+    if (response.statusCode == 201 || response.statusCode == 200) {
       patient = Patient.fromJson(jsonDecode(response.body));
     } else {
       patient.sync = false;
