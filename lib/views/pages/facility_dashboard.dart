@@ -78,7 +78,10 @@ class _FacilityDashboardState extends State<FacilityDashboard> {
                               );
                             });
                           },
-                          icon: const Icon(Icons.logout))
+                          icon: const Icon(
+                            Icons.logout,
+                            size: 35,
+                          ))
                     ],
                   ),
                 ])),
