@@ -36,33 +36,7 @@ class _FacilityDashboardState extends State<FacilityDashboard> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      IconButton(
-                          // alignment: Alignment.topLeft,
-                          color: Colors.grey,
-                          iconSize: 40,
-                          onPressed: () async {
-                            // Patients syncing
-                            await PatientController()
-                                .addPatientsOnline()
-                                .then((value) async {
-                              await PatientController().getOnlinePatients();
-                            });
-
-                            // Samples syncing
-                            await SampleController()
-                                .addSamplesOnline()
-                                .then((value) async {
-                              await SampleController().getOnlineSamples();
-
-                              // Shipment syncing
-                              await ShipmentController()
-                                  .addShipmentsOnline()
-                                  .then((value) async {
-                                await ShipmentController().getOnlineShipments();
-                              });
-                            });
-                          },
-                          icon: const Icon(Icons.sync)),
+                      SyncAll(),
                       IconButton(
                           alignment: Alignment.topRight,
                           color: Colors.grey,
@@ -91,5 +65,37 @@ class _FacilityDashboardState extends State<FacilityDashboard> {
         const GridDashBoard(),
       ]),
     );
+  }
+}
+
+class SyncAll extends StatelessWidget {
+  const SyncAll({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        // alignment: Alignment.topLeft,
+        color: Colors.grey,
+        iconSize: 40,
+        onPressed: () async {
+          // Patients syncing
+          await PatientController().addPatientsOnline().then((value) async {
+            await PatientController().getOnlinePatients();
+          });
+
+          // Samples syncing
+          await SampleController().addSamplesOnline().then((value) async {
+            await SampleController().getOnlineSamples();
+
+            // Shipment syncing
+            await ShipmentController().addShipmentsOnline().then((value) async {
+              await ShipmentController().getOnlineShipments();
+            });
+            
+          });
+        },
+        icon: const Icon(Icons.sync));
   }
 }

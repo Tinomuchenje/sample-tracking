@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
+import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/login_screen.dart';
+import 'package:sample_tracking_system_flutter/views/pages/facility_dashboard.dart';
+import 'package:sample_tracking_system_flutter/views/patient/patient_controller.dart';
+import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/shipment_controller.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_app_drawer.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_card.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_sync_status.dart';
-
 
 import 'courier_shipment_samples.dart';
 
@@ -27,7 +32,57 @@ class _CourierDashboardState extends State<CourierDashboard> {
             drawer: const CustomAppDrawer(),
             appBar: AppBar(
               title: const Text("Shipments"),
-              // backgroundColor: Colors.lightBlue[900],
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                    onPressed: () async {
+                      // Patients syncing
+                      await PatientController()
+                          .addPatientsOnline()
+                          .then((value) async {
+                        await PatientController().getOnlinePatients();
+                      });
+
+                      // Samples syncing
+                      await SampleController()
+                          .addSamplesOnline()
+                          .then((value) async {
+                        await SampleController().getOnlineSamples();
+
+                        // Shipment syncing
+                        await ShipmentController()
+                            .addShipmentsOnline()
+                            .then((value) async {
+                          await ShipmentController().getOnlineShipments();
+                        });
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.sync,
+                      size: 40,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                    onPressed: () {
+                      AppInformationDao().deleteLoggedInUser().then((value) {
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
+                          (_) => false,
+                        );
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.logout,
+                      size: 35,
+                    ),
+                  ),
+                ),
+              ],
               bottom: const TabBar(
                 tabs: [
                   Tab(
