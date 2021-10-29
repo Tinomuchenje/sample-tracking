@@ -1,69 +1,90 @@
-class UserDetails {
-  User? user;
-  String token = "";
+import 'package:sample_tracking_system_flutter/views/authentication/user_types_constants.dart';
 
-  UserDetails({this.user, this.token = ""});
+class UserDetails {
+  int? id;
+  String? login;
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? imageUrl;
+  bool? activated;
+  String? langKey;
+  String? createdBy;
+  String? createdDate;
+  String? lastModifiedBy;
+  String? lastModifiedDate;
+  late List<String> authorities;
+  String? accessLevel;
+  String? accessId;
+
+  UserDetails(
+      {this.id,
+      this.login,
+      this.firstName,
+      this.lastName,
+      this.email,
+      this.imageUrl,
+      this.activated,
+      this.langKey,
+      this.createdBy,
+      this.createdDate,
+      this.lastModifiedBy,
+      this.lastModifiedDate,
+      required this.authorities,
+      this.accessLevel,
+      this.accessId});
 
   UserDetails.fromJson(Map<String, dynamic> json) {
-    user = json['user'] != null ? User.fromJson(json['user']) : null;
-    token = json['token'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (user != null) {
-      data['user'] = user!.toJson();
-    }
-    data['token'] = token;
-    return data;
-  }
-}
-
-class User {
-  String id = "";
-  String firstName = "";
-  String lastName = "";
-  String gender = "";
-  String phone = "";
-  String username = "";
-  String password = "";
-  String role = "";
-  String name = "";
-
-  User(
-      {this.id = "",
-      this.firstName = "",
-      this.lastName = "",
-      this.gender = "",
-      this.phone = "",
-      this.username = "",
-      this.password = "",
-      this.role = "",
-      this.name = ""});
-
-  User.fromJson(Map<String, dynamic> json) {
-    id = json['_id'];
+    id = json['id'];
+    login = json['login'];
     firstName = json['firstName'];
     lastName = json['lastName'];
-    gender = json['gender'];
-    phone = json['phone'];
-    username = json['username'];
-    password = json['password'];
-    role = json['role'];
-    name = json['name'];
+    email = json['email'];
+    imageUrl = json['imageUrl'];
+    activated = json['activated'];
+    langKey = json['langKey'];
+    createdBy = json['createdBy'];
+    createdDate = json['createdDate'];
+    lastModifiedBy = json['lastModifiedBy'];
+    lastModifiedDate = json['lastModifiedDate'];
+    authorities = json['authorities'].cast<String>();
+    accessLevel = json['accessLevel'];
+    accessId = json['accessId'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = id;
+    data['id'] = id;
+    data['login'] = login;
     data['firstName'] = firstName;
     data['lastName'] = lastName;
-    data['gender'] = gender;
-    data['phone'] = phone;
-    data['username'] = username;
-    data['password'] = password;
-    data['role'] = role;
-    data['name'] = name;
+    data['email'] = email;
+    data['imageUrl'] = imageUrl;
+    data['activated'] = activated;
+    data['langKey'] = langKey;
+    data['createdBy'] = createdBy;
+    data['createdDate'] = createdDate;
+    data['lastModifiedBy'] = lastModifiedBy;
+    data['lastModifiedDate'] = lastModifiedDate;
+    data['authorities'] = authorities;
+    data['accessLevel'] = accessLevel;
+    data['accessId'] = accessId;
     return data;
+  }
+
+  bool isCourierOnly(List<String> authorities) {
+    return authorities.every((element) => element == courier);
+  }
+
+  bool isAdmin(List<String> authorities) {
+    return authorities.contains(admin);
+  }
+
+  bool isHealthWorker(List<String> authorities) {
+    return authorities.contains(healthWorker);
+  }
+
+  bool isHub(List<String> authorities) {
+    return authorities.contains(hub);
   }
 }

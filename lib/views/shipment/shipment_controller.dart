@@ -4,10 +4,13 @@ import 'package:sample_tracking_system_flutter/consts/api_urls.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:http/http.dart' as http;
 import 'package:sample_tracking_system_flutter/utils/dao/shipment_dao.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/authentication_controller.dart';
 
 class ShipmentController {
   Future getOnlineShipments() async {
-    await http.get(Uri.parse(shipmentUrl), headers: headers).then((response) {
+    var _headers = await AuthenticationController().buildHeader();
+
+    await http.get(Uri.parse(shipmentUrl), headers: _headers).then((response) {
       if (response.statusCode == 200) {
         var tokenMaps = jsonDecode(response.body);
         tokenMaps.forEach((value) async {
@@ -42,9 +45,11 @@ class ShipmentController {
   }
 
   Future<Shipment> _createShipment(Shipment shipment) async {
+    var _headers = await AuthenticationController().buildHeader();
+
     await http
         .post(Uri.parse(shipmentUrl),
-            headers: headers, body: json.encode(shipment))
+            headers: _headers, body: json.encode(shipment))
         .then((response) {
       shipment = _validateResponse(response, shipment);
     }).catchError((error) {
@@ -65,9 +70,11 @@ class ShipmentController {
   }
 
   Future _updateShipment(Shipment shipment) async {
+    var _headers = await AuthenticationController().buildHeader();
+
     await http
         .put(Uri.parse(shipmentUrl + shipment.id.toString()),
-            headers: headers, body: json.encode(shipment))
+            headers: _headers, body: json.encode(shipment))
         .then((response) {
       shipment = _validateResponse(response, shipment);
     }).catchError((error) {

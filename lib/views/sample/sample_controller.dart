@@ -4,6 +4,7 @@ import 'package:sample_tracking_system_flutter/consts/api_urls.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/samples_dao.dart';
 import 'package:http/http.dart' as http;
+import 'package:sample_tracking_system_flutter/views/authentication/authentication_controller.dart';
 
 class SampleController {
   static Future<List<Sample>> getSamplesFromIds(dynamic sampleIds) async {
@@ -19,7 +20,9 @@ class SampleController {
   }
 
   Future getOnlineSamples() async {
-    await http.get(Uri.parse(sampleUrl), headers: headers).then((response) {
+    var _headers = await AuthenticationController().buildHeader();
+
+    await http.get(Uri.parse(sampleUrl), headers: _headers).then((response) {
       if (response.statusCode == 200) {
         var tokenMaps = jsonDecode(response.body);
 
@@ -51,8 +54,11 @@ class SampleController {
   }
 
   Future<Sample> _createSample(Sample sample) async {
+    var _headers = await AuthenticationController().buildHeader();
+
     await http
-        .post(Uri.parse(sampleUrl), headers: headers, body: json.encode(sample))
+        .post(Uri.parse(sampleUrl),
+            headers: _headers, body: json.encode(sample))
         .then((response) {
       sample = _validateResponse(response, sample);
     }).catchError((error) {
@@ -71,9 +77,11 @@ class SampleController {
   }
 
   Future _updateSample(Sample sample) async {
+    var _headers = await AuthenticationController().buildHeader();
+
     await http
         .put(Uri.parse(sampleUrl + sample.id.toString()),
-            headers: headers, body: json.encode(sample))
+            headers: _headers, body: json.encode(sample))
         .then((response) {
       sample = _validateResponse(response, sample);
     }).catchError((error) {

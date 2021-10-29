@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/routing_constants.dart';
 import 'package:sample_tracking_system_flutter/models/user.dart';
+import 'package:sample_tracking_system_flutter/models/user_details.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
@@ -12,6 +13,7 @@ import 'package:sample_tracking_system_flutter/widgets/notification_service.dart
 
 import 'authentication_controller.dart';
 import 'state/user_provider.dart';
+import 'user_types_constants.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -33,24 +35,22 @@ class _LoginPageState extends State<LoginPage> {
     _formKey.currentState!.save();
 
     await AuthenticationController.getToken(_user).then((token) {
-      if (token.isNotEmpty) {
-        Provider.of<UserProvider>(context, listen: false).logintoken = token;
-        NotificationService.success(context, "Login succesful.");
-
-        Navigator.of(context).pushReplacementNamed(facilityHomePage);
-      } else {
-        NotificationService.error(context, "Login failed.");
+      if (token.isEmpty) {
+        return NotificationService.error(context, "Login failed.");
       }
+
+      AuthenticationController().getAccount().then((account) {
+        navigateToHome(account);
+      });
+      NotificationService.success(context, "Login succesful.");
     });
   }
 
-  void navigateToHome(String role) {
-    if (role == 'facility') {
-      Navigator.of(context).pushReplacementNamed(facilityHomePage);
-    }
-
-    if (role == 'courier') {
+  void navigateToHome(UserDetails account) {
+    if (account.isCourierOnly(account.authorities)) {
       Navigator.of(context).pushReplacementNamed(courierHomePage);
+    } else {
+      Navigator.of(context).pushReplacementNamed(facilityHomePage);
     }
   }
 

@@ -7,7 +7,7 @@ import 'package:sample_tracking_system_flutter/views/pages/home_page.dart';
 import 'login_screen.dart';
 
 class Entry extends StatefulWidget {
- const Entry({Key? key}) : super(key: key);
+  const Entry({Key? key}) : super(key: key);
 
   @override
   _EntryState createState() => _EntryState();
@@ -30,9 +30,9 @@ class _EntryState extends State<Entry> {
             return const LoginPage();
           }
           userDetails as UserDetails;
-          return userDetails.user!.role == 'facility'
-              ? HomePage()
-              : const CourierDashboard();
+          return userDetails.isCourierOnly(userDetails.authorities)
+              ? const CourierDashboard()
+              : HomePage();
         });
   }
 }
