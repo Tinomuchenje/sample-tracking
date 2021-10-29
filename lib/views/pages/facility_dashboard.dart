@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/login_screen.dart';
 import 'package:sample_tracking_system_flutter/views/patient/patient_controller.dart';
 import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/shipment_controller.dart';
@@ -65,8 +67,18 @@ class _FacilityDashboardState extends State<FacilityDashboard> {
                           alignment: Alignment.topRight,
                           color: Colors.grey,
                           iconSize: 40,
-                          onPressed: () {},
-                          icon: const Icon(Icons.settings))
+                          onPressed: () {
+                            AppInformationDao()
+                                .deleteLoggedInUser()
+                                .then((value) {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginPage()),
+                                (_) => false,
+                              );
+                            });
+                          },
+                          icon: const Icon(Icons.logout))
                     ],
                   ),
                 ])),

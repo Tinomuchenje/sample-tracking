@@ -61,7 +61,7 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
             onPressed: () async {
               var shipmenti = widget.shipment;
               await AppInformationDao().getUserDetails().then((value) {
-                shipmenti.riderId = value!.id;
+                shipmenti.riderId = value!.id.toString();
                 shipmenti.riderName = value.firstName + value.lastName;
               });
 
