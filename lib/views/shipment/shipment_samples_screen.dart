@@ -140,7 +140,7 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
   }
 
   void updateSample(List<Sample> selectedSamples, BuildContext context) {
-    var currentSampleIds = currentShipment!.samples.toList();
+    var currentSampleIds = currentShipment!.samples;
 
     for (Sample sample in selectedSamples) {
       currentSampleIds.add(sample.appId);

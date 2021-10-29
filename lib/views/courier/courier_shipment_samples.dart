@@ -119,7 +119,7 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   shipmentExistingSamplesCards(
-                      widget.shipment.samples.toList()),
+                      widget.shipment.samples),
                 ],
               ),
             ),
