@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
+import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/date_service.dart';
 import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/shipment_card.dart';
@@ -57,20 +58,13 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
           child: FloatingActionButton.extended(
             label: Text(currentStatusPromt),
             backgroundColor: Colors.grey,
-            onPressed: () {
-              // if (currentStatus == publishedStatus) {
-              //   currentStatus = accept;
-              // } else if (currentStatus == accept) {
-              //   currentStatus = enroute;
-              // } else if (currentStatus == enroute) {
-              //   currentStatus = collected;
-              // } else if (currentStatus == collected) {
-              //   currentStatus = delivered;
-              // }
-
+            onPressed: () async {
               var shipmenti = widget.shipment;
-              shipmenti.riderId = "617564934de5aa0c94839c2c";
-              shipmenti.riderName = "Tendai Katsande";
+              await AppInformationDao().getUserDetails().then((value) {
+                shipmenti.riderId = value!.id;
+                shipmenti.riderName = value.firstName + value.lastName;
+              });
+
               shipmenti.status = status[0]['action'];
               shipmenti.lastModifiedBy = shipmenti.riderName;
               shipmenti.dateModified =
@@ -89,34 +83,34 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
               child: DataTable(columns: const [
                 DataColumn(label: Text("Property")),
                 DataColumn(label: Text("Value"))
-              ], rows: const [
+              ], rows: [
                 DataRow(cells: [
-                  DataCell(Text("Description")),
-                  DataCell(Text("Murambinda"))
+                  const DataCell(Text("Description")),
+                  DataCell(Text(shipment.description))
                 ]),
                 DataRow(cells: [
-                  DataCell(Text("Date Created")),
-                  DataCell(Text("2021/10/29"))
+                  const DataCell(Text("Date Created")),
+                  DataCell(Text(shipment.dateCreated))
                 ]),
                 DataRow(cells: [
-                  DataCell(Text("Created by")),
-                  DataCell(Text("Muchenje"))
+                  const DataCell(Text("Created by")),
+                  DataCell(Text(shipment.createdBy))
                 ]),
                 DataRow(cells: [
-                  DataCell(Text("Description")),
-                  DataCell(Text("Murambinda"))
+                  const DataCell(Text("Destination")),
+                  DataCell(Text(shipment.destination))
                 ]),
                 DataRow(cells: [
-                  DataCell(Text("Temperature Origin")),
-                  DataCell(Text("25"))
+                  const DataCell(Text("Temperature Origin")),
+                  DataCell(Text(shipment.temperatureOrigin))
                 ]),
                 DataRow(cells: [
-                  DataCell(Text("Status")),
-                  DataCell(Text("Accepted"))
+                  const DataCell(Text("Status")),
+                  DataCell(Text(shipment.status))
                 ]),
                 DataRow(cells: [
-                  DataCell(Text("RiderName")),
-                  DataCell(Text("Matandaa"))
+                  const DataCell(Text("RiderName")),
+                  DataCell(Text(shipment.riderName))
                 ]),
               ]),
             ),

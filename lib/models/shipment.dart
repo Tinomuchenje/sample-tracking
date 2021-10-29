@@ -7,7 +7,7 @@ class Shipment {
   String status = "";
   String dateCreated = "";
   String dateModified = "";
-  String riderId = "";
+  int? riderId;
   String riderName = "";
   String destination = "";
   String clusterClientId = "";
@@ -32,7 +32,7 @@ class Shipment {
     this.status = "",
     this.dateCreated = "",
     this.dateModified = "",
-    this.riderId = "",
+    this.riderId,
     this.riderName = "",
     this.destination = "",
     this.clusterClientId = "",

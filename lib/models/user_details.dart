@@ -3,8 +3,8 @@ import 'package:sample_tracking_system_flutter/views/authentication/user_types_c
 class UserDetails {
   int? id;
   String? login;
-  String? firstName;
-  String? lastName;
+  late String firstName;
+  late String lastName;
   String? email;
   String? imageUrl;
   bool? activated;
@@ -20,8 +20,8 @@ class UserDetails {
   UserDetails(
       {this.id,
       this.login,
-      this.firstName,
-      this.lastName,
+      this.firstName = "",
+      this.lastName = "",
       this.email,
       this.imageUrl,
       this.activated,
