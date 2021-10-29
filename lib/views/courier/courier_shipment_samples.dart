@@ -84,7 +84,42 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
         ),
         body: TabBarView(
           children: [
-            const Text('info here'),
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: DataTable(columns: const [
+                DataColumn(label: Text("Property")),
+                DataColumn(label: Text("Value"))
+              ], rows: const [
+                DataRow(cells: [
+                  DataCell(Text("Description")),
+                  DataCell(Text("Murambinda"))
+                ]),
+                DataRow(cells: [
+                  DataCell(Text("Date Created")),
+                  DataCell(Text("2021/10/29"))
+                ]),
+                DataRow(cells: [
+                  DataCell(Text("Created by")),
+                  DataCell(Text("Muchenje"))
+                ]),
+                DataRow(cells: [
+                  DataCell(Text("Description")),
+                  DataCell(Text("Murambinda"))
+                ]),
+                DataRow(cells: [
+                  DataCell(Text("Temperature Origin")),
+                  DataCell(Text("25"))
+                ]),
+                DataRow(cells: [
+                  DataCell(Text("Status")),
+                  DataCell(Text("Accepted"))
+                ]),
+                DataRow(cells: [
+                  DataCell(Text("RiderName")),
+                  DataCell(Text("Matandaa"))
+                ]),
+              ]),
+            ),
             Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
