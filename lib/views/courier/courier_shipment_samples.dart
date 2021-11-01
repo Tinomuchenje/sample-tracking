@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
@@ -23,21 +25,19 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
     Shipment shipment = widget.shipment;
     String currentStatus = widget.shipment.status;
     String currentStatusPromt = "";
-    List<Map> status_label = [
+    List<Map> statusLabel = [
       {"status": "published", "prompt": "Accept", "action": "accepted"},
       {"status": "accepted", "prompt": "Proceed", "action": "enroute"},
       {"status": "enroute", "prompt": "Collect", "action": "collected"},
       {"status": "collected", "prompt": "Deliver", "action": "delivered"}
     ];
 
-    print(currentStatus);
-    var status = status_label
+    var status = statusLabel
         .where((_status) =>
             _status['status'].toString() ==
             currentStatus.toString().toLowerCase())
         .toList();
 
-    print(status);
     if (status.isNotEmpty) currentStatusPromt = status[0]['prompt'];
 
     return DefaultTabController(
@@ -118,8 +118,7 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  shipmentExistingSamplesCards(
-                      widget.shipment.samples),
+                  shipmentExistingSamplesCards(widget.shipment.samples),
                 ],
               ),
             ),

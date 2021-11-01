@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
-import 'package:sample_tracking_system_flutter/views/authentication/login_screen.dart';
-import 'package:sample_tracking_system_flutter/views/patient/patient_controller.dart';
-import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
-import 'package:sample_tracking_system_flutter/views/shipment/shipment_controller.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_app_drawer.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_logout_button.dart';
 import 'package:sample_tracking_system_flutter/widgets/grid_dashboard.dart';
+import 'package:sample_tracking_system_flutter/widgets/sync_all_date.dart';
 
 class FacilityDashboard extends StatefulWidget {
   const FacilityDashboard({Key? key}) : super(key: key);
@@ -35,28 +32,7 @@ class _FacilityDashboardState extends State<FacilityDashboard> {
                               fontWeight: FontWeight.bold))),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      SyncAll(),
-                      IconButton(
-                          alignment: Alignment.topRight,
-                          color: Colors.grey,
-                          iconSize: 40,
-                          onPressed: () {
-                            AppInformationDao()
-                                .deleteLoggedInUser()
-                                .then((value) {
-                              Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) => const LoginPage()),
-                                (_) => false,
-                              );
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.logout,
-                            size: 35,
-                          ))
-                    ],
+                    children: const [SyncAll(), LogoutButton()],
                   ),
                 ])),
         const SizedBox(
@@ -65,37 +41,5 @@ class _FacilityDashboardState extends State<FacilityDashboard> {
         const GridDashBoard(),
       ]),
     );
-  }
-}
-
-class SyncAll extends StatelessWidget {
-  const SyncAll({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-        // alignment: Alignment.topLeft,
-        color: Colors.grey,
-        iconSize: 40,
-        onPressed: () async {
-          // Patients syncing
-          await PatientController().addPatientsOnline().then((value) async {
-            await PatientController().getOnlinePatients();
-          });
-
-          // Samples syncing
-          await SampleController().addSamplesOnline().then((value) async {
-            await SampleController().getOnlineSamples();
-
-            // Shipment syncing
-            await ShipmentController().addShipmentsOnline().then((value) async {
-              await ShipmentController().getOnlineShipments();
-            });
-            
-          });
-        },
-        icon: const Icon(Icons.sync));
   }
 }

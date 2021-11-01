@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/routing_constants.dart';
 import 'package:sample_tracking_system_flutter/models/user.dart';
 import 'package:sample_tracking_system_flutter/models/user_details.dart';
@@ -12,8 +11,6 @@ import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_butt
 import 'package:sample_tracking_system_flutter/widgets/notification_service.dart';
 
 import 'authentication_controller.dart';
-import 'state/user_provider.dart';
-import 'user_types_constants.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
