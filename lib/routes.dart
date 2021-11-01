@@ -5,6 +5,7 @@ import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/views/authentication/entry.dart';
 import 'package:sample_tracking_system_flutter/views/authentication/login_screen.dart';
 
+import 'views/authentication/register_account.dart';
 import 'views/courier/dashboard.dart';
 import 'views/pages/home_page.dart';
 import 'views/patient/add_patient.dart';
@@ -15,14 +16,22 @@ class RouteGenerator {
     switch (settings.name) {
       case entryPage:
         return navigateToPage(const Entry());
+
       case loginPage:
         return navigateToPage(const LoginPage());
+
+      case registerAccount:
+        return navigateToPage(const RegisterAccount());
+
       case facilityHomePage:
         return navigateToPage(HomePage());
+
       case courierHomePage:
         return navigateToPage(const CourierDashboard());
+
       case addUpdatePatient:
         return navigateToPage(AddorUpdatePatientDialog());
+
       case addUpdateSample:
         {
           final Patient? patient = settings.arguments as Patient;
