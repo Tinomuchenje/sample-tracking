@@ -11,15 +11,21 @@ class CustomMultiSelectDialog<T> extends StatefulWidget {
   final List<MultiSelectDialogItem<T>> items;
   final Set<T> initialSelectedValues;
 
+  final String title;
+
   const CustomMultiSelectDialog(
-      {Key? key, required this.items, required this.initialSelectedValues})
+      {Key? key,
+      required this.items,
+      this.initialSelectedValues = const {},
+      required this.title})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CustomMultiSelectDialogState<T>();
 }
 
-class _CustomMultiSelectDialogState<T> extends State<CustomMultiSelectDialog<T>> {
+class _CustomMultiSelectDialogState<T>
+    extends State<CustomMultiSelectDialog<T>> {
   final _selectedValues = <T>{};
 
   @override
@@ -51,7 +57,7 @@ class _CustomMultiSelectDialogState<T> extends State<CustomMultiSelectDialog<T>>
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Select animals'),
+      title: Text(widget.title),
       contentPadding: const EdgeInsets.only(top: 12.0),
       content: SingleChildScrollView(
         child: ListTileTheme(
