@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/views/authentication/user_types_constants.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_form_dropdown.dart';
 
 import 'package:sample_tracking_system_flutter/widgets/custom_multiselect_dropdown.dart';
 
@@ -36,23 +37,8 @@ class _RegisterAccountState extends State<RegisterAccount> {
                   labelText: 'Email address',
                   hintText: 'yourname@brti.co.zw',
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: defaultPadding / 2, bottom: defaultPadding / 2),
-                  child: TextFormField(
-                    controller: TextEditingController(
-                        text: authorities.take(3).join(', ')),
-                    keyboardType: TextInputType.none,
-                    decoration: const InputDecoration(
-                      suffixIcon: Icon(Icons.arrow_drop_down_sharp),
-                      border: OutlineInputBorder(),
-                      labelText: 'Select Authorities',
-                    ),
-                    onTap: () {
-                      _showMultiSelect(context);
-                    },
-                  ),
-                ),
+                _selectAuthorities(context),
+                _selectAccessLevel(),
                 const SizedBox(height: 20),
                 SizedBox(
                   height: 50,
@@ -71,13 +57,71 @@ class _RegisterAccountState extends State<RegisterAccount> {
     );
   }
 
-  void _showMultiSelect(BuildContext context) async {
-    final items = <MultiSelectDialogItem<String>>[
-      const MultiSelectDialogItem(healthWorker, 'Health worker'),
-      const MultiSelectDialogItem(courier, 'Courier'),
-      const MultiSelectDialogItem(hub, 'Hub'),
-      const MultiSelectDialogItem(admin, 'Admin')
+  CustomFormDropdown _selectAccessLevel() {
+    String selectedLevel = 'Nothing Selected';
+    List<String> levels = [
+      'Nothing Selected',
+      'Province',
+      'District',
+      'Client'
     ];
+
+    var displayOptions = levels.map((level) {
+      return DropdownMenuItem<String>(value: level, child: Text(level));
+    }).toList();
+
+    return CustomFormDropdown(
+      items: displayOptions,
+      onChanged: (value) {},
+      onSaved: (value) {},
+      value: selectedLevel,
+      hint: const Text('Access level'),
+    );
+  }
+
+  Padding _selectAuthorities(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+          top: defaultPadding / 2, bottom: defaultPadding / 2),
+      child: TextFormField(
+        controller: TextEditingController(text: authorities.take(3).join(', ')),
+        keyboardType: TextInputType.none,
+        decoration: const InputDecoration(
+          suffixIcon: Icon(Icons.arrow_drop_down_sharp),
+          border: OutlineInputBorder(),
+          labelText: 'Select Authorities',
+        ),
+        onTap: () {
+          _showMultiSelect(context);
+        },
+      ),
+    );
+  }
+
+  List<MultiSelectDialogItem<String>> _buildMulitiselect(
+      Map<String, String> values) {
+    List<MultiSelectDialogItem<String>> displayOptions = [];
+
+    for (String option in values.keys) {
+      displayOptions.add(MultiSelectDialogItem(option, values[option] ?? ''));
+    }
+
+    return displayOptions;
+  }
+
+  void _showMultiSelect(BuildContext context) async {
+    final valueToPopulate = {
+      healthWorker: 'Health worker',
+      courier: 'Courier',
+      hub: 'Hub',
+      admin: 'Admin'
+    };
+
+    List<MultiSelectDialogItem<String>> items = [];
+
+    for (String option in valueToPopulate.keys) {
+      items.add(MultiSelectDialogItem(option, valueToPopulate[option] ?? ''));
+    }
 
     final selectedValues = await showDialog<Set<String>>(
       context: context,
@@ -88,6 +132,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
         );
       },
     );
+
     if (selectedValues != null) {
       setState(() {
         authorities = selectedValues.toList();
