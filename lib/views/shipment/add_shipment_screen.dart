@@ -187,7 +187,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
 
     return CustomFormDropdown(
         items: destinationMenus,
-        hint: const Text("Destination"),
+        labelText: "Destination",
         value: _shipment.destination.isEmpty
             ? destinations[0]
             : _shipment.destination,

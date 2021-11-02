@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/views/authentication/user_types_constants.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_form_dropdown.dart';
@@ -7,6 +8,8 @@ import 'package:sample_tracking_system_flutter/widgets/custom_multiselect_dropdo
 
 import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_form_field.dart';
+
+import 'data/access_levels.dart';
 
 class RegisterAccount extends StatefulWidget {
   const RegisterAccount({Key? key}) : super(key: key);
@@ -18,9 +21,12 @@ class RegisterAccount extends StatefulWidget {
 class _RegisterAccountState extends State<RegisterAccount> {
   final _formKey = GlobalKey<FormState>();
   List<String> authorities = [];
+  late AccessLevels accessLevelProvider;
 
   @override
   Widget build(BuildContext context) {
+    accessLevelProvider = Provider.of<AccessLevels>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Register account"),
@@ -39,6 +45,13 @@ class _RegisterAccountState extends State<RegisterAccount> {
                 ),
                 _selectAuthorities(context),
                 _selectAccessLevel(),
+                Visibility(
+                  visible: accessLevelProvider.isClient ||
+                      accessLevelProvider.isProvince ||
+                      accessLevelProvider.isDistrict,
+                  child: const SizedBox(
+                      height: 50, width: double.infinity, child: Placeholder()),
+                ),
                 const SizedBox(height: 20),
                 SizedBox(
                   height: 50,
@@ -58,13 +71,12 @@ class _RegisterAccountState extends State<RegisterAccount> {
   }
 
   CustomFormDropdown _selectAccessLevel() {
+    const province = 'Province';
+    const district = 'District';
+    const client = 'Client';
+
     String selectedLevel = 'Nothing Selected';
-    List<String> levels = [
-      'Nothing Selected',
-      'Province',
-      'District',
-      'Client'
-    ];
+    List<String> levels = ['Nothing Selected', province, district, client];
 
     var displayOptions = levels.map((level) {
       return DropdownMenuItem<String>(value: level, child: Text(level));
@@ -72,11 +84,32 @@ class _RegisterAccountState extends State<RegisterAccount> {
 
     return CustomFormDropdown(
       items: displayOptions,
-      onChanged: (value) {},
+      onChanged: (value) {
+        value as String;
+        setAccessLevel(value, province, district, client);
+      },
       onSaved: (value) {},
       value: selectedLevel,
-      hint: const Text('Access level'),
+      labelText: 'Access levels',
     );
+  }
+
+  void setAccessLevel(
+      String value, String province, String district, String client) {
+    if (value == province) {
+      accessLevelProvider.isProvince = true;
+      return;
+    }
+
+    if (value == district) {
+      accessLevelProvider.isDistrict = true;
+      return;
+    }
+
+    if (value == client) {
+      accessLevelProvider.isClient = true;
+      return;
+    }
   }
 
   Padding _selectAuthorities(BuildContext context) {
@@ -89,7 +122,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
         decoration: const InputDecoration(
           suffixIcon: Icon(Icons.arrow_drop_down_sharp),
           border: OutlineInputBorder(),
-          labelText: 'Select Authorities',
+          labelText: 'Authorities',
         ),
         onTap: () {
           _showMultiSelect(context);

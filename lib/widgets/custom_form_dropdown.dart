@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
 
 class CustomFormDropdown extends StatefulWidget {
-  Widget hint;
+  final String labelText;
   Object? value;
   List<DropdownMenuItem<Object>> items;
   Function(Object?) onChanged;
@@ -11,7 +11,7 @@ class CustomFormDropdown extends StatefulWidget {
   CustomFormDropdown(
       {Key? key,
       required this.items,
-      required this.hint,
+      required this.labelText,
       required this.value,
       required this.onChanged,
       required this.onSaved})
@@ -30,7 +30,6 @@ class _CustomFormDropdownState extends State<CustomFormDropdown> {
       child: DropdownButtonFormField(
         menuMaxHeight: MediaQuery.of(context).size.height / 3,
         value: widget.value,
-        hint: widget.hint,
         items: widget.items,
         onChanged: widget.onChanged,
         onSaved: widget.onSaved,
@@ -40,8 +39,9 @@ class _CustomFormDropdownState extends State<CustomFormDropdown> {
           }
           return null;
         },
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          labelText: widget.labelText,
         ),
       ),
     );

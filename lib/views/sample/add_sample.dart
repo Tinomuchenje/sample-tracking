@@ -175,8 +175,7 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
   }
 
   void saveOrUpdateSample(Sample _sample, BuildContext context) {
-     Provider.of<SamplesProvider>(context, listen: false).addSample(_sample);
-
+    Provider.of<SamplesProvider>(context, listen: false).addSample(_sample);
   }
 
   _sampleTypes(Sample _sample) {
@@ -211,7 +210,7 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
 
     return CustomFormDropdown(
         items: sampleTypesMenus,
-        hint: const Text("Sample Types"),
+        labelText: "Sample Types",
         value: sampleType ?? _sample.sampleType.isEmpty
             ? null
             : _sample.sampleType,
@@ -243,7 +242,7 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
 
     return CustomFormDropdown(
       value: _test ?? _sample.labId.isEmpty ? null : _sample.labId,
-      hint: const Text("Select Test"),
+      labelText: "Select Test",
       items: testMenus,
       onSaved: (value) {
         _sample.labId = value.toString();
