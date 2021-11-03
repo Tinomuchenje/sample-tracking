@@ -5,6 +5,7 @@ class CustomTextFormField extends StatefulWidget {
   final String hintText;
   final String labelText;
   final Function(String?)? onSaved;
+  final Function(String?)? onChanged;
   final String? Function(String?)? customValidator;
   final String? initialValue;
   final bool? enabled;
@@ -19,7 +20,8 @@ class CustomTextFormField extends StatefulWidget {
       this.enabled,
       this.controller,
       this.keyboardType,
-      this.customValidator});
+      this.customValidator,
+      this.onChanged});
 
   @override
   _CustomTextFormFieldState createState() => _CustomTextFormFieldState();
@@ -42,6 +44,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           enabled: widget.enabled,
           initialValue: widget.initialValue,
           onSaved: widget.onSaved,
+          onChanged: widget.onChanged,
           validator: widget.customValidator ??
               (value) {
                 if (value!.isEmpty) {

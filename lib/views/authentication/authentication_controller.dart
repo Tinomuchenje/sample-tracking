@@ -44,15 +44,13 @@ class AuthenticationController {
   }
 
   Future<bool> registerAccount(UserDetails userDetails) async {
-    userDetails.createdDate = DateService.convertToIsoString(DateTime.now());
-    userDetails.createdBy = 'Unknown at this point';
-    userDetails.imageUrl = 'Should this be an image of them';
-    userDetails.activated = true;
-    userDetails.langKey = 'xx';
-    userDetails.lastModifiedBy = 'not relevant here';
-    userDetails.lastModifiedDate =
+    userDetails.createdDate = userDetails.lastModifiedDate =
         DateService.convertToIsoString(DateTime.now());
-    userDetails.login = 'Not sure of purpose';
+    userDetails.createdBy = userDetails.lastModifiedBy = userDetails.login;
+    userDetails.imageUrl = '';
+    userDetails.activated = true;
+    userDetails.langKey = 'en';
+
     var headers = await buildHeader();
 
     return await http

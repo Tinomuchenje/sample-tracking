@@ -28,7 +28,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
   final _formKey = GlobalKey<FormState>();
   List<String> authorities = [];
   late AccessLevel accessLevelProvider;
-  late UserDetails _userDetails;
+  final UserDetails _userDetails = UserDetails(authorities: []);
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +57,12 @@ class _RegisterAccountState extends State<RegisterAccount> {
                   },
                 ),
                 CustomTextFormField(
+                  labelText: 'Username',
+                  onSaved: (value) {
+                    if (value != null) _userDetails.login = value;
+                  },
+                ),
+                CustomTextFormField(
                   labelText: 'Email address',
                   hintText: 'yourname@brti.co.zw',
                   onSaved: (value) {
@@ -75,7 +81,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                 ),
                 CustomTextFormField(
                   labelText: 'Password',
-                  onSaved: (value) {
+                  onChanged: (value) {
                     if (value != null) _userDetails.password = value;
                   },
                 ),
@@ -120,6 +126,8 @@ class _RegisterAccountState extends State<RegisterAccount> {
                   child: CustomElevatedButton(
                     press: () async {
                       if (!_formKey.currentState!.validate()) return;
+
+                      _formKey.currentState!.save();
 
                       await AuthenticationController()
                           .registerAccount(_userDetails)
@@ -170,10 +178,6 @@ class _RegisterAccountState extends State<RegisterAccount> {
 
   void setAccessLevel(
       String value, String province, String district, String client) {
-    print(district);
-    print(province);
-    print(client);
-    print(value);
     if (value == province) {
       accessLevelProvider.isProvince = true;
       return;
@@ -195,7 +199,8 @@ class _RegisterAccountState extends State<RegisterAccount> {
       padding: const EdgeInsets.only(
           top: defaultPadding / 2, bottom: defaultPadding / 2),
       child: TextFormField(
-        controller: TextEditingController(text: authorities.take(3).join(', ')),
+        controller: TextEditingController(
+            text: _userDetails.authorities.take(3).join(', ')),
         keyboardType: TextInputType.none,
         decoration: const InputDecoration(
           suffixIcon: Icon(Icons.arrow_drop_down_sharp),
