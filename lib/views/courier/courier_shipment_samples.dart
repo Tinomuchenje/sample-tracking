@@ -1,13 +1,14 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
+import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/date_service.dart';
-import 'package:sample_tracking_system_flutter/views/courier/status.dart';
 import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/shipment_card.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
-import 'package:sample_tracking_system_flutter/views/shipment/state/status.dart';
 
 class CourierShipmentSamples extends StatefulWidget {
   Shipment shipment;
@@ -24,21 +25,19 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
     Shipment shipment = widget.shipment;
     String currentStatus = widget.shipment.status;
     String currentStatusPromt = "";
-    List<Map> status_label = [
-      {"status": "published", "prompt": "Accept", "action": "accept"},
+    List<Map> statusLabel = [
+      {"status": "published", "prompt": "Accept", "action": "accepted"},
       {"status": "accepted", "prompt": "Proceed", "action": "enroute"},
-      {"status": "enroute", "prompt": "Collect", "action": "collect"},
-      {"status": "collect", "prompt": "Deliver", "action": "delivered"}
+      {"status": "enroute", "prompt": "Collect", "action": "collected"},
+      {"status": "collected", "prompt": "Deliver", "action": "delivered"}
     ];
 
-    print(currentStatus);
-    var status = status_label
+    var status = statusLabel
         .where((_status) =>
             _status['status'].toString() ==
             currentStatus.toString().toLowerCase())
         .toList();
 
-    print(status);
     if (status.isNotEmpty) currentStatusPromt = status[0]['prompt'];
 
     return DefaultTabController(
@@ -59,21 +58,14 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
           child: FloatingActionButton.extended(
             label: Text(currentStatusPromt),
             backgroundColor: Colors.grey,
-            onPressed: () {
-              if (currentStatus == publishedStatus) {
-                currentStatus = accept;
-              } else if (currentStatus == accept) {
-                currentStatus = enroute;
-              } else if (currentStatus == enroute) {
-                currentStatus = collected;
-              } else if (currentStatus == collected) {
-                currentStatus = delivered;
-              }
-
+            onPressed: () async {
               var shipmenti = widget.shipment;
-              shipmenti.riderId = "617564934de5aa0c94839c2c";
-              shipmenti.riderName = "Tendai Katsande";
-              shipmenti.status = currentStatus;
+              await AppInformationDao().getUserDetails().then((value) {
+                shipmenti.riderId = value!.id.toString();
+                shipmenti.riderName = value.firstName + value.lastName;
+              });
+
+              shipmenti.status = status[0]['action'];
               shipmenti.lastModifiedBy = shipmenti.riderName;
               shipmenti.dateModified =
                   DateService.convertToIsoString(DateTime.now());
@@ -86,13 +78,47 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
         ),
         body: TabBarView(
           children: [
-            const Text('info here'),
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: DataTable(columns: const [
+                DataColumn(label: Text("Property")),
+                DataColumn(label: Text("Value"))
+              ], rows: [
+                DataRow(cells: [
+                  const DataCell(Text("Description")),
+                  DataCell(Text(shipment.description))
+                ]),
+                DataRow(cells: [
+                  const DataCell(Text("Date Created")),
+                  DataCell(Text(shipment.dateCreated))
+                ]),
+                DataRow(cells: [
+                  const DataCell(Text("Created by")),
+                  DataCell(Text(shipment.createdBy))
+                ]),
+                DataRow(cells: [
+                  const DataCell(Text("Destination")),
+                  DataCell(Text(shipment.destination))
+                ]),
+                DataRow(cells: [
+                  const DataCell(Text("Temperature Origin")),
+                  DataCell(Text(shipment.temperatureOrigin))
+                ]),
+                DataRow(cells: [
+                  const DataCell(Text("Status")),
+                  DataCell(Text(shipment.status))
+                ]),
+                DataRow(cells: [
+                  const DataCell(Text("RiderName")),
+                  DataCell(Text(shipment.riderName))
+                ]),
+              ]),
+            ),
             Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  shipmentExistingSamplesCards(
-                      widget.shipment.samples.toList()),
+                  shipmentExistingSamplesCards(widget.shipment.samples),
                 ],
               ),
             ),

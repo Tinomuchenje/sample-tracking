@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
+import 'package:sample_tracking_system_flutter/consts/routing_constants.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/views/patient/data_state/patient_provider.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_date_form_field.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_form_field.dart';
 import 'package:sample_tracking_system_flutter/widgets/notification_service.dart';
-
-
-import '../sample/add_sample.dart';
-
-enum Gender { male, female }
 
 class AddorUpdatePatientDialog extends StatefulWidget {
   Patient? patientData;
@@ -88,6 +84,7 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                         },
                       ),
                       DateFormField(
+                        removeTime: true,
                         labelText: "Date of birth",
                         initialValue:
                             _patient.dob.isEmpty ? null : _patient.dob,
@@ -123,33 +120,6 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                           ),
                         ],
                       ),
-                      Visibility(
-                        visible: !isNewForm,
-                        child: CustomTextFormField(
-                          labelText: "Date created",
-                          enabled: false,
-                          initialValue: getDateCreated(),
-                          onSaved: (value) {
-                            if (value != null) {
-                              _patient.createdDate = DateTime.now().toString();
-                            }
-                          },
-                        ),
-                      ),
-                      Visibility(
-                        visible: !isNewForm,
-                        child: CustomTextFormField(
-                          enabled: false,
-                          initialValue: getDateModified(),
-                          labelText: "Date Modified",
-                          onSaved: (value) {
-                            if (value != null) {
-                              _patient.lastModifiedDate =
-                                  DateTime.now().toString();
-                            }
-                          },
-                        ),
-                      ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -162,15 +132,14 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                             child: CustomElevatedButton(
                                 displayText: "$_saveButtonText Patient",
                                 fillcolor: false,
-                                press: () {
+                                press: () async {
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
 
-                                    widget.patientData == null
-                                        ? addNewPatient(context, _patient)
-                                        : updatePatient(context, _patient);
-
-                                    Navigator.of(context).pop();
+                                    await saveOrUpdatePatient(context, _patient)
+                                        .then((value) {
+                                      Navigator.of(context).pop();
+                                    });
                                   }
                                 }),
                           ),
@@ -180,13 +149,15 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                             child: CustomElevatedButton(
                                 displayText: "$_saveButtonText & Add Sample",
                                 fillcolor: true,
-                                press: () {
+                                press: () async {
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
 
-                                    widget.patientData == null
-                                        ? addNewPatient(context, _patient)
-                                        : updatePatient(context, _patient);
+                                    await saveOrUpdatePatient(context, _patient)
+                                        .then((value) => Navigator.of(context)
+                                            .pushReplacementNamed(
+                                                addUpdateSample,
+                                                arguments: _patient));
                                   }
                                 }),
                           ),
@@ -197,16 +168,6 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                 )
               ],
             )));
-  }
-
-  void navigateToPatient(BuildContext context, Patient _patient) {
-    Navigator.push(
-      context,
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) =>
-            AddorUpdateSampleDialog(patient: _patient),
-      ),
-    );
   }
 
   String getDateModified() {
@@ -223,21 +184,12 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
     return DateTime.now().toString();
   }
 
-  void addNewPatient(BuildContext context, Patient _patient) async {
+  Future saveOrUpdatePatient(BuildContext context, Patient _patient) async {
     _patient.gender = _gender;
     await Provider.of<PatientProvider>(context, listen: false)
-        .add(_patient)
+        .addPatient(_patient)
         .then((value) {
-      if (value != null) {
-        NotificationService.success(context, "Patient saved succesfully");
-        navigateToPatient(context, value);
-      }
+      NotificationService.success(context, "Patient saved succesfully");
     });
-  }
-
-  void updatePatient(BuildContext context, Patient _patient) {
-    _patient.gender = _gender;
-    Provider.of<PatientProvider>(context, listen: false)
-        .updatePatient(_patient);
   }
 }

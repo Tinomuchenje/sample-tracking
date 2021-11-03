@@ -21,7 +21,7 @@ class ShipmentSamples extends StatefulWidget {
 }
 
 class _ShipmentSamplesState extends State<ShipmentSamples> {
-  List<String> _displayedSamples = [];
+  dynamic _displayedSamples = [];
   Shipment? currentShipment;
 
   @override
@@ -86,7 +86,7 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
   }
 
   Widget shipmentExistingSamplesCards() {
-    _displayedSamples = currentShipment!.samples.toList();
+    _displayedSamples = currentShipment!.samples;
 
     if (_displayedSamples.isEmpty) {
       return const Text("No samples available");
@@ -140,7 +140,7 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
   }
 
   void updateSample(List<Sample> selectedSamples, BuildContext context) {
-    var currentSampleIds = currentShipment!.samples.toList();
+    var currentSampleIds = currentShipment!.samples;
 
     for (Sample sample in selectedSamples) {
       currentSampleIds.add(sample.appId);

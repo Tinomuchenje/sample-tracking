@@ -1,19 +1,41 @@
-const baseUrl = 'https://sample-tracking-backend.herokuapp.com/v1/';
-final headers = {
+const baseUrl = 'http://196.27.127.58:4080/api/';
+const headers = {
   'accept': 'application/json',
-  'content-type': 'application/json',
-  'Authorization':
-      'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTYzNjkyMzE4NH0.s4MqeCCovubFdjcck4Rw1CIBqI3YpKqngilqgyOxhqaNWJSzMC-B84H9zdGC9STKB84vI02cEzNKYmit0EUGQw'
+  'content-type': 'application/json'
 };
+
+// class Token {
+//   Future<Map<String, String>> buildHeaders() async {
+//     String t = await AppInformationDao().getToken();
+
+//     final headers = {
+//       'accept': 'application/json',
+//       'content-type': 'application/json',
+//       'Authorization': "Token " + t
+//     };
+//     return headers;
+//   }
+// }
 
 //Authentication
 const loginUrl = baseUrl + 'authenticate';
+const getAccountUrl = baseUrl + 'account';
+const registerAccountUrl = baseUrl + 'register';
 
 // Patient
-const patientsUrl = baseUrl + 'patient';
+const patientsUrl = baseUrl + 'patients/';
 
 // Sample
-const sampleUrl = baseUrl + 'sample';
+const sampleUrl = baseUrl + 'samples/';
 
 // Shipment
-const shipmentUrl = baseUrl + 'shipment';
+const shipmentUrl = baseUrl + 'shipments/';
+
+// Clients
+const getAllClientsUrl = baseUrl + 'clients';
+
+// Districts
+const getAllDistrictsUrl = baseUrl + 'districts';
+
+// Provinces
+const getAllProvincesUrl = baseUrl + 'districts';

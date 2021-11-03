@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/samples_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/shipment_dao.dart';
+import 'package:sample_tracking_system_flutter/utils/date_service.dart';
 import 'package:sample_tracking_system_flutter/views/courier/status.dart';
 import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/shipment_controller.dart';
@@ -98,11 +101,9 @@ class ShipmentProvider with ChangeNotifier {
     setShipmentValues(shipment);
     await addShipmentsToSamples(shipment);
 
-    await ShipmentController()
-        .addOnlineShipment(shipment)
-        .then((savedShipment) {
-      addToLocalDatabase(shipment);
-      ShipmentController().notifyShipment();
+    await ShipmentController().createOrUpdate(shipment).then((savedShipment) {
+      addToLocalDatabase(savedShipment);
+      // ShipmentController().notifyShipment();
     });
   }
 
@@ -121,14 +122,15 @@ class ShipmentProvider with ChangeNotifier {
     }
 
     if (shipment.dateCreated.isEmpty) {
-      shipment.dateCreated = shipment.dateModified = DateTime.now().toString();
+      shipment.dateCreated = shipment.dateModified =
+          DateService.convertToIsoString(DateTime.now());
     }
   }
 
   Future addShipmentsToSamples(Shipment shipment) async {
     for (var sampleId in shipment.samples) {
       Sample sample = await SampleDao().getSample(sampleId);
-      sample.shipmentId = shipment.appId;
+      sample.shipmentId = shipment.appId.toString(); // duplicating shipment
       await SampleDao().insertOrUpdate(sample); // go online
     }
   }

@@ -1,16 +1,15 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sample_tracking_system_flutter/consts/routing_constants.dart';
 import 'package:sample_tracking_system_flutter/models/user.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/data/models/user_details.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
-import 'package:sample_tracking_system_flutter/views/courier/dashboard.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/widgets/notification_service.dart';
 
-import '../pages/home_page.dart';
 import 'authentication_controller.dart';
 
 class LoginPage extends StatefulWidget {
@@ -32,37 +31,23 @@ class _LoginPageState extends State<LoginPage> {
 
     _formKey.currentState!.save();
 
-    await AuthenticationController.login(_user).then((userDetails) {
-      if (userDetails.token.isNotEmpty) {
-        AppInformationDao().saveUserDetails(userDetails);
-        navigateToHome(userDetails.user!.role);
-        return NotificationService.success(context, "Login succesful.");
+    await AuthenticationController.getToken(_user).then((token) {
+      if (token.isEmpty) {
+        return NotificationService.error(context, "Login failed.");
       }
 
-      return NotificationService.error(context, "Login failed.");
+      AuthenticationController().getAccount().then((account) {
+        navigateToHome(account);
+      });
+      NotificationService.success(context, "Login succesful.");
     });
-
-    // await AuthenticationController.getToken(_user).then((token) => {
-    //       if (token.isNotEmpty)
-    //         {
-    //           Provider.of<UserProvider>(context, listen: false).logintoken = token,
-    //           NotificationService.success(context, "Login succesful."),
-    //           navigateToHome()
-    //         }
-    //       else
-    //         {NotificationService.error(context, "Login failed.")}
-    //     });
   }
 
-  void navigateToHome(String role) {
-    if (role == 'facility') {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (BuildContext context) => HomePage()));
-    }
-
-    if (role == 'courier') {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) => const CourierDashboard()));
+  void navigateToHome(UserDetails account) {
+    if (account.isCourierOnly(account.authorities)) {
+      Navigator.of(context).pushReplacementNamed(courierHomePage);
+    } else {
+      Navigator.of(context).pushReplacementNamed(facilityHomePage);
     }
   }
 
@@ -176,6 +161,13 @@ class _LoginPageState extends State<LoginPage> {
                             fillcolor: true,
                           ),
                         ),
+                        const SizedBox(height: 20),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed(registerAccountPage);
+                            },
+                            child:
+                                const Text("Not registered? Register account."))
                       ],
                     ),
                   ),

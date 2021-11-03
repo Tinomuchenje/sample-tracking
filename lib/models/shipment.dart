@@ -1,9 +1,9 @@
 class Shipment {
-  String id = "";
+  int? id;
   String appId = "";
   String description = "";
   String clientId = "";
-  late List<String> samples;
+  late dynamic samples;
   String status = "";
   String dateCreated = "";
   String dateModified = "";
@@ -24,7 +24,7 @@ class Shipment {
   bool synced = false;
 
   Shipment({
-    this.id = "",
+    this.id,
     this.appId = "",
     this.description = "",
     this.clientId = "",
@@ -79,7 +79,7 @@ class Shipment {
     lastModifiedBy = json['lastModifiedBy'] ?? "";
     createdDate = json['createdDate'] ?? "";
     lastModifiedDate = json['createdDate'] ?? "";
-    synced = json['synced'];
+    // synced = json['synced'] == null ? false : true;
   }
 
   Map<String, dynamic> toJson() {

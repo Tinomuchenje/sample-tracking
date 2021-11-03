@@ -1,6 +1,6 @@
 class Sample {
   String appId = "";
-  String id = "";
+  int? id;
   String clientSampleId = "";
   String clientPatientId = "";
   String labId = "";
@@ -33,7 +33,7 @@ class Sample {
 
   Sample(
       {this.appId = "",
-      this.id = "",
+      this.id,
       this.clientSampleId = "",
       this.clientPatientId = "",
       this.labId = "",

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_app_drawer.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_logout_button.dart';
 import 'package:sample_tracking_system_flutter/widgets/grid_dashboard.dart';
-
+import 'package:sample_tracking_system_flutter/widgets/sync_all_date.dart';
 
 class FacilityDashboard extends StatefulWidget {
   const FacilityDashboard({Key? key}) : super(key: key);
@@ -31,20 +32,7 @@ class _FacilityDashboardState extends State<FacilityDashboard> {
                               fontWeight: FontWeight.bold))),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                          // alignment: Alignment.topLeft,
-                          color: Colors.grey,
-                          iconSize: 40,
-                          onPressed: () {},
-                          icon: const Icon(Icons.notifications)),
-                      IconButton(
-                          alignment: Alignment.topRight,
-                          color: Colors.grey,
-                          iconSize: 40,
-                          onPressed: () {},
-                          icon: const Icon(Icons.settings))
-                    ],
+                    children: const [SyncAll(), LogoutButton()],
                   ),
                 ])),
         const SizedBox(
