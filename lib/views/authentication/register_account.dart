@@ -28,7 +28,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
   final _formKey = GlobalKey<FormState>();
   List<String> authorities = [];
   late AccessLevel accessLevelProvider;
-  UserDetails _userDetails = UserDetails(authorities: authorities);
+  late UserDetails _userDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -164,12 +164,16 @@ class _RegisterAccountState extends State<RegisterAccount> {
       },
       onSaved: (value) {},
       value: selectedLevel,
-      labelText: 'Access levels',
+      labelText: 'Access level',
     );
   }
 
   void setAccessLevel(
       String value, String province, String district, String client) {
+    print(district);
+    print(province);
+    print(client);
+    print(value);
     if (value == province) {
       accessLevelProvider.isProvince = true;
       return;
@@ -196,7 +200,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
         decoration: const InputDecoration(
           suffixIcon: Icon(Icons.arrow_drop_down_sharp),
           border: OutlineInputBorder(),
-          labelText: 'Authorities',
+          labelText: 'Roles',
         ),
         onTap: () {
           _showMultiSelect(context);
@@ -221,7 +225,6 @@ class _RegisterAccountState extends State<RegisterAccount> {
       healthWorker: 'Health worker',
       courier: 'Courier',
       hub: 'Hub',
-      admin: 'Admin'
     };
 
     List<MultiSelectDialogItem<String>> items = [];
@@ -235,7 +238,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
       builder: (BuildContext context) {
         return CustomMultiSelectDialog(
           items: items,
-          title: 'Add authorities',
+          title: 'Select roles',
         );
       },
     );
