@@ -20,8 +20,10 @@ class _EntryState extends State<Entry> {
         future: AppInformationDao().getUserDetails(),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
             );
           }
           var userDetails = snapshot.data;
