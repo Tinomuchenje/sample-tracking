@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
-import 'package:sample_tracking_system_flutter/views/authentication/data/client_model.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/data/models/client_model.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';

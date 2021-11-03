@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sample_tracking_system_flutter/views/authentication/data/client_model.dart';
-import 'package:sample_tracking_system_flutter/views/authentication/data/district_model.dart';
-import 'package:sample_tracking_system_flutter/views/authentication/data/province_model.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/data/models/client_model.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/data/models/district_model.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/data/models/province_model.dart';
 
 import '../access_level_controller.dart';
 

@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
-import 'package:sample_tracking_system_flutter/views/authentication/data/client_model.dart';
-import 'package:sample_tracking_system_flutter/views/authentication/data/district_model.dart';
-import 'package:sample_tracking_system_flutter/views/authentication/data/province_model.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/authentication_controller.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/data/models/client_model.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/data/models/district_model.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/data/models/province_model.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/data/models/user_details.dart';
 import 'package:sample_tracking_system_flutter/views/authentication/user_types_constants.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_multiselect_dropdown.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_form_field.dart';
+import 'package:sample_tracking_system_flutter/widgets/notification_service.dart';
 import 'package:search_choices/search_choices.dart';
 
 import 'data/access_levels.dart';
@@ -25,6 +28,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
   final _formKey = GlobalKey<FormState>();
   List<String> authorities = [];
   late AccessLevel accessLevelProvider;
+  late UserDetails _userDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +44,48 @@ class _RegisterAccountState extends State<RegisterAccount> {
           child: Form(
               key: _formKey,
               child: Column(children: [
-                CustomTextFormField(labelText: 'First Name'),
-                CustomTextFormField(labelText: 'Last Name'),
+                CustomTextFormField(
+                  labelText: 'First Name',
+                  onSaved: (value) {
+                    if (value != null) _userDetails.firstName = value;
+                  },
+                ),
+                CustomTextFormField(
+                  labelText: 'Last Name',
+                  onSaved: (value) {
+                    if (value != null) _userDetails.lastName = value;
+                  },
+                ),
                 CustomTextFormField(
                   labelText: 'Email address',
                   hintText: 'yourname@brti.co.zw',
+                  onSaved: (value) {
+                    if (value != null) _userDetails.email = value;
+                  },
+                  customValidator: (value) {
+                    if (value == null) {
+                      return 'Field is required';
+                    }
+                    if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                        .hasMatch(value)) {
+                      return 'Please a valid Email';
+                    }
+                    return null;
+                  },
+                ),
+                CustomTextFormField(
+                  labelText: 'Password',
+                  onSaved: (value) {
+                    if (value != null) _userDetails.password = value;
+                  },
+                ),
+                CustomTextFormField(
+                  labelText: 'Repeat Password',
+                  customValidator: (value) {
+                    if (value != _userDetails.password) {
+                      return 'Password do not match';
+                    }
+                  },
                 ),
                 _selectAuthorities(context),
                 _selectAccessLevel(),
@@ -77,8 +118,20 @@ class _RegisterAccountState extends State<RegisterAccount> {
                   height: 50,
                   width: double.infinity,
                   child: CustomElevatedButton(
-                    press: () {
+                    press: () async {
                       if (!_formKey.currentState!.validate()) return;
+
+                      await AuthenticationController()
+                          .registerAccount(_userDetails)
+                          .then((success) {
+                        if (success) {
+                          NotificationService.success(
+                              context, "User registered successfully");
+                        } else {
+                          NotificationService.error(
+                              context, "Failed to register user");
+                        }
+                      });
                     },
                     displayText: 'Create Account',
                     fillcolor: true,
@@ -106,6 +159,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
       items: displayOptions,
       onChanged: (value) {
         value as String;
+        _userDetails.accessLevel = value;
         setAccessLevel(value, province, district, client);
       },
       onSaved: (value) {},
@@ -188,7 +242,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
 
     if (selectedValues != null) {
       setState(() {
-        authorities = selectedValues.toList();
+        _userDetails.authorities = selectedValues.toList();
       });
     }
   }
@@ -210,7 +264,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
         displayClearIcon: false,
         isCaseSensitiveSearch: false,
         onChanged: (value) {
-          selectedValue = value;
+          _userDetails.accessId = value;
         });
   }
 
@@ -231,13 +285,11 @@ class _RegisterAccountState extends State<RegisterAccount> {
         displayClearIcon: false,
         isCaseSensitiveSearch: false,
         onChanged: (value) {
-          selectedValue = value;
+          _userDetails.accessId = value;
         });
   }
 
   Widget _selectProvince(List<Province> provinces) {
-    var selectedValue;
-
     List<DropdownMenuItem> items = provinces
         .map((province) => DropdownMenuItem<String>(
               value: province.name,
@@ -247,12 +299,12 @@ class _RegisterAccountState extends State<RegisterAccount> {
 
     return SearchChoices.single(
         hint: const Text('Select Province'),
-        value: selectedValue,
+        value: _userDetails.accessId,
         items: items,
         displayClearIcon: false,
         isCaseSensitiveSearch: false,
         onChanged: (value) {
-          selectedValue = value;
+          _userDetails.accessId = value;
         });
   }
 }

@@ -1,4 +1,4 @@
-import 'package:sample_tracking_system_flutter/models/user_details.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/data/models/user_details.dart';
 import 'package:sembast/sembast.dart';
 
 import '../sembast.dart';

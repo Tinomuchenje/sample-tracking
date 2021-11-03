@@ -5,6 +5,7 @@ class UserDetails {
   String? login;
   late String firstName;
   late String lastName;
+  String? password;
   String? email;
   String? imageUrl;
   bool? activated;
@@ -22,6 +23,7 @@ class UserDetails {
       this.login,
       this.firstName = "",
       this.lastName = "",
+      this.password,
       this.email,
       this.imageUrl,
       this.activated,
@@ -40,6 +42,7 @@ class UserDetails {
     firstName = json['firstName'];
     lastName = json['lastName'];
     email = json['email'];
+    password = json['password'];
     imageUrl = json['imageUrl'];
     activated = json['activated'];
     langKey = json['langKey'];
@@ -59,6 +62,7 @@ class UserDetails {
     data['firstName'] = firstName;
     data['lastName'] = lastName;
     data['email'] = email;
+    data['password'] = password;
     data['imageUrl'] = imageUrl;
     data['activated'] = activated;
     data['langKey'] = langKey;

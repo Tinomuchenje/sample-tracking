@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sample_tracking_system_flutter/consts/routing_constants.dart';
 import 'package:sample_tracking_system_flutter/models/user.dart';
-import 'package:sample_tracking_system_flutter/models/user_details.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/data/models/user_details.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
