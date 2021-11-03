@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
+import 'package:sample_tracking_system_flutter/consts/routing_constants.dart';
 import 'package:sample_tracking_system_flutter/views/authentication/authentication_controller.dart';
 import 'package:sample_tracking_system_flutter/views/authentication/data/models/client_model.dart';
 import 'package:sample_tracking_system_flutter/views/authentication/data/models/district_model.dart';
@@ -133,6 +134,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                           .registerAccount(_userDetails)
                           .then((success) {
                         if (success) {
+                          Navigator.of(context).pushNamed(loginPage);
                           NotificationService.success(
                               context, "User registered successfully");
                         } else {
