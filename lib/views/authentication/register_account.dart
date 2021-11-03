@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/access_level_controller.dart';
 import 'package:sample_tracking_system_flutter/views/authentication/user_types_constants.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_form_dropdown.dart';
 
@@ -21,11 +22,11 @@ class RegisterAccount extends StatefulWidget {
 class _RegisterAccountState extends State<RegisterAccount> {
   final _formKey = GlobalKey<FormState>();
   List<String> authorities = [];
-  late AccessLevels accessLevelProvider;
+  late AccessLevel accessLevelProvider;
 
   @override
   Widget build(BuildContext context) {
-    accessLevelProvider = Provider.of<AccessLevels>(context);
+    accessLevelProvider = Provider.of<AccessLevel>(context);
 
     return Scaffold(
       appBar: AppBar(

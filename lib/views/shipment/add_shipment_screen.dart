@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
-import 'package:sample_tracking_system_flutter/models/client.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/data/client_model.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
@@ -29,23 +29,11 @@ class AddorUpdateShipmentDialog extends StatefulWidget {
 
 class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   final _formKey = GlobalKey<FormState>();
-  final List<Client> _clients = [];
+
   List<Sample> samples = [];
   int _sampleCount = 0;
   List<String> selectedSamples = [];
   bool isNewForm = false;
-
-  Future<void> readJson() async {
-    if (_clients.isNotEmpty) return;
-    var response =
-        jsonDecode(await rootBundle.loadString('assets/client.json'));
-
-    for (var client in response) {
-      setState(() {
-        _clients.add(Client.fromJson(client));
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
