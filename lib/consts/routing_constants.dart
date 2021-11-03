@@ -7,4 +7,4 @@ const String patientsPage = 'patient';
 const String samplesPage = 'sample';
 const String addUpdateSample = 'addUpdateSample';
 const String shipmentsPage = 'shipments';
-const String registerAccount = 'registerAccount';
+const String registerAccountPage = 'registerAccount';

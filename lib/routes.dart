@@ -20,7 +20,7 @@ class RouteGenerator {
       case loginPage:
         return navigateToPage(const LoginPage());
 
-      case registerAccount:
+      case registerAccountPage:
         return navigateToPage(const RegisterAccount());
 
       case facilityHomePage:

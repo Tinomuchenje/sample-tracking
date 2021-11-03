@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
-import 'package:sample_tracking_system_flutter/views/authentication/access_level_controller.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/data/client_model.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/data/district_model.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/data/province_model.dart';
 import 'package:sample_tracking_system_flutter/views/authentication/user_types_constants.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_form_dropdown.dart';
-
 import 'package:sample_tracking_system_flutter/widgets/custom_multiselect_dropdown.dart';
-
 import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_form_field.dart';
+import 'package:search_choices/search_choices.dart';
 
 import 'data/access_levels.dart';
 
@@ -47,11 +49,28 @@ class _RegisterAccountState extends State<RegisterAccount> {
                 _selectAuthorities(context),
                 _selectAccessLevel(),
                 Visibility(
-                  visible: accessLevelProvider.isClient ||
-                      accessLevelProvider.isProvince ||
-                      accessLevelProvider.isDistrict,
-                  child: const SizedBox(
-                      height: 50, width: double.infinity, child: Placeholder()),
+                  visible: accessLevelProvider.isClient,
+                  child: Consumer<AccessLevel>(
+                    builder: (context, access, child) {
+                      return _selectClient(access.clients);
+                    },
+                  ),
+                ),
+                Visibility(
+                  visible: accessLevelProvider.isDistrict,
+                  child: Consumer<AccessLevel>(
+                    builder: (context, access, child) {
+                      return _selectDistricts(access.districts);
+                    },
+                  ),
+                ),
+                Visibility(
+                  visible: accessLevelProvider.isProvince,
+                  child: Consumer<AccessLevel>(
+                    builder: (context, access, child) {
+                      return _selectProvince(access.provinces);
+                    },
+                  ),
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
@@ -172,5 +191,68 @@ class _RegisterAccountState extends State<RegisterAccount> {
         authorities = selectedValues.toList();
       });
     }
+  }
+
+  Widget _selectClient(List<Client> clients) {
+    var selectedValue;
+
+    List<DropdownMenuItem> items = clients
+        .map((client) => DropdownMenuItem<String>(
+              value: client.name,
+              child: Text(client.name),
+            ))
+        .toList();
+
+    return SearchChoices.single(
+        hint: const Text('Select Client'),
+        value: selectedValue,
+        items: items,
+        displayClearIcon: false,
+        isCaseSensitiveSearch: false,
+        onChanged: (value) {
+          selectedValue = value;
+        });
+  }
+
+  Widget _selectDistricts(List<District> districts) {
+    var selectedValue;
+
+    List<DropdownMenuItem> items = districts
+        .map((district) => DropdownMenuItem<String>(
+              value: district.name,
+              child: Text(district.name),
+            ))
+        .toList();
+
+    return SearchChoices.single(
+        hint: const Text('Select District'),
+        value: selectedValue,
+        items: items,
+        displayClearIcon: false,
+        isCaseSensitiveSearch: false,
+        onChanged: (value) {
+          selectedValue = value;
+        });
+  }
+
+  Widget _selectProvince(List<Province> provinces) {
+    var selectedValue;
+
+    List<DropdownMenuItem> items = provinces
+        .map((province) => DropdownMenuItem<String>(
+              value: province.name,
+              child: Text(province.name),
+            ))
+        .toList();
+
+    return SearchChoices.single(
+        hint: const Text('Select Province'),
+        value: selectedValue,
+        items: items,
+        displayClearIcon: false,
+        isCaseSensitiveSearch: false,
+        onChanged: (value) {
+          selectedValue = value;
+        });
   }
 }

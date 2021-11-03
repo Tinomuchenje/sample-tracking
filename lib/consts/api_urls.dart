@@ -1,5 +1,3 @@
-import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
-
 const baseUrl = 'http://196.27.127.58:4080/api/';
 const headers = {
   'accept': 'application/json',

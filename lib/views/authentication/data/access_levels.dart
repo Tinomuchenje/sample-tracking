@@ -40,7 +40,7 @@ class AccessLevel with ChangeNotifier {
   set isDistrict(bool isDistrict) {
     _isDistrict = isDistrict;
     _isClient = _isProvince = false;
-    getDistricts();
+    if (districts.isEmpty) getDistricts();
     notifyListeners();
   }
 
@@ -49,7 +49,7 @@ class AccessLevel with ChangeNotifier {
   set isProvince(bool isProvince) {
     _isProvince = isProvince;
     _isClient = _isDistrict = false;
-    getProvinces();
+    if (provinces.isEmpty) getProvinces();
     notifyListeners();
   }
 
@@ -58,7 +58,7 @@ class AccessLevel with ChangeNotifier {
   set isClient(bool isClient) {
     _isClient = isClient;
     _isProvince = _isDistrict = false;
-    getClients();
+    if (clients.isEmpty) getClients();
     notifyListeners();
   }
 
