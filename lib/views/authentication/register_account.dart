@@ -28,7 +28,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
   final _formKey = GlobalKey<FormState>();
   List<String> authorities = [];
   late AccessLevel accessLevelProvider;
-  late UserDetails _userDetails;
+  UserDetails _userDetails = UserDetails(authorities: authorities);
 
   @override
   Widget build(BuildContext context) {

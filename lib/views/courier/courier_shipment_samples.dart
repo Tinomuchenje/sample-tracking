@@ -60,15 +60,18 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
             backgroundColor: Colors.grey,
             onPressed: () async {
               var shipmenti = widget.shipment;
-              await AppInformationDao().getUserDetails().then((value) {
-                shipmenti.riderId = value!.id.toString();
-                shipmenti.riderName = value.firstName + value.lastName;
+
+              await AppInformationDao().getUserDetails().then((userDetails) {
+                shipmenti.riderId = userDetails!.id.toString();
+                var lastname = userDetails.lastName ?? "";
+                shipmenti.riderName = (userDetails.firstName ?? "" + lastname);
               });
 
               shipmenti.status = status[0]['action'];
               shipmenti.lastModifiedBy = shipmenti.riderName;
               shipmenti.dateModified =
                   DateService.convertToIsoString(DateTime.now());
+                  
               Provider.of<ShipmentProvider>(context, listen: false)
                   .addUpdateShipment(widget.shipment);
 
