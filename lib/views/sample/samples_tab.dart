@@ -68,7 +68,9 @@ class _SamplesTabState extends State<SamplesTab> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(samples[index].clientPatientId.toString()),
+                    Text(samples[index].clientSampleId +
+                        ' - ' +
+                        samples[index].clientPatientId),
                   ],
                 ),
               ),

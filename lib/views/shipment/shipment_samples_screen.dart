@@ -117,7 +117,7 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
 
     var items = samples
         .map((sample) => MultiSelectItem<Sample>(
-            sample, sample.clientPatientId + ' ' + sample.clientSampleId))
+            sample, sample.clientSampleId + ' - ' + sample.clientPatientId))
         .toList();
 
     await showDialog(
