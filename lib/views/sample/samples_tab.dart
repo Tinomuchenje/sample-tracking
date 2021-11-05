@@ -8,7 +8,6 @@ import 'package:sample_tracking_system_flutter/views/patient/search_patient.dart
 import 'package:sample_tracking_system_flutter/widgets/custom_card.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_sync_status.dart';
 
-
 class SamplesTab extends StatefulWidget {
   const SamplesTab({Key? key}) : super(key: key);
 
@@ -39,52 +38,6 @@ class _SamplesTabState extends State<SamplesTab> {
             },
           ),
           title: const Text('Samples'),
-          // actions: [
-          //   Padding(
-          //     padding: const EdgeInsets.symmetric(horizontal: 16),
-          //     child: IconButton(
-          //         onPressed: () {
-          //           // showSearch(context: context, delegate: SearchBar());
-          //         },
-          //         icon: const Icon(Icons.search)), //Icon(Icons.search),
-          //   ),
-          //   PopupMenuButton(
-          //     icon: const Icon(Icons.sort),
-          //     itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-          //       const PopupMenuItem(
-          //         child: ListTile(
-          //           leading: Icon(Icons.sort_by_alpha),
-          //           title: Text('a-Z'),
-          //         ),
-          //       ),
-          //       const PopupMenuDivider(),
-          //       const PopupMenuItem(
-          //         child: ListTile(
-          //           leading: Icon(Icons.sort),
-          //           title: Text('pending'),
-          //         ),
-          //       ),
-          //       const PopupMenuItem(
-          //         child: ListTile(
-          //           leading: Icon(Icons.sort),
-          //           title: Text('due collection'),
-          //         ),
-          //       ),
-          //       const PopupMenuItem(
-          //         child: ListTile(
-          //           leading: Icon(Icons.sort),
-          //           title: Text('accepted'),
-          //         ),
-          //       ),
-          //       const PopupMenuItem(
-          //         child: ListTile(
-          //           leading: Icon(Icons.sort),
-          //           title: Text('rejected'),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ],
         ),
         body: Consumer<SamplesProvider>(
           builder: (context, samplesProvider, child) =>
@@ -94,8 +47,6 @@ class _SamplesTabState extends State<SamplesTab> {
 
   ListView _samplesList(List<Sample> samples) {
     return ListView.builder(
-      shrinkWrap: true,
-      reverse: true,
       itemCount: samples.length,
       itemBuilder: (context, index) {
         return Padding(

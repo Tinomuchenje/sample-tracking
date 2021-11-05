@@ -48,6 +48,14 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
           (widget.patient!.lastName);
     }
 
+    bool enablePatientField = false;
+    if (_patientId.isEmpty) {
+      enablePatientField = true;
+    }
+    if (_patientId.isEmpty && _sample.clientPatientId.isNotEmpty) {
+      enablePatientField = false;
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: Text('$_appBarText Sample for $_patientInitialValue'),
@@ -64,12 +72,18 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                     children: <Widget>[
                       CustomTextFormField(
                           labelText: "Patient",
-                          enabled: widget.patient == null || isNewForm,
-                          initialValue: _patientId == ""
+                          enabled: enablePatientField,
+                          initialValue: _patientId.isEmpty
                               ? _sample.clientPatientId
                               : _patientId,
                           onSaved: (value) {
                             if (value != null) _sample.clientPatientId = value;
+                          }),
+                      CustomTextFormField(
+                          labelText: "Client Sample Id",
+                          initialValue: _sample.clientSampleId,
+                          onSaved: (value) {
+                            if (value != null) _sample.clientSampleId = value;
                           }),
                       _sampleTypes(_sample),
                       _testsDropdown(_sample),
@@ -92,13 +106,6 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                           initialValue: _sample.status,
                         ),
                       ),
-                      // Visibility(
-                      //   visible: !isNewForm,
-                      //   child: CustomTextFormField(
-                      //       enabled: false,
-                      //       labelText: "Lab Reference Id",
-                      //       initialValue: _sample.labReferenceId),
-                      // ),
                       Visibility(
                         visible: !isNewForm,
                         child: CustomTextFormField(
@@ -106,13 +113,6 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                             labelText: "Location",
                             initialValue: "Hurungwe"),
                       ),
-                      // Visibility(
-                      //   visible: !isNewForm,
-                      //   child: CustomTextFormField(
-                      //     labelText: "Shipment",
-                      //     initialValue: _sample.shipmentId,
-                      //   ),
-                      // ),
                       const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
