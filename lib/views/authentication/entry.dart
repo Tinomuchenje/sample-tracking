@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/views/authentication/data/models/user_details.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/views/courier/dashboard.dart';
-import 'package:sample_tracking_system_flutter/views/pages/home_page.dart';
+import 'package:sample_tracking_system_flutter/views/home/home_page.dart';
 
 import 'login_screen.dart';
 

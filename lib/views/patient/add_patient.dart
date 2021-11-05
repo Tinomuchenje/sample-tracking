@@ -78,7 +78,9 @@ class _AddorUpdatePatientDialogState extends State<AddorUpdatePatientDialog> {
                       CustomTextFormField(
                         labelText: "Phone number",
                         keyboardType: TextInputType.phone,
-                        initialValue: _patient.phoneNumber,
+                        initialValue: _patient.phoneNumber.isEmpty
+                            ? '+2637'
+                            : _patient.phoneNumber,
                         onSaved: (value) {
                           if (value != null) _patient.phoneNumber = value;
                         },
