@@ -262,7 +262,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
 
     List<DropdownMenuItem> items = clients
         .map((client) => DropdownMenuItem<String>(
-              value: client.name,
+              value: client.id,
               child: Text(client.name),
             ))
         .toList();
@@ -283,7 +283,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
 
     List<DropdownMenuItem> items = districts
         .map((district) => DropdownMenuItem<String>(
-              value: district.name,
+              value: district.districtId,
               child: Text(district.name),
             ))
         .toList();
@@ -302,7 +302,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
   Widget _selectProvince(List<Province> provinces) {
     List<DropdownMenuItem> items = provinces
         .map((province) => DropdownMenuItem<String>(
-              value: province.name,
+              value: province.provinceId,
               child: Text(province.name),
             ))
         .toList();

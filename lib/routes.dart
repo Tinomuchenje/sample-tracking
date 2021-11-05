@@ -7,7 +7,7 @@ import 'package:sample_tracking_system_flutter/views/authentication/login_screen
 
 import 'views/authentication/register_account.dart';
 import 'views/courier/dashboard.dart';
-import 'views/pages/home_page.dart';
+import 'views/home/home_page.dart';
 import 'views/patient/add_patient.dart';
 import 'views/sample/add_sample.dart';
 

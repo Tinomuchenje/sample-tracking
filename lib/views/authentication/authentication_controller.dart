@@ -57,7 +57,7 @@ class AuthenticationController {
         .post(Uri.parse(registerAccountUrl),
             headers: headers, body: json.encode(userDetails))
         .then((response) {
-      return response.statusCode == 201;
+      return response.statusCode == 201 || response.statusCode == 200;
     });
   }
 }

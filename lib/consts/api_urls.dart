@@ -20,7 +20,7 @@ const headers = {
 //Authentication
 const loginUrl = baseUrl + 'authenticate';
 const getAccountUrl = baseUrl + 'account';
-const registerAccountUrl = baseUrl + 'register';
+const registerAccountUrl = baseUrl + 'admin/users';
 
 // Patient
 const patientsUrl = baseUrl + 'patients/';

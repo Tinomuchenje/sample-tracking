@@ -4,9 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
+import 'package:sample_tracking_system_flutter/views/home/home_page.dart';
 import 'package:sample_tracking_system_flutter/views/sample/state/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
-import 'package:sample_tracking_system_flutter/views/pages/home_page.dart';
+
 import 'package:sample_tracking_system_flutter/views/patient/search_patient.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_date_form_field.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_form_dropdown.dart';

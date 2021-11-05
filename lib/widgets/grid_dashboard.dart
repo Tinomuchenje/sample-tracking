@@ -32,14 +32,14 @@ class _GridDashBoardState extends State<GridDashBoard> {
                 count: shipmentProvider.shipments.length,
                 icon: Icons.select_all);
           }),
-          Consumer<PatientProvider>(
-            builder: (context, patientProvider, child) {
-              return buildDashboardItem(
-                  title: "Patients",
-                  count: patientProvider.patients.length,
-                  icon: Icons.select_all);
-            },
-          ),
+          buildDashboardItem(
+              title: "Due Collection",
+              count: 0,
+              icon: Icons.check_circle_outline),
+          buildDashboardItem(title: "In Transit", count: 0, icon: Icons.moped),
+          buildDashboardItem(
+              title: "Delivered", count: 0, icon: Icons.all_inbox),
+          // buildDashboardItem(title: "Accepted", count: 0, icon: Icons.task_alt),
           Consumer<SamplesProvider>(
             builder: (context, sampleProvider, child) {
               return buildDashboardItem(
@@ -48,16 +48,16 @@ class _GridDashBoardState extends State<GridDashBoard> {
                   icon: Icons.select_all);
             },
           ),
-          buildDashboardItem(
-              title: "Due Collection",
-              count: 0,
-              icon: Icons.check_circle_outline),
-          buildDashboardItem(title: "In Transit", count: 0, icon: Icons.moped),
-          buildDashboardItem(title: "Accepted", count: 0, icon: Icons.task_alt),
-          buildDashboardItem(
-              title: "Delivered", count: 0, icon: Icons.all_inbox),
-          buildDashboardItem(
-              title: "Rejected", count: 0, icon: Icons.highlight_off),
+          // buildDashboardItem(
+          //     title: "Rejected", count: 0, icon: Icons.highlight_off),
+          Consumer<PatientProvider>(
+            builder: (context, patientProvider, child) {
+              return buildDashboardItem(
+                  title: "Patients",
+                  count: patientProvider.patients.length,
+                  icon: Icons.select_all);
+            },
+          ),
         ],
       ),
     );

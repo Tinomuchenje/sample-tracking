@@ -1,19 +1,17 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
-import 'package:sample_tracking_system_flutter/views/authentication/data/models/client_model.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
-import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
-import 'package:sample_tracking_system_flutter/views/pages/home_page.dart';
+import 'package:sample_tracking_system_flutter/views/home/home_page.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/shipment_samples_screen.dart';
+import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/state/status.dart';
-import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_form_dropdown.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_form_field.dart';
 import 'package:sample_tracking_system_flutter/widgets/notification_service.dart';
 
