@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sample_tracking_system_flutter/models/shipment.dart';
-import 'package:sample_tracking_system_flutter/models/enums/user_type_enum.dart';
-import 'package:sample_tracking_system_flutter/features/shipment/state/shipment_provider.dart';
+
 import 'package:sample_tracking_system_flutter/features/shipment/add_shipment_screen.dart';
+import 'package:sample_tracking_system_flutter/features/shipment/state/shipment_provider.dart';
+import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/widgets/courier_shipment.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_card.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_sync_status.dart';
@@ -17,19 +17,12 @@ class ShipmentsTab extends StatefulWidget {
 }
 
 class _ShipmentsTabState extends State<ShipmentsTab> {
-  var currentUser;
-
   @override
   void didChangeDependencies() {
-    //currentUser = Provider.of<UserProvider>(context, listen: false).currentUser;
-    getSamples();
-
-    super.didChangeDependencies();
-  }
-
-  void getSamples() {
     Provider.of<ShipmentProvider>(context, listen: false)
         .getAllShipmentsFromdatabase();
+
+    super.didChangeDependencies();
   }
 
   @override
@@ -69,22 +62,13 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
   }
 
   List<Widget> _renderTabs() {
-    if (currentUser == UserType.cluster) {
-      return const [
-        Tab(text: "Clients"),
-        Tab(text: "Hub"),
-        Tab(text: "Lab"),
-        Tab(text: "Closed")
-      ];
-    } else {
-      return const [
-        Tab(text: "Clients"),
-        Tab(text: "Courier"),
-        Tab(text: "Hub"),
-        Tab(text: "Lab"),
-        Tab(text: "Closed"),
-      ];
-    }
+    return const [
+      Tab(text: "Clients"),
+      Tab(text: "Courier"),
+      Tab(text: "Hub"),
+      Tab(text: "Lab"),
+      Tab(text: "Closed"),
+    ];
   }
 
   ListView _shipments(List<Shipment> shipment) {

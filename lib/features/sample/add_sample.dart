@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -108,55 +110,69 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                       ),
                       Visibility(
                         visible: !isNewForm,
-                        child: CustomTextFormField(
+                        child: const CustomTextFormField(
                             enabled: false,
                             labelText: "Location",
                             initialValue: "Hurungwe"),
                       ),
                       const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SizedBox(
-                            height: 50,
-                            width: 150,
-                            child: CustomElevatedButton(
-                              displayText: _saveButtonText,
-                              fillcolor: true,
-                              press: () {
-                                if (!_formKey.currentState!.validate()) return;
+                      Visibility(
+                        visible: _sample.shipmentId.isEmpty,
+                        replacement: Container(
+                          color: Colors.orangeAccent,
+                          height: 25,
+                          width: double.infinity,
+                          child: const Center(
+                              child:
+                                  Text("Shipped Sample can not be modified")),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SizedBox(
+                              height: 50,
+                              width: 150,
+                              child: CustomElevatedButton(
+                                displayText: _saveButtonText,
+                                fillcolor: true,
+                                press: () {
+                                  if (!_formKey.currentState!.validate())
+                                    return;
 
-                                saveSampleForm(_sample, context);
-                                Navigator.of(context).pop();
-                                Navigator.of(context).pop();
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute<void>(
-                                    builder: (BuildContext context) => HomePage(
-                                      pageIndex: 2,
+                                  saveSampleForm(_sample, context);
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          HomePage(
+                                        pageIndex: 2,
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 50,
-                            width: 150,
-                            child: CustomElevatedButton(
-                              displayText: "$_saveButtonText & New",
-                              fillcolor: true,
-                              press: () {
-                                if (!_formKey.currentState!.validate()) return;
-                                saveSampleForm(_sample, context);
+                            SizedBox(
+                              height: 50,
+                              width: 150,
+                              child: CustomElevatedButton(
+                                displayText: "$_saveButtonText & New",
+                                fillcolor: true,
+                                press: () {
+                                  if (!_formKey.currentState!.validate())
+                                    return;
+                                  saveSampleForm(_sample, context);
 
-                                showSearch(
-                                    context: context,
-                                    delegate: PatientSearch());
-                              },
+                                  showSearch(
+                                      context: context,
+                                      delegate: PatientSearch());
+                                },
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),

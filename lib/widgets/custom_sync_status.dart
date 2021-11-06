@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomSyncStatusIcon extends StatelessWidget {
-  bool positiveStatus;
-  CustomSyncStatusIcon({Key? key, required this.positiveStatus})
+  final bool positiveStatus;
+  const CustomSyncStatusIcon({Key? key, required this.positiveStatus})
       : super(key: key);
 
   @override

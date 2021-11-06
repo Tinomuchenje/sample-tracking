@@ -7,10 +7,12 @@ class CustomElevatedButton extends StatelessWidget {
   final void Function()? press;
   static const circularRadius = 5.0;
 
-  CustomElevatedButton(
-      {required this.displayText,
+  const CustomElevatedButton(
+      {Key? key,
+      required this.displayText,
       required this.fillcolor,
-      required this.press});
+      required this.press})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

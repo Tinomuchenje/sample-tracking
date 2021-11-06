@@ -12,8 +12,9 @@ class CustomTextFormField extends StatefulWidget {
   final TextEditingController? controller;
   final TextInputType? keyboardType;
 
-  CustomTextFormField(
-      {this.hintText = "",
+  const CustomTextFormField(
+      {Key? key,
+        this.hintText = "",
       required this.labelText,
       this.onSaved,
       this.initialValue,
@@ -21,7 +22,7 @@ class CustomTextFormField extends StatefulWidget {
       this.controller,
       this.keyboardType,
       this.customValidator,
-      this.onChanged});
+      this.onChanged}) : super(key: key);
 
   @override
   _CustomTextFormFieldState createState() => _CustomTextFormFieldState();

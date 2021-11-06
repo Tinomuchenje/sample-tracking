@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -216,16 +218,16 @@ class _RegisterAccountState extends State<RegisterAccount> {
     );
   }
 
-  List<MultiSelectDialogItem<String>> _buildMulitiselect(
-      Map<String, String> values) {
-    List<MultiSelectDialogItem<String>> displayOptions = [];
+  // List<MultiSelectDialogItem<String>> _buildMulitiselect(
+  //     Map<String, String> values) {
+  //   List<MultiSelectDialogItem<String>> displayOptions = [];
 
-    for (String option in values.keys) {
-      displayOptions.add(MultiSelectDialogItem(option, values[option] ?? ''));
-    }
+  //   for (String option in values.keys) {
+  //     displayOptions.add(MultiSelectDialogItem(option, values[option] ?? ''));
+  //   }
 
-    return displayOptions;
-  }
+  //   return displayOptions;
+  // }
 
   void _showMultiSelect(BuildContext context) async {
     final valueToPopulate = {

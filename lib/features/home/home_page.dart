@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/features/patient/patients_tab.dart';
 import 'package:sample_tracking_system_flutter/features/sample/samples_tab.dart';

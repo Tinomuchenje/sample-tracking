@@ -11,7 +11,6 @@ class LogoutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       alignment: Alignment.topRight,
-      // color: Colors.grey,
       onPressed: () {
         AppInformationDao().deleteLoggedInUser().then((value) {
           Navigator.of(context).pushAndRemoveUntil(

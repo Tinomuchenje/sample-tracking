@@ -30,7 +30,7 @@ class RouteGenerator {
         return navigateToPage(const CourierDashboard());
 
       case addUpdatePatient:
-        return navigateToPage(AddorUpdatePatientDialog());
+        return navigateToPage(const AddorUpdatePatientDialog());
 
       case addUpdateSample:
         {

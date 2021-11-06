@@ -6,11 +6,11 @@ import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/features/sample/state/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/features/sample/sample_controller.dart';
 import 'package:sample_tracking_system_flutter/features/shipment/shipment_card.dart';
-import 'package:sample_tracking_system_flutter/features/shipment/state/status.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/widgets/notification_service.dart';
 
 import 'add_shipment_screen.dart';
+import 'state/shipment_status.dart';
 
 class ShipmentSamples extends StatefulWidget {
   final Shipment? shipment;
@@ -90,13 +90,12 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
 
     if (_displayedSamples.isEmpty) {
       return const Text("No samples available");
-    } // Happy here
+    }
 
     return FutureBuilder(
       future: SampleController.getSamplesFromIds(_displayedSamples),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
-          //print('project snapshot data is: ${projectSnap.data}');
           return const Text("Loading");
         }
         var samples = snapshot.data as List<Sample>;

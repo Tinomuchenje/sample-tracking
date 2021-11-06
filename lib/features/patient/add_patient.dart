@@ -10,8 +10,8 @@ import 'package:sample_tracking_system_flutter/widgets/custom_text_form_field.da
 import 'package:sample_tracking_system_flutter/widgets/notification_service.dart';
 
 class AddorUpdatePatientDialog extends StatefulWidget {
-  Patient? patientData;
-  AddorUpdatePatientDialog({Key? key, this.patientData}) : super(key: key);
+  final Patient? patientData;
+  const AddorUpdatePatientDialog({Key? key, this.patientData}) : super(key: key);
 
   @override
   State<AddorUpdatePatientDialog> createState() =>

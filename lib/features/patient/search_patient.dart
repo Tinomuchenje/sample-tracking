@@ -95,7 +95,7 @@ class PatientSearch extends SearchDelegate<Patient> {
               context,
               MaterialPageRoute<void>(
                   builder: (BuildContext context) =>
-                      AddorUpdatePatientDialog()),
+                      const AddorUpdatePatientDialog()),
             );
           },
         ),
