@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
+
+import 'models/user_details.dart';
 
 class UserProvider with ChangeNotifier {
-  //late UserType _currentUser;
+  UserDetails? _userDetails;
+
   late String _loginToken;
 
-  //UserType get currentUser => _currentUser;
+  UserDetails? get userDetails {
+    _getUserDetails();
+    return _userDetails;
+  }
 
-  //set currentUser(UserType user) => _currentUser = user;
+  set userDetails(UserDetails? userDetails) {
+    _userDetails = userDetails;
+    notifyListeners();
+  }
+
+  Future _getUserDetails() async {
+    await AppInformationDao().getUserDetails().then((result) {
+      userDetails = result;
+    });
+  }
 
   String get logintoken => _loginToken;
 

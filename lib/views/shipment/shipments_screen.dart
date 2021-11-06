@@ -5,6 +5,7 @@ import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/models/enums/user_type_enum.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/add_shipment_screen.dart';
+import 'package:sample_tracking_system_flutter/widgets/courier_shipment.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_card.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_sync_status.dart';
 
@@ -34,7 +35,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
           bottom: TabBar(tabs: _renderTabs()),
@@ -57,6 +58,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
             builder: (context, shipmentProvider, child) {
           return TabBarView(children: [
             _shipments(shipmentProvider.clientShipments),
+            CourierShipment(shipment: shipmentProvider.inprogressShipments),
             _shipments(shipmentProvider.hubShipments),
             _shipments(shipmentProvider.labShipments),
             _shipments(shipmentProvider.closedShipments)
@@ -77,6 +79,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
     } else {
       return const [
         Tab(text: "Clients"),
+        Tab(text: "Courier"),
         Tab(text: "Hub"),
         Tab(text: "Lab"),
         Tab(text: "Closed"),

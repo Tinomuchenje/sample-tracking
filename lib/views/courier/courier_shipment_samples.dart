@@ -6,6 +6,8 @@ import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/app_information_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/date_service.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/data/models/user_details.dart';
+import 'package:sample_tracking_system_flutter/views/authentication/data/user_provider.dart';
 import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/shipment_card.dart';
 import 'package:sample_tracking_system_flutter/views/shipment/state/shipment_provider.dart';
@@ -40,6 +42,8 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
 
     if (status.isNotEmpty) currentStatusPromt = status[0]['prompt'];
 
+    //UserDetails? userDetails = Provider.of<UserProvider>(context).userDetails;
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -53,32 +57,40 @@ class _CourierShipmentSamplesState extends State<CourierShipmentSamples> {
             ],
           ),
         ),
-        floatingActionButton: Visibility(
-          visible: status.isNotEmpty,
-          child: FloatingActionButton.extended(
-            label: Text(currentStatusPromt),
-            backgroundColor: Colors.grey,
-            onPressed: () async {
-              var shipmenti = widget.shipment;
+        floatingActionButton: Consumer<UserProvider>(
+            builder: (context, userDetailsProvider, child) {
+          var userDetails = userDetailsProvider.userDetails;
 
-              await AppInformationDao().getUserDetails().then((userDetails) {
-                shipmenti.riderId = userDetails!.id.toString();
-                var lastname = userDetails.lastName ?? "";
-                shipmenti.riderName = (userDetails.firstName ?? "" + lastname);
-              });
+          return Visibility(
+            visible: status.isNotEmpty &&
+                (userDetails != null &&
+                    userDetails!.isCourierOnly(userDetails!.authorities)),
+            child: FloatingActionButton.extended(
+              label: Text(currentStatusPromt),
+              backgroundColor: Colors.grey,
+              onPressed: () async {
+                var shipmenti = widget.shipment;
 
-              shipmenti.status = status[0]['action'];
-              shipmenti.lastModifiedBy = shipmenti.riderName;
-              shipmenti.dateModified =
-                  DateService.convertToIsoString(DateTime.now());
-                  
-              Provider.of<ShipmentProvider>(context, listen: false)
-                  .addUpdateShipment(widget.shipment);
+                await AppInformationDao().getUserDetails().then((userDetails) {
+                  shipmenti.riderId = userDetails!.id.toString();
+                  var lastname = userDetails.lastName ?? "";
+                  shipmenti.riderName =
+                      (userDetails.firstName ?? "" + lastname);
+                });
 
-              Navigator.of(context).pop();
-            },
-          ),
-        ),
+                shipmenti.status = status[0]['action'];
+                shipmenti.lastModifiedBy = shipmenti.riderName;
+                shipmenti.dateModified =
+                    DateService.convertToIsoString(DateTime.now());
+
+                Provider.of<ShipmentProvider>(context, listen: false)
+                    .addUpdateShipment(widget.shipment);
+
+                Navigator.of(context).pop();
+              },
+            ),
+          );
+        }),
         body: TabBarView(
           children: [
             Padding(
