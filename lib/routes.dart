@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/consts/routing_constants.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
-import 'package:sample_tracking_system_flutter/views/authentication/entry.dart';
-import 'package:sample_tracking_system_flutter/views/authentication/login_screen.dart';
+import 'package:sample_tracking_system_flutter/features/authentication/entry.dart';
+import 'package:sample_tracking_system_flutter/features/authentication/login_screen.dart';
 
-import 'views/authentication/register_account.dart';
-import 'views/courier/dashboard.dart';
-import 'views/home/home_page.dart';
-import 'views/patient/add_patient.dart';
-import 'views/sample/add_sample.dart';
+import 'features/authentication/register_account.dart';
+import 'features/courier/dashboard.dart';
+import 'features/home/home_page.dart';
+import 'features/patient/add_patient.dart';
+import 'features/sample/add_sample.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

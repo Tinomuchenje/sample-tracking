@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
-import 'package:sample_tracking_system_flutter/views/courier/courier_shipment_samples.dart';
+import 'package:sample_tracking_system_flutter/features/courier/courier_shipment_samples.dart';
 
 import 'custom_card.dart';
 import 'custom_sync_status.dart';

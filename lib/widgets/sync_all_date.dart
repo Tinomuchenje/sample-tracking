@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'package:sample_tracking_system_flutter/views/patient/patient_controller.dart';
-import 'package:sample_tracking_system_flutter/views/sample/sample_controller.dart';
-import 'package:sample_tracking_system_flutter/views/shipment/shipment_controller.dart';
+import 'package:sample_tracking_system_flutter/features/patient/patient_controller.dart';
+import 'package:sample_tracking_system_flutter/features/sample/sample_controller.dart';
+import 'package:sample_tracking_system_flutter/features/shipment/shipment_controller.dart';
 
 class SyncAll extends StatelessWidget {
   const SyncAll({

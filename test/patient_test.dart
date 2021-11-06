@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
-import 'package:sample_tracking_system_flutter/views/patient/data_state/patient_provider.dart';
+import 'package:sample_tracking_system_flutter/features/patient/data_state/patient_provider.dart';
 
 void main() {
   test("Add patient to server", () async{
