@@ -34,7 +34,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
           bottom: TabBar(tabs: _renderTabs()),
@@ -57,6 +57,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
             builder: (context, shipmentProvider, child) {
           return TabBarView(children: [
             _shipments(shipmentProvider.clientShipments),
+            _shipments(shipmentProvider.inprogressShipments),
             _shipments(shipmentProvider.hubShipments),
             _shipments(shipmentProvider.labShipments),
             _shipments(shipmentProvider.closedShipments)
@@ -70,6 +71,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
     if (currentUser == UserType.cluster) {
       return const [
         Tab(text: "Clients"),
+        Tab(text: "Courier"),
         Tab(text: "Hub"),
         Tab(text: "Lab"),
         Tab(text: "Closed")
@@ -77,6 +79,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
     } else {
       return const [
         Tab(text: "Clients"),
+        Tab(text: "Courier"),
         Tab(text: "Hub"),
         Tab(text: "Lab"),
         Tab(text: "Closed"),
