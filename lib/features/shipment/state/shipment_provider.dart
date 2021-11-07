@@ -88,18 +88,9 @@ class ShipmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // loadSamples() async {
-  //   await SampleController.getSamplesFromIds(_shipment.samples)
-  //       .then((listOfSamples) {
-  //     _shipmentSamples.clear();
-  //     _shipmentSamples.addAll(listOfSamples);
-  //     notifyListeners();
-  //   }).catchError((error) {});
-  // }
-
   Future addUpdateShipment(Shipment shipment) async {
     setShipmentValues(shipment);
-    await addShipmentsToSamples(shipment);
+    await setSampleShipmentDetails(shipment);
 
     await ShipmentController().createOrUpdate(shipment).then((savedShipment) {
       addToLocalDatabase(savedShipment);
@@ -127,11 +118,18 @@ class ShipmentProvider with ChangeNotifier {
     }
   }
 
-  Future addShipmentsToSamples(Shipment shipment) async {
+  Future setSampleShipmentDetails(Shipment shipment) async {
     for (var sampleId in shipment.samples) {
       Sample sample = await SampleDao().getSample(sampleId);
-      sample.shipmentId = shipment.appId.toString(); // duplicating shipment
-      await SampleDao().insertOrUpdate(sample); // go online
+      assignSampleToShipment(sample, shipment);
+      sample.status = shipment.status;
+      await SampleDao().insertOrUpdate(sample);
+    }
+  }
+
+  void assignSampleToShipment(Sample sample, Shipment shipment) {
+    if (sample.shipmentId.isEmpty) {
+      sample.shipmentId = shipment.appId.toString();
     }
   }
 

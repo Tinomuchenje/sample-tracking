@@ -79,7 +79,9 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
               displayText: "Save samples",
               fillcolor: false,
               press: () {
-                Navigator.pop(
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.push(
                   context,
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) =>

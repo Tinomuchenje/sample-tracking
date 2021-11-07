@@ -75,7 +75,7 @@ class _SamplesTabState extends State<SamplesTab> {
                 ),
               ),
               subtitle: Row(
-                children: const [Text('Status : '), Text("Created")],
+                children: [const Text('Status : '), Text(samples[index].status)],
               ),
               leading: const Icon(
                 Icons.biotech,

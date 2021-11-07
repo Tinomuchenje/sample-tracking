@@ -168,7 +168,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
 
       NotificationService.success(context, "Saved successfully");
 
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute<void>(
           builder: (BuildContext context) => HomePage(
