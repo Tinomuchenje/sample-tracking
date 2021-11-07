@@ -11,6 +11,7 @@ import 'package:sample_tracking_system_flutter/features/sample/state/samples_pro
 import 'package:sample_tracking_system_flutter/utils/dao/laboratory_dao.dart';
 
 import 'package:sample_tracking_system_flutter/features/patient/search_patient.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_banner.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_date_form_field.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
@@ -118,13 +119,8 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                       const SizedBox(height: 20),
                       Visibility(
                         visible: _sample.shipmentId.isEmpty,
-                        replacement: Container(
-                          color: Colors.orangeAccent,
-                          height: 25,
-                          width: double.infinity,
-                          child: const Center(
-                              child:
-                                  Text("Shipped Sample can not be modified")),
+                        replacement: const CustomBanner(
+                          message: 'Shipped Sample can not be modified',
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -136,8 +132,9 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                                 displayText: _saveButtonText,
                                 fillcolor: true,
                                 press: () {
-                                  if (!_formKey.currentState!.validate())
+                                  if (!_formKey.currentState!.validate()) {
                                     return;
+                                  }
 
                                   saveSampleForm(_sample, context);
                                   Navigator.of(context).pop();
@@ -161,8 +158,9 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                                 displayText: "$_saveButtonText & New",
                                 fillcolor: true,
                                 press: () {
-                                  if (!_formKey.currentState!.validate())
+                                  if (!_formKey.currentState!.validate()) {
                                     return;
+                                  }
                                   saveSampleForm(_sample, context);
 
                                   showSearch(

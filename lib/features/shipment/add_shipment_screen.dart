@@ -9,6 +9,7 @@ import 'package:sample_tracking_system_flutter/features/shipment/shipment_sample
 import 'package:sample_tracking_system_flutter/features/shipment/state/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_banner.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_form_field.dart';
@@ -36,7 +37,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
 
   @override
   Widget build(BuildContext context) {
-    String _appBarText = 'Add';
+    String _appBarText = '';
     String _saveButtonText = 'Save';
     Shipment _shipment = widget.shipmentData ?? Shipment();
 
@@ -44,7 +45,11 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
       isNewForm = true;
     }
 
-    if (!isNewForm) {
+    if (_shipment.status.isEmpty) {
+      _appBarText = 'Add';
+    }
+
+    if (!isNewForm && _shipment.status == createdStatus) {
       _appBarText = _saveButtonText = 'Update';
     }
 
@@ -54,7 +59,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('$_appBarText Shipment Id'),
+          title: Text('$_appBarText Shipment'),
         ),
         body: Form(
           key: _formKey,
@@ -95,42 +100,49 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SizedBox(
-                          height: 50,
-                          width: 150,
-                          child: CustomElevatedButton(
-                            displayText: _saveButtonText,
-                            fillcolor: false,
-                            press: () {
-                              if (_shipment.status != publishedStatus) {
-                                _shipment.status = createdStatus;
-                                saveShipment(context, _shipment);
-                              } else {
-                                preventEditingPublishedMessage(context);
-                              }
-                            },
+                    Visibility(
+                      visible: _shipment.status == createdStatus ||
+                          _shipment.status.isEmpty,
+                      replacement: const CustomBanner(
+                        message: 'Editing disabled for shipments in transit.',
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SizedBox(
+                            height: 50,
+                            width: 150,
+                            child: CustomElevatedButton(
+                              displayText: _saveButtonText,
+                              fillcolor: false,
+                              press: () {
+                                if (_shipment.status != publishedStatus) {
+                                  _shipment.status = createdStatus;
+                                  saveShipment(context, _shipment);
+                                } else {
+                                  preventEditingPublishedMessage(context);
+                                }
+                              },
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 50,
-                          width: 150,
-                          child: CustomElevatedButton(
-                            displayText: _saveButtonText + " & Publish",
-                            fillcolor: true,
-                            press: () {
-                              if (_shipment.status != publishedStatus) {
-                                _shipment.status = publishedStatus;
-                                saveShipment(context, _shipment);
-                              } else {
-                                preventEditingPublishedMessage(context);
-                              }
-                            },
+                          SizedBox(
+                            height: 50,
+                            width: 150,
+                            child: CustomElevatedButton(
+                              displayText: _saveButtonText + " & Publish",
+                              fillcolor: true,
+                              press: () {
+                                if (_shipment.status != publishedStatus) {
+                                  _shipment.status = publishedStatus;
+                                  saveShipment(context, _shipment);
+                                } else {
+                                  preventEditingPublishedMessage(context);
+                                }
+                              },
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),

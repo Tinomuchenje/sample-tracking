@@ -6,6 +6,7 @@ import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/features/sample/state/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/features/sample/sample_controller.dart';
 import 'package:sample_tracking_system_flutter/features/shipment/shipment_card.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_banner.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
 import 'package:sample_tracking_system_flutter/widgets/notification_service.dart';
 
@@ -49,39 +50,47 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
   }
 
   Widget addSamples(BuildContext context, List<Sample> samples) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        SizedBox(
-          height: 50,
-          width: 150,
-          child: CustomElevatedButton(
-            displayText: "Save samples",
-            fillcolor: false,
-            press: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => AddorUpdateShipmentDialog(
-                    shipmentData: currentShipment,
+    return Visibility(
+      visible: widget.shipment!.status.isEmpty ||
+          widget.shipment!.status == createdStatus,
+      replacement: const CustomBanner(
+        message: 'Editing disabled for shipments in transit.',
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          SizedBox(
+            height: 50,
+            width: 150,
+            child: CustomElevatedButton(
+              displayText: "Save samples",
+              fillcolor: false,
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        AddorUpdateShipmentDialog(
+                      shipmentData: currentShipment,
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
-        ),
-        SizedBox(
-          height: 50,
-          width: 150,
-          child: CustomElevatedButton(
-            displayText: "Add sample/s",
-            fillcolor: true,
-            press: () {
-              _samplesDialog(context, samples);
-            },
+          SizedBox(
+            height: 50,
+            width: 150,
+            child: CustomElevatedButton(
+              displayText: "Add sample/s",
+              fillcolor: true,
+              press: () {
+                _samplesDialog(context, samples);
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
