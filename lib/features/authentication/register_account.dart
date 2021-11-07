@@ -246,6 +246,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
       context: context,
       builder: (BuildContext context) {
         return CustomMultiSelectDialog(
+          initialSelectedValues: _userDetails.authorities.toSet(),
           items: items,
           title: 'Select roles',
         );

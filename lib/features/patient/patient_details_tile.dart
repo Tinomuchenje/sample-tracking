@@ -23,58 +23,56 @@ class _PatientDetailsTileState extends State<PatientDetailsTile> {
     List<Patient> patientsFound = widget.patients;
 
     return ListView.builder(
-        itemBuilder: (context, index) => Flexible(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(8.0, 12, 8.0, 12.0),
-                child: CustomCard(
-                  child: ExpansionTile(
-                    collapsedTextColor: Colors.grey,
-                    textColor: Colors.grey,
-                    iconColor: Colors.blue,
-                    collapsedIconColor: Colors.blue,
-                    leading:
-                        const Icon(Icons.person, color: Colors.blue, size: 40),
-                    title: SizedBox(
-                      height: 30,
+        itemBuilder: (context, index) => Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 12, 8.0, 12.0),
+              child: CustomCard(
+                child: ExpansionTile(
+                  collapsedTextColor: Colors.grey,
+                  textColor: Colors.grey,
+                  iconColor: Colors.blue,
+                  collapsedIconColor: Colors.blue,
+                  leading:
+                      const Icon(Icons.person, color: Colors.blue, size: 40),
+                  title: SizedBox(
+                    height: 30,
+                    child: Row(
+                      children: [
+                        Text(patientsFound[index].firstName + " "),
+                        Text(patientsFound[index].lastName),
+                      ],
+                    ),
+                  ),
+                  subtitle: Column(children: [
+                    SizedBox(
+                      height: 20,
                       child: Row(
                         children: [
-                          Text(patientsFound[index].firstName + " "),
-                          Text(patientsFound[index].lastName),
+                          const Text("DOB: "),
+                          Text(patientsFound[index].dob)
                         ],
                       ),
                     ),
-                    subtitle: Column(children: [
-                      SizedBox(
-                        height: 20,
-                        child: Row(
-                          children: [
-                            const Text("DOB: "),
-                            Text(patientsFound[index].dob)
-                          ],
-                        ),
+                    SizedBox(
+                      height: 20,
+                      child: Row(
+                        children: [
+                          const Text("Client Patient Id: "),
+                          Text(patientsFound[index].clientPatientId)
+                        ],
                       ),
-                      SizedBox(
-                        height: 20,
-                        child: Row(
+                    ),
+                  ]),
+                  children: [
+                    SizedBox(
+                      height: 60,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            const Text("Client Patient Id: "),
-                            Text(patientsFound[index].clientPatientId)
-                          ],
-                        ),
-                      ),
-                    ]),
-                    children: [
-                      SizedBox(
-                        height: 60,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              _editPatient(context, patientsFound, index),
-                              _addSample(context, patientsFound, index)
-                            ]),
-                      )
-                    ],
-                  ),
+                            _editPatient(context, patientsFound, index),
+                            _addSample(context, patientsFound, index)
+                          ]),
+                    )
+                  ],
                 ),
               ),
             ),

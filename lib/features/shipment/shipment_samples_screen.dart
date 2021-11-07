@@ -23,7 +23,7 @@ class ShipmentSamples extends StatefulWidget {
 }
 
 class _ShipmentSamplesState extends State<ShipmentSamples> {
-  // dynamic _displayedSamples = [];
+  List<Sample> _selectedSamples = [];
   Shipment? currentShipment;
 
   @override
@@ -45,20 +45,18 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
             }),
           ),
           const SizedBox(height: 20),
-          Expanded(
-            child: Consumer<ShipmentProvider>(
-                builder: (context, shipmentProvider, child) {
-              return shipmentExistingSamplesCards(
-                  shipmentProvider.shipmentSamples);
-            }),
-          ),
+          Consumer<ShipmentProvider>(
+              builder: (context, shipmentProvider, child) {
+            return shipmentExistingSamplesCards(
+                shipmentProvider.shipmentSamples);
+          }),
         ],
       ),
     );
   }
 
   void setShipmentSamples(BuildContext context) {
-    Provider.of<ShipmentProvider>(context).shipmentSamples =
+    Provider.of<ShipmentProvider>(context, listen: false).shipmentSamples =
         currentShipment!.samples;
   }
 
@@ -130,7 +128,6 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
   }
 
   void _samplesDialog(BuildContext context, List<Sample>? samples) async {
-    List<Sample> selectedSamples = [];
     if (samples!.isEmpty) {
       return NotificationService.warning(
           context, 'No samples available, please add');
@@ -148,24 +145,25 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
             confirmText: const Text("OK"),
             cancelText: const Text("CANCEL"),
             items: items,
-            initialValue: const [],
+            initialValue: _selectedSamples,
             height: MediaQuery.of(context).size.height / 2.5,
             searchable: true,
             searchHint: "",
             onConfirm: (results) {
-              selectedSamples = List<Sample>.from(results).toList();
-              updateSample(selectedSamples, context);
+              _selectedSamples = List<Sample>.from(results).toList();
+              updateSample(_selectedSamples, context);
             },
           );
         });
   }
 
   void updateSample(List<Sample> selectedSamples, BuildContext context) {
-    var currentSampleIds = [...currentShipment!.samples];
+    var currentSampleIds = []; // [...currentShipment!.samples];
 
     for (Sample sample in selectedSamples) {
       currentSampleIds.add(sample.appId);
     }
+    //  currentSampleIds.toSet().toList();
 
     setState(() {
       currentShipment!.samples = currentSampleIds;
