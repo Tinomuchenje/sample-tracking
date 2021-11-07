@@ -27,10 +27,14 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
   Shipment? currentShipment;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     currentShipment = widget.shipment;
     setShipmentSamples(context);
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Shipment Samples")),
       body: Column(

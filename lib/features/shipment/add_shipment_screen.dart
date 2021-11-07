@@ -119,6 +119,12 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                               displayText: _saveButtonText,
                               fillcolor: false,
                               press: () {
+                                if (_shipment.samples.length < 1) {
+                                  NotificationService.error(
+                                      context, 'Shipment must have a sample.');
+                                  return;
+                                }
+
                                 if (_shipment.status != publishedStatus) {
                                   _shipment.status = createdStatus;
                                   saveShipment(context, _shipment);
@@ -135,6 +141,12 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                               displayText: _saveButtonText + " & Publish",
                               fillcolor: true,
                               press: () {
+                                if (_shipment.samples.length < 1) {
+                                  NotificationService.error(
+                                      context, 'Shipment must  a sample.');
+                                  return;
+                                }
+
                                 if (_shipment.status != publishedStatus) {
                                   _shipment.status = publishedStatus;
                                   saveShipment(context, _shipment);
