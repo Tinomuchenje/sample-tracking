@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 
@@ -7,7 +6,6 @@ import 'package:sample_tracking_system_flutter/utils/dao/samples_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/dao/shipment_dao.dart';
 import 'package:sample_tracking_system_flutter/utils/date_service.dart';
 import 'package:sample_tracking_system_flutter/features/shipment/state/shipment_status.dart';
-import 'package:sample_tracking_system_flutter/features/sample/sample_controller.dart';
 import 'package:sample_tracking_system_flutter/features/shipment/shipment_controller.dart';
 
 import 'package:uuid/uuid.dart';
@@ -17,7 +15,7 @@ class ShipmentProvider with ChangeNotifier {
 
   final Shipment _shipment = Shipment(samples: []);
   final List<Shipment> _shipments = [];
-  final List<Sample> _shipmentSamples = [];
+  List<dynamic> _shipmentSamples = [];
 
   Shipment get shipment => _shipment;
 
@@ -81,19 +79,23 @@ class ShipmentProvider with ChangeNotifier {
     return [...labShipments];
   }
 
-  List<Sample> get shipmentSamples {
-    loadSamples();
+  List<dynamic> get shipmentSamples {
     return [..._shipmentSamples];
   }
 
-  loadSamples() async {
-    await SampleController.getSamplesFromIds(_shipment.samples)
-        .then((listOfSamples) {
-      _shipmentSamples.clear();
-      _shipmentSamples.addAll(listOfSamples);
-      notifyListeners();
-    }).catchError((error) {});
+  set shipmentSamples(List<dynamic> shipmentSamples) {
+    _shipmentSamples = shipmentSamples;
+    notifyListeners();
   }
+
+  // loadSamples() async {
+  //   await SampleController.getSamplesFromIds(_shipment.samples)
+  //       .then((listOfSamples) {
+  //     _shipmentSamples.clear();
+  //     _shipmentSamples.addAll(listOfSamples);
+  //     notifyListeners();
+  //   }).catchError((error) {});
+  // }
 
   Future addUpdateShipment(Shipment shipment) async {
     setShipmentValues(shipment);

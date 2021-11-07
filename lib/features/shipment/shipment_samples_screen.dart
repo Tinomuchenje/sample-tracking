@@ -11,6 +11,7 @@ import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_butt
 import 'package:sample_tracking_system_flutter/widgets/notification_service.dart';
 
 import 'add_shipment_screen.dart';
+import 'state/shipment_provider.dart';
 import 'state/shipment_status.dart';
 
 class ShipmentSamples extends StatefulWidget {
@@ -22,12 +23,13 @@ class ShipmentSamples extends StatefulWidget {
 }
 
 class _ShipmentSamplesState extends State<ShipmentSamples> {
-  dynamic _displayedSamples = [];
+  // dynamic _displayedSamples = [];
   Shipment? currentShipment;
 
   @override
   Widget build(BuildContext context) {
     currentShipment = widget.shipment;
+    setShipmentSamples(context);
 
     return Scaffold(
       appBar: AppBar(title: const Text("Shipment Samples")),
@@ -43,10 +45,21 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
             }),
           ),
           const SizedBox(height: 20),
-          Expanded(child: shipmentExistingSamplesCards()),
+          Expanded(
+            child: Consumer<ShipmentProvider>(
+                builder: (context, shipmentProvider, child) {
+              return shipmentExistingSamplesCards(
+                  shipmentProvider.shipmentSamples);
+            }),
+          ),
         ],
       ),
     );
+  }
+
+  void setShipmentSamples(BuildContext context) {
+    Provider.of<ShipmentProvider>(context).shipmentSamples =
+        currentShipment!.samples;
   }
 
   Widget addSamples(BuildContext context, List<Sample> samples) {
@@ -66,7 +79,7 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
               displayText: "Save samples",
               fillcolor: false,
               press: () {
-                Navigator.push(
+                Navigator.pop(
                   context,
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) =>
@@ -94,15 +107,13 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
     );
   }
 
-  Widget shipmentExistingSamplesCards() {
-    _displayedSamples = currentShipment!.samples;
-
-    if (_displayedSamples.isEmpty) {
+  Widget shipmentExistingSamplesCards(List<dynamic> displayedSamples) {
+    if (displayedSamples.isEmpty) {
       return const Text("No samples available");
     }
 
     return FutureBuilder(
-      future: SampleController.getSamplesFromIds(_displayedSamples),
+      future: SampleController.getSamplesFromIds(displayedSamples),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return const Text("Loading");
@@ -148,7 +159,7 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
   }
 
   void updateSample(List<Sample> selectedSamples, BuildContext context) {
-    var currentSampleIds = currentShipment!.samples;
+    var currentSampleIds = [...currentShipment!.samples];
 
     for (Sample sample in selectedSamples) {
       currentSampleIds.add(sample.appId);
@@ -157,5 +168,7 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
     setState(() {
       currentShipment!.samples = currentSampleIds;
     });
+
+    setShipmentSamples(context);
   }
 }

@@ -190,7 +190,9 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
     return CustomFormDropdown(
         items: destinationMenus,
         labelText: "Destination",
-        value: _shipment.destination.isNotEmpty ? _shipment.destination : null,
+        value: _shipment.destination.isEmpty || _shipment.destination == 'null'
+            ? null
+            : _shipment.destination,
         onChanged: (value) {
           if (_shipment.status == publishedStatus) {
             preventEditingPublishedMessage(context);
