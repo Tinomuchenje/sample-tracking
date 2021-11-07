@@ -9,6 +9,7 @@ import 'package:sample_tracking_system_flutter/features/shipment/shipment_sample
 import 'package:sample_tracking_system_flutter/features/shipment/state/shipment_provider.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
+import 'package:sample_tracking_system_flutter/utils/date_service.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_banner.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_form_dropdown.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
@@ -34,6 +35,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   int _sampleCount = 0;
   List<String> selectedSamples = [];
   bool isNewForm = false;
+  String? shipmentDescription;
 
   @override
   Widget build(BuildContext context) {
@@ -70,9 +72,10 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                 child: Column(
                   children: <Widget>[
                     CustomTextFormField(
-                      enabled: _shipment.status != publishedStatus,
+                      enabled: false,
                       labelText: "Shipment Label",
                       initialValue: _shipment.description,
+                      controller: shipmentDescription,
                       onSaved: (value) {
                         if (value != null) _shipment.description = value;
                       },
@@ -92,7 +95,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                     ),
                     Visibility(
                       visible: !isNewForm,
-                      child: const CustomTextFormField(
+                      child: CustomTextFormField(
                           labelText: "Creater",
                           initialValue: "Admin",
                           enabled: false),
@@ -177,7 +180,7 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   }
 
   _desination(Shipment _shipment) {
-    List<String> destinations = ["Hub 1", "Lab 1"];
+    List<String> destinations = ['Hub 1', 'Lab 1'];
 
     var destinationMenus = destinations.map((String sampleType) {
       return DropdownMenuItem<String>(
@@ -187,14 +190,18 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
     return CustomFormDropdown(
         items: destinationMenus,
         labelText: "Destination",
-        value: _shipment.destination.isEmpty
-            ? destinations[0]
-            : _shipment.destination,
+        value: _shipment.destination.isNotEmpty ? _shipment.destination : null,
         onChanged: (value) {
           if (_shipment.status == publishedStatus) {
             preventEditingPublishedMessage(context);
           } else {
-            _shipment.destination = value.toString();
+            setState(() {
+              _shipment.destination = value.toString();
+              _shipment.description = shipmentDescription =
+                  _shipment.destination +
+                      ' ' +
+                      DateService.convertToIsoString(DateTime.now());
+            });
           }
         },
         onSaved: (value) {

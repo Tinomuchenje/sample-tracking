@@ -7,14 +7,14 @@ class CustomTextFormField extends StatefulWidget {
   final Function(String?)? onSaved;
   final Function(String?)? onChanged;
   final String? Function(String?)? customValidator;
-  final String? initialValue;
+  String? initialValue;
   final bool? enabled;
-  final TextEditingController? controller;
+  final String? controller;
   final TextInputType? keyboardType;
 
-  const CustomTextFormField(
+  CustomTextFormField(
       {Key? key,
-        this.hintText = "",
+      this.hintText = "",
       required this.labelText,
       this.onSaved,
       this.initialValue,
@@ -22,7 +22,8 @@ class CustomTextFormField extends StatefulWidget {
       this.controller,
       this.keyboardType,
       this.customValidator,
-      this.onChanged}) : super(key: key);
+      this.onChanged})
+      : super(key: key);
 
   @override
   _CustomTextFormFieldState createState() => _CustomTextFormFieldState();
@@ -41,7 +42,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             hintText: widget.hintText,
             labelText: widget.labelText,
           ),
-          controller: widget.controller,
+          controller: setController(widget.controller),
           enabled: widget.enabled,
           initialValue: widget.initialValue,
           onSaved: widget.onSaved,
@@ -54,5 +55,11 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 return null;
               },
         ));
+  }
+
+  TextEditingController? setController(String? value) {
+    if (value != null) widget.initialValue = null;
+
+    return value == null ? null : TextEditingController(text: value);
   }
 }
