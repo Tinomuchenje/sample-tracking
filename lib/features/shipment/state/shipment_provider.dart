@@ -90,6 +90,7 @@ class ShipmentProvider with ChangeNotifier {
 
   Future addUpdateShipment(Shipment shipment) async {
     setShipmentValues(shipment);
+
     await setSampleShipmentDetails(shipment);
 
     await ShipmentController().createOrUpdate(shipment).then((savedShipment) {
@@ -122,6 +123,7 @@ class ShipmentProvider with ChangeNotifier {
     for (var sampleId in shipment.samples) {
       Sample sample = await SampleDao().getSample(sampleId);
       assignSampleToShipment(sample, shipment);
+      sample.location = shipment.destination;
       sample.status = shipment.status;
       await SampleDao().insertOrUpdate(sample);
     }

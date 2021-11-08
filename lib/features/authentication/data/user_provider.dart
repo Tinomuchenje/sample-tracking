@@ -21,6 +21,7 @@ class UserProvider with ChangeNotifier {
   Future _getUserDetails() async {
     await AppInformationDao().getUserDetails().then((result) {
       userDetails = result;
+      notifyListeners();
     });
   }
 

@@ -29,7 +29,7 @@ class _ShipmentSamplesCardState extends State<ShipmentSamplesCard> {
                   subtitle: Row(
                     children: [
                       const Text("Status:"),
-                      Text(widget.samples[index].status)
+                      Text(widget.samples[index].status),
                     ],
                   ),
                   leading: const Icon(

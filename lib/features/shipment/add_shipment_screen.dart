@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:sample_tracking_system_flutter/consts/constants.dart';
+import 'package:sample_tracking_system_flutter/features/authentication/data/user_provider.dart';
 import 'package:sample_tracking_system_flutter/features/home/home_page.dart';
 import 'package:sample_tracking_system_flutter/features/shipment/shipment_samples_screen.dart';
 import 'package:sample_tracking_system_flutter/features/shipment/state/shipment_provider.dart';
@@ -174,6 +175,12 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
   void saveShipment(BuildContext context, Shipment _shipment) {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+      var userDetails =
+          Provider.of<UserProvider>(context, listen: false).userDetails;
+
+      if (userDetails != null) {
+        _shipment.createdBy = userDetails.firstName! + userDetails.lastName!;
+      }
 
       Provider.of<ShipmentProvider>(context, listen: false)
           .addUpdateShipment(_shipment);
