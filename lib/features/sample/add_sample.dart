@@ -109,13 +109,13 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                           initialValue: _sample.status,
                         ),
                       ),
-                      Visibility(
-                        visible: !isNewForm,
-                        child: CustomTextFormField(
-                            enabled: false,
-                            labelText: "Location",
-                            initialValue: "Hurungwe"),
-                      ),
+                      // Visibility(
+                      //   visible: !isNewForm,
+                      //   child: CustomTextFormField(
+                      //       enabled: false,
+                      //       labelText: "Location",
+                      //       initialValue: "Hurungwe"),
+                      // ),
                       const SizedBox(height: 20),
                       Visibility(
                         visible: _sample.shipmentId.isEmpty,
@@ -162,7 +162,8 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
                                     return;
                                   }
                                   saveSampleForm(_sample, context);
-
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
                                   showSearch(
                                       context: context,
                                       delegate: PatientSearch());
@@ -256,11 +257,11 @@ class _AddorUpdateSampleDialogState extends State<AddorUpdateSampleDialog> {
     ];
 
     return CustomFormDropdown(
-      value: _test ?? _sample.labId.isEmpty ? null : _sample.labId,
+      value: _test ?? _sample.testId.isEmpty ? null : _sample.testId,
       labelText: "Select Test",
       items: testMenus,
       onSaved: (value) {
-        _sample.labId = value.toString();
+        _sample.testId = value.toString();
       },
       onChanged: (value) {
         _test = value as String;

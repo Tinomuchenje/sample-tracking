@@ -39,10 +39,6 @@ class SamplesProvider with ChangeNotifier {
       sample.status = "Created";
     }
 
-    if (sample.clientSampleId.isEmpty) {
-      sample.clientSampleId = "SFDFASDS";
-    }
-
     sample.lastModifiedDate =
         _sample.createdDate = DateService.convertToIsoString(DateTime.now());
 
