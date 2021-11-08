@@ -40,9 +40,7 @@ class _GridDashBoardState extends State<GridDashBoard> {
             iconColor: Colors.greenAccent.shade700),
         buildDashboardItem(
             title: "Due Collection",
-            count: shipmentProvider.shipments.length -
-                (shipmentProvider.inprogressShipments.length +
-                    shipmentProvider.closedShipments.length),
+            count: shipmentProvider.publishedShipments.length,
             icon: Icons.check_circle_outline,
             iconColor: Colors.redAccent),
         buildDashboardItem(

@@ -93,13 +93,13 @@ class _AddorUpdateShipmentDialogState extends State<AddorUpdateShipmentDialog> {
                         }
                       },
                     ),
-                    Visibility(
-                      visible: !isNewForm,
-                      child: CustomTextFormField(
-                          labelText: "Creater",
-                          initialValue: "Admin",
-                          enabled: false),
-                    ),
+                    // Visibility(
+                    //   visible: !isNewForm,
+                    //   child: CustomTextFormField(
+                    //       labelText: "Creater",
+                    //       initialValue: "Admin",
+                    //       enabled: false),
+                    // ),
                     const SizedBox(
                       height: 20,
                     ),
