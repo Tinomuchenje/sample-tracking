@@ -27,7 +27,10 @@ class _ShipmentSamplesCardState extends State<ShipmentSamplesCard> {
                   onTap: () {},
                   title: Text(widget.samples[index].clientPatientId),
                   subtitle: Row(
-                    children: const [Text("Status:"), Text("Ready")],
+                    children: [
+                      const Text("Status:"),
+                      Text(widget.samples[index].status)
+                    ],
                   ),
                   leading: const Icon(
                     Icons.folder,
