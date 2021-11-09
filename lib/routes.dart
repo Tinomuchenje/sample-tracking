@@ -10,6 +10,7 @@ import 'features/courier/dashboard.dart';
 import 'features/home/home_page.dart';
 import 'features/patient/add_patient.dart';
 import 'features/sample/add_sample.dart';
+import 'features/shipment/create_update_shipment.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -31,6 +32,9 @@ class RouteGenerator {
 
       case addUpdatePatient:
         return navigateToPage(const AddorUpdatePatientDialog());
+
+       case createUpdateShipment:
+        return navigateToPage(const CreateUpdateShipment());
 
       case addUpdateSample:
         {

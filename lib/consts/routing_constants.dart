@@ -8,3 +8,4 @@ const String samplesPage = 'sample';
 const String addUpdateSample = 'addUpdateSample';
 const String shipmentsPage = 'shipments';
 const String registerAccountPage = 'registerAccount';
+const String createUpdateShipment = 'createUpdateShipment';

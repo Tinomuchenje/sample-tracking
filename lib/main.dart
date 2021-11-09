@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Sample Tracking App',
         theme: appTheme(),
-        initialRoute: loginPage,
+        initialRoute: createUpdateShipment,
         onGenerateRoute: RouteGenerator.generateRoute,
         home: const Entry());
   }
