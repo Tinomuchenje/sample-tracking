@@ -95,7 +95,6 @@ class ShipmentProvider with ChangeNotifier {
 
     await ShipmentController().createOrUpdate(shipment).then((savedShipment) {
       addToLocalDatabase(savedShipment);
-      // ShipmentController().notifyShipment();
     });
   }
 

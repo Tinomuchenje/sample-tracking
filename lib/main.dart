@@ -13,6 +13,7 @@ import 'consts/routing_constants.dart';
 import 'features/authentication/data/access_levels.dart';
 import 'features/authentication/data/user_provider.dart';
 import 'features/patient/data_state/patient_provider.dart';
+import 'features/shipment/shipments_screen.dart';
 
 void main() {
   runApp(
@@ -37,8 +38,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Sample Tracking App',
         theme: appTheme(),
-        initialRoute: createUpdateShipment,
+        // initialRoute: loginPage,
         onGenerateRoute: RouteGenerator.generateRoute,
-        home: const Entry());
+        home: const ShipmentsTab());
   }
 }

@@ -4,6 +4,7 @@ import 'package:sample_tracking_system_flutter/consts/routing_constants.dart';
 import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sample_tracking_system_flutter/features/authentication/entry.dart';
 import 'package:sample_tracking_system_flutter/features/authentication/login_screen.dart';
+import 'package:sample_tracking_system_flutter/models/shipment.dart';
 
 import 'features/authentication/register_account.dart';
 import 'features/courier/dashboard.dart';
@@ -33,8 +34,13 @@ class RouteGenerator {
       case addUpdatePatient:
         return navigateToPage(const AddorUpdatePatientDialog());
 
-       case createUpdateShipment:
-        return navigateToPage(const CreateUpdateShipment());
+      // case createUpdateShipment:
+      //   {
+      //     Shipment? shipment = settings.arguments as Shipment;
+      //     return navigateToPage(CreateUpdateShipment(
+      //       shipment: shipment,
+      //     ));
+      //   }
 
       case addUpdateSample:
         {
