@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:multi_select_flutter/dialog/mult_select_dialog.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:provider/provider.dart';
+import 'package:sample_tracking_system_flutter/consts/constants.dart';
 import 'package:sample_tracking_system_flutter/features/sample/sample_controller.dart';
 import 'package:sample_tracking_system_flutter/features/sample/state/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/features/shipment/state/shipment_provider.dart';
+import 'package:sample_tracking_system_flutter/features/shipment/state/shipment_status.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
+import 'package:sample_tracking_system_flutter/widgets/custom_banner.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_button.dart';
 
+import 'create_update_shipment.dart';
 import 'shipment_card.dart';
 
 class AddSamples extends StatefulWidget {
@@ -20,7 +24,7 @@ class AddSamples extends StatefulWidget {
 }
 
 class _AddSamplesState extends State<AddSamples> {
-  List<Sample> _displayedSamples = [];
+  // List<Sample> _displayedSamples = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,18 +36,62 @@ class _AddSamplesState extends State<AddSamples> {
           var displaySamples = shpmentProvider.displayShipmentSamples;
           return Column(
             children: [
-              CustomElevatedButton(
-                  displayText: "Add Samples",
-                  fillcolor: true,
-                  press: () {
-                    // pop dialog
-                    // set values on sipment.samples
-                    _samplesDialog(context, displaySamples);
-                  }),
-              ShipmentSamplesCard(samples: displaySamples)
+              ShipmentSamplesCard(samples: displaySamples),
+              Visibility(
+                visible: isEnabled,
+                replacement: const CustomBanner(
+                  message: 'Editing disabled for shipments in transit.',
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(defaultPadding),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        width: 140,
+                        child: CustomElevatedButton(
+                            displayText: "Save",
+                            fillcolor: true,
+                            press: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                              Provider.of<ShipmentProvider>(context,
+                                      listen: false)
+                                  .displayShipmentSamples
+                                  .clear();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      CreateUpdateShipment(
+                                    shipment: widget.shipment,
+                                  ),
+                                  fullscreenDialog: true,
+                                ),
+                              );
+                            }),
+                      ),
+                      SizedBox(
+                        width: 140,
+                        child: CustomElevatedButton(
+                            displayText: "Add Samples",
+                            fillcolor: true,
+                            press: () {
+                              _samplesDialog(context, displaySamples);
+                            }),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           );
         }));
+  }
+
+  bool get isEnabled {
+    return widget.shipment.status == createdStatus ||
+        widget.shipment.status.isEmpty;
   }
 
   void _samplesDialog(BuildContext context, List<Sample> initialSamples) async {

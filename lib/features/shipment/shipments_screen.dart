@@ -46,7 +46,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
                   builder: (BuildContext context) => CreateUpdateShipment(
                     shipment: Shipment(),
                   ),
-                  fullscreenDialog: true,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                  fullscreenDialog: true,
                 ),
               );
             },
@@ -87,17 +87,15 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
           child: CustomCard(
             child: ListTile(
               onTap: () {
-                Navigator.of(context).pushNamed(createUpdateShipment);
-
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute<void>(
-                //     builder: (BuildContext context) =>
-                //         AddorUpdateShipmentDialog(
-                //             shipmentData: shipment[index]),
-                //     fullscreenDialog: true,
-                //   ),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => CreateUpdateShipment(
+                      shipment: shipment[index],
+                    ),
+                    fullscreenDialog: true,
+                  ),
+                );
               },
               title: Text(shipment[index].description.toString()),
               subtitle: Row(

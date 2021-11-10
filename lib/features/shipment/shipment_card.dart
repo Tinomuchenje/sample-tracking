@@ -24,26 +24,27 @@ class _ShipmentSamplesCardState extends State<ShipmentSamplesCard> {
             padding: const EdgeInsets.all(8.0),
             child: CustomCard(
               child: ListTile(
-                  onTap: () {},
-                  title: Text(widget.samples[index].clientPatientId),
-                  subtitle: Row(
-                    children: [
-                      const Text("Status:"),
-                      Text(widget.samples[index].status),
-                    ],
-                  ),
-                  leading: const Icon(
-                    Icons.folder,
-                    size: 45,
-                    color: Colors.blue,
-                  ),
-                  trailing: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.delete_outline,
-                      color: Colors.red,
-                    ),
-                  )),
+                onTap: () {},
+                title: Text(widget.samples[index].clientPatientId),
+                subtitle: Row(
+                  children: [
+                    const Text("Status:"),
+                    Text(widget.samples[index].status),
+                  ],
+                ),
+                leading: const Icon(
+                  Icons.folder,
+                  size: 45,
+                  color: Colors.blue,
+                ),
+                // trailing: IconButton(
+                //   onPressed: () {},
+                //   icon: const Icon(
+                //     Icons.delete_outline,
+                //     color: Colors.red,
+                //   ),
+                // )
+              ),
             ),
           );
         },
