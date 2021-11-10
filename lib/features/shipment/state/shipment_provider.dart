@@ -15,7 +15,7 @@ class ShipmentProvider with ChangeNotifier {
 
   final Shipment _shipment = Shipment(samples: []);
   final List<Shipment> _shipments = [];
-  List<dynamic> _shipmentSamples = [];
+  List<Sample> _displayShipmentSamples = [];
 
   Shipment get shipment => _shipment;
 
@@ -79,12 +79,12 @@ class ShipmentProvider with ChangeNotifier {
     return [...labShipments];
   }
 
-  List<dynamic> get shipmentSamples {
-    return [..._shipmentSamples];
+  List<Sample> get displayShipmentSamples {
+    return [..._displayShipmentSamples];
   }
 
-  set shipmentSamples(List<dynamic> shipmentSamples) {
-    _shipmentSamples = shipmentSamples;
+  set displayShipmentSamples(List<Sample> shipmentSamples) {
+    _displayShipmentSamples = shipmentSamples;
     notifyListeners();
   }
 

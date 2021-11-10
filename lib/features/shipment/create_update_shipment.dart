@@ -10,6 +10,7 @@ import 'package:sample_tracking_system_flutter/widgets/custom_text_elevated_butt
 import 'package:sample_tracking_system_flutter/widgets/custom_text_form_field.dart';
 import 'package:sample_tracking_system_flutter/widgets/notification_service.dart';
 
+import 'add_samples.dart';
 import 'state/shipment_provider.dart';
 
 class CreateUpdateShipment extends StatefulWidget {
@@ -67,7 +68,17 @@ class _CreateUpdateShipmentState extends State<CreateUpdateShipment> {
                                 textStyle: const TextStyle(
                               fontSize: 15.0,
                             ))),
-                        onPressed: () {}),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) => AddSamples(
+                                shipment: _shipment,
+                              ),
+                              fullscreenDialog: true,
+                            ),
+                          );
+                        }),
                     const SizedBox(
                       height: 20,
                     ),

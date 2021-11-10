@@ -55,7 +55,7 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
           Consumer<ShipmentProvider>(
               builder: (context, shipmentProvider, child) {
             return shipmentExistingSamplesCards(
-                shipmentProvider.shipmentSamples);
+                shipmentProvider.displayShipmentSamples);
           }),
         ],
       ),
@@ -63,7 +63,7 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
   }
 
   void setShipmentSamples(BuildContext context) {
-    Provider.of<ShipmentProvider>(context, listen: false).shipmentSamples =
+    Provider.of<ShipmentProvider>(context, listen: false).displayShipmentSamples =
         currentShipment!.samples;
   }
 
