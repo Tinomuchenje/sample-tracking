@@ -24,26 +24,29 @@ class _AddSamplesState extends State<AddSamples> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Samples"),
-      ),
-      body: Column(
-        children: [
-          CustomElevatedButton(
-              displayText: "Add Samples",
-              fillcolor: true,
-              press: () {
-                // pop dialog
-                // set values on sipment.samples
-                _samplesDialog(context);
-              }),
-          ShipmentSamplesCard(samples: [])
-        ],
-      ),
-    );
+        appBar: AppBar(
+          title: const Text("Samples"),
+        ),
+        body: Consumer<ShipmentProvider>(
+            builder: (context, shpmentProvider, child) {
+          var displaySamples = shpmentProvider.displayShipmentSamples;
+          return Column(
+            children: [
+              CustomElevatedButton(
+                  displayText: "Add Samples",
+                  fillcolor: true,
+                  press: () {
+                    // pop dialog
+                    // set values on sipment.samples
+                    _samplesDialog(context, displaySamples);
+                  }),
+              ShipmentSamplesCard(samples: displaySamples)
+            ],
+          );
+        }));
   }
 
-  void _samplesDialog(BuildContext context) async {
+  void _samplesDialog(BuildContext context, List<Sample> initialSamples) async {
     var samples =
         Provider.of<SamplesProvider>(context, listen: false).unshipedSamples;
     var items = samples
@@ -58,7 +61,7 @@ class _AddSamplesState extends State<AddSamples> {
             confirmText: const Text("OK"),
             cancelText: const Text("CANCEL"),
             items: items,
-            initialValue: widget.shipment.samples,
+            initialValue: initialSamples,
             height: MediaQuery.of(context).size.height / 2.5,
             searchable: true,
             searchHint: "",
@@ -87,7 +90,8 @@ class _AddSamplesState extends State<AddSamples> {
 
     await SampleController.getSamplesFromIds(widget.shipment.samples)
         .then((value) {
-      Provider.of<ShipmentProvider>(context).displayShipmentSamples = value;
+      Provider.of<ShipmentProvider>(context, listen: false)
+          .displayShipmentSamples = value;
     });
   }
 }
