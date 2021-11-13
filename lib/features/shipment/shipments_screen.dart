@@ -31,7 +31,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           bottom: TabBar(tabs: _renderTabs()),
@@ -58,9 +58,8 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
           return TabBarView(children: [
             _shipments(shipmentProvider.clientShipments),
             CourierShipment(shipment: shipmentProvider.inprogressShipments),
-            _shipments(shipmentProvider.hubShipments),
+            _shipments(shipmentProvider.closedShipments),
             _shipments(shipmentProvider.labShipments),
-            _shipments(shipmentProvider.closedShipments)
           ]);
         }),
       ),
@@ -73,7 +72,6 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
       Tab(text: "Courier"),
       Tab(text: "Hub"),
       Tab(text: "Lab"),
-      Tab(text: "Closed"),
     ];
   }
 
