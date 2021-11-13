@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sample_tracking_system_flutter/consts/routing_constants.dart';
 
 import 'package:sample_tracking_system_flutter/features/shipment/add_shipment_screen.dart';
 import 'package:sample_tracking_system_flutter/features/shipment/state/shipment_provider.dart';
@@ -8,6 +9,8 @@ import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sample_tracking_system_flutter/widgets/courier_shipment.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_card.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_sync_status.dart';
+
+import 'create_update_shipment.dart';
 
 class ShipmentsTab extends StatefulWidget {
   const ShipmentsTab({Key? key}) : super(key: key);
@@ -35,11 +38,12 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
           leading: IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
+              // Navigator.of(context).pushNamed(createUpdateShipment);
+
               Navigator.push(
                 context,
                 MaterialPageRoute<void>(
-                  builder: (BuildContext context) =>
-                      AddorUpdateShipmentDialog(),
+                  builder: (BuildContext context) => const CreateUpdateShipment(),
                   fullscreenDialog: true,
                 ),
               );
@@ -81,12 +85,12 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
           child: CustomCard(
             child: ListTile(
               onTap: () {
+                Provider.of<ShipmentProvider>(context).shipment =
+                    shipment[index];
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) =>
-                        AddorUpdateShipmentDialog(
-                            shipmentData: shipment[index]),
+                    builder: (BuildContext context) => CreateUpdateShipment(),
                     fullscreenDialog: true,
                   ),
                 );

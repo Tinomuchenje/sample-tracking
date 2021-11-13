@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sample_tracking_system_flutter/features/sample/state/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
@@ -13,11 +14,16 @@ import 'package:uuid/uuid.dart';
 class ShipmentProvider with ChangeNotifier {
   Uuid uuid = const Uuid();
 
-  final Shipment _shipment = Shipment(samples: []);
+  Shipment _shipment = Shipment(samples: []);
   final List<Shipment> _shipments = [];
-  List<dynamic> _shipmentSamples = [];
+  List<Sample> _displayShipmentSamples = [];
 
   Shipment get shipment => _shipment;
+
+  set shipment(Shipment shipment) {
+    _shipment = shipment;
+    notifyListeners();
+  }
 
   List<Shipment> get shipments {
     getAllShipmentsFromdatabase();
@@ -79,12 +85,18 @@ class ShipmentProvider with ChangeNotifier {
     return [...labShipments];
   }
 
-  List<dynamic> get shipmentSamples {
-    return [..._shipmentSamples];
+  List<Sample> get displayShipmentSamples {
+    return [..._displayShipmentSamples];
   }
 
-  set shipmentSamples(List<dynamic> shipmentSamples) {
-    _shipmentSamples = shipmentSamples;
+  set displayShipmentSamples(List<Sample> shipmentSamples) {
+    _displayShipmentSamples = [...shipmentSamples];
+    notifyListeners();
+  }
+
+  removeSampleFromDisplayShipment(Sample sample) {
+    _displayShipmentSamples.remove(sample);
+
     notifyListeners();
   }
 
@@ -95,7 +107,6 @@ class ShipmentProvider with ChangeNotifier {
 
     await ShipmentController().createOrUpdate(shipment).then((savedShipment) {
       addToLocalDatabase(savedShipment);
-      // ShipmentController().notifyShipment();
     });
   }
 

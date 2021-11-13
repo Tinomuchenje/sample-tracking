@@ -7,7 +7,7 @@ class CustomFormDropdown extends StatefulWidget {
   final String labelText;
   Object? value;
   List<DropdownMenuItem<Object>> items;
-  Function(Object?) onChanged;
+  Function(Object?)? onChanged;
   Function(Object?) onSaved;
 
   CustomFormDropdown(

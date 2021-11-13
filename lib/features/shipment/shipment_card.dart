@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sample_tracking_system_flutter/features/sample/state/samples_provider.dart';
 import 'package:sample_tracking_system_flutter/models/sample.dart';
 import 'package:sample_tracking_system_flutter/widgets/custom_card.dart';
+
+import 'state/shipment_provider.dart';
 
 class ShipmentSamplesCard extends StatefulWidget {
   final List<Sample> samples;
@@ -38,7 +42,9 @@ class _ShipmentSamplesCardState extends State<ShipmentSamplesCard> {
                     color: Colors.blue,
                   ),
                   trailing: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      removedSampleFromShipment(index, context);
+                    },
                     icon: const Icon(
                       Icons.delete_outline,
                       color: Colors.red,
@@ -49,5 +55,19 @@ class _ShipmentSamplesCardState extends State<ShipmentSamplesCard> {
         },
       ),
     );
+  }
+
+  void removedSampleFromShipment(int index, BuildContext context) {
+    //widget.samples.remove(widget.samples[index]);
+    Provider.of<ShipmentProvider>(context, listen: false)
+        .removeSampleFromDisplayShipment(widget.samples[index]);
+
+    ///
+    /// Since we removed the sample on the shipment we need to update the
+    /// shipment itself to highligh it is no longer associated to a shipment
+    ///
+    widget.samples[index].shipmentId = '';
+    Provider.of<SamplesProvider>(context, listen: false)
+        .addSample(widget.samples[index]);
   }
 }
