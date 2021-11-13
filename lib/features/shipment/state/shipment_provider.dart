@@ -84,7 +84,7 @@ class ShipmentProvider with ChangeNotifier {
   }
 
   set displayShipmentSamples(List<Sample> shipmentSamples) {
-    _displayShipmentSamples = shipmentSamples;
+    _displayShipmentSamples = [...shipmentSamples];
     notifyListeners();
   }
 

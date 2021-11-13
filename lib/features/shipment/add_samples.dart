@@ -24,7 +24,12 @@ class AddSamples extends StatefulWidget {
 }
 
 class _AddSamplesState extends State<AddSamples> {
-  // List<Sample> _displayedSamples = [];
+  @override
+  void initState() {
+    setSamplesToDisplay();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,6 +141,10 @@ class _AddSamplesState extends State<AddSamples> {
       print(widget.shipment.samples.toString());
     });
 
+    await setSamplesToDisplay();
+  }
+
+  Future setSamplesToDisplay() async {
     await SampleController.getSamplesFromIds(widget.shipment.samples)
         .then((value) {
       Provider.of<ShipmentProvider>(context, listen: false)
