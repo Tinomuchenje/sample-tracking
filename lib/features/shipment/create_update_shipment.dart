@@ -31,12 +31,12 @@ class _CreateUpdateShipmentState extends State<CreateUpdateShipment> {
 
   @override
   void initState() {
-    _shipment = Provider.of<ShipmentProvider>(context).shipment;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    _shipment = Provider.of<ShipmentProvider>(context, listen: false).shipment;
     _sampleCount = _shipment.samples.length;
 
     return Scaffold(
@@ -84,7 +84,7 @@ class _CreateUpdateShipmentState extends State<CreateUpdateShipment> {
                       Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) => AddSamples(                    ),
+                          builder: (BuildContext context) => const AddSamples(),
                           fullscreenDialog: true,
                         ),
                       );

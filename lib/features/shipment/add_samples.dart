@@ -28,12 +28,13 @@ class _AddSamplesState extends State<AddSamples> {
   @override
   void initState() {
     setSamplesToDisplay();
-    _shipment = Provider.of<ShipmentProvider>(context).shipment;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    _shipment = Provider.of<ShipmentProvider>(context, listen: false).shipment;
+    setSamplesToDisplay();
     return Scaffold(
         appBar: AppBar(
           title: const Text("Samples"),
@@ -67,8 +68,9 @@ class _AddSamplesState extends State<AddSamples> {
                                   .displayShipmentSamples
                                   .clear();
 
-                              Provider.of<ShipmentProvider>(context).shipment =
-                                  _shipment;
+                              Provider.of<ShipmentProvider>(context,
+                                      listen: false)
+                                  .shipment = _shipment;
                               Navigator.push(
                                 context,
                                 MaterialPageRoute<void>(
