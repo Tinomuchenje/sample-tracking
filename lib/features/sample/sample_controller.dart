@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:sample_tracking_system_flutter/features/authentication/authentication_controller.dart';
 
 class SampleController {
-  static Future<List<Sample>> getSamplesFromIds(dynamic sampleIds) async {
+  static Future<List<Sample>> getSamplesFromIds(List<String> sampleIds) async {
     List<Sample> samples = [];
 
     for (var sampleId in sampleIds) {

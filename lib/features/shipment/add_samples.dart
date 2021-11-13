@@ -87,7 +87,9 @@ class _AddSamplesState extends State<AddSamples> {
                             displayText: "Select Samples",
                             fillcolor: true,
                             press: () {
-                              _samplesDialog(context, displaySamples);
+                              setState(() {
+                                _samplesDialog(context, displaySamples);
+                              });
                             }),
                       ),
                     ],

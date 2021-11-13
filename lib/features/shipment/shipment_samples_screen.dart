@@ -56,8 +56,8 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
   }
 
   void setShipmentSamples(BuildContext context) {
-    Provider.of<ShipmentProvider>(context, listen: false).displayShipmentSamples =
-        currentShipment!.samples;
+    Provider.of<ShipmentProvider>(context, listen: false)
+        .displayShipmentSamples = currentShipment!.samples;
   }
 
   Widget addSamples(BuildContext context, List<Sample> samples) {
@@ -112,8 +112,14 @@ class _ShipmentSamplesState extends State<ShipmentSamples> {
       return const Text("No samples available");
     }
 
+    List<String> currentSampleIds = [];
+
+    for (Sample sample in displayedSamples) {
+      currentSampleIds.add(sample.appId);
+    }
+
     return FutureBuilder(
-      future: SampleController.getSamplesFromIds(displayedSamples),
+      future: SampleController.getSamplesFromIds(currentSampleIds),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return const Text("Loading");

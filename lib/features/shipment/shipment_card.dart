@@ -66,8 +66,10 @@ class _ShipmentSamplesCardState extends State<ShipmentSamplesCard> {
     /// Since we removed the sample on the shipment we need to update the
     /// shipment itself to highligh it is no longer associated to a shipment
     ///
-    widget.samples[index].shipmentId = '';
-    Provider.of<SamplesProvider>(context, listen: false)
-        .addSample(widget.samples[index]);
+    if (widget.samples[index].shipmentId.isNotEmpty) {
+      widget.samples[index].shipmentId = '';
+      Provider.of<SamplesProvider>(context, listen: false)
+          .addSample(widget.samples[index]);
+    }
   }
 }

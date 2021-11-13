@@ -97,7 +97,13 @@ class ShipmentProvider with ChangeNotifier {
   removeSampleFromDisplayShipment(Sample sample) {
     _displayShipmentSamples.remove(sample);
 
-    _shipment.samples = _displayShipmentSamples;
+    List<String> sampleIds = [];
+
+    for (Sample sample in _displayShipmentSamples) {
+      sampleIds.add(sample.appId);
+    }
+
+    _shipment.samples = sampleIds;
 
     notifyListeners();
   }
