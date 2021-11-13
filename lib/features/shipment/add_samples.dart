@@ -55,7 +55,7 @@ class _AddSamplesState extends State<AddSamples> {
                       SizedBox(
                         width: 140,
                         child: CustomElevatedButton(
-                            displayText: "Save",
+                            displayText: "Confirm",
                             fillcolor: true,
                             press: () {
                               Navigator.pop(context);
@@ -79,7 +79,7 @@ class _AddSamplesState extends State<AddSamples> {
                       SizedBox(
                         width: 140,
                         child: CustomElevatedButton(
-                            displayText: "Add Samples",
+                            displayText: "Select Samples",
                             fillcolor: true,
                             press: () {
                               _samplesDialog(context, displaySamples);

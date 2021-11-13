@@ -43,9 +43,7 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
               Navigator.push(
                 context,
                 MaterialPageRoute<void>(
-                  builder: (BuildContext context) => CreateUpdateShipment(
-                    shipment: Shipment(),
-                  ),
+                  builder: (BuildContext context) => const CreateUpdateShipment(),
                   fullscreenDialog: true,
                 ),
               );
@@ -87,12 +85,12 @@ class _ShipmentsTabState extends State<ShipmentsTab> {
           child: CustomCard(
             child: ListTile(
               onTap: () {
+                Provider.of<ShipmentProvider>(context).shipment =
+                    shipment[index];
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => CreateUpdateShipment(
-                      shipment: shipment[index],
-                    ),
+                    builder: (BuildContext context) => CreateUpdateShipment(),
                     fullscreenDialog: true,
                   ),
                 );

@@ -16,8 +16,9 @@ import 'state/shipment_provider.dart';
 import 'state/shipment_status.dart';
 
 class CreateUpdateShipment extends StatefulWidget {
-  Shipment shipment;
-  CreateUpdateShipment({Key? key, required this.shipment}) : super(key: key);
+  const CreateUpdateShipment({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _CreateUpdateShipmentState createState() => _CreateUpdateShipmentState();
@@ -30,7 +31,7 @@ class _CreateUpdateShipmentState extends State<CreateUpdateShipment> {
 
   @override
   void initState() {
-    _shipment = widget.shipment;
+    _shipment = Provider.of<ShipmentProvider>(context).shipment;
     super.initState();
   }
 
@@ -44,98 +45,102 @@ class _CreateUpdateShipmentState extends State<CreateUpdateShipment> {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(defaultPadding),
-            child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    _desination(),
-                    CustomTextFormField(
-                      labelText: 'Description',
-                      enabled: false,
-                      controller: _shipment.description,
-                    ),
-                    CustomTextFormField(
-                      enabled: isEnabled,
-                      keyboardType: TextInputType.number,
-                      labelText: "Temperature Origin",
-                      controller: _shipment.temperatureOrigin,
-                      onChanged: (value) {
-                        if (value != null) _shipment.temperatureOrigin = value;
-                      },
-                    ),
-                    Row(
-                      children: [
-                        TextButton(
-                            child: Text('View Samples',
-                                style: GoogleFonts.openSans(
-                                    textStyle: const TextStyle(
-                                  fontSize: 15.0,
-                                ))),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (BuildContext context) => AddSamples(
-                                    shipment: _shipment,
-                                  ),
-                                  fullscreenDialog: true,
-                                ),
-                              );
-                            }),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text("$_sampleCount samples",
-                              style: GoogleFonts.openSans(
-                                  textStyle: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 15.0,
-                              ))),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Visibility(
-                      visible: isEnabled,
-                      replacement: const CustomBanner(
-                        message: 'Editing disabled for shipments in transit.',
-                      ),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            SizedBox(
-                              height: 50,
-                              width: 150,
-                              child: CustomElevatedButton(
-                                displayText: 'Save',
-                                fillcolor: false,
-                                press: () {
-                                  _shipment.status = createdStatus;
-                                  _saveShipments();
-                                },
-                              ),
-                            ),
-                            SizedBox(
-                              height: 50,
-                              width: 150,
-                              child: CustomElevatedButton(
-                                displayText: 'Publish',
-                                fillcolor: true,
-                                press: () {
-                                  _shipment.status = publishedStatus;
-                                  _saveShipments();
-                                },
-                              ),
-                            )
-                          ]),
-                    )
-                  ],
-                )),
+            child: shipmentForm(context),
           ),
         ),
       ),
     );
+  }
+
+  Form shipmentForm(BuildContext context) {
+    return Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            _desination(),
+            CustomTextFormField(
+              labelText: 'Shipment Label',
+              enabled: false,
+              controller: _shipment.description,
+            ),
+            CustomTextFormField(
+              enabled: isEnabled,
+              keyboardType: TextInputType.number,
+              labelText: "Temperature Origin",
+              controller: _shipment.temperatureOrigin,
+              onChanged: (value) {
+                if (value != null) _shipment.temperatureOrigin = value;
+              },
+            ),
+            Row(
+              children: [
+                TextButton(
+                    child: Text('View Samples',
+                        style: GoogleFonts.openSans(
+                            textStyle: const TextStyle(
+                          fontSize: 15.0,
+                        ))),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => AddSamples(
+                            shipment: _shipment,
+                          ),
+                          fullscreenDialog: true,
+                        ),
+                      );
+                    }),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("$_sampleCount samples",
+                      style: GoogleFonts.openSans(
+                          textStyle: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                      ))),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Visibility(
+              visible: isEnabled,
+              replacement: const CustomBanner(
+                message: 'Editing disabled for shipments in transit.',
+              ),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: 50,
+                      width: 150,
+                      child: CustomElevatedButton(
+                        displayText: 'Save',
+                        fillcolor: false,
+                        press: () {
+                          _shipment.status = createdStatus;
+                          _saveShipments();
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: 150,
+                      child: CustomElevatedButton(
+                        displayText: 'Publish',
+                        fillcolor: true,
+                        press: () {
+                          _shipment.status = publishedStatus;
+                          _saveShipments();
+                        },
+                      ),
+                    )
+                  ]),
+            )
+          ],
+        ));
   }
 
   bool get isEnabled {
