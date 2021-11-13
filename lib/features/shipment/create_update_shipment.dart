@@ -84,9 +84,7 @@ class _CreateUpdateShipmentState extends State<CreateUpdateShipment> {
                       Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) => AddSamples(
-                            shipment: _shipment,
-                          ),
+                          builder: (BuildContext context) => AddSamples(                    ),
                           fullscreenDialog: true,
                         ),
                       );

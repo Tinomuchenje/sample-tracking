@@ -16,17 +16,19 @@ import 'create_update_shipment.dart';
 import 'shipment_card.dart';
 
 class AddSamples extends StatefulWidget {
-  Shipment shipment;
-  AddSamples({Key? key, required this.shipment}) : super(key: key);
+  const AddSamples({Key? key}) : super(key: key);
 
   @override
   _AddSamplesState createState() => _AddSamplesState();
 }
 
 class _AddSamplesState extends State<AddSamples> {
+  Shipment _shipment = Shipment();
+
   @override
   void initState() {
     setSamplesToDisplay();
+    _shipment = Provider.of<ShipmentProvider>(context).shipment;
     super.initState();
   }
 
@@ -64,13 +66,14 @@ class _AddSamplesState extends State<AddSamples> {
                                       listen: false)
                                   .displayShipmentSamples
                                   .clear();
+
+                              Provider.of<ShipmentProvider>(context).shipment =
+                                  _shipment;
                               Navigator.push(
                                 context,
                                 MaterialPageRoute<void>(
                                   builder: (BuildContext context) =>
-                                      CreateUpdateShipment(
-                                    shipment: widget.shipment,
-                                  ),
+                                      const CreateUpdateShipment(),
                                   fullscreenDialog: true,
                                 ),
                               );
@@ -95,8 +98,7 @@ class _AddSamplesState extends State<AddSamples> {
   }
 
   bool get isEnabled {
-    return widget.shipment.status == createdStatus ||
-        widget.shipment.status.isEmpty;
+    return _shipment.status == createdStatus || _shipment.status.isEmpty;
   }
 
   void _samplesDialog(BuildContext context, List<Sample> initialSamples) async {
@@ -136,17 +138,14 @@ class _AddSamplesState extends State<AddSamples> {
     }
 
     setState(() {
-      print(widget.shipment.samples.toString());
-      widget.shipment.samples = [...currentSampleIds];
-      print(widget.shipment.samples.toString());
+      _shipment.samples = [...currentSampleIds];
     });
 
     await setSamplesToDisplay();
   }
 
   Future setSamplesToDisplay() async {
-    await SampleController.getSamplesFromIds(widget.shipment.samples)
-        .then((value) {
+    await SampleController.getSamplesFromIds(_shipment.samples).then((value) {
       Provider.of<ShipmentProvider>(context, listen: false)
           .displayShipmentSamples = value;
     });
