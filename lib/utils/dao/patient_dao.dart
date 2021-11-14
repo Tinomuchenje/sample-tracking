@@ -1,24 +1,22 @@
 import 'package:sample_tracking_system_flutter/models/patient.dart';
 import 'package:sembast/sembast.dart';
+import 'package:uuid/uuid.dart';
 
 import '../sembast.dart';
 
 class PatientDao {
   static const String tableName = "Patients";
   final _patientTable = stringMapStoreFactory.store(tableName);
+  Uuid uuid = const Uuid();
 
   Future<Database> get _database async => AppDatabase.instance.database;
 
   Future insertOrUpdate(Patient patient) async {
-    String patientId = patient.appId;
+ 
 
     await _patientTable
-        .record(patientId)
+        .record(patient.appId)
         .put(await _database, patient.toJson());
-  }
-
-  Future insertPatients(List<Map<String, dynamic>> value) async {
-    await _patientTable.addAll(await _database, value);
   }
 
   Future delete(Patient shipment) async {
@@ -26,7 +24,7 @@ class PatientDao {
     await _patientTable.delete(await _database, finder: finder);
   }
 
-  Future<List<Patient>> getAllPatients() async {
+  Future<List<Patient>> getLocalPatients() async {
     final recordSnapshot = await _patientTable.find(await _database);
 
     return recordSnapshot.map((snapshot) {

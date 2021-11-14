@@ -1,20 +1,35 @@
 import 'package:sembast/sembast.dart';
 
+import 'package:sample_tracking_system_flutter/features/authentication/data/models/user_details.dart';
+
 import '../sembast.dart';
 
 class AppInformationDao {
-  var store = StoreRef<String, String>.main();
+  final _appInfo = StoreRef.main();
+
   Future<Database> get _database async => AppDatabase.instance.database;
 
-  Future saveLoginIndicator() async {
-    await store.record('first').put(await _database, 'true');
+  Future saveUserDetails(UserDetails userDetails) async {
+    await _appInfo.record('user').put(await _database, userDetails.toJson());
   }
 
-  Future<String?> getLoginIndicator() async {
-    return await store.record('first').get(await _database);
+  Future<UserDetails?> getUserDetails() async {
+    var map = await _appInfo.record('user').get(await _database);
+    return map != null ? UserDetails.fromJson(map) : null;
   }
 
-  clearLoginIndicator() async {
-    await store.record('first').delete(await _database);
+  Future<String> saveToken(String idToken) async {
+    return await _appInfo.record('user-token').put(await _database, idToken);
+  }
+
+  Future<String> getToken() async {
+    return await _appInfo.record('user-token').get(await _database);
+  }
+
+  Future deleteLoggedInUser() async {
+    await _appInfo
+        .record('user')
+        .delete(await _database)
+        .catchError((error) {});
   }
 }

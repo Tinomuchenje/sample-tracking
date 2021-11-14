@@ -1,9 +1,9 @@
 class Shipment {
-  String id = "";
+  int? id;
   String appId = "";
   String description = "";
   String clientId = "";
-  late List<String> samples;
+  late dynamic samples;
   String status = "";
   String dateCreated = "";
   String dateModified = "";
@@ -21,9 +21,10 @@ class Shipment {
   String lastModifiedBy = "";
   String createdDate = "";
   String lastModifiedDate = "";
+  bool synced = false;
 
   Shipment({
-    this.id = "",
+    this.id,
     this.appId = "",
     this.description = "",
     this.clientId = "",
@@ -45,10 +46,11 @@ class Shipment {
     this.lastModifiedBy = "",
     this.createdDate = "",
     this.lastModifiedDate = "",
+    this.synced = false,
   });
 
   Shipment.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['_id'] ?? json['id'];
     appId = json['appId'];
     description = json['description'];
     clientId = json['clientId'];
@@ -74,9 +76,10 @@ class Shipment {
         json['isModifiedByLaboratory'] == "true" ? true : false;
     isModifiedByCourier = json['isModifiedByCourrier'] == "true" ? true : false;
     createdBy = json['createdBy'];
-    lastModifiedBy = json['lastModifiedBy'];
-    createdDate = json['createdDate'];
-    lastModifiedDate = json['createdDate'];
+    lastModifiedBy = json['lastModifiedBy'] ?? "";
+    createdDate = json['createdDate'] ?? "";
+    lastModifiedDate = json['createdDate'] ?? "";
+    // synced = json['synced'] == null ? false : true;
   }
 
   Map<String, dynamic> toJson() {
@@ -103,6 +106,7 @@ class Shipment {
     data['lastModifiedBy'] = lastModifiedBy;
     data['createdDate'] = createdDate;
     data['lastModifiedDate'] = lastModifiedDate;
+    data['synced'] = synced;
     return data;
   }
 }

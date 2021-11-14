@@ -1,15 +1,19 @@
 import 'package:sample_tracking_system_flutter/models/shipment.dart';
 import 'package:sembast/sembast.dart';
+import 'package:uuid/uuid.dart';
 
 import '../sembast.dart';
 
 class ShipmentDao {
   static const String tableName = "Shipments";
   final _shipmentTable = stringMapStoreFactory.store(tableName);
-
+  Uuid uuid = const Uuid();
   Future<Database> get _database async => AppDatabase.instance.database;
 
   Future<Shipment> insertOrUpdate(Shipment shipment) async {
+    if (shipment.appId.isEmpty) {
+      shipment.appId = uuid.v1();
+    }
     final savedShipment = await _shipmentTable
         .record(shipment.appId)
         .put(await _database, shipment.toJson());

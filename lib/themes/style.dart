@@ -6,5 +6,6 @@ ThemeData appTheme() {
       primarySwatch: Colors.green,
       primaryColor: purple,
       shadowColor: Colors.grey,
+      scaffoldBackgroundColor: const Color(0xffF5F6FB),
       appBarTheme: const AppBarTheme(backgroundColor: Colors.grey));
 }

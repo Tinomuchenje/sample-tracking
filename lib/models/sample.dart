@@ -1,6 +1,6 @@
 class Sample {
   String appId = "";
-  String id = "";
+  int? id;
   String clientSampleId = "";
   String clientPatientId = "";
   String labId = "";
@@ -33,7 +33,7 @@ class Sample {
 
   Sample(
       {this.appId = "",
-      this.id = "",
+      this.id,
       this.clientSampleId = "",
       this.clientPatientId = "",
       this.labId = "",
@@ -77,7 +77,7 @@ class Sample {
     collectedBy = json['collectedBy'];
     status = json['status'];
     comment = json['comment'];
-    synced = json['synced'] == "true" ? true : false;
+    synced = json['synced'];
     dateSynced = json['dateSynced'];
     labReferenceId = json['labReferenceId'];
     location = json['location'];
@@ -113,7 +113,7 @@ class Sample {
     data['collectedBy'] = collectedBy;
     data['status'] = status;
     data['comment'] = comment;
-    data['synced'] = synced.toString();
+    data['synced'] = synced;
     data['dateSynced'] = dateSynced;
     data['labReferenceId'] = labReferenceId;
     data['location'] = location;
@@ -133,5 +133,78 @@ class Sample {
     data['lastModifiedDate'] = lastModifiedDate;
     data['patient'] = patient;
     return data;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Sample &&
+        other.appId == appId &&
+        other.id == id &&
+        other.clientSampleId == clientSampleId &&
+        other.clientPatientId == clientPatientId &&
+        other.labId == labId &&
+        other.clientId == clientId &&
+        other.sampleType == sampleType &&
+        other.testId == testId &&
+        other.dateCollected == dateCollected &&
+        other.collectedBy == collectedBy &&
+        other.status == status &&
+        other.comment == comment &&
+        other.synced == synced &&
+        other.dateSynced == dateSynced &&
+        other.labReferenceId == labReferenceId &&
+        other.location == location &&
+        other.result == result &&
+        other.resultReceivedBy == resultReceivedBy &&
+        other.shipmentId == shipmentId &&
+        other.clientContact == clientContact &&
+        other.temperatureAtHub == temperatureAtHub &&
+        other.temperatureAtLab == temperatureAtLab &&
+        other.isModifiedByHub == isModifiedByHub &&
+        other.isModifiedByFacility == isModifiedByFacility &&
+        other.isModifiedByLaboratory == isModifiedByLaboratory &&
+        other.isModifiedByCourier == isModifiedByCourier &&
+        other.createdBy == createdBy &&
+        other.lastModifiedBy == lastModifiedBy &&
+        other.createdDate == createdDate &&
+        other.lastModifiedDate == lastModifiedDate &&
+        other.patient == patient;
+  }
+
+  @override
+  int get hashCode {
+    return appId.hashCode ^
+        id.hashCode ^
+        clientSampleId.hashCode ^
+        clientPatientId.hashCode ^
+        labId.hashCode ^
+        clientId.hashCode ^
+        sampleType.hashCode ^
+        testId.hashCode ^
+        dateCollected.hashCode ^
+        collectedBy.hashCode ^
+        status.hashCode ^
+        comment.hashCode ^
+        synced.hashCode ^
+        dateSynced.hashCode ^
+        labReferenceId.hashCode ^
+        location.hashCode ^
+        result.hashCode ^
+        resultReceivedBy.hashCode ^
+        shipmentId.hashCode ^
+        clientContact.hashCode ^
+        temperatureAtHub.hashCode ^
+        temperatureAtLab.hashCode ^
+        isModifiedByHub.hashCode ^
+        isModifiedByFacility.hashCode ^
+        isModifiedByLaboratory.hashCode ^
+        isModifiedByCourier.hashCode ^
+        createdBy.hashCode ^
+        lastModifiedBy.hashCode ^
+        createdDate.hashCode ^
+        lastModifiedDate.hashCode ^
+        patient.hashCode;
   }
 }

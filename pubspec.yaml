@@ -45,6 +45,8 @@ dependencies:
   uuid: ^3.0.5
   http: ^0.13.4
   connectivity_plus: ^2.0.2
+  multiselect: ^0.0.4
+  search_choices: ^2.0.14
 
 dev_dependencies:
   flutter_test:
